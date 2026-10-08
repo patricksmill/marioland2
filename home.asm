@@ -1,9 +1,25 @@
 SECTION "bank00", ROM0
 
-UnknownData_0x0000:
-INCBIN "baserom.gb", $0000, $0028 - $0000
+;rst $00
+	jp Init
 
-;rst28 jumps to address of address table, where a is the index
+;unused filler
+	db $00, $00, $00, $00, $00
+
+;rst $08
+	jp Init
+
+;unused filler (rst $10/$18/$20 included; never used)
+	db $80, $1B, $9B, $10, $80, $83, $28, $E2, $A2, $1A, $28, $02, $07, $40, $20, $C2
+	db $AC, $BA, $33, $AE, $02, $80, $21, $88, $8A, $28, $08, $63, $3A
+
+;rst $28: jump table dispatch.
+;Usage: a = index, then rst $28 followed directly by a table of dw targets.
+;The rst pushes the address of the table as its return address; this pops
+;it, adds a * 2 and jumps to the word stored there. The return address is
+;consumed, so the selected handler's ret returns to the caller's caller.
+;Clobbers a, de and hl. Indices must be < $80 (add a drops the carry).
+;Bank $00 call site: UnknownCall_0x02AD (game state $FF9B, table UnknownData_0x02B0).
 	add a
 	pop hl
 	ld e, a
@@ -17,12 +33,43 @@ INCBIN "baserom.gb", $0000, $0028 - $0000
 	jp hl
 
 UnknownData_0x0034:
-INCBIN "baserom.gb", $0034, $0040 - $0034
+;unused filler (rst $30/$38 included; never used)
+	db $44, $0A, $0A, $26, $41, $8A, $AA, $28, $00, $22, $2A, $CA
 
+;VBlank interrupt vector
 	jp VBlank
 
 UnknownData_0x0043:
-INCBIN "baserom.gb", $0043, $0100 - $0043
+;unused filler
+	db $F9, $C4, $32, $09, $22
+
+;LCD STAT interrupt vector
+	jp STATInterrupt
+
+;unused filler
+	db $40, $21, $22, $84, $40
+
+;timer interrupt vector
+	jp UnknownJump_0x0347
+
+;unused filler
+	db $80, $20, $C2, $00, $88
+
+;serial interrupt vector
+	jp UnknownJump_0x0153
+
+;unused filler (joypad vector $0060 included; never enabled)
+	db $80, $20, $2B, $8A, $A0, $AE, $4C, $80, $A6, $81, $E0, $69, $8A, $6A, $88, $68
+	db $07, $04, $A8, $0E, $82, $72, $1A, $1A, $AA, $3D, $12, $A8, $C8, $AA, $AA, $50
+	db $82, $8A, $02, $64, $88, $FE, $6F, $A8, $AF, $FD, $E8, $EE, $FF, $F9, $6A, $5F
+	db $EB, $EF, $EE, $B6, $EE, $AF, $EF, $7E, $AB, $FA, $6B, $E7, $B8, $72, $8E, $BE
+	db $E8, $CC, $EE, $F2, $B9, $8E, $FD, $6E, $E7, $CE, $FA, $BE, $F3, $BB, $E8, $FB
+	db $AA, $9E, $AB, $93, $5B, $D8, $BA, $9D, $BD, $AD, $2E, $FC, $BE, $BE, $F7, $EE
+	db $EA, $EF, $EB, $AF, $EC, $EF, $83, $CF, $BE, $CF, $E9, $6E, $B3, $FB, $A4, $B9
+	db $A7, $A2, $4D, $BB, $B7, $EE, $AF, $EB, $F2, $A9, $CB, $5E, $EE, $BC, $FE, $A6
+	db $BA, $DE, $E6, $A9, $A7, $6F, $AF, $9F, $FA, $B5, $BF, $DC, $EA, $BD, $6D, $5A
+	db $6E, $EE, $EB, $DE, $FF, $B9, $AB, $F2, $FB, $EF, $FA, $AB, $EA, $CE, $EA, $FE
+	db $FE, $E3, $9F, $BF, $EB
 
 	nop
 	jp Start
@@ -45,8 +92,8 @@ SECTION "Home", ROM0[$150]
 Start: ;$0150
 	jp Init
 
-UnknownData_0x0153:
-INCBIN "baserom.gb", $0153, $0154 - $0153
+UnknownJump_0x0153: ;serial interrupt handler (vector $0058)
+	reti
 
 
 VBlank: ;$0154
@@ -179,7 +226,7 @@ UnknownRJump_0x022A:
 	ld [sOAMPalette2], a
 	ld c, 160
 	ld b, 10
-	ld hl, $2058
+	ld hl, OAMDMARoutine
 
 UnknownRJump_0x0244:
 	ld a, [hli]
@@ -232,17 +279,64 @@ UnknownRJump_0x028D:
 	call UnknownCall_0x02FF
 	jp UnknownJump_0x0264
 
-UnknownJump_0x029F:
-UnknownData_0x029F: ;soft reset?
-INCBIN "baserom.gb", $029F, $02AD - $029F
+UnknownJump_0x029F: ;soft reset (A+B+Start+Select held)
+	ld a, 4 ;prepare bank switch
+	ld [$A24E], a
+	ld [$2100], a
+	call UnknownCall_0x1002D
+	jp Init
 
 
-UnknownCall_0x02AD:
+UnknownCall_0x02AD: ;run the handler for the current game state $FF9B
 	ldh a, [$FF9B]
-	rst $28
+	rst $28 ;jump through the table below (never returns here)
 
-UnknownData_0x02B0:
-INCBIN "baserom.gb", $02B0, $02FF - $02B0
+UnknownData_0x02B0: ;rst $28 jump table for UnknownCall_0x02AD, indexed by game state $FF9B
+	dw UnknownJump_0x2CC4 ;$00
+	dw UnknownJump_0x2CDB ;$01
+	dw UnknownJump_0x03F1 ;$02
+	dw UnknownJump_0x04F1 ;$03
+	dw UnknownJump_0x05D5 ;$04
+	dw UnknownJump_0x27AF ;$05
+	dw UnknownJump_0x02FE ;$06
+	dw UnknownJump_0x287E ;$07
+	dw UnknownJump_0x2756 ;$08
+	dw UnknownJump_0x311A ;$09
+	dw UnknownJump_0x02FE ;$0A
+	dw UnknownJump_0x2CE9 ;$0B
+	dw UnknownJump_0x2C2E ;$0C
+	dw UnknownJump_0x02FE ;$0D
+	dw UnknownJump_0x02FE ;$0E
+	dw UnknownJump_0x02FE ;$0F
+	dw UnknownJump_0x2974 ;$10
+	dw UnknownJump_0x29CA ;$11
+	dw UnknownJump_0x2CAE ;$12
+	dw UnknownJump_0x2CB9 ;$13
+	dw UnknownJump_0x2C23 ;$14
+	dw UnknownJump_0x353E ;$15
+	dw UnknownJump_0x3573 ;$16
+	dw UnknownJump_0x35CD ;$17
+	dw UnknownJump_0x3547 ;$18
+	dw UnknownJump_0x2BE5 ;$19
+	dw UnknownJump_0x2BF0 ;$1A
+	dw UnknownJump_0x2AD3 ;$1B
+	dw UnknownJump_0x2ADE ;$1C
+	dw UnknownJump_0x2AD3 ;$1D
+	dw UnknownJump_0x2AE9 ;$1E
+	dw UnknownJump_0x2AF4 ;$1F
+	dw UnknownJump_0x2A80 ;$20
+	dw UnknownJump_0x2A8B ;$21
+	dw UnknownJump_0x2C98 ;$22
+	dw UnknownJump_0x03AF ;$23
+
+UnknownCall_0x02F8: ;advance to the next game state ($FF9B)
+	ldh a, [$FF9B]
+	inc a
+	ldh [$FF9B], a
+	ret
+
+UnknownJump_0x02FE: ;game state no-op handler
+	ret
 
 
 UnknownCall_0x02FF:
@@ -300,8 +394,16 @@ CopyMem: ;$0336 copies bc bytes from hl to de.
 	jr nz, CopyMem
 	ret
 
-UnknownData_0x033F:
-INCBIN "baserom.gb", $033F, $0348 - $033F
+UnknownCall_0x033F: ;copies bytes from de to hl until a $FF terminator
+	ld a, [de]
+	cp $FF
+	ret z
+	ld [hli], a
+	inc de
+	jr UnknownCall_0x033F
+
+UnknownJump_0x0347: ;timer interrupt handler (vector $0050)
+	reti
 
 
 DisableVBlank: ;$0348
@@ -381,12 +483,14 @@ Read_Level_Data: ;$0386
 	cp $E0
 	jr nz, Read_Level_Data
 	ret
+
+UnknownJump_0x03AF:
 	ld a, [$A266]
 	and $C0
 	swap a
 	ld e, a
 	ld d, 0
-	ld hl, $03E1
+	ld hl, UnknownData_0x03E1
 	add hl, de
 	ld a, [hli]
 	ld [sBGPalette], a
@@ -407,9 +511,13 @@ Read_Level_Data: ;$0386
 	ldh [$FF9B], a
 	ret
 
-UnknownData_0x03E1:
-INCBIN "baserom.gb", $03E1, $03F1 - $03E1
+UnknownData_0x03E1: ;fade palettes (BGP, OBP0, OBP1, pad), indexed by ($A266 & $C0) >> 4
+	db $00, $00, $00, $00
+	db $50, $40, $14, $00
+	db $94, $90, $24, $00
+	db $E4, $D0, $38, $00
 
+UnknownJump_0x03F1:
 	call UnknownCall_0x2D41
 	call UnknownCall_0x0F2A
 	ld a, 8 ;prepare bank switch
@@ -533,8 +641,14 @@ UnknownRJump_0x049C:
 	and a
 	jr z, UnknownRJump_0x04DD
 
-UnknownData_0x04CA:
-INCBIN "baserom.gb", $04CA, $04DD - $04CA
+	ld a, 4
+	ld [$A271], a
+	ld a, 64
+	ld [$A272], a
+	ld a, 4
+	ld [$A468], a
+	xor a
+	ld [$A257], a
 
 
 UnknownRJump_0x04DD:
@@ -549,6 +663,8 @@ UnknownRJump_0x04DD:
 	inc a
 	ldh [$FF9B], a
 	ret
+
+UnknownJump_0x04F1:
 	call DisableVBlank
 	call LoadMarioGFX
 	ld a, [sLevelBank] ;prepare bank switch
@@ -644,9 +760,15 @@ UnknownRJump_0x0598:
 	and a
 	ret z
 
-UnknownData_0x05C6:
-INCBIN "baserom.gb", $05C6, $05D5 - $05C6
+	ld a, 0
+	ld [$A267], a
+	ld a, 255
+	ld [$A266], a
+	ld a, 35
+	ldh [$FF9B], a
+	ret
 
+UnknownJump_0x05D5:
 	ld a, [$A266]
 	ld b, a
 	ld a, [$A267]
@@ -721,7 +843,7 @@ UnknownRJump_0x0665:
 
 LoadMarioGFX: ;$0669
 	ld a, [sCurLevel]
-	ld hl, $360A
+	ld hl, UnknownData_0x360A
 	ld e, a
 	ld d, 0
 	add hl, de
@@ -770,7 +892,7 @@ UnknownRJump_0x06C0:
 	sla a
 	ld e, a
 	ld d, 0
-	ld hl, $0763
+	ld hl, UnknownData_0x0763
 	add hl, de
 	ld a, [hli]
 	ld e, a
@@ -836,7 +958,7 @@ UnknownRJump_0x06C0:
 	ld l, a
 	ld de, $9200
 	call CopyMem
-	ld hl, $35EA
+	ld hl, UnknownData_0x35EA
 	ld a, [sCurLevel]
 	ld e, a
 	ld d, 0
@@ -846,8 +968,8 @@ UnknownRJump_0x06C0:
 	ld [$A299], a
 	ret
 
-UnknownData_0x0763:
-INCBIN "baserom.gb", $0763, $076B - $0763
+UnknownData_0x0763: ;GFX source pointers, indexed by ($A2D2 >> 4) * 2
+	dw $6A00, $6D80, $7100, $7480
 
 
 UnknownCall_0x076B:
@@ -900,7 +1022,7 @@ UnknownCall_0x076B:
 	ret
 
 UnknownCall_0x07DB:
-	ld hl, $07EA
+	ld hl, UnknownData_0x07EA
 	ld de, $9C00
 	ld b, 20
 
@@ -912,8 +1034,74 @@ UnknownRJump_0x07E3:
 	jr nz, UnknownRJump_0x07E3
 	ret
 
-UnknownData_0x07EA:
-INCBIN "baserom.gb", $07EA, $0879 - $07EA
+UnknownData_0x07EA: ;window/HUD tile row, 20 tiles copied to $9C00 by UnknownCall_0x07DB
+	db $9E, $AC, $80, $80, $8A, $9F, $AC, $80, $80, $80, $8A, $AB, $AC, $80, $80, $8A, $8D, $80, $80, $80
+
+UnknownCall_0x07FE:
+	ldh a, [rLY]
+	ld [$A239], a
+	ret
+
+UnknownCall_0x0804:
+	ld a, [$A239]
+	ld b, a
+	ldh a, [rLY]
+	sub b
+	ld b, a
+	ld a, [$A21F]
+	cp b
+	ret nc
+	ld a, b
+	ld [$A21F], a
+	ret
+
+UnknownCall_0x0816:
+	call DisableVBlank
+	ld a, [$A2C0]
+	ldh [$FFC8], a
+	ld a, [$A2C1]
+	ldh [$FFC9], a
+	ld a, [$A2C2]
+	ldh [$FFCA], a
+	ld a, [$A2C3]
+	ldh [$FFCB], a
+
+UnknownRJump_0x082D:
+	ld a, 0
+	ldh [$FFAF], a
+	ld a, 170
+	ldh [$FFB0], a
+	call UnknownCall_0x08AD
+	call ScrollLevelMap
+	ldh a, [$FFC8]
+	add 16
+	ldh [$FFC8], a
+	ldh a, [$FFC9]
+	adc 0
+	and $0F
+	ldh [$FFC9], a
+	ldh a, [$FFC8]
+	ld b, a
+	ld a, [$A2C0]
+	cp b
+	jr nz, UnknownRJump_0x082D
+	ld a, [$A2C0]
+	ldh [$FFC8], a
+	ld a, [$A2C1]
+	ldh [$FFC9], a
+	ld a, [$A2C2]
+	ldh [$FFCA], a
+	ld a, [$A2C3]
+	ldh [$FFCB], a
+	ldh a, [$FFC8]
+	sub 120
+	ld [sScrollY], a
+	ldh a, [$FFCA]
+	sub 48
+	ld [sScrollX], a
+	ld a, 227
+	ldh [rLCDC], a
+	ret
 
 
 UnknownCall_0x0879:
@@ -936,8 +1124,7 @@ UnknownCall_0x0879:
 	cp $03
 	jp z, UnknownJump_0x0937
 
-UnknownData_0x08A1:
-INCBIN "baserom.gb", $08A1, $08A2 - $08A1
+	ret
 
 
 UnknownRJump_0x08A2:
@@ -1676,7 +1863,7 @@ UnknownRJump_0x0D97:
 	ret
 
 UnknownData_0x0DA4:
-INCBIN "baserom.gb", $0DA4, $0DAF - $0DA4
+	db $00, $01, $01, $00, $00, $00, $01, $02, $02, $01, $01
 
 
 UnknownCall_0x0DAF:
@@ -2492,8 +2679,80 @@ UnknownJump_0x1378:
 	ld [sPipeTravelDirection], a
 	ret
 
-UnknownData_0x1382:
-INCBIN "baserom.gb", $1382, $13FE - $1382
+UnknownCall_0x1382:
+	ld b, 1
+	ldh a, [hKeysHeld]
+	bit 1, a
+	jr z, UnknownRJump_0x138C
+	ld b, 3
+
+UnknownRJump_0x138C:
+	ldh a, [hKeysHeld]
+	bit 4, a
+	jr z, UnknownRJump_0x13A6
+	ldh a, [$FFC2]
+	add b
+	ldh [$FFC2], a
+	ldh a, [$FFC3]
+	adc 0
+	ldh [$FFC3], a
+	ld a, b
+	ld [$A235], a
+	ld a, 1
+	ld [sMarioDirection], a
+
+UnknownRJump_0x13A6:
+	ldh a, [hKeysHeld]
+	bit 5, a
+	jr z, UnknownRJump_0x13C0
+	ldh a, [$FFC2]
+	sub b
+	ldh [$FFC2], a
+	ldh a, [$FFC3]
+	sbc 0
+	ldh [$FFC3], a
+	ld a, b
+	ld [$A236], a
+	ld a, 255
+	ld [sMarioDirection], a
+
+UnknownRJump_0x13C0:
+	ldh a, [hKeysHeld]
+	bit 6, a
+	jr z, UnknownRJump_0x13D5
+	ldh a, [$FFC0]
+	sub b
+	ldh [$FFC0], a
+	ldh a, [$FFC1]
+	sbc 0
+	ldh [$FFC1], a
+	ld a, b
+	ld [$A237], a
+
+UnknownRJump_0x13D5:
+	ldh a, [hKeysHeld]
+	bit 7, a
+	jr z, UnknownRJump_0x13EA
+	ldh a, [$FFC0]
+	add b
+	ldh [$FFC0], a
+	ldh a, [$FFC1]
+	adc 0
+	ldh [$FFC1], a
+	ld a, b
+	ld [$A238], a
+
+UnknownRJump_0x13EA:
+	ldh a, [$FFC0]
+	ldh [$FFB7], a
+	ldh a, [$FFC1]
+	ldh [$FFB8], a
+	ldh a, [$FFC2]
+	ldh [$FFB9], a
+	ldh a, [$FFC3]
+	ldh [$FFBA], a
+	call UnknownCall_0x1EFA
+	ret
 
 
 UnknownCall_0x13FE:
@@ -2511,8 +2770,21 @@ UnknownCall_0x13FE:
 UnknownCall_0x1413:
 	jr UnknownRJump_0x1432
 
-UnknownData_0x1415:
-INCBIN "baserom.gb", $1415, $1432 - $1415
+	ld a, [$A26D]
+	and a
+	jr z, UnknownRJump_0x1432
+	ld a, [sHVelocityIndex]
+	cp $60
+	jr nc, UnknownRJump_0x1429
+	ld a, 96
+	ld [sHVelocityIndex], a
+	jr UnknownRJump_0x1432
+
+UnknownRJump_0x1429:
+	cp $A8
+	jr c, UnknownRJump_0x1432
+	ld a, 167
+	ld [sHVelocityIndex], a
 
 
 UnknownRJump_0x1432:
@@ -2528,8 +2800,8 @@ UnknownRJump_0x143D:
 	cp $0C
 	jr nz, UnknownRJump_0x144B
 
-UnknownData_0x1446:
-INCBIN "baserom.gb", $1446, $144B - $1446
+	ld a, 3
+	ld [sPipeTravelDirection], a
 
 
 UnknownRJump_0x144B:
@@ -2566,8 +2838,8 @@ UnknownRJump_0x147F:
 	cp $0C
 	jr nz, UnknownRJump_0x148D
 
-UnknownData_0x1488:
-INCBIN "baserom.gb", $1488, $148D - $1488
+	ld a, 3
+	ld [sPipeTravelDirection], a
 
 
 UnknownRJump_0x148D:
@@ -2697,8 +2969,14 @@ UnknownRJump_0x154E:
 	cp $19
 	jr nc, UnknownRJump_0x156B
 
-UnknownData_0x1559:
-INCBIN "baserom.gb", $1559, $156B - $1559
+	ld a, 24
+	ld [sVVelocityIndex], a
+	ldh a, [$FF97]
+	and $01
+	jr nz, UnknownRJump_0x156B
+	ld a, 23
+	ld [sVVelocityIndex], a
+	jr UnknownRJump_0x156B
 
 
 UnknownRJump_0x156B:
@@ -2739,8 +3017,9 @@ UnknownRJump_0x1580:
 	and a
 	jr z, UnknownRJump_0x1609
 
-UnknownData_0x15AF:
-INCBIN "baserom.gb", $15AF, $15B6 - $15AF
+	ld a, 24
+	ld [sVVelocityIndex], a
+	jr UnknownRJump_0x1609
 
 
 UnknownRJump_0x15B6:
@@ -2888,8 +3167,20 @@ UnknownJump_0x16AE:
 UnknownRJump_0x16AE:
 	ret
 
-UnknownData_0x16AF:
-INCBIN "baserom.gb", $16AF, $16CC - $16AF
+UnknownCall_0x16AF:
+	ld a, 40
+	ld [sVVelocityIndex], a
+	ld a, [sCurPowerup]
+	cp $02
+	jr z, UnknownJump_0x16AE
+	ld a, [sHVelocityIndex]
+	cp $48
+	jr c, UnknownJump_0x16AE
+	cp $C0
+	jr nc, UnknownJump_0x16AE
+	ld a, 38
+	ld [sVVelocityIndex], a
+	ret
 
 
 UnknownCall_0x16CC:
@@ -3044,8 +3335,37 @@ UnknownJump_0x17C5:
 	ld [sHVelocityIndex], a
 	ret
 
-UnknownData_0x17DA:
-INCBIN "baserom.gb", $17DA, $181C - $17DA
+UnknownCall_0x17DA:
+	ldh a, [hKeysHeld]
+	bit 4, a
+	jr z, UnknownRJump_0x17FB
+	ld a, 1
+	ld [sMarioDirection], a
+	ld a, [sHVelocityIndex]
+	add 8
+	ld [sHVelocityIndex], a
+	ld a, [sHVelocityIndex]
+	cp $A8
+	jr c, UnknownJump_0x17C4
+	ld a, 167
+	ld [sHVelocityIndex], a
+	jr UnknownJump_0x17C4
+
+UnknownRJump_0x17FB:
+	ldh a, [hKeysHeld]
+	bit 5, a
+	jr z, UnknownJump_0x17C4
+	ld a, 255
+	ld [sMarioDirection], a
+	ld a, [sHVelocityIndex]
+	sub 8
+	ld [sHVelocityIndex], a
+	ld a, [sHVelocityIndex]
+	cp $60
+	jr nc, UnknownJump_0x17C4
+	ld a, 96
+	ld [sHVelocityIndex], a
+	jr UnknownJump_0x17C4
 
 
 UnknownCall_0x181C:
@@ -3465,8 +3785,10 @@ UnknownCall_0x1D75:
 	cp $0A
 	jr c, UnknownRJump_0x1DA4
 
-UnknownData_0x1D9A:
-INCBIN "baserom.gb", $1D9A, $1DA4 - $1D9A
+	ld a, 153
+	ld [sCoinLow], a
+	ld a, 9
+	ld [sCoinHigh], a
 
 
 UnknownRJump_0x1DA4:
@@ -3696,8 +4018,10 @@ UnknownRJump_0x1EF0:
 	pop hl
 	ret
 
-UnknownData_0x1EF5:
-INCBIN "baserom.gb", $1EF5, $1EFA - $1EF5
+UnknownCall_0x1EF5:
+	ld a, 64
+	cp $38
+	ret
 
 
 UnknownCall_0x1EFA:
@@ -3778,7 +4102,29 @@ LevelPropertiesSpace: ;$1F91 1 byte per level (Space Physics)
 	db $00, $00, $08, $01, $00, $00, $00, $00
 	db $00, $00, $00, $00, $08, $00, $00, $00
 
-INCBIN "baserom.gb", $1FB1, $1FD2 - $1FB1
+UnknownCall_0x1FB1:
+	call UnknownCall_0x200C
+	ld a, [$A207]
+	and $08
+	jr z, UnknownRJump_0x1FC2
+	ld a, 4
+	add h
+	ld h, a
+	ld [$A206], a
+
+UnknownRJump_0x1FC2:
+	ldh a, [rSTAT]
+	and $03
+	jr nz, UnknownRJump_0x1FC2
+	ld b, [hl]
+
+UnknownRJump_0x1FC9:
+	ldh a, [rSTAT]
+	and $03
+	jr nz, UnknownRJump_0x1FC9
+	ld a, [hl]
+	and b
+	ret
 
 
 ReadJoypad: ;$1FD2
@@ -3839,8 +4185,43 @@ UnknownRJump_0x2018:
 	ld [$A206], a
 	ret
 
-UnknownData_0x202F:
-INCBIN "baserom.gb", $202F, $2062 - $202F
+UnknownCall_0x202F:
+	ld a, [$A206]
+	ld d, a
+	ld a, [$A205]
+	ld e, a
+	ld b, 4
+
+UnknownRJump_0x2039:
+	rr d
+	rr e
+	dec b
+	jr nz, UnknownRJump_0x2039
+	ld a, e
+	sub 132
+	and $FE
+	rlca
+	rlca
+	add 8
+	ldh [$FFB7], a
+	ld a, [$A205]
+	and $1F
+	rla
+	rla
+	rla
+	add 8
+	ldh [$FFB9], a
+	ret
+
+OAMDMARoutine: ;copied to $FFA0 by Init and called from VBlank (runs from HRAM)
+	ld a, 161
+	ldh [rDMA], a
+	ld a, 40
+
+UnknownRJump_0x205E:
+	dec a
+	jr nz, UnknownRJump_0x205E
+	ret
 
 
 UnknownCall_0x2062:
@@ -3877,8 +4258,15 @@ UpdateSound: ;$2089
 	call _UpdateSound
 	ret
 
-UnknownData_0x2097:
-INCBIN "baserom.gb", $2097, $20A4 - $2097
+UnknownCall_0x2097:
+	ret
+
+UnknownCall_0x2098:
+	ld a, 4 ;prepare bank switch
+	ld [$A24E], a
+	ld [$2100], a
+	call UnknownRJump_0x10003
+	ret
 
 
 UnknownCall_0x20A4:
@@ -3960,16 +4348,36 @@ UnknownRJump_0x211E:
 	jp UnknownJump_0x21E8
 
 UnknownRJump_0x2131:
-UnknownData_0x2131:
-INCBIN "baserom.gb", $2131, $214F - $2131
+	inc hl
+	ld a, [hli]
+	ld b, a
+	ldh a, [$FFC8]
+	add b
+	ldh [$FFC8], a
+	ldh a, [$FFC9]
+	adc 0
+	ldh [$FFC9], a
+	ld a, [hli]
+	ld b, a
+	ldh a, [$FFC0]
+	add b
+	ldh [$FFC0], a
+	ldh a, [$FFC1]
+	adc 0
+	ldh [$FFC1], a
+	jp UnknownJump_0x21E8
 
 
 UnknownRJump_0x214F:
 	cp $50
 	jr nz, UnknownRJump_0x2162
 
-UnknownData_0x2153:
-INCBIN "baserom.gb", $2153, $2162 - $2153
+	ld a, 255
+	ld [sBGPalette], a
+	ld [sOAMPalette1], a
+	ld [sOAMPalette2], a
+	inc hl
+	jp UnknownJump_0x21E8
 
 
 UnknownRJump_0x2162:
@@ -3992,16 +4400,20 @@ UnknownRJump_0x217E:
 	cp $00
 	jr nz, UnknownRJump_0x218C
 
-UnknownData_0x2182:
-INCBIN "baserom.gb", $2182, $218C - $2182
+	ld a, 136
+	ldh [rWY], a
+	call UnknownCall_0x226D
+	jp UnknownJump_0x21E8
 
 
 UnknownRJump_0x218C:
 	cp $10
 	jr nz, UnknownRJump_0x2198
 
-UnknownData_0x2190:
-INCBIN "baserom.gb", $2190, $2198 - $2190
+	inc hl
+	ld a, [hli]
+	ld [$A80F], a
+	jp UnknownJump_0x21E8
 
 
 UnknownRJump_0x2198:
@@ -4013,8 +4425,40 @@ UnknownRJump_0x2198:
 	jp UnknownJump_0x21E8
 
 UnknownRJump_0x21A7:
-UnknownData_0x21A7:
-INCBIN "baserom.gb", $21A7, $21E8 - $21A7
+	cp $A0
+	jr nz, UnknownJump_0x21E8
+	inc hl
+	push hl
+	call UnknownCall_0x2728
+	call UnknownCall_0x2728
+	call UnknownCall_0x2728
+	call UnknownCall_0x2728
+	ld a, 47
+	ld [$A266], a
+
+UnknownRJump_0x21BE:
+	ld hl, UnknownData_0x21E5
+	ld a, [$A266]
+	and $F0
+	swap a
+	ld e, a
+	ld d, 0
+	add hl, de
+	ld a, [hl]
+	ld [sBGPalette], a
+	ld [sOAMPalette1], a
+	call UnknownCall_0x2728
+	ld a, [$A266]
+	cp $0E
+	jr nc, UnknownRJump_0x21BE
+	pop hl
+	xor a
+	ld [$A266], a
+	jp UnknownJump_0x21E8
+
+UnknownData_0x21E5:
+;BGP/OBP0 fade values for the loop above, indexed by ($A266 & $F0) >> 4
+	db $FF, $FB, $E7
 
 
 UnknownJump_0x21E8:
@@ -4057,13 +4501,87 @@ UnknownCall_0x2202:
 	jp UnknownJump_0x22B9
 
 UnknownRJump_0x222E:
-UnknownData_0x222E:
-INCBIN "baserom.gb", $222E, $224E - $222E
+	ld a, [hli]
+	ld [$A24E], a
+	ld [$A265], a
+	ld a, [hli]
+	ldh [$FFB1], a
+	ld a, [hli]
+	ldh [$FFB2], a
+	ld a, 0
+	ldh [$FFB3], a
+	ld a, 139
+	ldh [$FFB4], a
+	ld a, 0
+	ldh [$FFB5], a
+	ld a, 4
+	ldh [$FFB6], a
+	jp UnknownJump_0x22B9
 
 
 UnknownRJump_0x224E:
-UnknownData_0x224E:
-INCBIN "baserom.gb", $224E, $22B9 - $224E
+	ld a, [hli]
+	ld [$A24E], a
+	ld [$A265], a
+	ld a, [hli]
+	ldh [$FFB1], a
+	ld a, [hli]
+	ldh [$FFB2], a
+	ld a, 0
+	ldh [$FFB3], a
+	ld a, 146
+	ldh [$FFB4], a
+	ld a, 0
+	ldh [$FFB5], a
+	ld a, 6
+	ldh [$FFB6], a
+	jr UnknownJump_0x22B9
+
+UnknownCall_0x226D:
+	ld a, [hli]
+	and $0F
+	ld b, a
+	cp $01
+	jr z, UnknownRJump_0x2297
+	cp $02
+	jr z, UnknownRJump_0x2297
+	ld a, [hli]
+	ld [$A24E], a
+	ld [$A265], a
+	ld [$2100], a
+	ld a, [hli]
+	ldh [$FFB1], a
+	ld a, [hli]
+	ldh [$FFB2], a
+	ld a, [hli]
+	ldh [$FFB3], a
+	ld a, [hli]
+	ldh [$FFB4], a
+	ld a, [hli]
+	ldh [$FFB5], a
+	ld a, [hli]
+	ldh [$FFB6], a
+	jr UnknownJump_0x22B9
+
+UnknownRJump_0x2297:
+	ld a, [hli]
+	ld [$A24E], a
+	ld [$A265], a
+	ld [$2100], a
+	ld a, [hli]
+	ldh [$FFB1], a
+	ld [$A808], a
+	ld a, [hli]
+	ldh [$FFB2], a
+	ld [$A809], a
+	ld a, [hli]
+	ldh [$FFB3], a
+	ld a, [hli]
+	ldh [$FFB4], a
+	ld a, [hli]
+	ldh [$FFB5], a
+	ld a, [hli]
+	ldh [$FFB6], a
 
 
 UnknownJump_0x22B9:
@@ -4075,8 +4593,12 @@ UnknownRJump_0x22BE:
 	and a
 	jr z, UnknownRJump_0x22D5
 
-UnknownData_0x22C4:
-INCBIN "baserom.gb", $22C4, $22D5 - $22C4
+	call UnknownCall_0x2D0A
+	call UnknownCall_0x0652
+	ld a, 1 ;prepare bank switch
+	ld [$A24E], a
+	ld [$2100], a
+	call UnknownCall_0x2CFF
 
 
 UnknownRJump_0x22D5:
@@ -4086,8 +4608,42 @@ UnknownRJump_0x22D5:
 	jr nz, UnknownRJump_0x22BE
 	ret
 
-UnknownData_0x22DF:
-INCBIN "baserom.gb", $22DF, $2323 - $22DF
+UnknownCall_0x22DF:
+	ld a, [hli]
+	ld [$A24E], a
+	ld [$A265], a
+	ld [$2100], a
+	ld a, [hli]
+	ldh [$FFB1], a
+	ld a, [hli]
+	ldh [$FFB2], a
+	ld a, [hli]
+	ldh [$FFB3], a
+	ld a, [hli]
+	ldh [$FFB4], a
+	ld a, [hli]
+	ldh [$FFB5], a
+	ld a, [hli]
+	ldh [$FFB6], a
+	ld a, 255
+	ld [$A248], a
+
+UnknownRJump_0x2300:
+	ld a, 128
+	ldh [rWY], a
+	call UnknownCall_0x2D0A
+	call UnknownCall_0x0652
+	ld a, 1 ;prepare bank switch
+	ld [$A24E], a
+	ld [$2100], a
+	call UnknownCall_0x2CFF
+	call UnknownCall_0x2728
+	ldh a, [$FFB4]
+	cp $85
+	jr c, UnknownRJump_0x2300
+	xor a
+	ld [$A28C], a
+	ret
 
 
 UnknownCall_0x2323:
@@ -4116,8 +4672,8 @@ UnknownCall_0x2323:
 	cp $08
 	jp z, UnknownJump_0x246F
 
-UnknownData_0x2357:
-INCBIN "baserom.gb", $2357, $2359 - $2357
+	pop hl
+	ret
 
 
 UnknownRJump_0x2359:
@@ -4413,7 +4969,7 @@ UnknownCall_0x25AF:
 	ld hl, $7800
 	ld de, $8E80
 	call CopyMem
-	ld hl, $268B
+	ld hl, UnknownData_0x268B
 	ld a, [$A22D]
 	sla a
 	ld e, a
@@ -4421,7 +4977,7 @@ UnknownCall_0x25AF:
 	add hl, de
 	ld a, [hli] ;prepare bank switch
 	ld [$2100], a
-	ld hl, $2699
+	ld hl, UnknownData_0x2699
 	ld a, [$A22D]
 	sla a
 	sla a
@@ -4444,7 +5000,7 @@ UnknownCall_0x25AF:
 
 UnknownRJump_0x2614:
 	call CopyMem
-	ld hl, $268B
+	ld hl, UnknownData_0x268B
 	ld a, [$A22D]
 	sla a
 	inc a
@@ -4453,7 +5009,7 @@ UnknownRJump_0x2614:
 	add hl, de
 	ld a, [hli] ;prepare bank switch
 	ld [$2100], a
-	ld hl, $269B
+	ld hl, UnknownData_0x2699 + 2
 	ld a, [$A22D]
 	sla a
 	sla a
@@ -4479,7 +5035,7 @@ UnknownRJump_0x264F:
 	ld a, 8 ;prepare bank switch
 	ld [$A24E], a
 	ld [$2100], a
-	ld hl, $26B5
+	ld hl, UnknownData_0x26B5
 	ld a, [$A22D]
 	sla a
 	ld e, a
@@ -4510,8 +5066,32 @@ UnknownRJump_0x266D:
 	pop hl
 	ret
 
-UnknownData_0x268B:
-INCBIN "baserom.gb", $268B, $26C3 - $268B
+UnknownData_0x268B: ;ROM bank pairs, indexed by $A22D * 2
+	db $07, $06
+	db $1B, $1B
+	db $1F, $1F
+	db $1E, $1E
+	db $1C, $1C
+	db $1D, $1D
+	db $1E, $1E
+
+UnknownData_0x2699: ;GFX source pointer pairs, indexed by $A22D * 4 (UnknownData_0x2699 + 2 = second word)
+	dw $6400, $6980
+	dw $5800, $6C00
+	dw $5800, $6C00
+	dw $4600, $6480
+	dw $5800, $6C00
+	dw $5200, $6280
+	dw $5200, $6F80
+
+UnknownData_0x26B5: ;pointers, indexed by $A22D * 2
+	dw $7400
+	dw $7400
+	dw $7000
+	dw $7000
+	dw $7200
+	dw $7200
+	dw $7600
 
 
 UnknownJump_0x26C3:
@@ -4612,6 +5192,8 @@ UnknownCall_0x273E:
 	ld a, 1
 	ld [$A45E], a
 	ret
+
+UnknownJump_0x2756:
 	ld b, 231
 	ldh a, [$FF97]
 	bit 4, a
@@ -4655,6 +5237,8 @@ UnknownRJump_0x278E:
 	ld a, 2
 	ld [$A45E], a
 	ret
+
+UnknownJump_0x27AF:
 	call DisableVBlank
 	xor a
 	ldh [$FF8D], a
@@ -4751,8 +5335,10 @@ UnknownRJump_0x2844:
 	ret
 
 UnknownData_0x2874:
-INCBIN "baserom.gb", $2874, $287E - $2874
+;"GAME OVER", $80-terminated
+	db $90, $8A, $96, $8E, $FF, $98, $9F, $8E, $9B, $80
 
+UnknownJump_0x287E:
 	ld a, 12 ;prepare bank switch
 	ld [$A24E], a
 	ld [$2100], a
@@ -4916,8 +5502,67 @@ UnknownRJump_0x294D:
 	ld [hl], a
 	ret
 
-UnknownData_0x2974:
-INCBIN "baserom.gb", $2974, $29DD - $2974
+UnknownJump_0x2974:
+	call DisableVBlank
+	call BlankBGMap1
+	xor a
+	ldh [$FF8D], a
+	call UnknownCall_0x2D41
+	ld a, 5 ;prepare bank switch
+	ld [$A24E], a
+	ld [$2100], a
+	ld hl, $41E5
+	ld de, $8800
+	ld bc, $1000
+
+UnknownRJump_0x2991:
+	ld a, [hli]
+	ld [de], a
+	inc de
+	dec bc
+	ld a, b
+	or c
+	jr nz, UnknownRJump_0x2991
+	ld hl, UnknownData_0x29BD
+	ld de, $9904
+
+UnknownRJump_0x299F:
+	ld a, [hli]
+	cp $80
+	jr z, UnknownRJump_0x29A8
+	ld [de], a
+	inc de
+	jr UnknownRJump_0x299F
+
+UnknownRJump_0x29A8:
+	xor a
+	ld [sScrollY], a
+	ld [sScrollX], a
+	ld a, 195
+	ldh [rLCDC], a
+	ld a, 255
+	ld [$A266], a
+	ld a, 17
+	ldh [$FF9B], a
+	ret
+
+UnknownData_0x29BD:
+;"GAME CLEARED", $80-terminated
+	db $56, $50, $5C, $54, $FF, $52, $5B, $54, $50, $61, $54, $53, $80
+
+UnknownJump_0x29CA:
+	call UnknownCall_0x02FF
+	ld a, [$A266]
+	and a
+	jr z, UnknownRJump_0x29D8
+	ldh a, [hKeysPressed]
+	cp $08
+	ret nz
+
+UnknownRJump_0x29D8:
+	ld a, 0
+	ldh [$FF9B], a
+	ret
 
 	call DisableVBlank
 	ld a, 17 ;prepare bank switch
@@ -4985,8 +5630,30 @@ UnknownCall_0x2A58:
 	ld [$2100], a
 	jp UnknownJump_0x6485
 
-UnknownData_0x2A63:
-INCBIN "baserom.gb", $2A63, $2A96 - $2A63
+UnknownCall_0x2A63:
+	ld a, 5 ;prepare bank switch
+	ld [$A24E], a
+	ld [$2100], a
+	ld bc, $1000
+	ld hl, $41E5
+	ld de, $8800
+	call CopyMem
+	ld a, 12 ;prepare bank switch
+	ld [$A24E], a
+	ld [$2100], a
+	ret
+
+UnknownJump_0x2A80:
+	ld a, 12 ;prepare bank switch
+	ld [$A24E], a
+	ld [$2100], a
+	jp $477B
+
+UnknownJump_0x2A8B:
+	ld a, 12 ;prepare bank switch
+	ld [$A24E], a
+	ld [$2100], a
+	jp $47A9
 
 
 UnknownCall_0x2A96:
@@ -5018,25 +5685,40 @@ UnknownCall_0x2ABE:
 	ld de, $8000
 	call CopyMem
 	ret
+
+UnknownJump_0x2AD3:
 	ld a, 12 ;prepare bank switch
 	ld [$A24E], a
 	ld [$2100], a
 	jp UnknownJump_0x305B6
+
+UnknownJump_0x2ADE:
 	ld a, 12 ;prepare bank switch
 	ld [$A24E], a
 	ld [$2100], a
 	jp UnknownJump_0x3067A
+
+UnknownJump_0x2AE9:
 	ld a, 12 ;prepare bank switch
 	ld [$A24E], a
 	ld [$2100], a
 	jp UnknownJump_0x3041D
+
+UnknownJump_0x2AF4:
 	ld a, 12 ;prepare bank switch
 	ld [$A24E], a
 	ld [$2100], a
 	jp UnknownJump_0x30451
 
-UnknownData_0x2AFF:
-INCBIN "baserom.gb", $2AFF, $2B13 - $2AFF
+UnknownCall_0x2AFF:
+	ld a, 1 ;prepare bank switch
+	ld [$A24E], a
+	ld [$2100], a
+	call UnknownCall_0x5297
+	ld a, 5 ;prepare bank switch
+	ld [$A24E], a
+	ld [$2100], a
+	ret
 
 
 UnknownCall_0x2B13:
@@ -5132,10 +5814,14 @@ UnknownCall_0x2B8B:
 	ld de, $8B00
 	call CopyMem
 	ret
+
+UnknownJump_0x2BE5:
 	ld a, 12 ;prepare bank switch
 	ld [$A24E], a
 	ld [$2100], a
 	jp UnknownJump_0x30000
+
+UnknownJump_0x2BF0:
 	ld a, 12 ;prepare bank switch
 	ld [$A24E], a
 	ld [$2100], a
@@ -5161,17 +5847,38 @@ UnknownJump_0x2C18:
 	ld [$A24E], a
 	ld [$2100], a
 	jp UnknownJump_0x3E73
+
+UnknownJump_0x2C23:
 	ld a, 15 ;prepare bank switch
 	ld [$A24E], a
 	ld [$2100], a
 	jp UnknownJump_0x3EF2B
+
+UnknownJump_0x2C2E:
 	ld a, 15 ;prepare bank switch
 	ld [$A24E], a
 	ld [$2100], a
 	jp UnknownJump_0x3C000
 
-UnknownData_0x2C39:
-INCBIN "baserom.gb", $2C39, $2C61 - $2C39
+UnknownCall_0x2C39:
+	ld a, 1 ;prepare bank switch
+	ld [$A24E], a
+	ld [$2100], a
+	call UnknownData_0x5C52
+	ld a, 2 ;prepare bank switch
+	ld [$A24E], a
+	ld [$2100], a
+	ret
+
+UnknownCall_0x2C4D:
+	ld a, 1 ;prepare bank switch
+	ld [$A24E], a
+	ld [$2100], a
+	call UnknownData_0x5E42
+	ld a, 5 ;prepare bank switch
+	ld [$A24E], a
+	ld [$2100], a
+	ret
 
 
 UnknownCall_0x2C61:
@@ -5198,8 +5905,17 @@ UnknownCall_0x2C82:
 	ld [$2100], a
 	jp UnknownJump_0x5997
 
-UnknownData_0x2C8D:
-INCBIN "baserom.gb", $2C8D, $2CA3 - $2C8D
+UnknownCall_0x2C8D:
+	ld a, 26 ;prepare bank switch
+	ld [$A24E], a
+	ld [$2100], a
+	jp UnknownJump_0x68528
+
+UnknownJump_0x2C98:
+	ld a, 26 ;prepare bank switch
+	ld [$A24E], a
+	ld [$2100], a
+	jp UnknownJump_0x68528
 
 
 UnknownJump_0x2CA3:
@@ -5207,14 +5923,20 @@ UnknownJump_0x2CA3:
 	ld [$A24E], a
 	ld [$2100], a
 	jp UnknownJump_0x68528
+
+UnknownJump_0x2CAE:
 	ld a, 26 ;prepare bank switch
 	ld [$A24E], a
 	ld [$2100], a
 	jp UnknownJump_0x68000
+
+UnknownJump_0x2CB9:
 	ld a, 26 ;prepare bank switch
 	ld [$A24E], a
 	ld [$2100], a
 	jp UnknownJump_0x6800F
+
+UnknownJump_0x2CC4:
 	call DisableVBlank
 	call UnknownCall_0x031C
 	xor a
@@ -5224,11 +5946,15 @@ UnknownJump_0x2CA3:
 	ld [$A24E], a
 	ld [$2100], a
 	jp UnknownJump_0x14043
+
+UnknownJump_0x2CDB:
 	call UnknownCall_0x031C
 	ld a, 5 ;prepare bank switch
 	ld [$A24E], a
 	ld [$2100], a
 	jp UnknownJump_0x1407C
+
+UnknownJump_0x2CE9:
 	ld a, 1 ;prepare bank switch
 	ld [$A24E], a
 	ld [$2100], a
@@ -5258,8 +5984,23 @@ UnknownCall_0x2D15:
 	ld [$2100], a
 	jp UnknownJump_0x5550
 
-UnknownData_0x2D20:
-INCBIN "baserom.gb", $2D20, $2D41 - $2D20
+UnknownCall_0x2D20:
+	ld a, 1 ;prepare bank switch
+	ld [$A24E], a
+	ld [$2100], a
+	jp UnknownCall_0x5272
+
+UnknownCall_0x2D2B:
+	ld a, 1 ;prepare bank switch
+	ld [$A24E], a
+	ld [$2100], a
+	jp UnknownCall_0x5267
+
+UnknownCall_0x2D36:
+	ld a, 1 ;prepare bank switch
+	ld [$A24E], a
+	ld [$2100], a
+	jp UnknownRJump_0x534C
 
 
 UnknownCall_0x2D41:
@@ -5268,8 +6009,32 @@ UnknownCall_0x2D41:
 	ld [$2100], a
 	jp UnknownJump_0x5302
 
-UnknownData_0x2D4C:
-INCBIN "baserom.gb", $2D4C, $2D7D - $2D4C
+UnknownCall_0x2D4C:
+	ld a, [sLevelBank]
+	ld [$A24E], a
+	ld [$2100], a
+	ldh a, [$FFC1]
+	swap a
+	ld e, a
+	ldh a, [$FFC3]
+	add e
+	ld e, a
+	ld d, 0
+	sla e
+	rl d
+	ld hl, $A900
+	add hl, de
+	inc hl
+	ld a, [hl]
+	swap a
+	rlc a
+	and $01
+	xor $01
+	ldh [$FFBB], a
+	ld a, 1 ;prepare bank switch
+	ld [$A24E], a
+	ld [$2100], a
+	ret
 
 
 UnknownCall_0x2D7D:
@@ -5474,8 +6239,9 @@ UnknownJump_0x2EAA:
 	ld [$A22C], a
 	ret nz
 
-UnknownData_0x2ED7:
-INCBIN "baserom.gb", $2ED7, $2EDD - $2ED7
+	ld a, 153
+	ld [$A22C], a
+	ret
 
 
 UnknownCall_0x2EDD:
@@ -5843,6 +6609,8 @@ UnknownRJump_0x310D:
 	sbc 0
 	ldh [$FFC9], a
 	ret
+
+UnknownJump_0x311A:
 	ld a, [$A266]
 	and a
 	jr z, UnknownRJump_0x3127
@@ -5877,8 +6645,11 @@ UnknownRJump_0x314B:
 	ret
 
 UnknownJump_0x3150:
-UnknownData_0x3150:
-INCBIN "baserom.gb", $3150, $315C - $3150
+	ld a, [$A0F0]
+	inc a
+	and $03
+	ld [$A0F0], a
+	jp Init
 
 
 UnknownCall_0x315C:
@@ -5956,7 +6727,13 @@ UnknownRJump_0x31D1:
 	ret
 
 UnknownASM_0x31E0:
-INCBIN "baserom.gb", $31E0, $31EF - $31E0
+	ld a, 255
+	ld [$A224], a
+	xor a
+	ld [$A222], a
+	ld a, 23
+	ld [sVVelocityIndex], a
+	ret
 
 MarioSpeedTableDead: ;$31EF
 	db $03, $03, $03, $02, $02, $03, $02, $02, $02, $02, $01, $02, $01, $01, $01, $01
@@ -6170,7 +6947,7 @@ UnknownRJump_0x3386:
 	jp c, UnknownJump_0x3415
 	ld a, [$A259]
 	ld c, a
-	ld hl, $3439
+	ld hl, UnknownData_0x3439
 	ld b, 0
 	add hl, bc
 	ld a, [hl]
@@ -6265,8 +7042,9 @@ UnknownRJump_0x3430:
 	ld [$A460], a
 	ret
 
-UnknownData_0x3439:
-INCBIN "baserom.gb", $3439, $3451 - $3439
+UnknownData_0x3439: ;indexed by $A259
+	db $03, $03, $03, $03, $02, $03, $02, $02, $01, $02, $01, $00
+	db $00, $01, $02, $01, $02, $02, $03, $02, $03, $03, $03, $03
 
 
 UnknownCall_0x3451:
@@ -6331,8 +7109,9 @@ UnknownRJump_0x34AF:
 	ld [$A22C], a
 	jr nz, UnknownRJump_0x3539
 
-UnknownData_0x34C2:
-INCBIN "baserom.gb", $34C2, $34C9 - $34C2
+	ld a, 153
+	ld [$A22C], a
+	jr UnknownJump_0x3539
 
 
 UnknownRJump_0x34C9:
@@ -6398,11 +7177,15 @@ UnknownRJump_0x3539:
 	xor a
 	ld [$A26C], a
 	ret
+
+UnknownJump_0x353E:
 	xor a
 	ld [sCurPowerup], a
 	ld a, 20
 	ldh [$FF9B], a
 	ret
+
+UnknownJump_0x3547:
 	ld a, [$A266]
 	ld b, a
 	ld a, [$A267]
@@ -6431,6 +7214,8 @@ UnknownRJump_0x356E:
 	ld a, 20
 	ldh [$FF9B], a
 	ret
+
+UnknownJump_0x3573:
 	ld a, [sCurLevel]
 	cp $FF
 	jr nz, .CheckEasyMode
@@ -6474,6 +7259,8 @@ UnknownRJump_0x356E:
 	inc a
 	ldh [$FF9B], a
 	ret
+
+UnknownJump_0x35CD:
 	ld a, 80
 	ldh [$FFC4], a
 	ld a, 52
@@ -6490,11 +7277,24 @@ UnknownRJump_0x356E:
 	ldh [$FF9B], a
 	ret
 
-UnknownData_0x35EA:
-INCBIN "baserom.gb", $35EA, $362A - $35EA
+UnknownData_0x35EA: ;per-level byte, indexed by sCurLevel
+	db $4D, $FF, $82, $FF, $FF, $FF, $FE, $8C, $F3, $4B, $44, $45, $46, $FF, $48, $49
+	db $4A, $48, $FF, $41, $47, $68, $4B, $4F, $80, $4D, $FF, $FF, $41, $FF, $FF, $FF
+
+UnknownData_0x360A: ;per-level byte, indexed by sCurLevel (stored to $A2D2)
+	db $00, $00, $31, $10, $10, $00, $10, $31, $31, $31, $00, $00, $00, $00, $00, $10
+	db $31, $00, $35, $35, $00, $00, $00, $10, $00, $00, $00, $00, $35, $00, $00, $00
 INCLUDE "levels/enemysets.asm"
 INCLUDE "levels/tilesets.asm"
-INCBIN "baserom.gb", $372A, $3735 - $372A
+STATInterrupt: ;LCD STAT interrupt handler (vector $0048)
+	ldh a, [$FF9B]
+	cp $04
+	jr nz, UnknownRJump_0x3734
+	ld a, 228
+	ldh [rBGP], a
+
+UnknownRJump_0x3734:
+	reti
 
 UnknownCall_0x3735:
 	ld a, 1
@@ -6532,8 +7332,38 @@ UnknownCall_0x3753:
 	ld [$A2BB], a
 	ret
 
-UnknownData_0x377B:
-INCBIN "baserom.gb", $377B, $3873 - $377B
+UnknownData_0x377B: ;per-level 8-byte records (copied to $A800), indexed by sCurLevel * 8
+	dw $01A4, $0ADA, $01B6, $0AFB
+	dw $01D4, $0860, $01C0, $0881
+	dw $0084, $070F, $008E, $071F
+	dw $0084, $0A0C, $00A7, $0A2D
+	dw $0000, $0000, $0000, $0000
+	dw $0254, $06A8, $0260, $06C9
+	dw $01D4, $06BA, $01C0, $06C8
+	dw $0164, $0655, $017F, $0676
+	dw $01C4, $0924, $01C0, $0943
+	dw $01D4, $076E, $01C0, $078F
+	dw $0274, $06D0, $027F, $06B0
+	dw $0194, $0831, $01BA, $0852
+	dw $01B4, $07CB, $01C0, $07D4
+	dw $00D4, $0994, $00C0, $0999
+	dw $0294, $06A3, $02A0, $06AF
+	dw $0134, $068D, $014B, $06AE
+	dw $0194, $0559, $019F, $055E
+	dw $0000, $0000, $0000, $0000
+	dw $01B4, $0771, $01BD, $0792
+	dw $00B4, $0D87, $00A6, $0DA8
+	dw $02C4, $0A35, $02C0, $0A47
+	dw $0274, $09F5, $027E, $0A16
+	dw $01D4, $08F3, $01C0, $0902
+	dw $01D4, $0813, $01C0, $0834
+	dw $0000, $0000, $0000, $0000
+	dw $0000, $0000, $0000, $0000
+	dw $0000, $0000, $0000, $0000
+	dw $0000, $0000, $0000, $0000
+	dw $0000, $0000, $0000, $0000
+	dw $0000, $0000, $0000, $0000
+	dw $0000, $0000, $0000, $0000
 
 
 UnknownCall_0x3873:
@@ -6634,8 +7464,63 @@ UnknownRJump_0x38F5:
 	ret
 
 UnknownRJump_0x3911:
-UnknownData_0x3911:
-INCBIN "baserom.gb", $3911, $3A00 - $3911
+	ld h, 163
+	ld a, [$A2CF]
+	ld l, a
+	ld a, [hl]
+	cp $FF
+	jr nz, UnknownRJump_0x3921
+	ld a, 6
+	ldh [$FF9B], a
+	ret
+
+UnknownRJump_0x3921:
+	ldh a, [hKeysHeld]
+	ld b, a
+	ld a, [hli]
+	cp b
+	jr nz, UnknownRJump_0x3931
+	ld a, [hl]
+	cp $FF
+	jr z, UnknownRJump_0x3931
+	inc a
+	ld [hld], a
+	jr UnknownRJump_0x3942
+
+UnknownRJump_0x3931:
+	inc hl
+	ld a, l
+	cp $FE
+	jr z, UnknownRJump_0x393F
+	ldh a, [hKeysHeld]
+	ld [hli], a
+	ld a, 1
+	ld [hld], a
+	jr UnknownRJump_0x3942
+
+UnknownRJump_0x393F:
+	ld a, 255
+	ld [hl], a
+
+UnknownRJump_0x3942:
+	ld a, l
+	ld [$A2CF], a
+	ret
+
+UnknownData_0x3947:
+;unused filler
+	db $F3, $AF, $CC, $F3, $6A, $FF, $DC, $ED, $73, $CD, $C9, $F6, $AE, $FB, $DF, $7D
+	db $ED, $FE, $DF, $F5, $BE, $FC, $DB, $BF, $BB, $7E, $96, $EE, $8B, $DD, $FA, $FA
+	db $3F, $7D, $FF, $FD, $BF, $CA, $E5, $FF, $BF, $5B, $F1, $FF, $EA, $AC, $A6, $75
+	db $DE, $7F, $E7, $FF, $F7, $F3, $BD, $EF, $6F, $13, $33, $F8, $98, $54, $08, $16
+	db $02, $C1, $52, $48, $06, $05, $76, $C7, $04, $02, $40, $20, $9C, $D5, $09, $00
+	db $00, $09, $41, $38, $00, $2E, $02, $00, $46, $20, $84, $C4, $01, $20, $28, $72
+	db $36, $12, $04, $CC, $1D, $D7, $DE, $22, $82, $04, $25, $28, $0A, $8B, $11, $B0
+	db $AE, $26, $C8, $11, $2C, $23, $C2, $00, $C2, $A8, $00, $03, $41, $20, $04, $60
+	db $57, $0E, $0A, $20, $83, $45, $41, $08, $E8, $A3, $20, $C9, $0E, $0A, $8A, $20
+	db $4E, $E2, $00, $83, $86, $00, $02, $D0, $06, $0C, $92, $88, $00, $40, $02, $00
+	db $C1, $40, $81, $01, $46, $01, $30, $68, $62, $0F, $92, $20, $82, $06, $A1, $63
+	db $24, $30, $41, $F4, $80, $00, $80, $40, $03
 
 
 UnknownCall_0x3A00:
@@ -6668,8 +7553,15 @@ UnknownCall_0x3A28:
 	ld [$2100], a
 	ret
 
-UnknownData_0x3A3C:
-INCBIN "baserom.gb", $3A3C, $3A50 - $3A3C
+UnknownCall_0x3A3C:
+	ld a, 2 ;prepare bank switch
+	ld [$A24E], a
+	ld [$2100], a
+	call UnknownCall_0x8240
+	ld a, 22 ;prepare bank switch
+	ld [$A24E], a
+	ld [$2100], a
+	ret
 
 
 UnknownCall_0x3A50:
@@ -6732,8 +7624,15 @@ UnknownCall_0x3AB4:
 	ld [$2100], a
 	ret
 
-UnknownData_0x3AC8:
-INCBIN "baserom.gb", $3AC8, $3ADC - $3AC8
+UnknownCall_0x3AC8:
+	ld a, 2 ;prepare bank switch
+	ld [$A24E], a
+	ld [$2100], a
+	call $4638
+	ld a, 22 ;prepare bank switch
+	ld [$A24E], a
+	ld [$2100], a
+	ret
 
 
 UnknownCall_0x3ADC:
@@ -7083,7 +7982,19 @@ UnknownCall_0x3D3D:
 	jr UnknownRJump_0x3D35
 
 UnknownData_0x3D42:
-INCBIN "baserom.gb", $3D42, $3E00 - $3D42
+;unused filler
+	db $BE, $E8, $3E, $FA, $FF, $F6, $7F, $9D, $BA, $FF, $8A, $EA, $C5, $EF, $9A, $D4
+	db $D3, $DF, $BF, $FF, $5E, $2E, $FB, $2F, $C8, $3E, $DF, $BE, $EE, $AA, $BF, $FF
+	db $55, $CB, $BE, $6E, $AA, $8E, $DC, $FF, $F7, $76, $FE, $ED, $FC, $DE, $FB, $DF
+	db $AD, $FA, $7A, $96, $FE, $CF, $FF, $6F, $F6, $AE, $BF, $DA, $E2, $3E, $00, $52
+	db $A0, $02, $80, $40, $00, $20, $E0, $2E, $02, $06, $81, $00, $18, $C8, $04, $4C
+	db $10, $08, $09, $01, $08, $32, $3A, $02, $00, $02, $50, $00, $02, $A4, $28, $20
+	db $46, $5B, $20, $48, $02, $02, $00, $00, $11, $06, $0C, $84, $00, $12, $C2, $2A
+	db $02, $8A, $2E, $C2, $18, $01, $10, $A8, $C9, $18, $48, $C2, $A8, $62, $2A, $08
+	db $90, $00, $41, $42, $82, $00, $02, $20, $F0, $48, $24, $B0, $00, $80, $88, $84
+	db $A2, $C8, $C0, $00, $40, $00, $00, $04, $48, $10, $84, $0A, $40, $AA, $05, $02
+	db $00, $48, $0C, $24, $88, $41, $22, $E0, $00, $22, $24, $C8, $80, $06, $8A, $08
+	db $CC, $22, $80, $D2, $63, $2A, $CB, $30, $68, $80, $A8, $08, $0A, $A6
 
 
 UnknownCall_0x3E00:
@@ -7372,5 +8283,10 @@ UnknownRJump_0x3FAC:
 	ret
 
 UnknownData_0x3FBD:
-INCBIN "baserom.gb", $3FBD, $4000 - $3FBD
+;unused filler
+	db $39, $0D, $68, $00, $18, $01, $75, $44, $61, $10, $12, $4B, $89, $54, $04, $86
+	db $13, $32, $07, $90, $12, $32, $04, $63, $08, $04, $22, $04, $10, $14, $CA, $90
+	db $20, $0C, $28, $20, $A1, $20, $B2, $82, $23, $A4, $10, $04, $F2, $90, $21, $00
+	db $1D, $62, $2A, $01, $12, $30, $48, $A1, $00, $10, $00, $08, $42, $7B, $00, $D0
+	db $61, $54, $00
 

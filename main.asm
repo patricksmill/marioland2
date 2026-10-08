@@ -535,7 +535,7 @@ UnknownRJump_0x559F:
 	ld a, [$A2A0]
 	and a
 	jr z, UnknownRJump_0x55C6
-	ld hl, $377B
+	ld hl, UnknownData_0x377B
 	ld a, [sCurLevel]
 	sla a
 	sla a
