@@ -1,36 +1,36 @@
-sHVelocityIndex = $A200
-sVVelocityIndex = $A201
-sMarioOnGround = $A214
-sMarioInAir = $A215
-sCurPowerup = $A216
-sPipeTravelDirection = $A221
-sMarioX = $A227
-sMarioXU = $A228
-sMarioY = $A229
-sMarioYU = $A22A
-sMarioDirection = $A22B
-sMarioScreenY = $A23B
-sMarioScreenX = $A23C
-sTimerLow = $A254
-sTimerHigh = $A255
-sLevelBank = $A258
-sCoinLow = $A262
-sCoinHigh = $A263
-sSpinJump = $A268
-sCurLevel = $A269
-sBGPalette = $A27E
-sOAMPalette1 = $A27F
-sOAMPalette2 = $A280
-sMoonPhysics = $A287
-sScrollY = $A2B0
-sScrollX = $A2B1
-sAutoScroll = $A2C8
-sSoundDisabled = $A2CE
+DEF sHVelocityIndex EQU $A200
+DEF sVVelocityIndex EQU $A201
+DEF sMarioOnGround EQU $A214
+DEF sMarioInAir EQU $A215
+DEF sCurPowerup EQU $A216
+DEF sPipeTravelDirection EQU $A221
+DEF sMarioX EQU $A227
+DEF sMarioXU EQU $A228
+DEF sMarioY EQU $A229
+DEF sMarioYU EQU $A22A
+DEF sMarioDirection EQU $A22B
+DEF sMarioScreenY EQU $A23B
+DEF sMarioScreenX EQU $A23C
+DEF sTimerLow EQU $A254
+DEF sTimerHigh EQU $A255
+DEF sLevelBank EQU $A258
+DEF sCoinLow EQU $A262
+DEF sCoinHigh EQU $A263
+DEF sSpinJump EQU $A268
+DEF sCurLevel EQU $A269
+DEF sBGPalette EQU $A27E
+DEF sOAMPalette1 EQU $A27F
+DEF sOAMPalette2 EQU $A280
+DEF sMoonPhysics EQU $A287
+DEF sScrollY EQU $A2B0
+DEF sScrollX EQU $A2B1
+DEF sAutoScroll EQU $A2C8
+DEF sSoundDisabled EQU $A2CE
 
-sEasyMode = $A2E4
+DEF sEasyMode EQU $A2E4
 
-sCurSong = $A469
-sFastMusic = $A50D
+DEF sCurSong EQU $A469
+DEF sFastMusic EQU $A50D
 
-hKeysHeld = $FF80
-hKeysPressed = $FF81
+DEF hKeysHeld EQU $FF80
+DEF hKeysPressed EQU $FF81

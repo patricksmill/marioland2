@@ -8,13 +8,13 @@ INCBIN "baserom.gb", $0000, $0028 - $0000
 	pop hl
 	ld e, a
 	ld d, 0
-	add de
+	add hl, de
 	ld e, [hl]
 	inc hl
 	ld d, [hl]
 	push de
 	pop hl
-	jp [hl]
+	jp hl
 
 UnknownData_0x0034:
 INCBIN "baserom.gb", $0034, $0040 - $0034
@@ -56,15 +56,15 @@ VBlank: ;$0154
 	push de
 	push hl
 	ld a, [sScrollY]
-	ld [$FF00+$42], a
+	ldh [$FF42], a
 	ld a, [sScrollX]
-	ld [$FF00+$43], a
+	ldh [$FF43], a
 	ld a, [sBGPalette]
-	ld [$FF00+$47], a
+	ldh [$FF47], a
 	ld a, [sOAMPalette1]
-	ld [$FF00+$48], a
+	ldh [$FF48], a
 	ld a, [sOAMPalette2]
-	ld [$FF00+$49], a
+	ldh [$FF49], a
 	ld a, [$A266]
 	sub 1
 	ld [$A266], a
@@ -80,13 +80,13 @@ UnknownRJump_0x018B:
 	ld a, [$A2C9]
 	and a
 	jp nz, UnknownJump_0x2A4D
-	ld a, [$FF00+$9B]
+	ldh a, [$FF9B]
 	cp $0C
 	jp z, UnknownJump_0x2C18
 	ld a, [$A248]
 	and a
 	jp nz, UnknownJump_0x26D7
-	ld a, [$FF00+$9B]
+	ldh a, [$FF9B]
 	cp $13
 	jp z, UnknownJump_0x2CA3
 	ld a, [$A28E]
@@ -107,16 +107,16 @@ UnknownRJump_0x01BF:
 UnknownJump_0x01C5:
 UnknownRJump_0x01C5:
 	call $FFA0
-	ld a, [$FF00+$9B]
+	ldh a, [$FF9B]
 	cp $04
 	call z, UpdateSound
-	ld a, [$FF00+$9B]
+	ldh a, [$FF9B]
 	cp $18
 	call z, UpdateSound
 	ld a, [$A24E] ;prepare bank switch
 	ld [$2100], a
 	ld a, 1
-	ld [$FF00+$82], a
+	ldh [$FF82], a
 	pop hl
 	pop de
 	pop bc
@@ -126,23 +126,23 @@ UnknownRJump_0x01C5:
 Init: ;$01E5
 	ld a, 1
 	di
-	ld [$FF00+$0F], a
-	ld [$FF00+$FF], a
+	ldh [$FF0F], a
+	ldh [$FFFF], a
 	xor a
-	ld [$FF00+$42], a
-	ld [$FF00+$43], a
-	ld [$FF00+$41], a
-	ld [$FF00+$01], a
-	ld [$FF00+$02], a
+	ldh [$FF42], a
+	ldh [$FF43], a
+	ldh [$FF41], a
+	ldh [$FF01], a
+	ldh [$FF02], a
 	ld a, 128
-	ld [$FF00+$40], a
+	ldh [$FF40], a
 
 .wait
-	ld a, [$FF00+$44]
+	ldh a, [$FF44]
 	cp $94
 	jr nz, .wait
 	ld a, 3
-	ld [$FF00+$40], a
+	ldh [$FF40], a
 	ld sp, $A8FF
 	ld a, 10
 	ld [$0000], a
@@ -189,16 +189,16 @@ UnknownRJump_0x0244:
 	jr nz, UnknownRJump_0x0244
 	call BlankBGMap1
 	ld a, 1
-	ld [$FF00+$FF], a
+	ldh [$FFFF], a
 	ld a, 7
-	ld [$FF00+$4B], a
+	ldh [$FF4B], a
 	ld a, 128
-	ld [$FF00+$40], a
+	ldh [$FF40], a
 	ei
 	xor a
-	ld [$FF00+$0F], a
-	ld [$FF00+$4A], a
-	ld [$FF00+$06], a
+	ldh [$FF0F], a
+	ldh [$FF4A], a
+	ldh [$FF06], a
 	call UnknownCall_0x207D
 
 UnknownJump_0x0264:
@@ -214,7 +214,7 @@ UnknownJump_0x0264:
 
 UnknownRJump_0x0279:
 	call UnknownCall_0x02AD
-	ld a, [$FF00+$9B]
+	ldh a, [$FF9B]
 	cp $04
 	jr z, UnknownRJump_0x028D
 	cp $18
@@ -225,7 +225,7 @@ UnknownRJump_0x0279:
 
 UnknownRJump_0x028D:
 	call UnknownCall_0x20A4
-	ld a, [hKeysHeld]
+	ldh a, [hKeysHeld]
 	and $0F
 	cp $0F
 	jp z, UnknownJump_0x029F
@@ -238,7 +238,7 @@ INCBIN "baserom.gb", $029F, $02AD - $029F
 
 
 UnknownCall_0x02AD:
-	ld a, [$FF00+$9B]
+	ldh a, [$FF9B]
 	rst $28
 
 UnknownData_0x02B0:
@@ -249,21 +249,21 @@ UnknownCall_0x02FF:
 	db $76 ;halt (rgbds adds a nop after)
 
 UnknownRJump_0x0300:
-	ld a, [$FF00+$82]
+	ldh a, [$FF82]
 	and a
 	jr z, UnknownRJump_0x0300
-	ld a, [$FF00+$97]
+	ldh a, [$FF97]
 	inc a
-	ld [$FF00+$97], a
+	ldh [$FF97], a
 	ld a, [$A298]
 	inc a
 	ld [$A298], a
 	xor a
-	ld [$FF00+$82], a
+	ldh [$FF82], a
 	ld a, 192
-	ld [$FF00+$8C], a
+	ldh [$FF8C], a
 	xor a
-	ld [$FF00+$8D], a
+	ldh [$FF8D], a
 	ret
 
 UnknownCall_0x031C:
@@ -305,20 +305,20 @@ INCBIN "baserom.gb", $033F, $0348 - $033F
 
 
 DisableVBlank: ;$0348
-	ld a, [$FF00+$FF]
-	ld [$FF00+$99], a
+	ldh a, [$FFFF]
+	ldh [$FF99], a
 	res 0, a
-	ld [$FF00+$FF], a
+	ldh [$FFFF], a
 
 UnknownRJump_0x0350:
-	ld a, [$FF00+$44]
+	ldh a, [$FF44]
 	cp $91
 	jr nz, UnknownRJump_0x0350
-	ld a, [$FF00+$40]
+	ldh a, [$FF40]
 	and $7F
-	ld [$FF00+$40], a
-	ld a, [$FF00+$99]
-	ld [$FF00+$FF], a
+	ldh [$FF40], a
+	ldh a, [$FF99]
+	ldh [$FFFF], a
 	ret
 
 UnknownCall_0x0361:
@@ -328,7 +328,7 @@ UnknownCall_0x0361:
 	sla a
 	ld e, a
 	ld d, 0
-	add de
+	add hl, de
 	ld a, [hli]
 	ld e, a
 	ld a, [hl]
@@ -387,7 +387,7 @@ Read_Level_Data: ;$0386
 	ld e, a
 	ld d, 0
 	ld hl, $03E1
-	add de
+	add hl, de
 	ld a, [hli]
 	ld [sBGPalette], a
 	ld a, [hli]
@@ -404,7 +404,7 @@ Read_Level_Data: ;$0386
 	ld a, 255
 	ld [$A266], a
 	ld a, 18
-	ld [$FF00+$9B], a
+	ldh [$FF9B], a
 	ret
 
 UnknownData_0x03E1:
@@ -451,7 +451,7 @@ UnknownRJump_0x040A:
 	and $0F
 	swap a
 	ld e, a
-	add de
+	add hl, de
 	ld de, $A960
 	ld b, 48
 
@@ -484,7 +484,7 @@ UnknownRJump_0x043F:
 	and $0F
 	swap a
 	ld e, a
-	add de
+	add hl, de
 	ld de, $A900
 	ld b, 48
 
@@ -526,7 +526,7 @@ UnknownRJump_0x049C:
 	ld a, [sCurLevel]
 	ld e, a
 	ld d, 0
-	add de
+	add hl, de
 	ld a, [hl] ;check level autoscroll properties
 	ld [sAutoScroll], a
 	ld a, [$A257]
@@ -542,12 +542,12 @@ UnknownRJump_0x04DD:
 	ld a, [sCurLevel]
 	ld e, a
 	ld d, 0
-	add de
+	add hl, de
 	ld a, [hl] ;check level space physics
 	ld [sMoonPhysics], a
-	ld a, [$FF00+$9B]
+	ldh a, [$FF9B]
 	inc a
-	ld [$FF00+$9B], a
+	ldh [$FF9B], a
 	ret
 	call DisableVBlank
 	call LoadMarioGFX
@@ -557,53 +557,53 @@ UnknownRJump_0x04DD:
 	call UnknownCall_0x0361
 	ld a, [$A80F]
 	ld [sBGPalette], a
-	ld [$FF00+$47], a
+	ldh [$FF47], a
 	ld a, [$A810]
 	ld [sOAMPalette1], a
-	ld [$FF00+$48], a
+	ldh [$FF48], a
 	ld a, [$A811]
 	ld [sOAMPalette2], a
-	ld [$FF00+$49], a
+	ldh [$FF49], a
 	ld a, [$A804]
-	ld [$FF00+$C8], a
+	ldh [$FFC8], a
 	ld a, [$A805]
-	ld [$FF00+$C9], a
+	ldh [$FFC9], a
 	ld a, [$A806]
-	ld [$FF00+$CA], a
+	ldh [$FFCA], a
 	ld a, [$A807]
-	ld [$FF00+$CB], a
+	ldh [$FFCB], a
 
 UnknownRJump_0x052F:
 	ld a, 0
-	ld [$FF00+$AF], a
+	ldh [$FFAF], a
 	ld a, 170
-	ld [$FF00+$B0], a
+	ldh [$FFB0], a
 	call UnknownCall_0x08AD
 	call ScrollLevelMap
-	ld a, [$FF00+$C8]
+	ldh a, [$FFC8]
 	add 16
-	ld [$FF00+$C8], a
-	ld a, [$FF00+$C9]
+	ldh [$FFC8], a
+	ldh a, [$FFC9]
 	adc 0
 	and $0F
-	ld [$FF00+$C9], a
-	ld a, [$FF00+$C8]
+	ldh [$FFC9], a
+	ldh a, [$FFC8]
 	ld b, a
 	ld a, [$A804]
 	cp b
 	jr nz, UnknownRJump_0x052F
 	ld a, [$A804]
-	ld [$FF00+$C8], a
+	ldh [$FFC8], a
 	ld a, [$A805]
-	ld [$FF00+$C9], a
+	ldh [$FFC9], a
 	ld a, [$A806]
-	ld [$FF00+$CA], a
+	ldh [$FFCA], a
 	ld a, [$A807]
-	ld [$FF00+$CB], a
-	ld a, [$FF00+$C8]
+	ldh [$FFCB], a
+	ldh a, [$FFC8]
 	sub 120
 	ld [sScrollY], a
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	sub 48
 	ld [sScrollX], a
 	call UnknownCall_0x07DB
@@ -612,7 +612,7 @@ UnknownRJump_0x052F:
 	ld [$2100], a
 	call UnknownCall_0xEBBB
 	ld a, 227
-	ld [$FF00+$40], a
+	ldh [$FF40], a
 	xor a
 	ld [$A211], a
 	ld a, [sSoundDisabled]
@@ -626,7 +626,7 @@ UnknownRJump_0x0598:
 	ld a, [sCurLevel]
 	ld e, a
 	ld d, 0
-	add de
+	add hl, de
 	ld a, [hl] ;level properties unknown
 	ld [$A2D9], a
 	xor a
@@ -637,9 +637,9 @@ UnknownRJump_0x0598:
 	ld [$A890], a
 	ld [$A2E0], a
 	ld [$A2E3], a
-	ld a, [$FF00+$9B]
+	ldh a, [$FF9B]
 	inc a
-	ld [$FF00+$9B], a
+	ldh [$FF9B], a
 	ld a, [$A2D5]
 	and a
 	ret z
@@ -653,21 +653,21 @@ INCBIN "baserom.gb", $05C6, $05D5 - $05C6
 	or b
 	jr z, UnknownRJump_0x05E4
 	xor a
-	ld [hKeysPressed], a
-	ld [hKeysHeld], a
+	ldh [hKeysPressed], a
+	ldh [hKeysHeld], a
 
 UnknownRJump_0x05E4:
 	call UnknownCall_0x2C61
 	ld a, [$A224]
 	cp $FF
 	jr z, UnknownRJump_0x0640
-	ld a, [$FF00+$C0]
+	ldh a, [$FFC0]
 	ld [sMarioY], a
-	ld a, [$FF00+$C1]
+	ldh a, [$FFC1]
 	ld [sMarioYU], a
-	ld a, [$FF00+$C2]
+	ldh a, [$FFC2]
 	ld [sMarioX], a
-	ld a, [$FF00+$C3]
+	ldh a, [$FFC3]
 	ld [sMarioXU], a
 	ld a, [$A20E]
 	and a
@@ -689,7 +689,7 @@ UnknownRJump_0x060F:
 	bit 1, a
 	call nz, UnknownCall_0x3753
 	call UnknownCall_0x2A58
-	ld a, [$FF00+$8D]
+	ldh a, [$FF8D]
 	ld [$A264], a
 	call UnknownCall_0x0652
 	call UnknownCall_0x2CFF
@@ -698,7 +698,7 @@ UnknownRJump_0x060F:
 
 UnknownRJump_0x0640:
 	call UnknownCall_0x315C
-	ld a, [$FF00+$8D]
+	ldh a, [$FF8D]
 	ld [$A264], a
 	call UnknownCall_0x0652
 	call UnknownCall_0x2CFF
@@ -724,7 +724,7 @@ LoadMarioGFX: ;$0669
 	ld hl, $360A
 	ld e, a
 	ld d, 0
-	add de
+	add hl, de
 	ld a, [hl]
 	ld [$A2D2], a
 	and $0F
@@ -771,7 +771,7 @@ UnknownRJump_0x06C0:
 	ld e, a
 	ld d, 0
 	ld hl, $0763
-	add de
+	add hl, de
 	ld a, [hli]
 	ld e, a
 	ld a, [hl]
@@ -792,7 +792,7 @@ UnknownRJump_0x06C0:
 	ld d, a
 	ld e, 0
 	ld hl, $7000
-	add de
+	add hl, de
 	ld bc, $0300
 	ld de, $8800
 	call CopyMem
@@ -802,7 +802,7 @@ UnknownRJump_0x06C0:
 	sla a
 	ld e, a
 	ld d, 0
-	add de
+	add hl, de
 	ld a, [hli] ;prepare bank switch
 	ld [$A24E], a
 	ld [$2100], a
@@ -822,7 +822,7 @@ UnknownRJump_0x06C0:
 	sla a
 	ld e, a
 	ld d, 0
-	add de
+	add hl, de
 	ld a, [hli] ;prepare bank switch
 	ld [$A24E], a
 	ld [$2100], a
@@ -840,7 +840,7 @@ UnknownRJump_0x06C0:
 	ld a, [sCurLevel]
 	ld e, a
 	ld d, 0
-	add de
+	add hl, de
 	ld a, [hl]
 	inc a
 	ld [$A299], a
@@ -851,7 +851,7 @@ INCBIN "baserom.gb", $0763, $076B - $0763
 
 
 UnknownCall_0x076B:
-	ld a, [$FF00+$9B]
+	ldh a, [$FF9B]
 	cp $04
 	ret nz
 	ld a, [$A22C]
@@ -921,12 +921,12 @@ UnknownCall_0x0879:
 	ld [$A24E], a
 	ld [$2100], a
 	ld a, 0
-	ld [$FF00+$AF], a
+	ldh [$FFAF], a
 	ld a, 170
-	ld [$FF00+$B0], a
+	ldh [$FFB0], a
 	xor a
 	ld [$A24C], a
-	ld a, [$FF00+$97]
+	ldh a, [$FF97]
 	and $03
 	jr z, UnknownRJump_0x08A2
 	cp $01
@@ -948,20 +948,20 @@ UnknownRJump_0x08A2:
 	ld [$A24C], a
 
 UnknownCall_0x08AD:
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	sub 128
-	ld [$FF00+$CE], a
-	ld a, [$FF00+$CB]
+	ldh [$FFCE], a
+	ldh a, [$FFCB]
 	sbc 0
 	and $0F
-	ld [$FF00+$CF], a
-	ld a, [$FF00+$C8]
+	ldh [$FFCF], a
+	ldh a, [$FFC8]
 	sub 120
-	ld [$FF00+$CC], a
-	ld a, [$FF00+$C9]
+	ldh [$FFCC], a
+	ldh a, [$FFC9]
 	sbc 0
 	and $0F
-	ld [$FF00+$CD], a
+	ldh [$FFCD], a
 	ld a, [$A223]
 	res 6, a
 	ld [$A223], a
@@ -973,20 +973,20 @@ UnknownRJump_0x08D4:
 	ret z
 	ld a, 255
 	ld [$A24C], a
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	sub 128
-	ld [$FF00+$CE], a
-	ld a, [$FF00+$CB]
+	ldh [$FFCE], a
+	ldh a, [$FFCB]
 	sbc 0
 	and $0F
-	ld [$FF00+$CF], a
-	ld a, [$FF00+$C8]
+	ldh [$FFCF], a
+	ldh a, [$FFC8]
 	add 120
-	ld [$FF00+$CC], a
-	ld a, [$FF00+$C9]
+	ldh [$FFCC], a
+	ldh a, [$FFC9]
 	adc 0
 	and $0F
-	ld [$FF00+$CD], a
+	ldh [$FFCD], a
 	ld a, [$A223]
 	res 7, a
 	ld [$A223], a
@@ -998,20 +998,20 @@ UnknownRJump_0x0905:
 	ret z
 	ld a, 255
 	ld [$A24C], a
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	sub 128
-	ld [$FF00+$CE], a
-	ld a, [$FF00+$CB]
+	ldh [$FFCE], a
+	ldh a, [$FFCB]
 	sbc 0
 	and $0F
-	ld [$FF00+$CF], a
-	ld a, [$FF00+$C8]
+	ldh [$FFCF], a
+	ldh a, [$FFC8]
 	sub 120
-	ld [$FF00+$CC], a
-	ld a, [$FF00+$C9]
+	ldh [$FFCC], a
+	ldh a, [$FFC9]
 	sbc 0
 	and $0F
-	ld [$FF00+$CD], a
+	ldh [$FFCD], a
 	ld a, [$A223]
 	res 5, a
 	ld [$A223], a
@@ -1023,20 +1023,20 @@ UnknownJump_0x0937:
 	ret z
 	ld a, 255
 	ld [$A24C], a
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	add 112
-	ld [$FF00+$CE], a
-	ld a, [$FF00+$CB]
+	ldh [$FFCE], a
+	ldh a, [$FFCB]
 	adc 0
 	and $0F
-	ld [$FF00+$CF], a
-	ld a, [$FF00+$C8]
+	ldh [$FFCF], a
+	ldh a, [$FFC8]
 	sub 120
-	ld [$FF00+$CC], a
-	ld a, [$FF00+$C9]
+	ldh [$FFCC], a
+	ldh a, [$FFC9]
 	sbc 0
 	and $0F
-	ld [$FF00+$CD], a
+	ldh [$FFCD], a
 	ld a, [$A223]
 	res 4, a
 	ld [$A223], a
@@ -1049,9 +1049,9 @@ UnknownCall_0x0969:
 	and $3F
 	ld [$A223], a
 	ld a, 16
-	ld [$FF00+$AE], a
+	ldh [$FFAE], a
 	ld hl, $9800
-	ld a, [$FF00+$CC]
+	ldh a, [$FFCC]
 	and $F0
 	ld e, a
 	xor a
@@ -1060,33 +1060,33 @@ UnknownCall_0x0969:
 	rl d
 	sla e
 	rl d
-	add de
-	ld a, [$FF00+$CE]
+	add hl, de
+	ldh a, [$FFCE]
 	and $F0
 	swap a
 	sla a
 	ld e, a
 	ld d, 0
-	add de
+	add hl, de
 	ld a, l
-	ld [$FF00+$AA], a
+	ldh [$FFAA], a
 	ld a, h
-	ld [$FF00+$AB], a
-	ld a, [$FF00+$CD]
+	ldh [$FFAB], a
+	ldh a, [$FFCD]
 	and $0F
 	swap a
 	add 176
 	ld h, a
-	ld a, [$FF00+$CC]
+	ldh a, [$FFCC]
 	and $F0
 	swap a
 	or h
 	ld [$A204], a
-	ld a, [$FF00+$CF]
+	ldh a, [$FFCF]
 	and $0F
 	swap a
 	ld l, a
-	ld a, [$FF00+$CE]
+	ldh a, [$FFCE]
 	and $F0
 	swap a
 	or l
@@ -1106,7 +1106,7 @@ UnknownRJump_0x09BE:
 	sla e
 	rl d
 	ld hl, $A600
-	add de
+	add hl, de
 	ld a, [hli]
 	ld [$A208], a
 	ld a, [hli]
@@ -1115,13 +1115,13 @@ UnknownRJump_0x09BE:
 	ld [$A20A], a
 	ld a, [hli]
 	ld [$A20B], a
-	ld a, [$FF00+$AF]
+	ldh a, [$FFAF]
 	ld l, a
-	ld a, [$FF00+$B0]
+	ldh a, [$FFB0]
 	ld h, a
-	ld a, [$FF00+$AA]
+	ldh a, [$FFAA]
 	ld [hli], a
-	ld a, [$FF00+$AB]
+	ldh a, [$FFAB]
 	ld [hli], a
 	ld a, [$A208]
 	ld [hli], a
@@ -1132,29 +1132,29 @@ UnknownRJump_0x09BE:
 	ld a, [$A20B]
 	ld [hli], a
 	ld a, l
-	ld [$FF00+$AF], a
+	ldh [$FFAF], a
 	ld a, h
-	ld [$FF00+$B0], a
+	ldh [$FFB0], a
 	ld a, [$A203]
 	inc a
 	ld [$A203], a
-	ld a, [$FF00+$AA]
+	ldh a, [$FFAA]
 	add 2
-	ld [$FF00+$AA], a
-	ld a, [$FF00+$AB]
+	ldh [$FFAA], a
+	ldh a, [$FFAB]
 	adc 0
 	and $9B
-	ld [$FF00+$AB], a
-	ld a, [$FF00+$AA]
+	ldh [$FFAB], a
+	ldh a, [$FFAA]
 	and $DF
-	ld [$FF00+$AA], a
-	ld a, [$FF00+$AE]
+	ldh [$FFAA], a
+	ldh a, [$FFAE]
 	dec a
-	ld [$FF00+$AE], a
+	ldh [$FFAE], a
 	jr nz, UnknownRJump_0x09BE
-	ld a, [$FF00+$AF]
+	ldh a, [$FFAF]
 	ld l, a
-	ld a, [$FF00+$B0]
+	ldh a, [$FFB0]
 	ld h, a
 	ld a, 0
 	ld [hli], a
@@ -1167,9 +1167,9 @@ UnknownCall_0x0A35:
 	and $CF
 	ld [$A223], a
 	ld a, 16
-	ld [$FF00+$AE], a
+	ldh [$FFAE], a
 	ld hl, $9800
-	ld a, [$FF00+$CC]
+	ldh a, [$FFCC]
 	and $F0
 	ld e, a
 	xor a
@@ -1178,33 +1178,33 @@ UnknownCall_0x0A35:
 	rl d
 	sla e
 	rl d
-	add de
-	ld a, [$FF00+$CE]
+	add hl, de
+	ldh a, [$FFCE]
 	and $F0
 	swap a
 	sla a
 	ld e, a
 	ld d, 0
-	add de
+	add hl, de
 	ld a, l
-	ld [$FF00+$AA], a
+	ldh [$FFAA], a
 	ld a, h
-	ld [$FF00+$AB], a
-	ld a, [$FF00+$CD]
+	ldh [$FFAB], a
+	ldh a, [$FFCD]
 	and $0F
 	swap a
 	add 176
 	ld h, a
-	ld a, [$FF00+$CC]
+	ldh a, [$FFCC]
 	and $F0
 	swap a
 	or h
 	ld [$A204], a
-	ld a, [$FF00+$CF]
+	ldh a, [$FFCF]
 	and $0F
 	swap a
 	ld l, a
-	ld a, [$FF00+$CE]
+	ldh a, [$FFCE]
 	and $F0
 	swap a
 	or l
@@ -1224,7 +1224,7 @@ UnknownRJump_0x0A8A:
 	sla e
 	rl d
 	ld hl, $A600
-	add de
+	add hl, de
 	ld a, [hli]
 	ld [$A208], a
 	ld a, [hli]
@@ -1233,13 +1233,13 @@ UnknownRJump_0x0A8A:
 	ld [$A20A], a
 	ld a, [hli]
 	ld [$A20B], a
-	ld a, [$FF00+$AF]
+	ldh a, [$FFAF]
 	ld l, a
-	ld a, [$FF00+$B0]
+	ldh a, [$FFB0]
 	ld h, a
-	ld a, [$FF00+$AA]
+	ldh a, [$FFAA]
 	ld [hli], a
-	ld a, [$FF00+$AB]
+	ldh a, [$FFAB]
 	ld [hli], a
 	ld a, [$A208]
 	ld [hli], a
@@ -1250,26 +1250,26 @@ UnknownRJump_0x0A8A:
 	ld a, [$A20B]
 	ld [hli], a
 	ld a, l
-	ld [$FF00+$AF], a
+	ldh [$FFAF], a
 	ld a, h
-	ld [$FF00+$B0], a
+	ldh [$FFB0], a
 	ld a, [$A204]
 	inc a
 	ld [$A204], a
-	ld a, [$FF00+$AA]
+	ldh a, [$FFAA]
 	add 64
-	ld [$FF00+$AA], a
-	ld a, [$FF00+$AB]
+	ldh [$FFAA], a
+	ldh a, [$FFAB]
 	adc 0
 	and $9B
-	ld [$FF00+$AB], a
-	ld a, [$FF00+$AE]
+	ldh [$FFAB], a
+	ldh a, [$FFAE]
 	dec a
-	ld [$FF00+$AE], a
+	ldh [$FFAE], a
 	jr nz, UnknownRJump_0x0A8A
-	ld a, [$FF00+$AF]
+	ldh a, [$FFAF]
 	ld l, a
-	ld a, [$FF00+$B0]
+	ldh a, [$FFB0]
 	ld h, a
 	ld a, 0
 	ld [hli], a
@@ -1298,7 +1298,7 @@ ScrollLevelMap: ;$0AFB
 	ld a, [de]
 	ld [hl], a
 	ld bc, $001F
-	add bc
+	add hl, bc
 	ld a, h
 	and $9B
 	ld h, a
@@ -1332,17 +1332,17 @@ UnknownRJump_0x0B39:
 	ld a, [$A20E]
 	and a
 	jp nz, UnknownJump_0x0DED
-	ld a, [$FF00+$C9]
+	ldh a, [$FFC9]
 	swap a
 	ld b, a
-	ld a, [$FF00+$CB]
+	ldh a, [$FFCB]
 	or b
 	ld e, a
 	ld d, 0
 	ld hl, $A960
-	add de
+	add hl, de
 	ld a, [hl]
-	ld [$FF00+$98], a
+	ldh [$FF98], a
 	ld a, [sAutoScroll]
 	and a
 	jr z, UnknownRJump_0x0B5E
@@ -1350,10 +1350,10 @@ UnknownRJump_0x0B39:
 	jp UnknownJump_0x0C7D
 
 UnknownRJump_0x0B5E:
-	ld a, [$FF00+$98]
+	ldh a, [$FF98]
 	bit 0, a
 	jr z, UnknownRJump_0x0B90
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	cp $B0
 	jp nz, UnknownJump_0x0B7D
 	ld a, [sMarioScreenX]
@@ -1366,13 +1366,13 @@ UnknownRJump_0x0B5E:
 
 UnknownJump_0x0B7D:
 	jr c, UnknownRJump_0x0B90
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	sub 1
-	ld [$FF00+$CA], a
-	ld a, [$FF00+$CB]
+	ldh [$FFCA], a
+	ldh a, [$FFCB]
 	sbc 0
 	and $0F
-	ld [$FF00+$CB], a
+	ldh [$FFCB], a
 	jp UnknownJump_0x0BE5
 
 UnknownRJump_0x0B90:
@@ -1386,48 +1386,48 @@ UnknownRJump_0x0B90:
 	ld [$A233], a
 	ld a, [$A235]
 	ld b, a
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	add b
-	ld [$FF00+$CA], a
+	ldh [$FFCA], a
 	ld b, a
-	ld a, [$FF00+$CB]
+	ldh a, [$FFCB]
 	adc 0
 	and $0F
-	ld [$FF00+$CB], a
+	ldh [$FFCB], a
 	ld a, [$A223]
 	set 4, a
 	ld [$A223], a
-	ld a, [$FF00+$C2]
+	ldh a, [$FFC2]
 	sub b
 	add 96
 	cp $40
 	jr c, UnknownRJump_0x0BD3
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	add 1
-	ld [$FF00+$CA], a
-	ld a, [$FF00+$CB]
+	ldh [$FFCA], a
+	ldh a, [$FFCB]
 	adc 0
 	and $0F
-	ld [$FF00+$CB], a
+	ldh [$FFCB], a
 	jr UnknownRJump_0x0BE5
 
 UnknownRJump_0x0BD3:
 	cp $3F
 	jr nc, UnknownRJump_0x0BE5
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	sub 1
-	ld [$FF00+$CA], a
-	ld a, [$FF00+$CB]
+	ldh [$FFCA], a
+	ldh a, [$FFCB]
 	sbc 0
 	and $0F
-	ld [$FF00+$CB], a
+	ldh [$FFCB], a
 
 UnknownJump_0x0BE5:
 UnknownRJump_0x0BE5:
-	ld a, [$FF00+$98]
+	ldh a, [$FF98]
 	bit 1, a
 	jr z, UnknownRJump_0x0C21
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	cp $50
 	jr nz, UnknownRJump_0x0C0F
 	ld a, [sMarioScreenX]
@@ -1436,23 +1436,23 @@ UnknownRJump_0x0BE5:
 	ld a, 2
 	ld [$A20E], a
 	ld a, 0
-	ld [$FF00+$C2], a
-	ld a, [$FF00+$C3]
+	ldh [$FFC2], a
+	ldh a, [$FFC3]
 	inc a
 	and $0F
-	ld [$FF00+$C3], a
+	ldh [$FFC3], a
 	call UnknownCall_0x0F0B
 	jp UnknownJump_0x0C76
 
 UnknownRJump_0x0C0F:
 	jr nc, UnknownRJump_0x0C21
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	add 1
-	ld [$FF00+$CA], a
-	ld a, [$FF00+$CB]
+	ldh [$FFCA], a
+	ldh a, [$FFCB]
 	adc 0
 	and $0F
-	ld [$FF00+$CB], a
+	ldh [$FFCB], a
 	jr UnknownRJump_0x0C76
 
 UnknownRJump_0x0C21:
@@ -1466,41 +1466,41 @@ UnknownRJump_0x0C21:
 	ld [$A232], a
 	ld a, [$A236]
 	ld b, a
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	sub b
-	ld [$FF00+$CA], a
+	ldh [$FFCA], a
 	ld b, a
-	ld a, [$FF00+$CB]
+	ldh a, [$FFCB]
 	sbc 0
 	and $0F
-	ld [$FF00+$CB], a
+	ldh [$FFCB], a
 	ld a, [$A223]
 	set 5, a
 	ld [$A223], a
-	ld a, [$FF00+$C2]
+	ldh a, [$FFC2]
 	sub b
 	add 96
 	cp $70
 	jr nc, UnknownRJump_0x0C64
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	sub 1
-	ld [$FF00+$CA], a
-	ld a, [$FF00+$CB]
+	ldh [$FFCA], a
+	ldh a, [$FFCB]
 	sbc 0
 	and $0F
-	ld [$FF00+$CB], a
+	ldh [$FFCB], a
 	jr UnknownRJump_0x0C76
 
 UnknownRJump_0x0C64:
 	cp $71
 	jr c, UnknownRJump_0x0C76
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	add 1
-	ld [$FF00+$CA], a
-	ld a, [$FF00+$CB]
+	ldh [$FFCA], a
+	ldh a, [$FFCB]
 	adc 0
 	and $0F
-	ld [$FF00+$CB], a
+	ldh [$FFCB], a
 
 UnknownJump_0x0C76:
 UnknownRJump_0x0C76:
@@ -1509,15 +1509,15 @@ UnknownRJump_0x0C76:
 	ld [$A236], a
 
 UnknownJump_0x0C7D:
-	ld a, [$FF00+$C8]
+	ldh a, [$FFC8]
 	ld b, a
-	ld a, [$FF00+$C0]
+	ldh a, [$FFC0]
 	sub b
 	add 96
-	ld [$FF00+$99], a
+	ldh [$FF99], a
 	ld a, [$A20C]
 	ld b, a
-	ld a, [$FF00+$C0]
+	ldh a, [$FFC0]
 	sub b
 	jp z, UnknownJump_0x0D97
 	bit 7, a
@@ -1526,10 +1526,10 @@ UnknownJump_0x0C7D:
 	ld a, [$A223]
 	set 7, a
 	ld [$A223], a
-	ld a, [$FF00+$98]
+	ldh a, [$FF98]
 	bit 3, a
 	jr z, UnknownRJump_0x0CEC
-	ld a, [$FF00+$C8]
+	ldh a, [$FFC8]
 	cp $C0
 	jr nz, UnknownRJump_0x0CC0
 	ld a, [sMarioScreenY]
@@ -1542,41 +1542,41 @@ UnknownJump_0x0C7D:
 
 UnknownRJump_0x0CC0:
 	jr c, UnknownRJump_0x0CD3
-	ld a, [$FF00+$C8]
+	ldh a, [$FFC8]
 	sub 1
-	ld [$FF00+$C8], a
-	ld a, [$FF00+$C9]
+	ldh [$FFC8], a
+	ldh a, [$FFC9]
 	sbc 0
 	and $0F
-	ld [$FF00+$C9], a
+	ldh [$FFC9], a
 	jp UnknownJump_0x0D97
 
 UnknownRJump_0x0CD3:
-	ld a, [$FF00+$99]
+	ldh a, [$FF99]
 	cp $58
 	jp c, UnknownJump_0x0D97
 	ld a, [$A238]
 	ld b, a
-	ld a, [$FF00+$C8]
+	ldh a, [$FFC8]
 	add b
-	ld [$FF00+$C8], a
-	ld a, [$FF00+$C9]
+	ldh [$FFC8], a
+	ldh a, [$FFC9]
 	adc 0
-	ld [$FF00+$C9], a
+	ldh [$FFC9], a
 	jp UnknownJump_0x0D97
 
 UnknownRJump_0x0CEC:
-	ld a, [$FF00+$99]
+	ldh a, [$FF99]
 	cp $50
 	jp c, UnknownJump_0x0D97
 	ld a, [$A238]
 	ld b, a
-	ld a, [$FF00+$C8]
+	ldh a, [$FFC8]
 	add b
-	ld [$FF00+$C8], a
-	ld a, [$FF00+$C9]
+	ldh [$FFC8], a
+	ldh a, [$FFC9]
 	adc 0
-	ld [$FF00+$C9], a
+	ldh [$FFC9], a
 	jp UnknownJump_0x0D97
 
 UnknownJump_0x0D05:
@@ -1586,10 +1586,10 @@ UnknownJump_0x0D05:
 	ld a, [$A223]
 	set 6, a
 	ld [$A223], a
-	ld a, [$FF00+$98]
+	ldh a, [$FF98]
 	bit 2, a
 	jr z, UnknownRJump_0x0D74
-	ld a, [$FF00+$C8]
+	ldh a, [$FFC8]
 	cp $48
 	jr nz, UnknownRJump_0x0D3D
 	ld a, [sMarioScreenY]
@@ -1598,9 +1598,9 @@ UnknownJump_0x0D05:
 	ld a, 4
 	ld [$A20E], a
 	ld a, 0
-	ld [$FF00+$C0], a
-	ld a, [$FF00+$C9]
-	ld [$FF00+$C1], a
+	ldh [$FFC0], a
+	ldh a, [$FFC9]
+	ldh [$FFC1], a
 	ld a, [$A28B]
 	and $F0
 	call z, UnknownCall_0x0F0B
@@ -1608,70 +1608,70 @@ UnknownJump_0x0D05:
 
 UnknownRJump_0x0D3D:
 	jr nc, UnknownRJump_0x0D4F
-	ld a, [$FF00+$C8]
+	ldh a, [$FFC8]
 	add 1
-	ld [$FF00+$C8], a
-	ld a, [$FF00+$C9]
+	ldh [$FFC8], a
+	ldh a, [$FFC9]
 	adc 0
 	and $0F
-	ld [$FF00+$C9], a
+	ldh [$FFC9], a
 	jr UnknownRJump_0x0D97
 
 UnknownRJump_0x0D4F:
 	ld a, [$A2D9]
 	and a
 	jr z, UnknownRJump_0x0D5D
-	ld a, [$FF00+$99]
+	ldh a, [$FF99]
 	cp $40
 	jr nc, UnknownRJump_0x0D97
 	jr UnknownRJump_0x0D63
 
 UnknownRJump_0x0D5D:
-	ld a, [$FF00+$99]
+	ldh a, [$FF99]
 	cp $38
 	jr nc, UnknownRJump_0x0D97
 
 UnknownRJump_0x0D63:
 	ld a, [$A237]
 	ld b, a
-	ld a, [$FF00+$C8]
+	ldh a, [$FFC8]
 	sub b
-	ld [$FF00+$C8], a
-	ld a, [$FF00+$C9]
+	ldh [$FFC8], a
+	ldh a, [$FFC9]
 	sbc 0
-	ld [$FF00+$C9], a
+	ldh [$FFC9], a
 	jr UnknownRJump_0x0D97
 
 UnknownRJump_0x0D74:
 	ld a, [$A2D9]
 	and a
 	jr z, UnknownRJump_0x0D82
-	ld a, [$FF00+$99]
+	ldh a, [$FF99]
 	cp $40
 	jr nc, UnknownRJump_0x0D97
 	jr UnknownRJump_0x0D88
 
 UnknownRJump_0x0D82:
-	ld a, [$FF00+$99]
+	ldh a, [$FF99]
 	cp $28
 	jr nc, UnknownRJump_0x0D97
 
 UnknownRJump_0x0D88:
 	ld a, [$A237]
 	ld b, a
-	ld a, [$FF00+$C8]
+	ldh a, [$FFC8]
 	sub b
-	ld [$FF00+$C8], a
-	ld a, [$FF00+$C9]
+	ldh [$FFC8], a
+	ldh a, [$FFC9]
 	sbc 0
-	ld [$FF00+$C9], a
+	ldh [$FFC9], a
 
 UnknownJump_0x0D97:
 UnknownRJump_0x0D97:
 	xor a
 	ld [$A238], a
 	ld [$A237], a
-	ld a, [$FF00+$C0]
+	ldh a, [$FFC0]
 	ld [$A20C], a
 	ret
 
@@ -1680,10 +1680,10 @@ INCBIN "baserom.gb", $0DA4, $0DAF - $0DA4
 
 
 UnknownCall_0x0DAF:
-	ld a, [$FF00+$98]
+	ldh a, [$FF98]
 	bit 0, a
 	jr z, UnknownRJump_0x0DCA
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	cp $B0
 	jr c, UnknownRJump_0x0DCA
 	ld a, [sMarioScreenX]
@@ -1695,21 +1695,21 @@ UnknownCall_0x0DAF:
 	ret
 
 UnknownRJump_0x0DCA:
-	ld a, [$FF00+$97]
+	ldh a, [$FF97]
 	and $01
 	ret nz
 	xor a
 	ld [$A233], a
 	ld a, 1
 	ld b, a
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	add b
-	ld [$FF00+$CA], a
+	ldh [$FFCA], a
 	ld b, a
-	ld a, [$FF00+$CB]
+	ldh a, [$FFCB]
 	adc 0
 	and $0F
-	ld [$FF00+$CB], a
+	ldh [$FFCB], a
 	ld a, [$A223]
 	set 4, a
 	ld [$A223], a
@@ -1719,24 +1719,24 @@ UnknownJump_0x0DED:
 	ld a, [$A20E]
 	bit 0, a
 	jr z, UnknownRJump_0x0E20
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	add 4
-	ld [$FF00+$CA], a
-	ld a, [$FF00+$CB]
+	ldh [$FFCA], a
+	ldh a, [$FFCB]
 	adc 0
 	and $0F
-	ld [$FF00+$CB], a
+	ldh [$FFCB], a
 	ld b, 1
 	call UnknownCall_0x14E3
 	ld a, 16
 	ld [$A223], a
-	ld a, [$FF00+$C2]
+	ldh a, [$FFC2]
 	add 1
-	ld [$FF00+$C2], a
-	ld a, [$FF00+$C3]
+	ldh [$FFC2], a
+	ldh a, [$FFC3]
 	adc 0
-	ld [$FF00+$C3], a
-	ld a, [$FF00+$CA]
+	ldh [$FFC3], a
+	ldh a, [$FFCA]
 	cp $50
 	ret nz
 	jp UnknownJump_0x0EB0
@@ -1744,24 +1744,24 @@ UnknownJump_0x0DED:
 UnknownRJump_0x0E20:
 	bit 1, a
 	jr z, UnknownRJump_0x0E4F
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	sub 4
-	ld [$FF00+$CA], a
-	ld a, [$FF00+$CB]
+	ldh [$FFCA], a
+	ldh a, [$FFCB]
 	sbc 0
 	and $0F
-	ld [$FF00+$CB], a
+	ldh [$FFCB], a
 	ld b, 1
 	call UnknownCall_0x14E3
 	ld a, 32
 	ld [$A223], a
-	ld a, [$FF00+$C2]
+	ldh a, [$FFC2]
 	sub 1
-	ld [$FF00+$C2], a
-	ld a, [$FF00+$C3]
+	ldh [$FFC2], a
+	ldh a, [$FFC3]
 	sbc 0
-	ld [$FF00+$C3], a
-	ld a, [$FF00+$CA]
+	ldh [$FFC3], a
+	ldh a, [$FFCA]
 	cp $B0
 	ret nz
 	jr UnknownRJump_0x0EB0
@@ -1769,24 +1769,24 @@ UnknownRJump_0x0E20:
 UnknownRJump_0x0E4F:
 	bit 2, a
 	jr z, UnknownRJump_0x0E7E
-	ld a, [$FF00+$C8]
+	ldh a, [$FFC8]
 	sub 4
-	ld [$FF00+$C8], a
-	ld a, [$FF00+$C9]
+	ldh [$FFC8], a
+	ldh a, [$FFC9]
 	sbc 0
 	and $0F
-	ld [$FF00+$C9], a
+	ldh [$FFC9], a
 	ld b, 1
 	call UnknownCall_0x14E3
 	ld a, 64
 	ld [$A223], a
-	ld a, [$FF00+$C0]
+	ldh a, [$FFC0]
 	sub 1
-	ld [$FF00+$C0], a
-	ld a, [$FF00+$C1]
+	ldh [$FFC0], a
+	ldh a, [$FFC1]
 	sbc 0
-	ld [$FF00+$C1], a
-	ld a, [$FF00+$C8]
+	ldh [$FFC1], a
+	ldh a, [$FFC8]
 	cp $B8
 	ret nz
 	jr UnknownRJump_0x0EB0
@@ -1794,28 +1794,28 @@ UnknownRJump_0x0E4F:
 UnknownRJump_0x0E7E:
 	bit 3, a
 	ret z
-	ld a, [$FF00+$C8]
+	ldh a, [$FFC8]
 	add 4
-	ld [$FF00+$C8], a
-	ld a, [$FF00+$C9]
+	ldh [$FFC8], a
+	ldh a, [$FFC9]
 	adc 0
 	and $0F
-	ld [$FF00+$C9], a
+	ldh [$FFC9], a
 	ld b, 1
 	call UnknownCall_0x14E3
 	ld a, 128
 	ld [$A223], a
-	ld a, [$FF00+$97]
+	ldh a, [$FF97]
 	and $01
 	add 1
 	ld b, a
-	ld a, [$FF00+$C0]
+	ldh a, [$FFC0]
 	add b
-	ld [$FF00+$C0], a
-	ld a, [$FF00+$C1]
+	ldh [$FFC0], a
+	ldh a, [$FFC1]
 	adc 0
-	ld [$FF00+$C1], a
-	ld a, [$FF00+$C8]
+	ldh [$FFC1], a
+	ldh a, [$FFC8]
 	cp $48
 	ret nz
 
@@ -1831,7 +1831,7 @@ UnknownRJump_0x0EB0:
 	call DisableVBlank
 	call UnknownCall_0x3C94
 	ld a, 195
-	ld [$FF00+$40], a
+	ldh [$FF40], a
 	ld a, 32
 	ld [$A468], a
 	ld [$A292], a
@@ -1865,16 +1865,16 @@ UnknownRJump_0x0EF3:
 UnknownCall_0x0F0B:
 	ld a, 255
 	ld [$A29E], a
-	ld a, [$FF00+$C1]
+	ldh a, [$FFC1]
 	swap a
 	ld e, a
-	ld a, [$FF00+$C3]
+	ldh a, [$FFC3]
 	and $0F
 	add e
 	ld e, a
 	ld d, 0
 	ld hl, $A900
-	add de
+	add hl, de
 	ld a, [hl]
 	ld [$A28E], a
 	xor a
@@ -1883,14 +1883,14 @@ UnknownCall_0x0F0B:
 
 UnknownCall_0x0F2A:
 	ld a, [$A802]
-	ld [$FF00+$C2], a
+	ldh [$FFC2], a
 	ld a, [$A800]
-	ld [$FF00+$C0], a
+	ldh [$FFC0], a
 	ld [$A20C], a
 	ld a, [$A803]
-	ld [$FF00+$C3], a
+	ldh [$FFC3], a
 	ld a, [$A801]
-	ld [$FF00+$C1], a
+	ldh [$FFC1], a
 	ld a, 128
 	ld [sHVelocityIndex], a
 	ld a, 24
@@ -1944,9 +1944,9 @@ UnknownRJump_0x0FBB:
 	ret
 
 UnknownCall_0x0FBF:
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	ld b, a
-	ld a, [$FF00+$C2]
+	ldh a, [$FFC2]
 	sub b
 	add 96
 	ld b, a
@@ -1961,23 +1961,23 @@ UnknownRJump_0x0FD1:
 	xor $FF
 	inc a
 	ld b, a
-	ld a, [$FF00+$C2]
+	ldh a, [$FFC2]
 	add b
-	ld [$FF00+$C2], a
-	ld a, [$FF00+$C3]
+	ldh [$FFC2], a
+	ldh a, [$FFC3]
 	adc 0
-	ld [$FF00+$C3], a
+	ldh [$FFC3], a
 	ret
 
 UnknownRJump_0x0FE3:
 	sub 160
 	ld b, a
-	ld a, [$FF00+$C2]
+	ldh a, [$FFC2]
 	sub b
-	ld [$FF00+$C2], a
-	ld a, [$FF00+$C3]
+	ldh [$FFC2], a
+	ldh a, [$FFC3]
 	sbc 0
-	ld [$FF00+$C3], a
+	ldh [$FFC3], a
 	ret
 
 UnknownCall_0x0FF2:
@@ -1996,10 +1996,10 @@ UnknownCall_0x0FF2:
 	ld a, [sMarioOnGround]
 	and a
 	ret nz
-	ld a, [hKeysHeld]
+	ldh a, [hKeysHeld]
 	bit 0, a
 	ret z
-	ld a, [hKeysPressed]
+	ldh a, [hKeysPressed]
 	bit 0, a
 	jr z, UnknownRJump_0x101D
 	ld a, 18
@@ -2017,7 +2017,7 @@ UnknownRJump_0x1029:
 	ld a, [sMarioOnGround]
 	and a
 	jr nz, UnknownRJump_0x104A
-	ld a, [hKeysHeld]
+	ldh a, [hKeysHeld]
 	bit 0, a
 	jr z, UnknownRJump_0x1050
 	ld a, [$A2B2]
@@ -2043,7 +2043,7 @@ UnknownRJump_0x1050:
 	ret
 
 UnknownRJump_0x1055:
-	ld a, [hKeysPressed]
+	ldh a, [hKeysPressed]
 	bit 0, a
 	ret z
 	ld a, 52
@@ -2061,10 +2061,10 @@ UnknownRJump_0x106F:
 	ld a, [sMarioOnGround]
 	and a
 	ret nz
-	ld a, [hKeysHeld]
+	ldh a, [hKeysHeld]
 	bit 0, a
 	ret z
-	ld a, [hKeysPressed]
+	ldh a, [hKeysPressed]
 	bit 0, a
 	jr z, UnknownRJump_0x1084
 	ld a, 18
@@ -2094,7 +2094,7 @@ UnknownCall_0x1090:
 	ld a, [sVVelocityIndex]
 	cp $48
 	jr nc, UnknownRJump_0x10EB
-	ld a, [hKeysPressed]
+	ldh a, [hKeysPressed]
 	bit 0, a
 	jr nz, UnknownRJump_0x10D7
 	ld a, [$A284]
@@ -2103,7 +2103,7 @@ UnknownCall_0x1090:
 	ld a, [sMarioOnGround]
 	and a
 	jr nz, UnknownRJump_0x10EB
-	ld a, [hKeysHeld]
+	ldh a, [hKeysHeld]
 	bit 0, a
 	jr z, UnknownRJump_0x10EB
 	ld a, [$A27C]
@@ -2134,12 +2134,12 @@ UnknownCall_0x10EC:
 	ld a, [sPipeTravelDirection]
 	cp $10
 	jr nz, UnknownRJump_0x1111
-	ld a, [$FF00+$C0]
+	ldh a, [$FFC0]
 	add 2
-	ld [$FF00+$C0], a
-	ld a, [$FF00+$C1]
+	ldh [$FFC0], a
+	ldh a, [$FFC1]
 	adc 0
-	ld [$FF00+$C1], a
+	ldh [$FFC1], a
 	ld a, 1
 	ld [$A237], a
 	call UnknownCall_0x1DFE
@@ -2154,12 +2154,12 @@ UnknownRJump_0x1111:
 	ld a, [sPipeTravelDirection]
 	cp $20
 	jr nz, UnknownRJump_0x1136
-	ld a, [$FF00+$C0]
+	ldh a, [$FFC0]
 	sub 2
-	ld [$FF00+$C0], a
-	ld a, [$FF00+$C1]
+	ldh [$FFC0], a
+	ldh a, [$FFC1]
 	sbc 0
-	ld [$FF00+$C1], a
+	ldh [$FFC1], a
 	ld a, 1
 	ld [$A237], a
 	call UnknownCall_0x1DFE
@@ -2174,12 +2174,12 @@ UnknownRJump_0x1136:
 	ld a, [sPipeTravelDirection]
 	cp $30
 	jr nz, UnknownRJump_0x1160
-	ld a, [$FF00+$C2]
+	ldh a, [$FFC2]
 	add 2
-	ld [$FF00+$C2], a
-	ld a, [$FF00+$C3]
+	ldh [$FFC2], a
+	ldh a, [$FFC3]
 	adc 0
-	ld [$FF00+$C3], a
+	ldh [$FFC3], a
 	ld a, 1
 	ld [$A235], a
 	ld b, 1
@@ -2196,12 +2196,12 @@ UnknownRJump_0x1160:
 	ld a, [sPipeTravelDirection]
 	cp $40
 	ret nz
-	ld a, [$FF00+$C2]
+	ldh a, [$FFC2]
 	sub 2
-	ld [$FF00+$C2], a
-	ld a, [$FF00+$C3]
+	ldh [$FFC2], a
+	ldh a, [$FFC3]
 	sbc 0
-	ld [$FF00+$C3], a
+	ldh [$FFC3], a
 	ld a, 1
 	ld [$A236], a
 	ld b, 1
@@ -2220,10 +2220,10 @@ UnknownCall_0x1189:
 	ret z
 	cp $01
 	jr nz, UnknownRJump_0x11C0
-	ld a, [hKeysHeld]
+	ldh a, [hKeysHeld]
 	bit 7, a
 	ret z
-	ld a, [$FF00+$C2]
+	ldh a, [$FFC2]
 	bit 4, a
 	ret z
 	and $0F
@@ -2246,10 +2246,10 @@ UnknownCall_0x1189:
 UnknownRJump_0x11C0:
 	cp $02
 	jr nz, UnknownRJump_0x11FE
-	ld a, [hKeysHeld]
+	ldh a, [hKeysHeld]
 	bit 6, a
 	ret z
-	ld a, [$FF00+$C2]
+	ldh a, [$FFC2]
 	bit 4, a
 	ret z
 	and $0F
@@ -2258,12 +2258,12 @@ UnknownRJump_0x11C0:
 	ret nc
 	ld a, 32
 	ld [sPipeTravelDirection], a
-	ld a, [$FF00+$C0]
+	ldh a, [$FFC0]
 	sub 2
-	ld [$FF00+$C0], a
-	ld a, [$FF00+$C1]
+	ldh [$FFC0], a
+	ldh a, [$FFC1]
 	sbc 0
-	ld [$FF00+$C1], a
+	ldh [$FFC1], a
 	ld a, 5
 	ld [$A460], a
 	xor a
@@ -2281,7 +2281,7 @@ UnknownRJump_0x11FE:
 	ld a, [sAutoScroll]
 	and a
 	jr z, UnknownRJump_0x120E
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	cp $B0
 	jr c, UnknownRJump_0x1244
 
@@ -2289,7 +2289,7 @@ UnknownRJump_0x120E:
 	ld a, [$A28A]
 	cp $01
 	jr z, UnknownRJump_0x1225
-	ld a, [hKeysHeld]
+	ldh a, [hKeysHeld]
 	bit 4, a
 	jr z, UnknownRJump_0x1244
 	ld a, [sMarioOnGround]
@@ -2319,7 +2319,7 @@ UnknownRJump_0x1244:
 	ld a, [$A28A]
 	cp $FF
 	jr z, UnknownRJump_0x1255
-	ld a, [hKeysHeld]
+	ldh a, [hKeysHeld]
 	bit 5, a
 	ret z
 	ld a, [sMarioOnGround]
@@ -2340,7 +2340,7 @@ UnknownRJump_0x1255:
 	ret
 
 UnknownCall_0x126F:
-	ld a, [hKeysHeld]
+	ldh a, [hKeysHeld]
 	bit 7, a
 	jr z, UnknownRJump_0x129A
 	ld a, [sCurPowerup]
@@ -2401,15 +2401,15 @@ UnknownRJump_0x12CE:
 	ld a, [$A20D]
 	cp $05
 	jr z, UnknownRJump_0x1302
-	ld a, [$FF00+$97]
+	ldh a, [$FF97]
 	bit 0, a
 	jr z, UnknownRJump_0x1327
-	ld a, [$FF00+$C2]
+	ldh a, [$FFC2]
 	add 1
-	ld [$FF00+$C2], a
-	ld a, [$FF00+$C3]
+	ldh [$FFC2], a
+	ldh a, [$FFC3]
 	adc 0
-	ld [$FF00+$C3], a
+	ldh [$FFC3], a
 	ld a, 1
 	ld [$A28A], a
 	ld a, [sHVelocityIndex]
@@ -2421,15 +2421,15 @@ UnknownRJump_0x12CE:
 	jr UnknownRJump_0x1327
 
 UnknownRJump_0x1302:
-	ld a, [$FF00+$97]
+	ldh a, [$FF97]
 	bit 0, a
 	jr z, UnknownRJump_0x1327
-	ld a, [$FF00+$C2]
+	ldh a, [$FFC2]
 	sub 1
-	ld [$FF00+$C2], a
-	ld a, [$FF00+$C3]
+	ldh [$FFC2], a
+	ldh a, [$FFC3]
 	sbc 0
-	ld [$FF00+$C3], a
+	ldh [$FFC3], a
 	ld a, 255
 	ld [$A28A], a
 	ld a, [sHVelocityIndex]
@@ -2451,7 +2451,7 @@ UnknownRJump_0x1327:
 	ld [sMarioInAir], a
 	ld a, 48
 	ld [sVVelocityIndex], a
-	ld a, [hKeysHeld]
+	ldh a, [hKeysHeld]
 	bit 0, a
 	ret z
 	ld a, 75
@@ -2475,14 +2475,14 @@ UnknownRJump_0x134F:
 UnknownRJump_0x1366:
 	ld a, [$A283]
 	ld b, a
-	ld a, [$FF00+$C0]
+	ldh a, [$FFC0]
 	sub 4
 	and $0F
 	cp b
 	ret z
-	ld a, [$FF00+$C0]
+	ldh a, [$FFC0]
 	dec a
-	ld [$FF00+$C0], a
+	ldh [$FFC0], a
 	ret
 
 UnknownJump_0x1378:
@@ -2533,12 +2533,12 @@ INCBIN "baserom.gb", $1446, $144B - $1446
 
 
 UnknownRJump_0x144B:
-	ld a, [$FF00+$C2]
+	ldh a, [$FFC2]
 	add 1
-	ld [$FF00+$C2], a
-	ld a, [$FF00+$C3]
+	ldh [$FFC2], a
+	ldh a, [$FFC3]
 	adc 0
-	ld [$FF00+$C3], a
+	ldh [$FFC3], a
 	ld a, [$A202]
 	inc a
 	ld [$A202], a
@@ -2571,12 +2571,12 @@ INCBIN "baserom.gb", $1488, $148D - $1488
 
 
 UnknownRJump_0x148D:
-	ld a, [$FF00+$C2]
+	ldh a, [$FFC2]
 	sub 1
-	ld [$FF00+$C2], a
-	ld a, [$FF00+$C3]
+	ldh [$FFC2], a
+	ldh a, [$FFC3]
 	sbc 0
-	ld [$FF00+$C3], a
+	ldh [$FFC3], a
 	ld a, [$A202]
 	dec a
 	ld [$A202], a
@@ -2590,7 +2590,7 @@ UnknownCall_0x14A6:
 	ld a, [$A24F]
 	and a
 	ret nz
-	ld a, [hKeysHeld]
+	ldh a, [hKeysHeld]
 	bit 7, a
 	ret z
 	ld a, [sMarioOnGround]
@@ -2620,7 +2620,7 @@ UnknownCall_0x14D5:
 	ld a, [sMoonPhysics]
 	and a
 	jr nz, UnknownRJump_0x14E9
-	ld a, [hKeysHeld]
+	ldh a, [hKeysHeld]
 	and $02
 	srl a
 	inc a
@@ -2659,9 +2659,9 @@ UnknownRJump_0x150C:
 	ld a, [sMarioOnGround]
 	and a
 	ret nz
-	ld a, [$FF00+$C0]
+	ldh a, [$FFC0]
 	ld [sMarioY], a
-	ld a, [$FF00+$C1]
+	ldh a, [$FFC1]
 	ld [sMarioYU], a
 	ld a, [sVVelocityIndex]
 	cp $21
@@ -2669,7 +2669,7 @@ UnknownRJump_0x150C:
 	ld a, [$A2DE]
 	and a
 	jr nz, UnknownRJump_0x1533
-	ld a, [hKeysHeld]
+	ldh a, [hKeysHeld]
 	bit 0, a
 	jr nz, UnknownRJump_0x1533
 	ld a, 33
@@ -2716,22 +2716,22 @@ UnknownRJump_0x1580:
 	ld a, [sVVelocityIndex]
 	ld e, a
 	ld d, 0
-	add de
+	add hl, de
 	ld a, [hl]
 	add 16
 	ld b, a
-	ld a, [$FF00+$C0]
+	ldh a, [$FFC0]
 	add b
-	ld [$FF00+$C0], a
-	ld a, [$FF00+$C1]
+	ldh [$FFC0], a
+	ldh a, [$FFC1]
 	adc 0
-	ld [$FF00+$C1], a
-	ld a, [$FF00+$C0]
+	ldh [$FFC1], a
+	ldh a, [$FFC0]
 	sub 16
-	ld [$FF00+$C0], a
-	ld a, [$FF00+$C1]
+	ldh [$FFC0], a
+	ldh a, [$FFC1]
 	sbc 0
-	ld [$FF00+$C1], a
+	ldh [$FFC1], a
 	ld a, [sVVelocityIndex]
 	cp $19
 	jr nc, UnknownRJump_0x15B6
@@ -2748,22 +2748,22 @@ UnknownRJump_0x15B6:
 	jr c, UnknownRJump_0x15CF
 
 UnknownRJump_0x15BB:
-	ld a, [$FF00+$C1]
+	ldh a, [$FFC1]
 	cp $FF
 	jr nz, UnknownRJump_0x1609
-	ld a, [$FF00+$C0]
+	ldh a, [$FFC0]
 	add 1
-	ld [$FF00+$C0], a
-	ld a, [$FF00+$C1]
+	ldh [$FFC0], a
+	ldh a, [$FFC1]
 	adc 0
-	ld [$FF00+$C1], a
+	ldh [$FFC1], a
 	jr UnknownRJump_0x15BB
 
 UnknownRJump_0x15CF:
 	ld a, [sMarioY]
-	ld [$FF00+$C0], a
+	ldh [$FFC0], a
 	ld a, [sMarioYU]
-	ld [$FF00+$C1], a
+	ldh [$FFC1], a
 	xor a
 	ld [$A2B2], a
 	ld a, 24
@@ -2811,13 +2811,13 @@ UnknownRJump_0x1622:
 	ld a, [sCurPowerup]
 	cp $02
 	jr nz, UnknownRJump_0x1631
-	ld a, [hKeysHeld]
+	ldh a, [hKeysHeld]
 	bit 0, a
 	jr z, UnknownRJump_0x16AE
 	jr UnknownRJump_0x1637
 
 UnknownRJump_0x1631:
-	ld a, [hKeysPressed]
+	ldh a, [hKeysPressed]
 	bit 0, a
 	jr z, UnknownRJump_0x16AE
 
@@ -2851,7 +2851,7 @@ UnknownRJump_0x1664:
 	ld a, [sCurPowerup]
 	cp $02
 	jr z, UnknownRJump_0x1675
-	ld a, [hKeysHeld]
+	ldh a, [hKeysHeld]
 	bit 7, a
 	jr z, UnknownRJump_0x1675
 	xor a
@@ -2873,7 +2873,7 @@ UnknownRJump_0x1675:
 	jr c, UnknownRJump_0x16AE
 	cp $C0
 	jr nc, UnknownRJump_0x16AE
-	ld a, [hKeysHeld]
+	ldh a, [hKeysHeld]
 	bit 6, a
 	jr nz, UnknownRJump_0x16AE
 	ld a, 48
@@ -2938,7 +2938,7 @@ UnknownCall_0x1701:
 	ld a, [$A218]
 	and a
 	jp nz, UnknownJump_0x17C4
-	ld a, [hKeysHeld]
+	ldh a, [hKeysHeld]
 	bit 4, a
 	jr z, UnknownRJump_0x1771
 	ld a, 1
@@ -2963,7 +2963,7 @@ UnknownRJump_0x1749:
 	ld a, [sMoonPhysics]
 	and a
 	jr nz, UnknownRJump_0x1755
-	ld a, [hKeysHeld]
+	ldh a, [hKeysHeld]
 	bit 1, a
 	jr nz, UnknownRJump_0x1763
 
@@ -2984,7 +2984,7 @@ UnknownRJump_0x1763:
 	jr UnknownRJump_0x17C4
 
 UnknownRJump_0x1771:
-	ld a, [hKeysHeld]
+	ldh a, [hKeysHeld]
 	bit 5, a
 	jr z, UnknownRJump_0x17C4
 	ld a, 255
@@ -3009,7 +3009,7 @@ UnknownRJump_0x179E:
 	ld a, [sMoonPhysics]
 	and a
 	jr nz, UnknownRJump_0x17AA
-	ld a, [hKeysHeld]
+	ldh a, [hKeysHeld]
 	bit 1, a
 	jr nz, UnknownRJump_0x17B8
 
@@ -3049,9 +3049,9 @@ INCBIN "baserom.gb", $17DA, $181C - $17DA
 
 
 UnknownCall_0x181C:
-	ld a, [$FF00+$C2]
+	ldh a, [$FFC2]
 	ld [sMarioX], a
-	ld a, [$FF00+$C3]
+	ldh a, [$FFC3]
 	ld [sMarioXU], a
 	ld a, [$A24F]
 	and a
@@ -3073,12 +3073,12 @@ UnknownRJump_0x1842:
 UnknownRJump_0x1845:
 	ld a, [sHVelocityIndex]
 	ld e, a
-	ld a, [$FF00+$97]
+	ldh a, [$FF97]
 	and $07
 	add e
 	ld e, a
 	ld d, 0
-	add de
+	add hl, de
 	ld a, [hl]
 	ld b, a
 	ld a, [$A202]
@@ -3087,18 +3087,18 @@ UnknownRJump_0x1845:
 	ld [$A202], a
 	add 16
 	ld b, a
-	ld a, [$FF00+$C2]
+	ldh a, [$FFC2]
 	add b
-	ld [$FF00+$C2], a
-	ld a, [$FF00+$C3]
+	ldh [$FFC2], a
+	ldh a, [$FFC3]
 	adc 0
-	ld [$FF00+$C3], a
-	ld a, [$FF00+$C2]
+	ldh [$FFC3], a
+	ldh a, [$FFC2]
 	sub 16
-	ld [$FF00+$C2], a
-	ld a, [$FF00+$C3]
+	ldh [$FFC2], a
+	ldh a, [$FFC3]
 	sbc 0
-	ld [$FF00+$C3], a
+	ldh [$FFC3], a
 	ld a, [$A202]
 	bit 7, a
 	jr nz, UnknownRJump_0x1886
@@ -3112,9 +3112,9 @@ UnknownRJump_0x1886:
 
 UnknownRJump_0x188B:
 	ld a, [sMarioX]
-	ld [$FF00+$C2], a
+	ldh [$FFC2], a
 	ld a, [sMarioXU]
-	ld [$FF00+$C3], a
+	ldh [$FFC3], a
 	ld a, [$A219]
 	ld [$A202], a
 	ld a, 128
@@ -3257,36 +3257,36 @@ UnknownCall_0x1BFF:
 	ld [$A27B], a
 	xor a
 	ld [$A26D], a
-	ld a, [$FF00+$C2]
+	ldh a, [$FFC2]
 	add 16
-	ld [$FF00+$B9], a
-	ld a, [$FF00+$C3]
+	ldh [$FFB9], a
+	ldh a, [$FFC3]
 	adc 0
-	ld [$FF00+$BA], a
+	ldh [$FFBA], a
 	ld a, [sCurPowerup]
 	and a
 	jr z, UnknownRJump_0x1C39
 	ld a, [$A291]
 	and a
 	jr nz, UnknownRJump_0x1C39
-	ld a, [$FF00+$C0]
+	ldh a, [$FFC0]
 	add 22
-	ld [$FF00+$B7], a
-	ld a, [$FF00+$C1]
+	ldh [$FFB7], a
+	ldh a, [$FFC1]
 	adc 0
-	ld [$FF00+$B8], a
+	ldh [$FFB8], a
 	call UnknownCall_0x1EFA
 	and $FE
 	cp $50
 	jr z, UnknownRJump_0x1C4E
 
 UnknownRJump_0x1C39:
-	ld a, [$FF00+$C0]
+	ldh a, [$FFC0]
 	add 28
-	ld [$FF00+$B7], a
-	ld a, [$FF00+$C1]
+	ldh [$FFB7], a
+	ldh a, [$FFC1]
 	adc 0
-	ld [$FF00+$B8], a
+	ldh [$FFB8], a
 	call UnknownCall_0x1EFA
 	and $FE
 	cp $50
@@ -3371,7 +3371,7 @@ UnknownRJump_0x1CD7:
 	ld [$A478], a
 	ld [$A470], a
 	ld a, 24
-	ld [$FF00+$9B], a
+	ldh [$FF9B], a
 	ld a, 192
 	ld [$A266], a
 	xor a
@@ -3424,7 +3424,7 @@ UnknownRJump_0x1D48:
 	ld a, [sMoonPhysics]
 	bit 1, a
 	jr nz, UnknownRJump_0x1D71
-	ld a, [hKeysHeld]
+	ldh a, [hKeysHeld]
 	bit 6, a
 	jr nz, UnknownRJump_0x1D64
 	ld a, 70
@@ -3487,18 +3487,18 @@ UnknownCall_0x1DA5:
 	ld de, $001F
 
 UnknownRJump_0x1DC1:
-	ld a, [$FF00+$41]
+	ldh a, [$FF41]
 	and $03
 	jr nz, UnknownRJump_0x1DC1
 
 UnknownRJump_0x1DC7:
-	ld a, [$FF00+$41]
+	ldh a, [$FF41]
 	and $03
 	jr nz, UnknownRJump_0x1DC7
 	ld a, 255
 	ld [hli], a
 	ld [hl], a
-	add de
+	add hl, de
 	ld [hli], a
 	ld [hl], a
 	ret
@@ -3515,18 +3515,18 @@ UnknownRJump_0x1DD5:
 	ld de, $001F
 
 UnknownRJump_0x1DEA:
-	ld a, [$FF00+$41]
+	ldh a, [$FF41]
 	and $03
 	jr nz, UnknownRJump_0x1DEA
 
 UnknownRJump_0x1DF0:
-	ld a, [$FF00+$41]
+	ldh a, [$FF41]
 	and $03
 	jr nz, UnknownRJump_0x1DF0
 	ld a, 127
 	ld [hli], a
 	ld [hl], a
-	add de
+	add hl, de
 	ld [hli], a
 	ld [hl], a
 	ret
@@ -3535,12 +3535,12 @@ UnknownCall_0x1DFE:
 	push hl
 	push de
 	push bc
-	ld a, [$FF00+$C2]
+	ldh a, [$FFC2]
 	add 16
-	ld [$FF00+$B9], a
-	ld a, [$FF00+$C3]
+	ldh [$FFB9], a
+	ldh a, [$FFC3]
 	adc 0
-	ld [$FF00+$BA], a
+	ldh [$FFBA], a
 	ld a, [sCurPowerup]
 	and a
 	jr nz, UnknownRJump_0x1E17
@@ -3551,12 +3551,12 @@ UnknownRJump_0x1E17:
 	ld b, 18
 
 UnknownRJump_0x1E19:
-	ld a, [$FF00+$C0]
+	ldh a, [$FFC0]
 	add b
-	ld [$FF00+$B7], a
-	ld a, [$FF00+$C1]
+	ldh [$FFB7], a
+	ldh a, [$FFC1]
 	adc 0
-	ld [$FF00+$B8], a
+	ldh [$FFB8], a
 	call UnknownCall_0x1EFA
 	cp $7E
 	jr z, UnknownRJump_0x1E31
@@ -3583,34 +3583,34 @@ UnknownCall_0x1E3B:
 	push hl
 	push de
 	push bc
-	ld a, [$FF00+$C0]
+	ldh a, [$FFC0]
 	sub 4
 	and $0F
 	cp $05
 	jr nc, UnknownRJump_0x1E78
 
 UnknownRJump_0x1E48:
-	ld a, [$FF00+$C0]
+	ldh a, [$FFC0]
 	add 44
-	ld [$FF00+$B7], a
-	ld a, [$FF00+$C1]
+	ldh [$FFB7], a
+	ldh a, [$FFC1]
 	adc 0
-	ld [$FF00+$B8], a
-	ld a, [$FF00+$C2]
+	ldh [$FFB8], a
+	ldh a, [$FFC2]
 	add 12
-	ld [$FF00+$B9], a
-	ld a, [$FF00+$C3]
+	ldh [$FFB9], a
+	ldh a, [$FFC3]
 	adc 0
-	ld [$FF00+$BA], a
+	ldh [$FFBA], a
 	call UnknownCall_0x1EFA
 	cp $48
 	jr c, UnknownRJump_0x1E78
-	ld a, [$FF00+$C2]
+	ldh a, [$FFC2]
 	add 20
-	ld [$FF00+$B9], a
-	ld a, [$FF00+$C3]
+	ldh [$FFB9], a
+	ldh a, [$FFC3]
 	adc 0
-	ld [$FF00+$BA], a
+	ldh [$FFBA], a
 	call UnknownCall_0x1EFA
 	cp $48
 
@@ -3624,24 +3624,24 @@ UnknownCall_0x1E7C:
 	push hl
 	push de
 	push bc
-	ld a, [$FF00+$C2]
+	ldh a, [$FFC2]
 	add 11
-	ld [$FF00+$B9], a
-	ld a, [$FF00+$C3]
+	ldh [$FFB9], a
+	ldh a, [$FFC3]
 	adc 0
-	ld [$FF00+$BA], a
+	ldh [$FFBA], a
 	jr UnknownRJump_0x1E9C
 
 UnknownCall_0x1E8D:
 	push hl
 	push de
 	push bc
-	ld a, [$FF00+$C2]
+	ldh a, [$FFC2]
 	add 20
-	ld [$FF00+$B9], a
-	ld a, [$FF00+$C3]
+	ldh [$FFB9], a
+	ldh a, [$FFC3]
 	adc 0
-	ld [$FF00+$BA], a
+	ldh [$FFBA], a
 
 UnknownRJump_0x1E9C:
 	ld a, [sCurPowerup]
@@ -3650,34 +3650,34 @@ UnknownRJump_0x1E9C:
 	ld a, [$A291]
 	and a
 	jr nz, UnknownRJump_0x1EBE
-	ld a, [$FF00+$C0]
+	ldh a, [$FFC0]
 	add 20
-	ld [$FF00+$B7], a
-	ld a, [$FF00+$C1]
+	ldh [$FFB7], a
+	ldh a, [$FFC1]
 	adc 0
-	ld [$FF00+$B8], a
+	ldh [$FFB8], a
 	call UnknownCall_0x1EFA
 	cp $38
 	jr c, UnknownRJump_0x1EF0
 	call UnknownCall_0x1D75
 
 UnknownRJump_0x1EBE:
-	ld a, [$FF00+$C0]
+	ldh a, [$FFC0]
 	add 32
-	ld [$FF00+$B7], a
-	ld a, [$FF00+$C1]
+	ldh [$FFB7], a
+	ldh a, [$FFC1]
 	adc 0
-	ld [$FF00+$B8], a
+	ldh [$FFB8], a
 	call UnknownCall_0x1EFA
 	cp $38
 	jr c, UnknownRJump_0x1EF0
 	call UnknownCall_0x1D75
-	ld a, [$FF00+$C0]
+	ldh a, [$FFC0]
 	add 40
-	ld [$FF00+$B7], a
-	ld a, [$FF00+$C1]
+	ldh [$FFB7], a
+	ldh a, [$FFC1]
 	adc 0
-	ld [$FF00+$B8], a
+	ldh [$FFB8], a
 	call UnknownCall_0x1EFA
 	cp $38
 	jr c, UnknownRJump_0x1EF0
@@ -3701,10 +3701,10 @@ INCBIN "baserom.gb", $1EF5, $1EFA - $1EF5
 
 
 UnknownCall_0x1EFA:
-	ld a, [$FF00+$B7]
+	ldh a, [$FFB7]
 	sub 16
 	ld c, a
-	ld a, [$FF00+$B8]
+	ldh a, [$FFB8]
 	sbc 0
 	ld b, a
 	ld a, b
@@ -3717,10 +3717,10 @@ UnknownCall_0x1EFA:
 	or h
 	add 176
 	ld h, a
-	ld a, [$FF00+$B9]
+	ldh a, [$FFB9]
 	sub 8
 	ld c, a
-	ld a, [$FF00+$BA]
+	ldh a, [$FFBA]
 	sbc 0
 	ld b, a
 	ld a, b
@@ -3737,21 +3737,21 @@ UnknownCall_0x1EFA:
 	ret
 
 UnknownCall_0x1F2F:
-	ld a, [$FF00+$B8]
+	ldh a, [$FFB8]
 	and $0F
 	swap a
 	ld h, a
-	ld a, [$FF00+$B7]
+	ldh a, [$FFB7]
 	and $F0
 	swap a
 	or h
 	add 176
 	ld h, a
-	ld a, [$FF00+$BA]
+	ldh a, [$FFBA]
 	and $0F
 	swap a
 	ld l, a
-	ld a, [$FF00+$B9]
+	ldh a, [$FFB9]
 	and $F0
 	swap a
 	or l
@@ -3782,52 +3782,52 @@ INCBIN "baserom.gb", $1FB1, $1FD2 - $1FB1
 
 
 ReadJoypad: ;$1FD2
-	ld a, [hKeysHeld]
+	ldh a, [hKeysHeld]
 	ld [$A2D0], a
 	ld a, 32
-	ld [$FF00+$00], a
-	ld a, [$FF00+$00]
-	ld a, [$FF00+$00]
+	ldh [$FF00], a
+	ldh a, [$FF00]
+	ldh a, [$FF00]
 	cpl
 	and $0F
 	swap a
 	ld b, a
 	ld a, 16
-	ld [$FF00+$00], a
-	ld a, [$FF00+$00]
-	ld a, [$FF00+$00]
-	ld a, [$FF00+$00]
-	ld a, [$FF00+$00]
-	ld a, [$FF00+$00]
-	ld a, [$FF00+$00]
-	ld a, [$FF00+$00]
-	ld a, [$FF00+$00]
+	ldh [$FF00], a
+	ldh a, [$FF00]
+	ldh a, [$FF00]
+	ldh a, [$FF00]
+	ldh a, [$FF00]
+	ldh a, [$FF00]
+	ldh a, [$FF00]
+	ldh a, [$FF00]
+	ldh a, [$FF00]
 	cpl
 	and $0F
 	or b
 	ld c, a
-	ld a, [hKeysHeld]
+	ldh a, [hKeysHeld]
 	xor c
 	and c
-	ld [hKeysPressed], a
+	ldh [hKeysPressed], a
 	ld a, c
-	ld [hKeysHeld], a
+	ldh [hKeysHeld], a
 	ld a, 48
-	ld [$FF00+$00], a
+	ldh [$FF00], a
 	ret
 
 UnknownCall_0x200C:
-	ld a, [$FF00+$B7]
+	ldh a, [$FFB7]
 	sub 16
 	ld b, 8
 	ld de, $0020
 	ld hl, $97E0
 
 UnknownRJump_0x2018:
-	add de
+	add hl, de
 	sub b
 	jr nc, UnknownRJump_0x2018
-	ld a, [$FF00+$B9]
+	ldh a, [$FFB9]
 	sub b
 	srl a
 	srl a
@@ -3852,11 +3852,11 @@ UnknownCall_0x2062:
 	ld b, a
 
 UnknownRJump_0x206D:
-	ld a, [$FF00+$C8]
+	ldh a, [$FFC8]
 	sub 72
 	sub b
 	ld [sScrollY], a
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	sub 80
 	ld [sScrollX], a
 	ret
@@ -3888,7 +3888,7 @@ UnknownCall_0x20A4:
 	or b
 	jp z, UnknownJump_0x21EE
 	ld a, [$A264]
-	ld [$FF00+$8D], a
+	ldh [$FF8D], a
 	call UnknownCall_0x2CFF
 	call UnknownCall_0x2728
 	call $FFA0
@@ -3901,7 +3901,7 @@ UnknownCall_0x20A4:
 	sla e
 	rl d
 	ld hl, $4125
-	add de
+	add hl, de
 	ld a, [hli]
 	ld e, a
 	ld a, [hl]
@@ -3954,9 +3954,9 @@ UnknownRJump_0x211E:
 	jr nz, UnknownRJump_0x2131
 	inc hl
 	ld a, [hli]
-	ld [$FF00+$C8], a
+	ldh [$FFC8], a
 	ld a, [hli]
-	ld [$FF00+$C0], a
+	ldh [$FFC0], a
 	jp UnknownJump_0x21E8
 
 UnknownRJump_0x2131:
@@ -3984,7 +3984,7 @@ UnknownRJump_0x216C:
 	xor a
 	ld [$A288], a
 	ld a, 136
-	ld [$FF00+$4A], a
+	ldh [$FF4A], a
 	call UnknownCall_0x2202
 	jp UnknownJump_0x21E8
 
@@ -4043,17 +4043,17 @@ UnknownCall_0x2202:
 	ld [$A24E], a
 	ld [$A265], a
 	ld a, [hli]
-	ld [$FF00+$B1], a
+	ldh [$FFB1], a
 	ld a, [hli]
-	ld [$FF00+$B2], a
+	ldh [$FFB2], a
 	ld a, 0
-	ld [$FF00+$B3], a
+	ldh [$FFB3], a
 	ld a, 139
-	ld [$FF00+$B4], a
+	ldh [$FFB4], a
 	ld a, 128
-	ld [$FF00+$B5], a
+	ldh [$FFB5], a
 	ld a, 3
-	ld [$FF00+$B6], a
+	ldh [$FFB6], a
 	jp UnknownJump_0x22B9
 
 UnknownRJump_0x222E:
@@ -4095,12 +4095,12 @@ UnknownCall_0x2323:
 	ld a, [hl]
 	swap a
 	and $0F
-	ld [$FF00+$C9], a
-	ld [$FF00+$C1], a
+	ldh [$FFC9], a
+	ldh [$FFC1], a
 	ld a, [hli]
 	and $0F
-	ld [$FF00+$CB], a
-	ld [$FF00+$C3], a
+	ldh [$FFCB], a
+	ldh [$FFC3], a
 	push hl
 	call UnknownCall_0x2728
 	ld a, [$A20E]
@@ -4125,61 +4125,61 @@ UnknownRJump_0x2359:
 	ld [$A24E], a
 	ld [$2100], a
 	ld a, 0
-	ld [$FF00+$AF], a
+	ldh [$FFAF], a
 	ld a, 170
-	ld [$FF00+$B0], a
+	ldh [$FFB0], a
 	ld a, 255
 	ld [$A24C], a
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	add 80
-	ld [$FF00+$CE], a
-	ld a, [$FF00+$CB]
+	ldh [$FFCE], a
+	ldh a, [$FFCB]
 	adc 0
 	and $0F
-	ld [$FF00+$CF], a
-	ld a, [$FF00+$C8]
+	ldh [$FFCF], a
+	ldh a, [$FFC8]
 	sub 116
-	ld [$FF00+$CC], a
-	ld a, [$FF00+$C9]
+	ldh [$FFCC], a
+	ldh a, [$FFC9]
 	sbc 0
 	and $0F
-	ld [$FF00+$CD], a
+	ldh [$FFCD], a
 	call UnknownCall_0x0A35
 	call UnknownCall_0x2728
 	ld a, [sLevelBank] ;prepare bank switch
 	ld [$A24E], a
 	ld [$2100], a
 	ld a, 0
-	ld [$FF00+$AF], a
+	ldh [$FFAF], a
 	ld a, 170
-	ld [$FF00+$B0], a
+	ldh [$FFB0], a
 	ld a, 255
 	ld [$A24C], a
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	add 96
-	ld [$FF00+$CE], a
-	ld a, [$FF00+$CB]
+	ldh [$FFCE], a
+	ldh a, [$FFCB]
 	adc 0
 	and $0F
-	ld [$FF00+$CF], a
+	ldh [$FFCF], a
 	call UnknownCall_0x0A35
 	call UnknownCall_0x2728
 	ld a, [sLevelBank] ;prepare bank switch
 	ld [$A24E], a
 	ld [$2100], a
 	ld a, 0
-	ld [$FF00+$AF], a
+	ldh [$FFAF], a
 	ld a, 170
-	ld [$FF00+$B0], a
+	ldh [$FFB0], a
 	ld a, 255
 	ld [$A24C], a
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	add 112
-	ld [$FF00+$CE], a
-	ld a, [$FF00+$CB]
+	ldh [$FFCE], a
+	ldh a, [$FFCB]
 	adc 0
 	and $0F
-	ld [$FF00+$CF], a
+	ldh [$FFCF], a
 	call UnknownCall_0x0A35
 	pop hl
 	ret
@@ -4189,61 +4189,61 @@ UnknownJump_0x23E4:
 	ld [$A24E], a
 	ld [$2100], a
 	ld a, 0
-	ld [$FF00+$AF], a
+	ldh [$FFAF], a
 	ld a, 170
-	ld [$FF00+$B0], a
+	ldh [$FFB0], a
 	ld a, 255
 	ld [$A24C], a
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	sub 96
-	ld [$FF00+$CE], a
-	ld a, [$FF00+$CB]
+	ldh [$FFCE], a
+	ldh a, [$FFCB]
 	sbc 0
 	and $0F
-	ld [$FF00+$CF], a
-	ld a, [$FF00+$C8]
+	ldh [$FFCF], a
+	ldh a, [$FFC8]
 	sub 116
-	ld [$FF00+$CC], a
-	ld a, [$FF00+$C9]
+	ldh [$FFCC], a
+	ldh a, [$FFC9]
 	sbc 0
 	and $0F
-	ld [$FF00+$CD], a
+	ldh [$FFCD], a
 	call UnknownCall_0x0A35
 	call UnknownCall_0x2728
 	ld a, [sLevelBank] ;prepare bank switch
 	ld [$A24E], a
 	ld [$2100], a
 	ld a, 0
-	ld [$FF00+$AF], a
+	ldh [$FFAF], a
 	ld a, 170
-	ld [$FF00+$B0], a
+	ldh [$FFB0], a
 	ld a, 255
 	ld [$A24C], a
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	sub 112
-	ld [$FF00+$CE], a
-	ld a, [$FF00+$CB]
+	ldh [$FFCE], a
+	ldh a, [$FFCB]
 	sbc 0
 	and $0F
-	ld [$FF00+$CF], a
+	ldh [$FFCF], a
 	call UnknownCall_0x0A35
 	call UnknownCall_0x2728
 	ld a, [sLevelBank] ;prepare bank switch
 	ld [$A24E], a
 	ld [$2100], a
 	ld a, 0
-	ld [$FF00+$AF], a
+	ldh [$FFAF], a
 	ld a, 170
-	ld [$FF00+$B0], a
+	ldh [$FFB0], a
 	ld a, 255
 	ld [$A24C], a
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	sub 128
-	ld [$FF00+$CE], a
-	ld a, [$FF00+$CB]
+	ldh [$FFCE], a
+	ldh a, [$FFCB]
 	sbc 0
 	and $0F
-	ld [$FF00+$CF], a
+	ldh [$FFCF], a
 	call UnknownCall_0x0A35
 	pop hl
 	ret
@@ -4253,79 +4253,79 @@ UnknownJump_0x246F:
 	ld [$A24E], a
 	ld [$2100], a
 	ld a, 0
-	ld [$FF00+$AF], a
+	ldh [$FFAF], a
 	ld a, 170
-	ld [$FF00+$B0], a
+	ldh [$FFB0], a
 	ld a, 255
 	ld [$A24C], a
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	sub 128
-	ld [$FF00+$CE], a
-	ld a, [$FF00+$CB]
+	ldh [$FFCE], a
+	ldh a, [$FFCB]
 	sbc 0
 	and $0F
-	ld [$FF00+$CF], a
-	ld a, [$FF00+$C8]
+	ldh [$FFCF], a
+	ldh a, [$FFC8]
 	add 120
-	ld [$FF00+$CC], a
-	ld a, [$FF00+$C9]
+	ldh [$FFCC], a
+	ldh a, [$FFC9]
 	adc 0
 	and $0F
-	ld [$FF00+$CD], a
+	ldh [$FFCD], a
 	call UnknownCall_0x0969
 	call UnknownCall_0x2728
 	ld a, [sLevelBank] ;prepare bank switch
 	ld [$A24E], a
 	ld [$2100], a
 	ld a, 0
-	ld [$FF00+$AF], a
+	ldh [$FFAF], a
 	ld a, 170
-	ld [$FF00+$B0], a
+	ldh [$FFB0], a
 	ld a, 255
 	ld [$A24C], a
-	ld a, [$FF00+$C8]
+	ldh a, [$FFC8]
 	add 104
-	ld [$FF00+$CC], a
-	ld a, [$FF00+$C9]
+	ldh [$FFCC], a
+	ldh a, [$FFC9]
 	adc 0
 	and $0F
-	ld [$FF00+$CD], a
+	ldh [$FFCD], a
 	call UnknownCall_0x0969
 	call UnknownCall_0x2728
 	ld a, [sLevelBank] ;prepare bank switch
 	ld [$A24E], a
 	ld [$2100], a
 	ld a, 0
-	ld [$FF00+$AF], a
+	ldh [$FFAF], a
 	ld a, 170
-	ld [$FF00+$B0], a
+	ldh [$FFB0], a
 	ld a, 255
 	ld [$A24C], a
-	ld a, [$FF00+$C8]
+	ldh a, [$FFC8]
 	add 88
-	ld [$FF00+$CC], a
-	ld a, [$FF00+$C9]
+	ldh [$FFCC], a
+	ldh a, [$FFC9]
 	adc 0
 	and $0F
-	ld [$FF00+$CD], a
+	ldh [$FFCD], a
 	call UnknownCall_0x0969
 	call UnknownCall_0x2728
 	ld a, [sLevelBank] ;prepare bank switch
 	ld [$A24E], a
 	ld [$2100], a
 	ld a, 0
-	ld [$FF00+$AF], a
+	ldh [$FFAF], a
 	ld a, 170
-	ld [$FF00+$B0], a
+	ldh [$FFB0], a
 	ld a, 255
 	ld [$A24C], a
-	ld a, [$FF00+$C8]
+	ldh a, [$FFC8]
 	add 72
-	ld [$FF00+$CC], a
-	ld a, [$FF00+$C9]
+	ldh [$FFCC], a
+	ldh a, [$FFC9]
 	adc 0
 	and $0F
-	ld [$FF00+$CD], a
+	ldh [$FFCD], a
 	call UnknownCall_0x0969
 	pop hl
 	ret
@@ -4335,61 +4335,61 @@ UnknownJump_0x2524:
 	ld [$A24E], a
 	ld [$2100], a
 	ld a, 0
-	ld [$FF00+$AF], a
+	ldh [$FFAF], a
 	ld a, 170
-	ld [$FF00+$B0], a
+	ldh [$FFB0], a
 	ld a, 255
 	ld [$A24C], a
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	sub 128
-	ld [$FF00+$CE], a
-	ld a, [$FF00+$CB]
+	ldh [$FFCE], a
+	ldh a, [$FFCB]
 	sbc 0
 	and $0F
-	ld [$FF00+$CF], a
-	ld a, [$FF00+$C8]
+	ldh [$FFCF], a
+	ldh a, [$FFC8]
 	sub 120
-	ld [$FF00+$CC], a
-	ld a, [$FF00+$C9]
+	ldh [$FFCC], a
+	ldh a, [$FFC9]
 	sbc 0
 	and $0F
-	ld [$FF00+$CD], a
+	ldh [$FFCD], a
 	call UnknownCall_0x0969
 	call UnknownCall_0x2728
 	ld a, [sLevelBank] ;prepare bank switch
 	ld [$A24E], a
 	ld [$2100], a
 	ld a, 0
-	ld [$FF00+$AF], a
+	ldh [$FFAF], a
 	ld a, 170
-	ld [$FF00+$B0], a
+	ldh [$FFB0], a
 	ld a, 255
 	ld [$A24C], a
-	ld a, [$FF00+$C8]
+	ldh a, [$FFC8]
 	sub 104
-	ld [$FF00+$CC], a
-	ld a, [$FF00+$C9]
+	ldh [$FFCC], a
+	ldh a, [$FFC9]
 	sbc 0
 	and $0F
-	ld [$FF00+$CD], a
+	ldh [$FFCD], a
 	call UnknownCall_0x0969
 	call UnknownCall_0x2728
 	ld a, [sLevelBank] ;prepare bank switch
 	ld [$A24E], a
 	ld [$2100], a
 	ld a, 0
-	ld [$FF00+$AF], a
+	ldh [$FFAF], a
 	ld a, 170
-	ld [$FF00+$B0], a
+	ldh [$FFB0], a
 	ld a, 255
 	ld [$A24C], a
-	ld a, [$FF00+$C8]
+	ldh a, [$FFC8]
 	sub 88
-	ld [$FF00+$CC], a
-	ld a, [$FF00+$C9]
+	ldh [$FFCC], a
+	ldh a, [$FFC9]
 	sbc 0
 	and $0F
-	ld [$FF00+$CD], a
+	ldh [$FFCD], a
 	call UnknownCall_0x0969
 	pop hl
 	ret
@@ -4418,7 +4418,7 @@ UnknownCall_0x25AF:
 	sla a
 	ld e, a
 	ld d, 0
-	add de
+	add hl, de
 	ld a, [hli] ;prepare bank switch
 	ld [$2100], a
 	ld hl, $2699
@@ -4427,7 +4427,7 @@ UnknownCall_0x25AF:
 	sla a
 	ld e, a
 	ld d, 0
-	add de
+	add hl, de
 	ld a, [hli]
 	ld e, a
 	ld a, [hl]
@@ -4450,7 +4450,7 @@ UnknownRJump_0x2614:
 	inc a
 	ld e, a
 	ld d, 0
-	add de
+	add hl, de
 	ld a, [hli] ;prepare bank switch
 	ld [$2100], a
 	ld hl, $269B
@@ -4459,7 +4459,7 @@ UnknownRJump_0x2614:
 	sla a
 	ld e, a
 	ld d, 0
-	add de
+	add hl, de
 	ld a, [hli]
 	ld e, a
 	ld a, [hl]
@@ -4484,7 +4484,7 @@ UnknownRJump_0x264F:
 	sla a
 	ld e, a
 	ld d, 0
-	add de
+	add hl, de
 	ld a, [hli]
 	ld e, a
 	ld a, [hl]
@@ -4499,14 +4499,14 @@ UnknownRJump_0x266D:
 	cp $A8
 	jr nz, UnknownRJump_0x266D
 	xor a
-	ld [$FF00+$47], a
+	ldh [$FF47], a
 	ld [sBGPalette], a
-	ld [$FF00+$48], a
+	ldh [$FF48], a
 	ld [sOAMPalette1], a
-	ld [$FF00+$49], a
+	ldh [$FF49], a
 	ld [sOAMPalette2], a
 	ld a, 227
-	ld [$FF00+$40], a
+	ldh [$FF40], a
 	pop hl
 	ret
 
@@ -4527,17 +4527,17 @@ UnknownJump_0x26C3:
 UnknownJump_0x26D7:
 	ld a, [$A265] ;prepare bank switch
 	ld [$2100], a
-	ld a, [$FF00+$B5]
+	ldh a, [$FFB5]
 	ld c, a
-	ld a, [$FF00+$B6]
+	ldh a, [$FFB6]
 	ld b, a
-	ld a, [$FF00+$B1]
+	ldh a, [$FFB1]
 	ld l, a
-	ld a, [$FF00+$B2]
+	ldh a, [$FFB2]
 	ld h, a
-	ld a, [$FF00+$B3]
+	ldh a, [$FFB3]
 	ld e, a
-	ld a, [$FF00+$B4]
+	ldh a, [$FFB4]
 	ld d, a
 
 UnknownRJump_0x26EF:
@@ -4549,17 +4549,17 @@ UnknownRJump_0x26EF:
 	and $3F
 	jr nz, UnknownRJump_0x26EF
 	ld a, c
-	ld [$FF00+$B5], a
+	ldh [$FFB5], a
 	ld a, b
-	ld [$FF00+$B6], a
+	ldh [$FFB6], a
 	ld a, l
-	ld [$FF00+$B1], a
+	ldh [$FFB1], a
 	ld a, h
-	ld [$FF00+$B2], a
+	ldh [$FFB2], a
 	ld a, e
-	ld [$FF00+$B3], a
+	ldh [$FFB3], a
 	ld a, d
-	ld [$FF00+$B4], a
+	ldh [$FFB4], a
 	ld a, b
 	or c
 	jr nz, UnknownRJump_0x2712
@@ -4567,11 +4567,11 @@ UnknownRJump_0x26EF:
 	ld [$A248], a
 
 UnknownRJump_0x2712:
-	ld a, [$FF00+$9B]
+	ldh a, [$FF9B]
 	cp $13
 	call nz, UpdateSound
 	ld a, 1
-	ld [$FF00+$82], a
+	ldh [$FF82], a
 	ld a, [$A24E] ;prepare bank switch
 	ld [$2100], a
 	pop hl
@@ -4584,22 +4584,22 @@ UnknownCall_0x2728:
 	db $76 ;halt (rgbds adds a nop after)
 
 UnknownRJump_0x2729:
-	ld a, [$FF00+$82]
+	ldh a, [$FF82]
 	and a
 	jr z, UnknownRJump_0x2729
-	ld a, [$FF00+$97]
+	ldh a, [$FF97]
 	inc a
-	ld [$FF00+$97], a
+	ldh [$FF97], a
 	xor a
-	ld [$FF00+$82], a
+	ldh [$FF82], a
 	ld a, 192
-	ld [$FF00+$8C], a
+	ldh [$FF8C], a
 	xor a
-	ld [$FF00+$8D], a
+	ldh [$FF8D], a
 	ret
 
 UnknownCall_0x273E:
-	ld a, [hKeysPressed]
+	ldh a, [hKeysPressed]
 	cp $08
 	ret nz
 	ld a, [$A20E]
@@ -4608,12 +4608,12 @@ UnknownCall_0x273E:
 	xor a
 	ld [$A23D], a
 	ld a, 8
-	ld [$FF00+$9B], a
+	ldh [$FF9B], a
 	ld a, 1
 	ld [$A45E], a
 	ret
 	ld b, 231
-	ld a, [$FF00+$97]
+	ldh a, [$FF97]
 	bit 4, a
 	jr z, UnknownRJump_0x2760
 	ld b, 147
@@ -4622,7 +4622,7 @@ UnknownRJump_0x2760:
 	ld a, b
 	ld [sBGPalette], a
 	ld [sOAMPalette1], a
-	ld a, [hKeysPressed]
+	ldh a, [hKeysPressed]
 	cp $04
 	jr nz, UnknownRJump_0x278E
 	ld a, [$A27D]
@@ -4637,11 +4637,11 @@ UnknownRJump_0x2760:
 	ld [$A2B4], a
 	ld [sFastMusic], a
 	ld a, 20
-	ld [$FF00+$9B], a
+	ldh [$FF9B], a
 	ret
 
 UnknownRJump_0x278E:
-	ld a, [hKeysPressed]
+	ldh a, [hKeysPressed]
 	bit 3, a
 	ret z
 	ld a, [$A80F]
@@ -4651,13 +4651,13 @@ UnknownRJump_0x278E:
 	ld a, [$A811]
 	ld [sOAMPalette2], a
 	ld a, 4
-	ld [$FF00+$9B], a
+	ldh [$FF9B], a
 	ld a, 2
 	ld [$A45E], a
 	ret
 	call DisableVBlank
 	xor a
-	ld [$FF00+$8D], a
+	ldh [$FF8D], a
 	call UnknownCall_0x2D41
 	ld a, 12 ;prepare bank switch
 	ld [$A24E], a
@@ -4679,13 +4679,13 @@ UnknownRJump_0x27D2:
 	xor a
 	ld [sScrollY], a
 	ld [sScrollX], a
-	ld [$FF00+$42], a
-	ld [$FF00+$43], a
+	ldh [$FF42], a
+	ldh [$FF43], a
 	ld a, 228
 	ld [sBGPalette], a
 	ld a, 195
 	ld [$A207], a
-	ld [$FF00+$40], a
+	ldh [$FF40], a
 	ld a, 5
 	ld [$A22C], a
 	xor a
@@ -4747,7 +4747,7 @@ UnknownRJump_0x2844:
 	ld a, 7
 	ld [$A468], a
 	ld a, 7
-	ld [$FF00+$9B], a
+	ldh [$FF9B], a
 	ret
 
 UnknownData_0x2874:
@@ -4764,11 +4764,11 @@ INCBIN "baserom.gb", $2874, $287E - $2874
 	ld a, [$A266]
 	or b
 	ret nz
-	ld a, [hKeysPressed]
+	ldh a, [hKeysPressed]
 	cp $08
 	ret nz
 	ld a, 0
-	ld [$FF00+$9B], a
+	ldh [$FF9B], a
 	ld a, 255
 	ld [$A468], a
 	ret
@@ -4777,15 +4777,15 @@ UnknownCall_0x28A7:
 	ld a, [$A267]
 	and a
 	ret nz
-	ld a, [$FF00+$97]
+	ldh a, [$FF97]
 	and $10
 	swap a
 	add 227
-	ld [$FF00+$C6], a
+	ldh [$FFC6], a
 	ld a, 68
-	ld [$FF00+$C5], a
+	ldh [$FFC5], a
 	ld a, 32
-	ld [$FF00+$C4], a
+	ldh [$FFC4], a
 	ld a, [$A266]
 	sub 192
 	jr c, UnknownRJump_0x28CD
@@ -4793,7 +4793,7 @@ UnknownCall_0x28A7:
 	ld b, a
 	ld a, 32
 	sub b
-	ld [$FF00+$C4], a
+	ldh [$FFC4], a
 
 UnknownRJump_0x28CD:
 	ld a, 1 ;prepare bank switch
@@ -4881,7 +4881,7 @@ UnknownCall_0x2934:
 	swap a
 	ld e, a
 	ld d, 0
-	add de
+	add hl, de
 	ld c, 0
 	ld de, $A840
 	ld b, 64
@@ -4958,7 +4958,7 @@ UnknownRJump_0x2A23:
 	cp $A0
 	jr c, UnknownRJump_0x2A23
 	ld a, 195
-	ld [$FF00+$40], a
+	ldh [$FF40], a
 	ld a, 1
 	ld [$A267], a
 	ld a, 0
@@ -5218,7 +5218,7 @@ UnknownJump_0x2CA3:
 	call DisableVBlank
 	call UnknownCall_0x031C
 	xor a
-	ld [$FF00+$8D], a
+	ldh [$FF8D], a
 	call UnknownCall_0x2CFF
 	ld a, 5 ;prepare bank switch
 	ld [$A24E], a
@@ -5298,7 +5298,7 @@ UnknownRJump_0x2D8C:
 UnknownRJump_0x2DA2:
 	pop hl
 	ld de, $0020
-	add de
+	add hl, de
 	ld a, h
 	cp $AF
 	jr nz, UnknownRJump_0x2D8C
@@ -5309,7 +5309,7 @@ UnknownRJump_0x2DA2:
 	ld [sMarioInAir], a
 	ld a, 48
 	ld [sVVelocityIndex], a
-	ld a, [hKeysHeld]
+	ldh a, [hKeysHeld]
 	bit 0, a
 	ret z
 	ld a, 75
@@ -5362,12 +5362,12 @@ UnknownRJump_0x2DF7:
 	ld a, [$A244]
 	cp $03
 	ret c
-	ld a, [$FF00+$C0]
+	ldh a, [$FFC0]
 	sub 1
-	ld [$FF00+$C0], a
-	ld a, [$FF00+$C1]
+	ldh [$FFC0], a
+	ldh a, [$FFC1]
 	sbc 0
-	ld [$FF00+$C1], a
+	ldh [$FFC1], a
 	ret
 
 UnknownRJump_0x2E23:
@@ -5388,22 +5388,22 @@ UnknownRJump_0x2E23:
 	inc b
 	inc b
 	inc b
-	ld a, [$FF00+$C0]
+	ldh a, [$FFC0]
 	sub b
-	ld [$FF00+$C0], a
-	ld a, [$FF00+$C1]
+	ldh [$FFC0], a
+	ldh a, [$FFC1]
 	sbc 0
-	ld [$FF00+$C1], a
+	ldh [$FFC1], a
 	ld a, 255
 	ld [$A2D4], a
 	call UnknownCall_0x1DFE
 	jr nc, UnknownRJump_0x2E5C
-	ld a, [$FF00+$C0]
+	ldh a, [$FFC0]
 	add b
-	ld [$FF00+$C0], a
-	ld a, [$FF00+$C1]
+	ldh [$FFC0], a
+	ldh a, [$FFC1]
 	adc 0
-	ld [$FF00+$C1], a
+	ldh [$FFC1], a
 
 UnknownRJump_0x2E5C:
 	ld a, [$A28B]
@@ -5578,20 +5578,20 @@ UnknownCall_0x2F72:
 	ld [$A256], a
 	ld a, [sScrollY]
 	ld b, a
-	ld a, [$FF00+$B7]
+	ldh a, [$FFB7]
 	and $F0
 	add 8
 	sub b
 	sub 16
-	ld [$FF00+$B7], a
+	ldh [$FFB7], a
 	ld a, [sScrollX]
 	ld b, a
-	ld a, [$FF00+$B9]
+	ldh a, [$FFB9]
 	add 8
 	and $F0
 	sub b
 	sub 8
-	ld [$FF00+$B9], a
+	ldh [$FFB9], a
 	ld hl, $AD00
 
 UnknownRJump_0x2F97:
@@ -5607,7 +5607,7 @@ UnknownRJump_0x2F97:
 UnknownRJump_0x2FA3:
 	pop hl
 	ld de, $0020
-	add de
+	add hl, de
 	ld a, h
 	cp $AF
 	jr nz, UnknownRJump_0x2F97
@@ -5626,13 +5626,13 @@ UnknownCall_0x2FAE:
 	ld a, l
 	sub 10
 	ld l, a
-	ld a, [$FF00+$B7]
+	ldh a, [$FFB7]
 	ld b, a
 	ld a, [hli]
 	sub b
 	cp $10
 	jr nc, UnknownRJump_0x2FEC
-	ld a, [$FF00+$B9]
+	ldh a, [$FFB9]
 	ld b, a
 	ld a, [hl]
 	sub b
@@ -5671,7 +5671,7 @@ UnknownRJump_0x2FF0:
 UnknownRJump_0x2FFC:
 	pop hl
 	ld de, $0020
-	add de
+	add hl, de
 	ld a, h
 	cp $AF
 	jr nz, UnknownRJump_0x2FF0
@@ -5682,7 +5682,7 @@ UnknownCall_0x3007:
 	sub 5
 	ld l, a
 	ld a, [hl]
-	ld [$FF00+$98], a
+	ldh [$FF98], a
 	bit 7, a
 	ret nz
 	and a
@@ -5715,7 +5715,7 @@ UnknownCall_0x3007:
 	add b
 	sub d
 	ld e, a
-	ld a, [$FF00+$C4]
+	ldh a, [$FFC4]
 	sub d
 	cp e
 	jp nc, UnknownJump_0x307C
@@ -5728,11 +5728,11 @@ UnknownCall_0x3007:
 	add c
 	sub d
 	ld e, a
-	ld a, [$FF00+$C5]
+	ldh a, [$FFC5]
 	sub d
 	cp e
 	jp nc, UnknownJump_0x307C
-	ld a, [$FF00+$98]
+	ldh a, [$FF98]
 	bit 2, a
 	jr nz, UnknownRJump_0x3071
 	ld a, 2
@@ -5762,10 +5762,10 @@ UnknownCall_0x307D:
 	ld a, [$A26B]
 	or b
 	ret z
-	ld a, [hKeysHeld]
+	ldh a, [hKeysHeld]
 	cp $82
 	jr z, UnknownRJump_0x3098
-	ld a, [hKeysHeld]
+	ldh a, [hKeysHeld]
 	cp $42
 	jr z, UnknownRJump_0x30D9
 	ret
@@ -5777,34 +5777,34 @@ UnknownRJump_0x3098:
 	ld a, [sLevelBank] ;prepare bank switch
 	ld [$A24E], a
 	ld [$2100], a
-	ld a, [$FF00+$C9]
+	ldh a, [$FFC9]
 	swap a
 	ld b, a
-	ld a, [$FF00+$CB]
+	ldh a, [$FFCB]
 	or b
 	ld e, a
 	ld d, 0
 	ld hl, $A960
-	add de
+	add hl, de
 	ld a, [hl]
-	ld [$FF00+$98], a
+	ldh [$FF98], a
 	ld a, [$A223]
 	set 7, a
 	ld [$A223], a
-	ld a, [$FF00+$98]
+	ldh a, [$FF98]
 	bit 3, a
 	jr z, UnknownRJump_0x30CC
-	ld a, [$FF00+$C8]
+	ldh a, [$FFC8]
 	cp $C0
 	ret nc
 
 UnknownRJump_0x30CC:
-	ld a, [$FF00+$C8]
+	ldh a, [$FFC8]
 	add 1
-	ld [$FF00+$C8], a
-	ld a, [$FF00+$C9]
+	ldh [$FFC8], a
+	ldh a, [$FFC9]
 	adc 0
-	ld [$FF00+$C9], a
+	ldh [$FFC9], a
 	ret
 
 UnknownRJump_0x30D9:
@@ -5814,41 +5814,41 @@ UnknownRJump_0x30D9:
 	ld a, [sLevelBank] ;prepare bank switch
 	ld [$A24E], a
 	ld [$2100], a
-	ld a, [$FF00+$C9]
+	ldh a, [$FFC9]
 	swap a
 	ld b, a
-	ld a, [$FF00+$CB]
+	ldh a, [$FFCB]
 	or b
 	ld e, a
 	ld d, 0
 	ld hl, $A960
-	add de
+	add hl, de
 	ld a, [hl]
-	ld [$FF00+$98], a
+	ldh [$FF98], a
 	ld a, [$A223]
 	set 6, a
 	ld [$A223], a
-	ld a, [$FF00+$98]
+	ldh a, [$FF98]
 	bit 2, a
 	jr z, UnknownRJump_0x310D
-	ld a, [$FF00+$C8]
+	ldh a, [$FFC8]
 	cp $49
 	ret c
 
 UnknownRJump_0x310D:
-	ld a, [$FF00+$C8]
+	ldh a, [$FFC8]
 	sub 1
-	ld [$FF00+$C8], a
-	ld a, [$FF00+$C9]
+	ldh [$FFC8], a
+	ldh a, [$FFC9]
 	sbc 0
-	ld [$FF00+$C9], a
+	ldh [$FFC9], a
 	ret
 	ld a, [$A266]
 	and a
 	jr z, UnknownRJump_0x3127
 
 UnknownRJump_0x3120:
-	ld a, [$FF00+$44]
+	ldh a, [$FF44]
 	cp $50
 	jr nc, UnknownRJump_0x3120
 	ret
@@ -5858,7 +5858,7 @@ UnknownRJump_0x3127:
 	ld [$A299], a
 	ld [$A2DC], a
 	ld a, 20
-	ld [$FF00+$9B], a
+	ldh [$FF9B], a
 	call UnknownCall_0x2D41
 	ld a, [sSoundDisabled]
 	and a
@@ -5873,7 +5873,7 @@ UnknownRJump_0x3127:
 
 UnknownRJump_0x314B:
 	ld a, 5
-	ld [$FF00+$9B], a
+	ldh [$FF9B], a
 	ret
 
 UnknownJump_0x3150:
@@ -5886,14 +5886,14 @@ UnknownCall_0x315C:
 	ld a, [sVVelocityIndex]
 	ld c, a
 	ld b, 0
-	add bc
+	add hl, bc
 	ld a, [hl]
 	ld b, a
-	ld a, [$FF00+$C0]
+	ldh a, [$FFC0]
 	add b
-	ld [$FF00+$C0], a
+	ldh [$FFC0], a
 	ld a, 1
-	ld [$FF00+$BB], a
+	ldh [$FFBB], a
 	call UnknownCall_0x2D15
 	ld a, [sMarioScreenY]
 	and $F0
@@ -5915,7 +5915,7 @@ UnknownRJump_0x3186:
 	ld a, 192
 	ld [$A266], a
 	ld a, 9
-	ld [$FF00+$9B], a
+	ldh [$FF9B], a
 	ret
 
 UnknownCall_0x319F:
@@ -5974,7 +5974,7 @@ UnknownRJump_0x3252:
 	and a
 	call nz, UnknownCall_0x3261
 	ld bc, $0010
-	add bc
+	add hl, bc
 	ld a, l
 	cp $A0
 	jr nz, UnknownRJump_0x3252
@@ -5991,21 +5991,21 @@ UnknownCall_0x3261:
 	inc hl
 	ld a, [hl]
 	ld [$A212], a
-	ld a, [$FF00+$CA]
+	ldh a, [$FFCA]
 	ld b, a
 	ld a, [$A25F]
 	sub b
 	add 80
-	ld [$FF00+$C5], a
+	ldh [$FFC5], a
 	and $F0
 	cp $C0
 	jr z, UnknownRJump_0x32BD
-	ld a, [$FF00+$C8]
+	ldh a, [$FFC8]
 	ld b, a
 	ld a, [$A25D]
 	sub b
 	add 70
-	ld [$FF00+$C4], a
+	ldh [$FFC4], a
 	and $F0
 	cp $C0
 	jr z, UnknownRJump_0x32BD
@@ -6016,13 +6016,13 @@ UnknownCall_0x3261:
 	ld b, 180
 
 UnknownRJump_0x329E:
-	ld a, [$FF00+$97]
+	ldh a, [$FF97]
 	and $06
 	srl a
 	add b
-	ld [$FF00+$C6], a
+	ldh [$FFC6], a
 	ld a, 1
-	ld [$FF00+$BB], a
+	ldh [$FFBB], a
 	call UnknownCall_0x2CF4
 	xor a
 	ld [$A246], a
@@ -6040,7 +6040,7 @@ UnknownRJump_0x32BD:
 	ret
 
 UnknownCall_0x32C1:
-	ld a, [hKeysPressed]
+	ldh a, [hKeysPressed]
 	bit 1, a
 	ret z
 	ld a, [sCurPowerup]
@@ -6059,7 +6059,7 @@ UnknownRJump_0x32D9:
 	and a
 	jr z, UnknownRJump_0x32E7
 	ld bc, $0010
-	add bc
+	add hl, bc
 	ld a, l
 	cp $A0
 	jr nz, UnknownRJump_0x32D9
@@ -6068,16 +6068,16 @@ UnknownRJump_0x32D9:
 UnknownRJump_0x32E7:
 	ld a, 1
 	ld [hli], a
-	ld a, [$FF00+$C0]
+	ldh a, [$FFC0]
 	add 28
 	ld [hli], a
-	ld a, [$FF00+$C1]
+	ldh a, [$FFC1]
 	adc 0
 	ld [hli], a
-	ld a, [$FF00+$C2]
+	ldh a, [$FFC2]
 	add 16
 	ld [hli], a
-	ld a, [$FF00+$C3]
+	ldh a, [$FFC3]
 	adc 0
 	ld [hli], a
 	ld a, [sMarioDirection]
@@ -6085,7 +6085,7 @@ UnknownRJump_0x32E7:
 	ld a, [sSpinJump]
 	and a
 	jr z, UnknownRJump_0x330E
-	ld a, [$FF00+$97]
+	ldh a, [$FF97]
 	and $02
 	dec a
 	ld [hl], a
@@ -6108,7 +6108,7 @@ UnknownRJump_0x331F:
 	and a
 	call nz, UnknownCall_0x332E
 	ld bc, $0010
-	add bc
+	add hl, bc
 	ld a, l
 	cp $A0
 	jr nz, UnknownRJump_0x331F
@@ -6120,10 +6120,10 @@ UnknownCall_0x332E:
 	inc hl
 	ld a, [hli]
 	ld [$A25D], a
-	ld [$FF00+$B7], a
+	ldh [$FFB7], a
 	ld a, [hli]
 	ld [$A25E], a
-	ld [$FF00+$B8], a
+	ldh [$FFB8], a
 	ld a, [hli]
 	ld [$A25F], a
 	ld a, [hli]
@@ -6142,11 +6142,11 @@ UnknownCall_0x332E:
 	ld a, [$A25F]
 	add b
 	ld [$A25F], a
-	ld [$FF00+$B9], a
+	ldh [$FFB9], a
 	ld a, [$A260]
 	adc 0
 	ld [$A260], a
-	ld [$FF00+$BA], a
+	ldh [$FFBA], a
 	jr UnknownRJump_0x3386
 
 UnknownRJump_0x336E:
@@ -6158,11 +6158,11 @@ UnknownRJump_0x336E:
 	ld a, [$A25F]
 	sub b
 	ld [$A25F], a
-	ld [$FF00+$B9], a
+	ldh [$FFB9], a
 	ld a, [$A260]
 	sbc 0
 	ld [$A260], a
-	ld [$FF00+$BA], a
+	ldh [$FFBA], a
 
 UnknownRJump_0x3386:
 	call UnknownCall_0x1EFA
@@ -6172,7 +6172,7 @@ UnknownRJump_0x3386:
 	ld c, a
 	ld hl, $3439
 	ld b, 0
-	add bc
+	add hl, bc
 	ld a, [hl]
 	ld b, a
 	ld a, c
@@ -6181,22 +6181,22 @@ UnknownRJump_0x3386:
 	ld a, [$A25D]
 	sub b
 	ld [$A25D], a
-	ld [$FF00+$B7], a
+	ldh [$FFB7], a
 	ld a, [$A25E]
 	sbc 0
 	ld [$A25E], a
-	ld [$FF00+$B8], a
+	ldh [$FFB8], a
 	jr UnknownRJump_0x33C7
 
 UnknownRJump_0x33B4:
 	ld a, [$A25D]
 	add b
 	ld [$A25D], a
-	ld [$FF00+$B7], a
+	ldh [$FFB7], a
 	ld a, [$A25E]
 	adc 0
 	ld [$A25E], a
-	ld [$FF00+$B8], a
+	ldh [$FFB8], a
 
 UnknownRJump_0x33C7:
 	call UnknownCall_0x1EFA
@@ -6401,7 +6401,7 @@ UnknownRJump_0x3539:
 	xor a
 	ld [sCurPowerup], a
 	ld a, 20
-	ld [$FF00+$9B], a
+	ldh [$FF9B], a
 	ret
 	ld a, [$A266]
 	ld b, a
@@ -6410,7 +6410,7 @@ UnknownRJump_0x3539:
 	jr z, UnknownRJump_0x3558
 
 UnknownRJump_0x3551:
-	ld a, [$FF00+$44]
+	ldh a, [$FF44]
 	cp $50
 	jr nc, UnknownRJump_0x3551
 	ret
@@ -6429,13 +6429,13 @@ UnknownRJump_0x3558:
 
 UnknownRJump_0x356E:
 	ld a, 20
-	ld [$FF00+$9B], a
+	ldh [$FF9B], a
 	ret
 	ld a, [sCurLevel]
 	cp $FF
 	jr nz, .CheckEasyMode
 	ld a, 27
-	ld [$FF00+$9B], a
+	ldh [$FF9B], a
 	ret
 
 .CheckEasyMode
@@ -6443,7 +6443,7 @@ UnknownRJump_0x356E:
 	cp $01
 	jr z, .EasyModeOn
 	ld a, 11
-	ld [$FF00+$9B], a
+	ldh [$FF9B], a
 	ret
 
 .EasyModeOn
@@ -6465,21 +6465,21 @@ UnknownRJump_0x356E:
 	ld a, 57
 	ld [sOAMPalette2], a
 	ld a, 226
-	ld [$FF00+$40], a
+	ldh [$FF40], a
 	ld a, 0
 	ld [$A267], a
 	ld a, 64
 	ld [$A266], a
-	ld a, [$FF00+$9B]
+	ldh a, [$FF9B]
 	inc a
-	ld [$FF00+$9B], a
+	ldh [$FF9B], a
 	ret
 	ld a, 80
-	ld [$FF00+$C4], a
+	ldh [$FFC4], a
 	ld a, 52
-	ld [$FF00+$C5], a
+	ldh [$FFC5], a
 	ld a, 240
-	ld [$FF00+$C6], a
+	ldh [$FFC6], a
 	call UnknownCall_0x2CF4
 	ld a, [$A266]
 	ld b, a
@@ -6487,7 +6487,7 @@ UnknownRJump_0x356E:
 	or b
 	ret nz
 	ld a, 11
-	ld [$FF00+$9B], a
+	ldh [$FF9B], a
 	ret
 
 UnknownData_0x35EA:
@@ -6501,18 +6501,18 @@ UnknownCall_0x3735:
 	ld [$A2B6], a
 	xor a
 	ld [$A2B7], a
-	ld a, [$FF00+$C1]
+	ldh a, [$FFC1]
 	ld [$A2B8], a
-	ld a, [$FF00+$C0]
+	ldh a, [$FFC0]
 	ld [$A2B9], a
-	ld a, [$FF00+$C3]
+	ldh a, [$FFC3]
 	ld [$A2BA], a
-	ld a, [$FF00+$C2]
+	ldh a, [$FFC2]
 	ld [$A2BB], a
 	ret
 
 UnknownCall_0x3753:
-	ld a, [$FF00+$97]
+	ldh a, [$FF97]
 	and $7F
 	ret nz
 	ld a, [$A2B6]
@@ -6522,13 +6522,13 @@ UnknownCall_0x3753:
 	ld [$A2B6], a
 	xor a
 	ld [$A2B7], a
-	ld a, [$FF00+$C0]
+	ldh a, [$FFC0]
 	ld [$A2B9], a
-	ld a, [$FF00+$C1]
+	ldh a, [$FFC1]
 	ld [$A2B8], a
-	ld a, [$FF00+$C3]
+	ldh a, [$FFC3]
 	ld [$A2BA], a
-	ld a, [$FF00+$C2]
+	ldh a, [$FFC2]
 	ld [$A2BB], a
 	ret
 
@@ -6557,7 +6557,7 @@ UnknownCall_0x3873:
 	ld [$A298], a
 	ld e, 0
 	ld hl, $6680
-	add de
+	add hl, de
 	ld a, [$A2CD]
 	inc a
 	and $03
@@ -6567,7 +6567,7 @@ UnknownCall_0x3873:
 	swap a
 	ld e, a
 	ld d, 0
-	add de
+	add hl, de
 	ld de, $9200
 	ld b, 64
 
@@ -6589,7 +6589,7 @@ UnknownCall_0x38B9:
 	ret
 
 UnknownRJump_0x38C8:
-	ld a, [hKeysPressed]
+	ldh a, [hKeysPressed]
 	and $08
 	jr z, UnknownRJump_0x38E5
 
@@ -6608,7 +6608,7 @@ UnknownRJump_0x38E5:
 	ld a, 5 ;prepare bank switch
 	ld [$2100], a
 	ld a, [$A2D0]
-	ld [hKeysHeld], a
+	ldh [hKeysHeld], a
 	ld h, 163
 	ld a, [$A2CF]
 	ld l, a
@@ -6623,12 +6623,12 @@ UnknownRJump_0x38F5:
 	jr c, UnknownRJump_0x38F5
 	dec hl
 	ld [hld], a
-	ld a, [hKeysHeld]
+	ldh a, [hKeysHeld]
 	xor b
 	and b
-	ld [hKeysPressed], a
+	ldh [hKeysPressed], a
 	ld a, b
-	ld [hKeysHeld], a
+	ldh [hKeysHeld], a
 	ld a, l
 	ld [$A2CF], a
 	ret
@@ -7089,7 +7089,7 @@ INCBIN "baserom.gb", $3D42, $3E00 - $3D42
 UnknownCall_0x3E00:
 	ld [$A24E], a
 	ld [$3000], a
-	jp [hl]
+	jp hl
 
 UnknownJump_0x3E07:
 	ld a, 15

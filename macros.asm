@@ -1,7 +1,7 @@
-ldh_n_a: MACRO
+MACRO ldh_n_a
     db $EA, \1, $FF
     ENDM
 
-ldh_a_n: MACRO
+MACRO ldh_a_n
     db $FA, \1, $FF
     ENDM

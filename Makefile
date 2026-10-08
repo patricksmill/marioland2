@@ -1,4 +1,4 @@
-.PHONY: all compare
+.PHONY: all compare clean
 
 objects := main.o
 
@@ -12,3 +12,6 @@ compare: baserom.gb sml2.gb
 sml2.gb: $(objects)
 	rgblink -o $@ $^
 	rgbfix -v $@
+
+clean:
+	rm -f $(objects) sml2.gb
