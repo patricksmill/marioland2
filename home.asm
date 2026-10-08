@@ -56,15 +56,15 @@ VBlank: ;$0154
 	push de
 	push hl
 	ld a, [sScrollY]
-	ldh [$FF42], a
+	ldh [rSCY], a
 	ld a, [sScrollX]
-	ldh [$FF43], a
+	ldh [rSCX], a
 	ld a, [sBGPalette]
-	ldh [$FF47], a
+	ldh [rBGP], a
 	ld a, [sOAMPalette1]
-	ldh [$FF48], a
+	ldh [rOBP0], a
 	ld a, [sOAMPalette2]
-	ldh [$FF49], a
+	ldh [rOBP1], a
 	ld a, [$A266]
 	sub 1
 	ld [$A266], a
@@ -126,23 +126,23 @@ UnknownRJump_0x01C5:
 Init: ;$01E5
 	ld a, 1
 	di
-	ldh [$FF0F], a
-	ldh [$FFFF], a
+	ldh [rIF], a
+	ldh [rIE], a
 	xor a
-	ldh [$FF42], a
-	ldh [$FF43], a
-	ldh [$FF41], a
-	ldh [$FF01], a
-	ldh [$FF02], a
+	ldh [rSCY], a
+	ldh [rSCX], a
+	ldh [rSTAT], a
+	ldh [rSB], a
+	ldh [rSC], a
 	ld a, 128
-	ldh [$FF40], a
+	ldh [rLCDC], a
 
 .wait
-	ldh a, [$FF44]
+	ldh a, [rLY]
 	cp $94
 	jr nz, .wait
 	ld a, 3
-	ldh [$FF40], a
+	ldh [rLCDC], a
 	ld sp, $A8FF
 	ld a, 10
 	ld [$0000], a
@@ -189,16 +189,16 @@ UnknownRJump_0x0244:
 	jr nz, UnknownRJump_0x0244
 	call BlankBGMap1
 	ld a, 1
-	ldh [$FFFF], a
+	ldh [rIE], a
 	ld a, 7
-	ldh [$FF4B], a
+	ldh [rWX], a
 	ld a, 128
-	ldh [$FF40], a
+	ldh [rLCDC], a
 	ei
 	xor a
-	ldh [$FF0F], a
-	ldh [$FF4A], a
-	ldh [$FF06], a
+	ldh [rIF], a
+	ldh [rWY], a
+	ldh [rTMA], a
 	call UnknownCall_0x207D
 
 UnknownJump_0x0264:
@@ -305,20 +305,20 @@ INCBIN "baserom.gb", $033F, $0348 - $033F
 
 
 DisableVBlank: ;$0348
-	ldh a, [$FFFF]
+	ldh a, [rIE]
 	ldh [$FF99], a
 	res 0, a
-	ldh [$FFFF], a
+	ldh [rIE], a
 
 UnknownRJump_0x0350:
-	ldh a, [$FF44]
+	ldh a, [rLY]
 	cp $91
 	jr nz, UnknownRJump_0x0350
-	ldh a, [$FF40]
+	ldh a, [rLCDC]
 	and $7F
-	ldh [$FF40], a
+	ldh [rLCDC], a
 	ldh a, [$FF99]
-	ldh [$FFFF], a
+	ldh [rIE], a
 	ret
 
 UnknownCall_0x0361:
@@ -557,13 +557,13 @@ UnknownRJump_0x04DD:
 	call UnknownCall_0x0361
 	ld a, [$A80F]
 	ld [sBGPalette], a
-	ldh [$FF47], a
+	ldh [rBGP], a
 	ld a, [$A810]
 	ld [sOAMPalette1], a
-	ldh [$FF48], a
+	ldh [rOBP0], a
 	ld a, [$A811]
 	ld [sOAMPalette2], a
-	ldh [$FF49], a
+	ldh [rOBP1], a
 	ld a, [$A804]
 	ldh [$FFC8], a
 	ld a, [$A805]
@@ -612,7 +612,7 @@ UnknownRJump_0x052F:
 	ld [$2100], a
 	call UnknownCall_0xEBBB
 	ld a, 227
-	ldh [$FF40], a
+	ldh [rLCDC], a
 	xor a
 	ld [$A211], a
 	ld a, [sSoundDisabled]
@@ -1831,7 +1831,7 @@ UnknownRJump_0x0EB0:
 	call DisableVBlank
 	call UnknownCall_0x3C94
 	ld a, 195
-	ldh [$FF40], a
+	ldh [rLCDC], a
 	ld a, 32
 	ld [$A468], a
 	ld [$A292], a
@@ -3487,12 +3487,12 @@ UnknownCall_0x1DA5:
 	ld de, $001F
 
 UnknownRJump_0x1DC1:
-	ldh a, [$FF41]
+	ldh a, [rSTAT]
 	and $03
 	jr nz, UnknownRJump_0x1DC1
 
 UnknownRJump_0x1DC7:
-	ldh a, [$FF41]
+	ldh a, [rSTAT]
 	and $03
 	jr nz, UnknownRJump_0x1DC7
 	ld a, 255
@@ -3515,12 +3515,12 @@ UnknownRJump_0x1DD5:
 	ld de, $001F
 
 UnknownRJump_0x1DEA:
-	ldh a, [$FF41]
+	ldh a, [rSTAT]
 	and $03
 	jr nz, UnknownRJump_0x1DEA
 
 UnknownRJump_0x1DF0:
-	ldh a, [$FF41]
+	ldh a, [rSTAT]
 	and $03
 	jr nz, UnknownRJump_0x1DF0
 	ld a, 127
@@ -3785,23 +3785,23 @@ ReadJoypad: ;$1FD2
 	ldh a, [hKeysHeld]
 	ld [$A2D0], a
 	ld a, 32
-	ldh [$FF00], a
-	ldh a, [$FF00]
-	ldh a, [$FF00]
+	ldh [rP1], a
+	ldh a, [rP1]
+	ldh a, [rP1]
 	cpl
 	and $0F
 	swap a
 	ld b, a
 	ld a, 16
-	ldh [$FF00], a
-	ldh a, [$FF00]
-	ldh a, [$FF00]
-	ldh a, [$FF00]
-	ldh a, [$FF00]
-	ldh a, [$FF00]
-	ldh a, [$FF00]
-	ldh a, [$FF00]
-	ldh a, [$FF00]
+	ldh [rP1], a
+	ldh a, [rP1]
+	ldh a, [rP1]
+	ldh a, [rP1]
+	ldh a, [rP1]
+	ldh a, [rP1]
+	ldh a, [rP1]
+	ldh a, [rP1]
+	ldh a, [rP1]
 	cpl
 	and $0F
 	or b
@@ -3813,7 +3813,7 @@ ReadJoypad: ;$1FD2
 	ld a, c
 	ldh [hKeysHeld], a
 	ld a, 48
-	ldh [$FF00], a
+	ldh [rP1], a
 	ret
 
 UnknownCall_0x200C:
@@ -3984,7 +3984,7 @@ UnknownRJump_0x216C:
 	xor a
 	ld [$A288], a
 	ld a, 136
-	ldh [$FF4A], a
+	ldh [rWY], a
 	call UnknownCall_0x2202
 	jp UnknownJump_0x21E8
 
@@ -4499,14 +4499,14 @@ UnknownRJump_0x266D:
 	cp $A8
 	jr nz, UnknownRJump_0x266D
 	xor a
-	ldh [$FF47], a
+	ldh [rBGP], a
 	ld [sBGPalette], a
-	ldh [$FF48], a
+	ldh [rOBP0], a
 	ld [sOAMPalette1], a
-	ldh [$FF49], a
+	ldh [rOBP1], a
 	ld [sOAMPalette2], a
 	ld a, 227
-	ldh [$FF40], a
+	ldh [rLCDC], a
 	pop hl
 	ret
 
@@ -4679,13 +4679,13 @@ UnknownRJump_0x27D2:
 	xor a
 	ld [sScrollY], a
 	ld [sScrollX], a
-	ldh [$FF42], a
-	ldh [$FF43], a
+	ldh [rSCY], a
+	ldh [rSCX], a
 	ld a, 228
 	ld [sBGPalette], a
 	ld a, 195
 	ld [$A207], a
-	ldh [$FF40], a
+	ldh [rLCDC], a
 	ld a, 5
 	ld [$A22C], a
 	xor a
@@ -4958,7 +4958,7 @@ UnknownRJump_0x2A23:
 	cp $A0
 	jr c, UnknownRJump_0x2A23
 	ld a, 195
-	ldh [$FF40], a
+	ldh [rLCDC], a
 	ld a, 1
 	ld [$A267], a
 	ld a, 0
@@ -5848,7 +5848,7 @@ UnknownRJump_0x310D:
 	jr z, UnknownRJump_0x3127
 
 UnknownRJump_0x3120:
-	ldh a, [$FF44]
+	ldh a, [rLY]
 	cp $50
 	jr nc, UnknownRJump_0x3120
 	ret
@@ -6410,7 +6410,7 @@ UnknownRJump_0x3539:
 	jr z, UnknownRJump_0x3558
 
 UnknownRJump_0x3551:
-	ldh a, [$FF44]
+	ldh a, [rLY]
 	cp $50
 	jr nc, UnknownRJump_0x3551
 	ret
@@ -6465,7 +6465,7 @@ UnknownRJump_0x356E:
 	ld a, 57
 	ld [sOAMPalette2], a
 	ld a, 226
-	ldh [$FF40], a
+	ldh [rLCDC], a
 	ld a, 0
 	ld [$A267], a
 	ld a, 64
@@ -7280,7 +7280,7 @@ UnknownCall_0x3F0E:
 UnknownRJump_0x3F18:
 	ld a, [hli]
 	push hl
-	ld hl, $FF41
+	ld hl, rSTAT
 
 UnknownRJump_0x3F1D:
 	bit 1, [hl]
