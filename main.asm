@@ -35990,7 +35990,42 @@ INCBIN "gfx/enemies/turtlezone3.2bpp"
 GFX_EnemiesTurtleZoneBoss: ;$76280
 INCBIN "gfx/enemies/turtlezoneboss.2bpp"
 
-INCBIN "baserom.gb", $76600, $78000 - $76600
+GFX_TilesetTurtleZoneExtra: ;Turtle Zone extra tileset (castle/brick ornamentation); $6680-$677F hold 4 animated-tile phases copied to VRAM $9200 by UnknownCall_0x3873 (home.asm)
+INCBIN "gfx/tilesets/turtlezone_extra.2bpp"
+
+UnknownData_0x77E00: ;128 zero bytes + packed $AA-heavy data; no direct reader identified
+	db $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $22, $82, $81, $AB, $0A, $A8, $62, $08, $A0, $28, $AA, $A8, $A2, $A2, $A2, $E2
+	db $82, $4A, $0A, $6A, $A0, $8A, $A8, $22, $AC, $2E, $08, $0A, $A0, $CA, $62, $26
+	db $2A, $A0, $8A, $8A, $AA, $22, $02, $2C, $08, $8A, $AA, $82, $28, $2A, $A0, $AA
+	db $A2, $2A, $A8, $22, $8A, $20, $8A, $C0, $02, $2A, $E8, $AA, $88, $AA, $A8, $2A
+	db $A8, $88, $A8, $02, $2A, $8A, $80, $8B, $2A, $A8, $A0, $A0, $AA, $88, $CA, $8A
+	db $AA, $86, $22, $22, $AA, $AA, $80, $02, $2A, $88, $8C, $22, $2A, $AA, $20, $8A
+	db $AC, $CA, $0E, $20, $28, $E2, $28, $A1, $2A, $8A, $0A, $A0, $AA, $8A, $28, $22
+	db $AA, $AA, $A2, $6A, $AA, $2A, $A0, $2A, $A8, $00, $EA, $A8, $2A, $28, $2E, $20
+	db $DB, $AF, $BB, $27, $AD, $EE, $EF, $EE, $EB, $EF, $CF, $7E, $BE, $BA, $FA, $EF
+	db $AC, $0A, $9E, $EA, $AA, $EB, $FE, $EF, $EE, $DB, $AB, $EB, $BA, $EE, $3A, $BB
+	db $FF, $3E, $FA, $BE, $FB, $AB, $BB, $BF, $AF, $BB, $EE, $F7, $AB, $BE, $8B, $BF
+	db $AE, $BE, $EC, $FF, $EE, $DA, $F7, $FC, $FA, $A8, $FA, $EA, $EB, $BA, $BF, $EA
+	db $AE, $F2, $AF, $BE, $F9, $BA, $BB, $F8, $7B, $AE, $BE, $4E, $F9, $A6, $3A, $EA
+	db $AB, $EE, $AA, $2B, $9E, $EE, $66, $6B, $3C, $E9, $EA, $EE, $9B, $FE, $F6, $BA
+	db $BA, $FB, $3E, $EB, $CA, $FB, $9B, $FB, $EB, $BC, $EE, $A3, $AB, $C8, $EB, $FA
+	db $AE, $EE, $FB, $32, $C6, $FF, $BB, $EF, $EB, $FA, $86, $BE, $BF, $BB, $FF, $EA
+	db $28, $2A, $E2, $88, $09, $A0, $08, $8B, $83, $8A, $A2, $02, $8A, $22, $2A, $AA
+	db $A0, $0A, $90, $A2, $26, $8A, $02, $A2, $8A, $8A, $AB, $2E, $20, $63, $AA, $92
+	db $82, $08, $22, $A0, $A2, $88, $08, $AA, $AA, $A8, $AA, $A2, $02, $02, $A8, $B8
+	db $2A, $80, $AA, $32, $2A, $A0, $88, $AE, $AC, $00, $E8, $6A, $AA, $A3, $20, $E2
+	db $2A, $28, $80, $00, $80, $92, $08, $88, $A2, $A0, $02, $00, $AA, $00, $86, $AA
+	db $82, $8A, $24, $A2, $AA, $A2, $82, $A0, $20, $24, $AA, $A2, $92, $38, $A2, $AA
+	db $41, $2A, $CE, $AB, $2A, $28, $62, $A0, $02, $02, $02, $C2, $88, $2A, $26, $A8
+	db $8A, $22, $26, $A2, $AA, $02, $AA, $0A, $89, $28, $88, $EA, $2A, $0B, $28, $28
 
 
 SECTION "bank1E", ROMX, BANK[$1E]
