@@ -149,6 +149,21 @@ SPEC = {
         0x6529: dict(segs=[('db', 0x6529, 0x8000)],
                      comment='packed data ($AA-heavy / high-bit-set runs); format unknown; not the layout RLE streams'),
     },
+    0x1A: {
+        0x6801A: dict(segs=[('jt', 0x6801A, 0x68042)],
+                      comment='rst $28 jump table for UnknownCall_0x68016 (indexed by $A2DD)'),
+        0x68125: dict(segs=[('code', 0x68125, 0x68139)]),
+        0x6828E: dict(segs=[('code', 0x6828E, 0x682BA)]),
+        0x6830F: dict(segs=[('code', 0x6830F, 0x68367), ('db', 0x68367, 0x68398)],
+                      seg_comments={0x68367: 'flag table ($FF = skip), indexed from the code above'}),
+        0x6844F: dict(segs=[('db', 0x6844F, 0x6845F)],
+                      comment='screen-shake offsets (16 entries); values written to $FF43 (readers at $680B1 / $68416)'),
+        0x68518: dict(segs=[('db', 0x68518, 0x68520)],
+                      comment='sprites for $FFC6, indexed by ($FF97 & $1C) >> 2'),
+        0x685E5: dict(segs=[('code', 0x685E5, 0x68656), ('db', 0x68656, 0x6C000)],
+                      comment='ending-sequence bank-restoring handlers (reti-terminated)',
+                      seg_comments={0x68656: 'ending-sequence assets: font/tile graphics (renders digits/letters/Nintendo), text at $696CE ("THANK YOU MARIO..."), tables; boundaries open'}),
+    },
 }
 for s, e in CODE18:
     SPEC[0x18][s] = dict(segs=[('code', s, e)])
@@ -303,7 +318,7 @@ def main():
     for s, ch in spec.items():
         if s not in info:
             continue
-        starts_with_code = ch['segs'][0][0] == 'code'
+        starts_with_code = ch['segs'][0][0] == 'code' and all(seg[0] == 'code' for seg in ch['segs'])
         above = []
         j = info[s]['line'] - 2  # 0-based index of line above INCBIN
         while j >= 0 and re.match(r'^\w+:\s*(;.*)?$', main_lines[j]):
