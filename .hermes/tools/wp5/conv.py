@@ -164,6 +164,38 @@ SPEC = {
                       comment='ending-sequence bank-restoring handlers (reti-terminated)',
                       seg_comments={0x68656: 'ending-sequence assets: font/tile graphics (renders digits/letters/Nintendo), text at $696CE ("THANK YOU MARIO..."), tables; boundaries open'}),
     },
+    0x0B: {
+        0x2C000: dict(segs=[('db', 0x2C000, 0x2C2F0)],
+                      comment='per-level group block preceding the Level_05/06/31/30/29/32 pointer list'),
+        0x2C2FC: dict(segs=[('db', 0x2C2FC, 0x2C500)],
+                      comment='shared group block between the pointer list and Level_05',
+                      labels={0x2C2FC: ['UnknownData_0x2C2FC']}),
+        0x2E6AA: dict(segs=[('db', 0x2E6AA, 0x30000)],
+                      comment='level-data tail after the last layout stream in bank $0B',
+                      labels={0x2E6AA: ['UnknownData_0x2E6AA']}),
+    },
+    0x12: {
+        0x48000: dict(segs=[('db', 0x48000, 0x482F0)],
+                      comment='per-level group block preceding the Level_07/08/09/10 pointer list'),
+        0x482F8: dict(segs=[('db', 0x482F8, 0x48500)],
+                      comment='shared group block between the pointer list and Level_07',
+                      labels={0x482F8: ['UnknownData_0x482F8']}),
+        0x4A948: dict(segs=[('db', 0x4A948, 0x4C000)],
+                      comment='level-data tail after the last layout stream in bank $12',
+                      labels={0x4A948: ['UnknownData_0x4A948']}),
+    },
+    0x19: {
+        0x66092: dict(segs=[('dw', 0x66092, 0x6617E), ('db', 0x6617E, 0x68000)],
+                      comment='sprite lists: pointer table + records; loader UnknownCall_0x66000 (table base $6092, indexed by [$FFDB] * 2)',
+                      seg_comments={0x6617E: 'sprite records (4-byte entries; $80 ends a list, $88 checked as a flag)'}),
+    },
+    0x1D: {
+        0x76600: dict(segs=[('gfx', 0x76600, 0x77E00), ('db', 0x77E00, 0x78000)],
+                      comment='Turtle Zone extra tileset (castle/brick ornamentation); $6680-$677F hold 4 animated-tile phases copied to VRAM $9200 by UnknownCall_0x3873 (home.asm)',
+                      labels={0x76600: ['GFX_TilesetTurtleZoneExtra'], 0x77E00: ['UnknownData_0x77E00']},
+                      seg_comments={0x77E00: '128 zero bytes + packed $AA-heavy data; no direct reader identified'},
+                      files={0x76600: 'gfx/tilesets/turtlezone_extra.2bpp'}),
+    },
 }
 for s, e in CODE18:
     SPEC[0x18][s] = dict(segs=[('code', s, e)])
@@ -321,8 +353,9 @@ def main():
         starts_with_code = ch['segs'][0][0] == 'code' and all(seg[0] == 'code' for seg in ch['segs'])
         above = []
         j = info[s]['line'] - 2  # 0-based index of line above INCBIN
-        while j >= 0 and re.match(r'^\w+:\s*(;.*)?$', main_lines[j]):
-            above.append(main_lines[j].split(':')[0])
+        while j >= 0 and (re.match(r'^\w+:\s*(;.*)?$', main_lines[j]) or main_lines[j] == '\t'):
+            if re.match(r'^\w+:', main_lines[j]):
+                above.append(main_lines[j].split(':')[0])
             j -= 1
         d = []
         if starts_with_code:
@@ -385,6 +418,8 @@ def main():
                 body = render_code(bank, a, b, extras)
             elif kind == 'jt':
                 body = render_jt(bank, a, b)
+            elif kind == 'gfx':
+                body = [f'INCBIN "{ch["files"][a]}"']
             else:
                 body = render_data(bank, kind, a, b)
             out += body
@@ -406,7 +441,7 @@ def main():
         old = main_lines[li - 1]
         assert re.match(rf'INCBIN "baserom\.gb", \$0*{s:X}, \$0*{info[s]["e"]:X} - ', old), old
         j = li - 2
-        while j >= 0 and re.match(r'^\w+:\s*(;.*)?$', main_lines[j]):
+        while j >= 0 and (re.match(r'^\w+:\s*(;.*)?$', main_lines[j]) or main_lines[j] == '\t'):
             j -= 1
         start = j + 1  # first replaced line (0-based)
         edits.append((start, li, blocks[s]))  # replace lines [start, li)
@@ -425,6 +460,16 @@ def main():
 
     for start, end, block in edits:
         main_lines[start:end] = block
+    import os
+    for s, ch in spec.items():
+        if s not in info:
+            continue
+        for kind, a, b in ch['segs']:
+            if kind == 'gfx':
+                path = f'{ROOT}/{ch["files"][a]}'
+                os.makedirs(os.path.dirname(path), exist_ok=True)
+                open(path, 'wb').write(ROM[a:b])
+                print(f'extracted {ch["files"][a]} ({b - a} bytes) from ${a:05X}')
     open(MAIN, 'w').write('\n'.join(main_lines))
     nbytes = sum(info[s]['e'] - s for s in info)
     print(f'bank ${bank:02X}: converted {len(info)} chunks, {nbytes} bytes; '
