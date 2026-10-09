@@ -55,6 +55,25 @@ CHUNKS = {
                   comment='unclassified packed data (MacroZone bank tail)'),
     0x7EF80: dict(end=0x80000, kind='data',  label='UnknownData_0x7EF80',
                   comment='unclassified packed data (0xAA-heavy, PumpkinZone bank tail)'),
+    # --- WP5 cheap wins: $06/$07/$0A/$11 ---
+    0x1AD00: dict(end=0x1C000, kind='data',  label='UnknownData_0x1AD00',
+                  comment='mixed tiles/data at the TreeZone bank tail, unclassified'),
+    0x1EA00: dict(end=0x20000, kind='gfx',   label='GFX_TilesetTreeZoneExtra',
+                  file='gfx/tilesets/treezone_extra.2bpp'),
+    0x28000: dict(end=0x282F0, kind='data',  label='UnknownData_0x28000',
+                  comment='per-level group block preceding the Level_02/03/04 pointer list'),
+    0x282F6: dict(end=0x28500, kind='data',  label='UnknownData_0x282F6',
+                  comment='shared group block between the pointer list and Level_02'),
+    0x2B215: dict(end=0x2C000, kind='data',  label='UnknownData_0x2B215',
+                  comment='level-data tail after the last layout stream in bank $0A'),
+    0x44000: dict(end=0x44200, kind='data',  label='UnknownData_0x44000',
+                  comment='512 zero bytes before GFX_OW_MarioZone (filler)'),
+    0x45800: dict(end=0x46000, kind='gfx',   label='GFX_OW_MarioZoneExtra',
+                  file='gfx/overworld/mariozone_extra.2bpp'),
+    0x47000: dict(end=0x47800, kind='gfx',   label='GFX_OW_WarioCastleExtra',
+                  file='gfx/overworld/wariocastle_extra.2bpp'),
+    0x47C80: dict(end=0x48000, kind='data',  label='UnknownData_0x47C80',
+                  comment='unclassified packed data (0xAA-heavy)'),
 }
 
 # which chunks belong to which bank batch
@@ -69,6 +88,10 @@ BANKS = {
     '1B': [0x6EF80],
     '1C': [0x72F80],
     '1F': [0x7EF80],
+    '06': [0x1AD00],
+    '07': [0x1EA00],
+    '0A': [0x28000, 0x282F6, 0x2B215],
+    '11': [0x44000, 0x45800, 0x47000, 0x47C80],
 }
 
 
