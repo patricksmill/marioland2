@@ -265,7 +265,7 @@ UnknownRJump_0x534C:
 	jp UnknownJump_0x5447
 
 UnknownRJump_0x5377:
-	ld a, [$A291]
+	ld a, [sMarioDucking]
 	and a
 	jr z, UnknownRJump_0x5384
 	ld a, 14
@@ -295,7 +295,7 @@ UnknownRJump_0x53A1:
 	jp z, UnknownJump_0x5447
 
 UnknownJump_0x53AD:
-	ld a, [$A222]
+	ld a, [sMarioWalkAnimTimer]
 	and $0C
 	srl a
 	srl a
@@ -332,7 +332,7 @@ UnknownJump_0x53CF:
 	jp UnknownJump_0x5447
 
 UnknownRJump_0x53F2:
-	ld a, [$A291]
+	ld a, [sMarioDucking]
 	and a
 	jr z, UnknownRJump_0x53FE
 	ld a, 15
@@ -362,7 +362,7 @@ UnknownRJump_0x541A:
 	jp z, UnknownJump_0x5447
 
 UnknownJump_0x5426:
-	ld a, [$A222]
+	ld a, [sMarioWalkAnimTimer]
 	and $0C
 	srl a
 	srl a
@@ -382,11 +382,11 @@ UnknownRJump_0x5436:
 
 UnknownJump_0x5447:
 UnknownRJump_0x5447:
-	ld a, [$A217]
+	ld a, [sInvincibilityTimer]
 	and a
 	jr z, UnknownRJump_0x545D
 	dec a
-	ld [$A217], a
+	ld [sInvincibilityTimer], a
 	bit 2, a
 	jr z, UnknownRJump_0x546B
 	ldh a, [$FFC6]
@@ -467,10 +467,10 @@ UnknownRJump_0x54C8:
 	ld [sMarioScreenY], a
 	xor a
 	ldh [$FFC7], a
-	ld a, [$A271]
+	ld a, [sStarTimerHigh]
 	and a
 	jr z, UnknownRJump_0x54E9
-	ld a, [$A272]
+	ld a, [sStarTimerLow]
 	bit 2, a
 	jr z, UnknownRJump_0x54E9
 	ld a, 1
@@ -524,7 +524,7 @@ UnknownRJump_0x551E:
 	ldh [$FFC5], a
 	ld a, 1
 	ldh [$FFBB], a
-	ld a, [$A279]
+	ld a, [sStompChainCount]
 	cp $05
 	jr nc, UnknownRJump_0x5548
 	ldh [$FFC6], a
@@ -689,7 +689,7 @@ UnknownRJump_0x5963:
 UnknownRJump_0x5970:
 	ld a, b
 	ld [hl], a
-	ld [$A23E], a
+	ld [sBlockAnimType], a
 	inc hl
 	ld a, 1
 	ld [hli], a
@@ -719,26 +719,26 @@ UnknownJump_0x5997:
 UnknownJump_0x599A:
 	push hl
 	ld a, [hli]
-	ld [$A23E], a
+	ld [sBlockAnimType], a
 	and a
 	jr z, UnknownRJump_0x59DF
 	ld a, [hl]
 	inc a
-	ld [$A23F], a
+	ld [sBlockAnimTimer], a
 	ld [hli], a
 	ld a, [hli]
-	ld [$A240], a
+	ld [sBlockAnimYLow], a
 	ldh [$FFB7], a
 	ld a, [hli]
-	ld [$A241], a
+	ld [sBlockAnimYHigh], a
 	ldh [$FFB8], a
 	ld a, [hli]
-	ld [$A242], a
+	ld [sBlockAnimXLow], a
 	ldh [$FFB9], a
 	ld a, [hl]
-	ld [$A243], a
+	ld [sBlockAnimXHigh], a
 	ldh [$FFBA], a
-	ld a, [$A23E]
+	ld a, [sBlockAnimType]
 	cp $01
 	jr z, UnknownRJump_0x59EB
 	cp $02
@@ -766,7 +766,7 @@ UnknownRJump_0x59DF:
 	ret
 
 UnknownRJump_0x59EB:
-	ld a, [$A23F]
+	ld a, [sBlockAnimTimer]
 	cp $02
 	jp z, UnknownJump_0x5A72
 	cp $28
@@ -774,7 +774,7 @@ UnknownRJump_0x59EB:
 	jr UnknownRJump_0x5A07
 
 UnknownRJump_0x59FA:
-	ld a, [$A23F]
+	ld a, [sBlockAnimTimer]
 	cp $02
 	jp z, UnknownJump_0x5A7A
 	cp $28
@@ -793,7 +793,7 @@ UnknownRJump_0x5A07:
 	sub b
 	add c
 	ldh [$FFC4], a
-	ld a, [$A23F]
+	ld a, [sBlockAnimTimer]
 	ld c, a
 	ld a, [sScrollX]
 	ld b, a
@@ -806,7 +806,7 @@ UnknownRJump_0x5A07:
 	ld a, 1
 	ldh [$FFBB], a
 	call UnknownCall_0x5297
-	ld a, [$A23F]
+	ld a, [sBlockAnimTimer]
 	ld c, a
 	ld a, [sScrollX]
 	ld b, a
@@ -856,7 +856,7 @@ UnknownJump_0x5A90:
 	jp UnknownJump_0x59DF
 
 UnknownJump_0x5A9E:
-	ld a, [$A23F]
+	ld a, [sBlockAnimTimer]
 	cp $32
 	jr z, UnknownRJump_0x5AFD
 	ld hl, $5AE0
@@ -878,7 +878,7 @@ UnknownJump_0x5A9E:
 	sub b
 	ldh [$FFC5], a
 	ld hl, $5AF9
-	ld a, [$A23F]
+	ld a, [sBlockAnimTimer]
 	and $0C
 	srl a
 	srl a
@@ -909,7 +909,7 @@ UnknownRJump_0x5AFD:
 	jp UnknownJump_0x59DF
 
 UnknownJump_0x5B06:
-	ld a, [$A23F]
+	ld a, [sBlockAnimTimer]
 	cp $02
 	jp z, UnknownJump_0x5BFC
 	cp $08
@@ -947,10 +947,10 @@ UnknownRJump_0x5B3C:
 	ld a, 7
 	call UnknownCall_0x5CF1
 	call UnknownCall_0x200C
-	ld a, [$A205]
+	ld a, [sCollisionTilePtrLow]
 	and $DE
 	ld l, a
-	ld a, [$A206]
+	ld a, [sCollisionTilePtrHigh]
 	ld h, a
 	ld de, $001F
 
@@ -975,7 +975,7 @@ UnknownRJump_0x5B5D:
 	jp UnknownJump_0x59DF
 
 UnknownJump_0x5B70:
-	ld a, [$A23F]
+	ld a, [sBlockAnimTimer]
 	cp $02
 	jp z, UnknownJump_0x5BFC
 	cp $08
@@ -983,7 +983,7 @@ UnknownJump_0x5B70:
 	jr UnknownRJump_0x5B8A
 
 UnknownJump_0x5B7E:
-	ld a, [$A23F]
+	ld a, [sBlockAnimTimer]
 	cp $02
 	jp z, UnknownJump_0x5BFC
 	cp $08
@@ -1041,10 +1041,10 @@ UnknownRJump_0x5BC8:
 
 UnknownRJump_0x5BD3:
 	call UnknownCall_0x200C
-	ld a, [$A205]
+	ld a, [sCollisionTilePtrLow]
 	and $DE
 	ld l, a
-	ld a, [$A206]
+	ld a, [sCollisionTilePtrHigh]
 	ld h, a
 	ld de, $001F
 
@@ -1074,10 +1074,10 @@ UnknownJump_0x5BFC:
 
 UnknownJump_0x5C01:
 	call UnknownCall_0x200C
-	ld a, [$A205]
+	ld a, [sCollisionTilePtrLow]
 	and $DE
 	ld l, a
-	ld a, [$A206]
+	ld a, [sCollisionTilePtrHigh]
 	ld h, a
 	ld de, $001F
 
@@ -1104,10 +1104,10 @@ UnknownRJump_0x5C17:
 
 UnknownJump_0x5C2C:
 	call UnknownCall_0x200C
-	ld a, [$A205]
+	ld a, [sCollisionTilePtrLow]
 	and $DE
 	ld l, a
-	ld a, [$A206]
+	ld a, [sCollisionTilePtrHigh]
 	ld h, a
 	ld de, $001F
 
@@ -1135,10 +1135,10 @@ UnknownData_0x5C52:
 	call UnknownCall_0x200C
 	ld a, 96
 	call UnknownCall_0x5CF1
-	ld a, [$A205]
+	ld a, [sCollisionTilePtrLow]
 	and $DE
 	ld l, a
-	ld a, [$A206]
+	ld a, [sCollisionTilePtrHigh]
 	ld h, a
 	ld de, $001F
 
@@ -1159,10 +1159,10 @@ UnknownRJump_0x5C70:
 	ld [hl], a
 	ret
 	call UnknownCall_0x200C
-	ld a, [$A205]
+	ld a, [sCollisionTilePtrLow]
 	and $DE
 	ld l, a
-	ld a, [$A206]
+	ld a, [sCollisionTilePtrHigh]
 	ld h, a
 	ld de, $001F
 
@@ -1269,8 +1269,8 @@ UnknownJump_0x5CF2:
 
 UnknownJump_0x5D25:
 	xor a
-	ld [$A238], a
-	ld [$A237], a
+	ld [sScrollDeltaDown], a
+	ld [sScrollDeltaUp], a
 	ld [$A28A], a
 	ldh a, [rLCDC]
 	bit 5, a
@@ -1284,29 +1284,29 @@ UnknownRJump_0x5D39:
 	ld a, [$A29B]
 	and a
 	call nz, UnknownCall_0x6442
-	ld a, [$A271]
+	ld a, [sStarTimerHigh]
 	and a
 	jr z, UnknownRJump_0x5D6A
-	ld a, [$A272]
+	ld a, [sStarTimerLow]
 	sub 1
-	ld [$A272], a
-	ld a, [$A271]
+	ld [sStarTimerLow], a
+	ld a, [sStarTimerHigh]
 	sbc 0
-	ld [$A271], a
+	ld [sStarTimerHigh], a
 	and a
 	jr nz, UnknownRJump_0x5D6A
 	ld a, [sCurSong]
 	cp $09
 	jr z, UnknownRJump_0x5D6A
-	ld a, [$A292]
+	ld a, [sLevelSong]
 	ld [$A468], a
 
 UnknownRJump_0x5D6A:
-	ld a, [$A224]
+	ld a, [sMarioDead]
 	ld b, a
-	ld a, [$A2E3]
+	ld a, [sBossClearFlag]
 	ld c, a
-	ld a, [$A24F]
+	ld a, [sGoalBell]
 	or b
 	or c
 	jp nz, UnknownJump_0x5E12
@@ -1326,7 +1326,7 @@ UnknownRJump_0x5D6A:
 	ld [sTimerHigh], a
 	jr nc, UnknownRJump_0x5DB4
 	ld a, 128
-	ld [$A224], a
+	ld [sMarioDead], a
 	xor a
 	ld [sTimerLow], a
 	ld [sTimerHigh], a
@@ -1349,7 +1349,7 @@ UnknownRJump_0x5DB4:
 	ld [$A53F], a
 
 UnknownRJump_0x5DCB:
-	ld a, [$A24F]
+	ld a, [sGoalBell]
 	and a
 	jr nz, UnknownRJump_0x5E12
 	ld a, [sTimerHigh]
@@ -1358,13 +1358,13 @@ UnknownRJump_0x5DCB:
 	ld a, [sCurSong]
 	and a
 	jr nz, UnknownRJump_0x5E12
-	ld a, [$A292]
+	ld a, [sLevelSong]
 	and $FC
 	cp $20
 	jr z, UnknownRJump_0x5DF9
-	ld a, [$A292]
+	ld a, [sLevelSong]
 	ld [$A468], a
-	ld a, [$A271]
+	ld a, [sStarTimerHigh]
 	and a
 	jr z, UnknownRJump_0x5E12
 
@@ -1374,7 +1374,7 @@ UnknownRJump_0x5DCB:
 
 
 UnknownRJump_0x5DF9:
-	ld a, [$A292]
+	ld a, [sLevelSong]
 	add 4
 	ld [$A468], a
 	jr UnknownRJump_0x5E12
@@ -3846,15 +3846,15 @@ UnknownRJump_0x92C4:
 	cp $06
 	ret nc
 	ld a, 2
-	ld [$A267], a
+	ld [sFadeTimerHigh], a
 	ld a, 128
-	ld [$A266], a
+	ld [sFadeTimerLow], a
 	ld a, 1
-	ld [$A2E3], a
+	ld [sBossClearFlag], a
 	ret
 
 UnknownCall_0x92DF:
-	ld a, [$A224]
+	ld a, [sMarioDead]
 	cp $FF
 	ret z
 	ldh a, [$FFD5]
@@ -6643,7 +6643,7 @@ UnknownRJump_0xA8D6:
 	ldh a, [$FFDF]
 	and a
 	jr nz, UnknownRJump_0xA90A
-	ld a, [$A266]
+	ld a, [sFadeTimerLow]
 	cp $61
 	call z, UnknownCall_0xA8FF
 	ld a, [$AFCF]
@@ -6720,7 +6720,7 @@ UnknownData_0xA90E: ;dw values ($5CAC/$6920/$69BD/... in the $69xx-$6Axx domain)
 	ld [$AFD0], a
 	ret
 	ld a, 5
-	ld [$A266], a
+	ld [sFadeTimerLow], a
 	call UnknownCall_0xB40E
 	call UnknownCall_0xB339
 	ld b, 2
@@ -7066,7 +7066,7 @@ UnknownRJump_0xABB6:
 	ld [$AF37], a
 	call UnknownCall_0xB224
 	ret
-	ld a, [$A266]
+	ld a, [sFadeTimerLow]
 	cp $61
 	call z, UnknownCall_0xABF5
 	ld a, [$AFCF]
@@ -7102,7 +7102,7 @@ UnknownData_0xAC04: ;dw values ($5CAC/$6920/... spanning $69xx-$6Dxx); no direct
 	dw $6D60, $6D31, $6BD1
 
 	ld a, 5
-	ld [$A266], a
+	ld [sFadeTimerLow], a
 	call UnknownCall_0xB40E
 	ldh a, [$FFEC]
 	dec a
@@ -7134,7 +7134,7 @@ UnknownData_0xAC04: ;dw values ($5CAC/$6920/... spanning $69xx-$6Dxx); no direct
 	ld [$AFD0], a
 	ret
 	ld a, 5
-	ld [$A266], a
+	ld [sFadeTimerLow], a
 	call UnknownCall_0xB339
 	call UnknownCall_0xB40E
 	ld b, 2
@@ -7346,7 +7346,7 @@ UnknownRJump_0xADBE:
 	ld [$AF37], a
 	call UnknownCall_0xB224
 	ret
-	ld a, [$A266]
+	ld a, [sFadeTimerLow]
 	cp $61
 	call z, UnknownCall_0xABF5
 	ld a, [$AFCF]
@@ -7374,7 +7374,7 @@ UnknownData_0xADFD: ;dw values ($5CAC/$6E17/... spanning $6Cxx-$6Fxx); no direct
 	dw $6E3C
 
 	ld a, 1
-	ld [$A2E3], a
+	ld [sBossClearFlag], a
 	call UnknownCall_0xB32D
 	call UnknownCall_0xB18F
 	call UnknownCall_0xB276
@@ -7407,7 +7407,7 @@ UnknownData_0xADFD: ;dw values ($5CAC/$6E17/... spanning $6Cxx-$6Fxx); no direct
 	ldh [$FFDB], a
 	ret
 	ld a, 5
-	ld [$A266], a
+	ld [sFadeTimerLow], a
 	call UnknownCall_0xB2E8
 	ldh a, [$FFEC]
 	dec a
@@ -7436,7 +7436,7 @@ UnknownRJump_0xAE6F:
 	call UnknownCall_0xB224
 	ret
 	ld a, 5
-	ld [$A266], a
+	ld [sFadeTimerLow], a
 	ldh a, [$FFEC]
 	dec a
 	ldh [$FFEC], a
@@ -7452,7 +7452,7 @@ UnknownRJump_0xAE6F:
 	ldh [$FFEC], a
 	ret
 	ld a, 5
-	ld [$A266], a
+	ld [sFadeTimerLow], a
 	call UnknownCall_0xB35A
 	ldh a, [$FFEC]
 	and a
@@ -7777,9 +7777,9 @@ UnknownRJump_0xB145:
 	ret
 
 UnknownCall_0xB14E:
-	ld a, [$A266]
+	ld a, [sFadeTimerLow]
 	ld b, a
-	ld a, [$A267]
+	ld a, [sFadeTimerHigh]
 	or b
 	ret
 
@@ -9776,7 +9776,7 @@ UnknownData_0x103C0: ;sound data block, read via `ld hl, $43C0` in the surroundi
 UnknownData_0x103FA: ;sound bank data; no direct reader found
 	db $02, $44, $02, $44, $02, $44, $02, $44, $17, $BC, $B4, $54, $C7, $02
 
-	ld a, [$A279]
+	ld a, [sStompChainCount]
 	and a
 	ret z
 	cp $05
@@ -9789,7 +9789,7 @@ UnknownData_0x103FA: ;sound bank data; no direct reader found
 	call UnknownCall_0x111B7
 	cp $02
 	jp z, UnknownJump_0x106A8
-	ld a, [$A279]
+	ld a, [sStompChainCount]
 	ld hl, $4439
 	call UnknownCall_0x111A6
 	jp UnknownJump_0x106CC
@@ -13137,9 +13137,9 @@ UnknownRJump_0x1404C:
 	ld a, 195
 	ldh_n_a $40
 	ld a, 5
-	ld [$A267], a
+	ld [sFadeTimerHigh], a
 	ld a, 64
-	ld [$A266], a
+	ld [sFadeTimerLow], a
 	ld a, 255
 	ld [$A468], a
 	ld a, 1
@@ -13153,7 +13153,7 @@ UnknownJump_0x1407C:
 	ld a, 208
 	ld [sOAMPalette1], a
 	call UnknownCall_0x14113
-	ld a, [$A267]
+	ld a, [sFadeTimerHigh]
 	cp $05
 	ret nc
 	and a
@@ -16008,7 +16008,7 @@ UnknownRJump_0x3000C:
 	ldh [$FFC0], a
 	call UnknownCall_0x28D9
 	xor a
-	ld [$A277], a
+	ld [sMenuState], a
 	ld [sScrollY], a
 	ld [sScrollX], a
 	ld [$A2C6], a
@@ -16061,7 +16061,7 @@ UnknownRJump_0x3009B:
 	ld a, [$A2C6]
 	and a
 	jr z, UnknownRJump_0x300E1
-	ld a, [$A277]
+	ld a, [sMenuState]
 	cp $04
 	jr z, UnknownRJump_0x300B4
 	ldh_a_n $97
@@ -16141,23 +16141,23 @@ UnknownData_0x3012A: ;indexed by ($FF97 & $0C) >> 2; value is added to 201 and w
 
 
 UnknownCall_0x3012E:
-	ld a, [$A277]
+	ld a, [sMenuState]
 	rst $28
 
 UnknownData_0x30132: ;dw pointers (descending); no direct reader found
 	dw $43D6, $4326, $42F1, $42C8
 	dw $426D, $41C6, $4140
 
-	ld a, [$A278]
+	ld a, [sMenuTimer]
 	dec a
-	ld [$A278], a
+	ld [sMenuTimer], a
 	jr nz, UnknownRJump_0x30159
 
 UnknownRJump_0x30149:
 	ld a, 124
 	ldh [$FFC0], a
 	ld a, 1
-	ld [$A277], a
+	ld [sMenuState], a
 	xor a
 	ld [$A2C6], a
 	ldh [$FFBB], a
@@ -16173,7 +16173,7 @@ UnknownRJump_0x30159:
 	ldh [$FFC5], a
 	xor a
 	ldh [$FFBB], a
-	ld a, [$A278]
+	ld a, [sMenuTimer]
 	cp $40
 	jr c, UnknownRJump_0x3017C
 	srl a
@@ -16183,7 +16183,7 @@ UnknownRJump_0x30159:
 	call UnknownCall_0x2B13
 
 UnknownRJump_0x3017C:
-	ld a, [$A278]
+	ld a, [sMenuTimer]
 	and $F0
 	swap a
 	sub 4
@@ -16191,7 +16191,7 @@ UnknownRJump_0x3017C:
 	ld a, [$A2D1]
 	sub b
 	ld [$A2D1], a
-	ld a, [$A278]
+	ld a, [sMenuTimer]
 	cp $40
 	jr nc, UnknownRJump_0x301A6
 	ld a, [$A2D1]
@@ -16206,7 +16206,7 @@ UnknownRJump_0x3017C:
 UnknownRJump_0x301A6:
 	ld a, [$A2D1]
 	ldh [$FFC4], a
-	ld a, [$A278]
+	ld a, [sMenuTimer]
 	and $18
 	sla a
 	swap a
@@ -16229,12 +16229,12 @@ UnknownData_0x301C2: ;indexed from ($A278 & $18); value written to $FFC6 (reader
 	ldh a, [$FFC0]
 	add 1
 	ldh [$FFC0], a
-	ld a, [$A278]
+	ld a, [sMenuTimer]
 	dec a
-	ld [$A278], a
+	ld [sMenuTimer], a
 	ret nz
 	ld a, 21
-	ld [$A224], a
+	ld [sMarioDead], a
 	ldh a, [$FFC2]
 	and $60
 	srl a
@@ -16272,7 +16272,7 @@ UnknownRJump_0x3020A:
 	ld a, [hli]
 	ld [$A2C5], a
 	ld a, [hli]
-	ld [$A22C], a
+	ld [sLives], a
 	ld a, [hli]
 	ld [$A28D], a
 	ret
@@ -16312,9 +16312,9 @@ UnknownRJump_0x30238:
 	ld a, 120
 	ld [hl], a
 	ld a, 128
-	ld [$A278], a
+	ld [sMenuTimer], a
 	ld a, 6
-	ld [$A277], a
+	ld [sMenuState], a
 	xor a
 	ld [$A2C6], a
 	ld a, 144
@@ -16324,12 +16324,12 @@ UnknownRJump_0x30238:
 	ret
 	ld a, 9
 	ldh [$FFC6], a
-	ld a, [$A278]
+	ld a, [sMenuTimer]
 	dec a
-	ld [$A278], a
+	ld [sMenuTimer], a
 	cp $2B
 	call z, UnknownCall_0x30291
-	ld a, [$A278]
+	ld a, [sMenuTimer]
 	cp $2B
 	jr nc, UnknownRJump_0x3028A
 	cp $0B
@@ -16363,11 +16363,11 @@ UnknownRJump_0x302AD:
 	inc a
 	inc a
 	ldh [$FFC0], a
-	ld a, [$A278]
+	ld a, [sMenuTimer]
 	and a
 	ret nz
 	ld a, 1
-	ld [$A277], a
+	ld [sMenuState], a
 	ld a, 124
 	ldh [$FFC0], a
 	ret
@@ -16379,7 +16379,7 @@ UnknownRJump_0x302C2:
 	ld a, 255
 	ld [sMarioDirection], a
 	call UnknownCall_0x3040D
-	ld a, [$A222]
+	ld a, [sMarioWalkAnimTimer]
 	and $0C
 	srl a
 	srl a
@@ -16388,17 +16388,17 @@ UnknownRJump_0x302C2:
 	ldh a, [$FFC2]
 	sub 1
 	ldh [$FFC2], a
-	ld a, [$A278]
+	ld a, [sMenuTimer]
 	dec a
-	ld [$A278], a
+	ld [sMenuTimer], a
 	ret nz
 	ld a, 1
-	ld [$A277], a
+	ld [sMenuState], a
 	ret
 	ld a, 1
 	ld [sMarioDirection], a
 	call UnknownCall_0x3040D
-	ld a, [$A222]
+	ld a, [sMarioWalkAnimTimer]
 	and $0C
 	srl a
 	srl a
@@ -16407,12 +16407,12 @@ UnknownRJump_0x302C2:
 	ldh a, [$FFC2]
 	add 1
 	ldh [$FFC2], a
-	ld a, [$A278]
+	ld a, [sMenuTimer]
 	dec a
-	ld [$A278], a
+	ld [sMenuTimer], a
 	ret nz
 	ld a, 1
-	ld [$A277], a
+	ld [sMenuState], a
 	ret
 
 UnknownJump_0x3031A:
@@ -16447,9 +16447,9 @@ UnknownRJump_0x30342:
 	cp $88
 	jr nz, UnknownRJump_0x3031A
 	ld a, 4
-	ld [$A277], a
+	ld [sMenuState], a
 	ld a, 55
-	ld [$A278], a
+	ld [sMenuTimer], a
 	ld a, 1
 	ld [$A460], a
 	ret
@@ -16459,9 +16459,9 @@ UnknownRJump_0x30367:
 	cp $80
 	jr nc, UnknownRJump_0x3031A
 	ld a, 5
-	ld [$A277], a
+	ld [sMenuState], a
 	ld a, 64
-	ld [$A278], a
+	ld [sMenuTimer], a
 	ld a, 5
 	ld [$A460], a
 	ret
@@ -16486,10 +16486,10 @@ UnknownJump_0x30398:
 	cp $88
 	jp nc, UnknownJump_0x3031A
 	ld a, 2
-	ld [$A277], a
+	ld [sMenuState], a
 	ld a, 32
-	ld [$A278], a
-	ld a, [$A222]
+	ld [sMenuTimer], a
+	ld a, [sMarioWalkAnimTimer]
 	and $0C
 	srl a
 	srl a
@@ -16502,10 +16502,10 @@ UnknownJump_0x303B7:
 	cp $30
 	jp c, UnknownJump_0x3031A
 	ld a, 3
-	ld [$A277], a
+	ld [sMenuState], a
 	ld a, 32
-	ld [$A278], a
-	ld a, [$A222]
+	ld [sMenuTimer], a
+	ld a, [sMarioWalkAnimTimer]
 	and $0C
 	srl a
 	srl a
@@ -16541,20 +16541,20 @@ UnknownRJump_0x303FF:
 
 UnknownRJump_0x30400:
 	ld a, 1
-	ld [$A277], a
+	ld [sMenuState], a
 	ld [sMarioDirection], a
 	ld a, 124
 	ldh [$FFC0], a
 	ret
 
 UnknownCall_0x3040D:
-	ld a, [$A222]
+	ld a, [sMarioWalkAnimTimer]
 	add 1
-	ld [$A222], a
+	ld [sMarioWalkAnimTimer], a
 	cp $0C
 	ret c
 	xor a
-	ld [$A222], a
+	ld [sMarioWalkAnimTimer], a
 	ret
 
 UnknownJump_0x3041D:
@@ -16579,8 +16579,8 @@ UnknownRJump_0x3042D:
 	ld a, [hl]
 	ldh [$FFC2], a
 	xor a
-	ld [$A277], a
-	ld [$A222], a
+	ld [sMenuState], a
+	ld [sMarioWalkAnimTimer], a
 	ldh_a_n $9B
 	inc a
 	ldh_n_a $9B
@@ -16603,7 +16603,7 @@ UnknownJump_0x3045B:
 	ret
 
 UnknownCall_0x3046B:
-	ld a, [$A277]
+	ld a, [sMenuState]
 	rst $28
 
 UnknownData_0x3046F: ;rst $28 jump table for UnknownCall_0x3046B (indexed by $A277)
@@ -16612,7 +16612,7 @@ UnknownData_0x3046F: ;rst $28 jump table for UnknownCall_0x3046B (indexed by $A2
 	dw $4477 ;$02
 	dw $44A1 ;$03
 
-	ld a, [$A266]
+	ld a, [sFadeTimerLow]
 	and a
 	ret nz
 	ld a, [$A2CA]
@@ -16622,27 +16622,27 @@ UnknownData_0x3046F: ;rst $28 jump table for UnknownCall_0x3046B (indexed by $A2
 	dec a
 	ld [$A2CA], a
 	ld a, 64
-	ld [$A266], a
+	ld [sFadeTimerLow], a
 	ld a, 10
 	ld [$A478], a
 	ret
 
 UnknownRJump_0x30494:
-	ld a, [$A277]
+	ld a, [sMenuState]
 	inc a
-	ld [$A277], a
+	ld [sMenuState], a
 	ld a, 255
-	ld [$A266], a
+	ld [sFadeTimerLow], a
 	ret
-	ld a, [$A266]
+	ld a, [sFadeTimerLow]
 	and a
 	ret nz
 	ld a, 20
 	ldh_n_a $9B
 	ret
-	ld a, [$A267]
+	ld a, [sFadeTimerHigh]
 	ld b, a
-	ld a, [$A266]
+	ld a, [sFadeTimerLow]
 	or b
 	jr nz, UnknownRJump_0x3050A
 	ld a, 208
@@ -16667,11 +16667,11 @@ UnknownRJump_0x30494:
 	ret
 
 UnknownRJump_0x304DD:
-	ld a, [$A277]
+	ld a, [sMenuState]
 	inc a
-	ld [$A277], a
+	ld [sMenuState], a
 	ld a, 64
-	ld [$A266], a
+	ld [sFadeTimerLow], a
 	ld a, 5
 	ld [$A2CA], a
 	jp UnknownJump_0x3045B
@@ -16718,16 +16718,16 @@ UnknownRJump_0x3050A:
 	add 197
 	ldh [$FFC6], a
 	call UnknownCall_0x2B13
-	ld a, [$A222]
+	ld a, [sMarioWalkAnimTimer]
 	add 8
-	ld [$A222], a
+	ld [sMarioWalkAnimTimer], a
 	cp $50
 	jr c, UnknownRJump_0x30567
 	xor a
-	ld [$A222], a
+	ld [sMarioWalkAnimTimer], a
 
 UnknownRJump_0x30567:
-	ld a, [$A222]
+	ld a, [sMarioWalkAnimTimer]
 	and $F0
 	swap a
 	add 191
@@ -16761,11 +16761,11 @@ UnknownRJump_0x30593:
 
 UnknownRJump_0x305A4:
 	ld a, 1
-	ld [$A277], a
+	ld [sMenuState], a
 	ld a, 1
-	ld [$A267], a
+	ld [sFadeTimerHigh], a
 	ld a, 255
-	ld [$A266], a
+	ld [sFadeTimerLow], a
 	jp UnknownJump_0x3045B
 
 UnknownJump_0x305B6:
@@ -16849,9 +16849,9 @@ UnknownRJump_0x30629:
 	ldh_n_a $43
 	ld [$A26E], a
 	ld a, 64
-	ld [$A278], a
+	ld [sMenuTimer], a
 	xor a
-	ld [$A277], a
+	ld [sMenuState], a
 	ld a, 88
 	ldh [$FFC2], a
 	ldh_a_n $9B
@@ -16883,7 +16883,7 @@ UnknownJump_0x3067A:
 	ret
 
 UnknownCall_0x30693:
-	ld a, [$A277]
+	ld a, [sMenuState]
 	rst $28
 
 UnknownData_0x30697: ;rst $28 jump table for UnknownCall_0x30693 (indexed by $A277)
@@ -16893,7 +16893,7 @@ UnknownData_0x30697: ;rst $28 jump table for UnknownCall_0x30693 (indexed by $A2
 	dw $469F ;$03
 
 	ld hl, $46D1
-	ld a, [$A266]
+	ld a, [sFadeTimerLow]
 	and $F0
 	swap a
 	sla a
@@ -16909,7 +16909,7 @@ UnknownData_0x30697: ;rst $28 jump table for UnknownCall_0x30693 (indexed by $A2
 	ld [sOAMPalette2], a
 	ld a, 187
 	ldh [$FFC6], a
-	ld a, [$A266]
+	ld a, [sFadeTimerLow]
 	and a
 	ret nz
 	ld a, 24
@@ -16929,11 +16929,11 @@ UnknownData_0x306D1: ;4-byte palette records (BGPalette, OAMPalette1, OAMPalette
 	ldh_a_n $81
 	and $49
 	jr z, UnknownRJump_0x30700
-	ld a, [$A277]
+	ld a, [sMenuState]
 	inc a
-	ld [$A277], a
+	ld [sMenuState], a
 	ld a, 64
-	ld [$A266], a
+	ld [sFadeTimerLow], a
 	ret
 
 UnknownRJump_0x30700:
@@ -16941,9 +16941,9 @@ UnknownRJump_0x30700:
 	cp $80
 	ret nz
 	ld a, 1
-	ld [$A277], a
+	ld [sMenuState], a
 	ld a, 64
-	ld [$A278], a
+	ld [sMenuTimer], a
 	ret
 	ldh_a_n $97
 	and $0C
@@ -16955,9 +16955,9 @@ UnknownRJump_0x30700:
 	add hl, de
 	ld a, [hl]
 	ldh [$FFC6], a
-	ld a, [$A278]
+	ld a, [sMenuTimer]
 	dec a
-	ld [$A278], a
+	ld [sMenuTimer], a
 	jr z, UnknownRJump_0x30736
 	srl a
 	ld b, a
@@ -16970,10 +16970,10 @@ UnknownRJump_0x30736:
 	ld a, 20
 	ldh_n_a $9B
 	xor a
-	ld [$A266], a
-	ld [$A267], a
+	ld [sFadeTimerLow], a
+	ld [sFadeTimerHigh], a
 	ld a, 1
-	ld [$A224], a
+	ld [sMarioDead], a
 	ret
 
 UnknownData_0x30748: ;indexed by ($FF97 & $0C) >> 2; value written to $FFC6
@@ -16989,9 +16989,9 @@ UnknownData_0x30748: ;indexed by ($FF97 & $0C) >> 2; value written to $FFC6
 	add hl, de
 	ld a, [hl]
 	ldh [$FFC6], a
-	ld a, [$A278]
+	ld a, [sMenuTimer]
 	dec a
-	ld [$A278], a
+	ld [sMenuTimer], a
 	jr z, UnknownRJump_0x30771
 	srl a
 	ld b, a
@@ -17002,7 +17002,7 @@ UnknownData_0x30748: ;indexed by ($FF97 & $0C) >> 2; value written to $FFC6
 
 UnknownRJump_0x30771:
 	ld a, 2
-	ld [$A277], a
+	ld [sMenuState], a
 	ret
 
 UnknownData_0x30777: ;4-byte lookup table (indexed by ($FF97 & $0C) >> 2 -> $FFC6) followed by code
@@ -17024,16 +17024,16 @@ UnknownRJump_0x30787:
 	ld a, 195
 	ldh_n_a $40
 	ld a, 4
-	ld [$A267], a
+	ld [sFadeTimerHigh], a
 	ld a, 255
-	ld [$A266], a
+	ld [sFadeTimerLow], a
 	ldh_a_n $9B
 	inc a
 	ldh_n_a $9B
 	ret
-	ld a, [$A267]
+	ld a, [sFadeTimerHigh]
 	ld b, a
-	ld a, [$A266]
+	ld a, [sFadeTimerLow]
 	or b
 	jr z, UnknownRJump_0x307B9
 	ldh_a_n $81
@@ -17142,10 +17142,10 @@ UnknownRJump_0x30864:
 UnknownCall_0x30884:
 	xor a
 	ld [$A2D3], a
-	ld a, [$A267]
+	ld a, [sFadeTimerHigh]
 	and a
 	jr nz, UnknownRJump_0x3089A
-	ld a, [$A266]
+	ld a, [sFadeTimerLow]
 	cp $80
 	jr nc, UnknownRJump_0x3089A
 	sub 128
@@ -18705,11 +18705,11 @@ UnknownCall_0x3C32D:
 	ld a, [$A690]
 	or a
 	ret nz
-	ld a, [$A224]
+	ld a, [sMarioDead]
 	or a
 	ret nz
 	ld a, 255
-	ld [$A224], a
+	ld [sMarioDead], a
 	ld a, [$A840]
 	ld hl, $650E
 	ld d, 0
@@ -20270,7 +20270,7 @@ UnknownJump_0x3D0D7:
 	ld a, 35
 	ld [$A840], a
 	ld a, 255
-	ld [$A224], a
+	ld [sMarioDead], a
 	call UnknownCall_0x3E9FB
 	ld a, 255
 	ld [$A468], a
@@ -20341,7 +20341,7 @@ UnknownCall_0x3D18E:
 	ld a, [$A2B4]
 	or a
 	ret z
-	ld a, [$A224]
+	ld a, [sMarioDead]
 	or a
 	ret nz
 	ld a, [$A84A]
@@ -20367,7 +20367,7 @@ UnknownCall_0x3D1B5:
 	ld [$A840], a
 	call UnknownCall_0x3EEA4
 	ld a, 255
-	ld [$A224], a
+	ld [sMarioDead], a
 	ret
 
 UnknownCall_0x3D1C9:
@@ -20391,7 +20391,7 @@ UnknownJump_0x3D1E0:
 	ld a, 40
 	ld [$A840], a
 	ld a, 255
-	ld [$A224], a
+	ld [sMarioDead], a
 	ld a, 255
 	ld [$A468], a
 	call UnknownCall_0x2AAA
@@ -20467,7 +20467,7 @@ UnknownCall_0x3D29F:
 	ld a, [$A2B4]
 	or a
 	ret z
-	ld a, [$A224]
+	ld a, [sMarioDead]
 	or a
 	ret nz
 	ld a, [$A840]
@@ -20556,7 +20556,7 @@ UnknownJump_0x3D33A:
 	ld a, 50
 	ld [$A840], a
 	ld a, 255
-	ld [$A224], a
+	ld [sMarioDead], a
 	call UnknownCall_0x3E9FB
 	ld a, 255
 	ld [$A468], a
@@ -20635,7 +20635,7 @@ UnknownCall_0x3D409:
 	ld a, [$A2B4]
 	or a
 	ret z
-	ld a, [$A224]
+	ld a, [sMarioDead]
 	or a
 	ret nz
 	ld a, 16
@@ -20663,7 +20663,7 @@ UnknownCall_0x3D43D:
 	ld a, [$A840]
 	cp $6A
 	ret nz
-	ld a, [$A224]
+	ld a, [sMarioDead]
 	or a
 	jr nz, UnknownRJump_0x3D45C
 	ld a, 108
@@ -20672,7 +20672,7 @@ UnknownCall_0x3D43D:
 	ld hl, $A86B
 	set 7, [hl]
 	ld a, 255
-	ld [$A224], a
+	ld [sMarioDead], a
 	ret
 
 UnknownRJump_0x3D45C:
@@ -20704,7 +20704,7 @@ UnknownJump_0x3D477:
 	ld a, 60
 	ld [$A840], a
 	ld a, 255
-	ld [$A224], a
+	ld [sMarioDead], a
 	call UnknownCall_0x3E9FB
 	ld a, 255
 	ld [$A468], a
@@ -20779,7 +20779,7 @@ UnknownCall_0x3D533:
 	ld a, [$A2B4]
 	or a
 	ret z
-	ld a, [$A224]
+	ld a, [sMarioDead]
 	or a
 	ret nz
 	ld a, 47
@@ -20813,7 +20813,7 @@ UnknownCall_0x3D56B:
 	ld [$A840], a
 	call UnknownCall_0x3EEA4
 	ld a, 255
-	ld [$A224], a
+	ld [sMarioDead], a
 	ld a, [$A871]
 	bit 7, a
 	ret z
@@ -20879,7 +20879,7 @@ UnknownJump_0x3D5EC:
 
 UnknownRJump_0x3D606:
 	ld a, 255
-	ld [$A224], a
+	ld [sMarioDead], a
 	call UnknownCall_0x3E9FB
 	ld a, 255
 	ld [$A468], a
@@ -20941,7 +20941,7 @@ UnknownCall_0x3D69C:
 	ld a, [$A2B4]
 	or a
 	ret z
-	ld a, [$A224]
+	ld a, [sMarioDead]
 	or a
 	ret nz
 	ld a, [$A85E]
@@ -20969,7 +20969,7 @@ UnknownJump_0x3D6C3:
 	ld a, 90
 	ld [$A840], a
 	ld a, 255
-	ld [$A224], a
+	ld [sMarioDead], a
 	ld a, 255
 	ld [$A468], a
 	call UnknownCall_0x2AAA
@@ -21034,7 +21034,7 @@ UnknownJump_0x3D760:
 	ld [$A840], a
 	ld [$A840], a
 	ld a, 255
-	ld [$A224], a
+	ld [sMarioDead], a
 	call UnknownCall_0x3E9FB
 	ld a, 255
 	ld [$A468], a
@@ -21142,7 +21142,7 @@ UnknownJump_0x3D848:
 	ld [$A840], a
 	ld [$A840], a
 	ld a, 255
-	ld [$A224], a
+	ld [sMarioDead], a
 	ld a, 0
 	ld [sBGPalette], a
 	ld a, 1
@@ -23699,7 +23699,7 @@ UnknownRJump_0x3EC0E:
 	add 128
 	ld [bc], a
 	ld bc, $9864
-	ld a, [$A22C]
+	ld a, [sLives]
 	ld d, a
 	and $0F
 	add 128
@@ -24088,7 +24088,7 @@ UnknownCall_0x3EEF0:
 	ld e, a
 	ld hl, $A848
 	add hl, de
-	ld a, [$A224]
+	ld a, [sMarioDead]
 	or a
 	jr nz, UnknownRJump_0x3EF19
 	ld a, [$A2B4]
@@ -24120,7 +24120,7 @@ UnknownCall_0x3EF2B:
 	ld [sOAMPalette1], a
 	ld a, 57
 	ld [sOAMPalette2], a
-	ld a, [$A24F]
+	ld a, [sGoalBell]
 	or a
 	jr z, UnknownRJump_0x3EF56
 	ld a, [$A840]
@@ -24142,7 +24142,7 @@ UnknownRJump_0x3EF56:
 	ld a, [$A2B4]
 	or a
 	jr z, UnknownRJump_0x3EFB2
-	ld a, [$A224]
+	ld a, [sMarioDead]
 	or a
 	jr nz, UnknownRJump_0x3EFB2
 	ld a, [$A840]
@@ -24204,7 +24204,7 @@ UnknownRJump_0x3EFB2:
 	ld [$A844], a
 	xor a
 	ld [$A68B], a
-	ld a, [$A224]
+	ld a, [sMarioDead]
 	or a
 	jr nz, UnknownRJump_0x3F003
 	ld a, [$A840]
@@ -24239,7 +24239,7 @@ UnknownRJump_0x3F003:
 	jr UnknownRJump_0x3F024
 
 UnknownRJump_0x3F014:
-	ld a, [$A224]
+	ld a, [sMarioDead]
 	or a
 	jr nz, UnknownRJump_0x3F03D
 	ld a, 63
@@ -24250,7 +24250,7 @@ UnknownRJump_0x3F014:
 UnknownRJump_0x3F024:
 	or a
 	jr nz, UnknownRJump_0x3F03D
-	ld a, [$A224]
+	ld a, [sMarioDead]
 	or a
 	jr nz, UnknownRJump_0x3F03D
 	ld a, [$A848]
@@ -24347,7 +24347,7 @@ UnknownRJump_0x3F0C2:
 	ld a, 104
 	ld [$A840], a
 	call UnknownCall_0x3EEA4
-	ld a, [$A224]
+	ld a, [sMarioDead]
 	or a
 	jp nz, UnknownJump_0x3F03D
 	ld a, [$A86D]
@@ -24378,7 +24378,7 @@ UnknownRJump_0x3F104:
 	ld a, 46
 	ld [$A840], a
 	call UnknownCall_0x3EEA4
-	ld a, [$A224]
+	ld a, [sMarioDead]
 	or a
 	jp nz, UnknownJump_0x3F060
 	ld a, [$A86E]
@@ -24392,7 +24392,7 @@ UnknownJump_0x3F123:
 	ld a, 49
 	ld [$A840], a
 	call UnknownCall_0x3EEA4
-	ld a, [$A224]
+	ld a, [sMarioDead]
 	or a
 	jp nz, UnknownJump_0x3F060
 	ld a, [$A86F]
@@ -24498,7 +24498,7 @@ UnknownRJump_0x3F20B:
 	ld [hli], a
 	dec c
 	jr nz, UnknownRJump_0x3F20B
-	ld a, [$A22C]
+	ld a, [sLives]
 	ld b, a
 	and $F0
 	swap a
@@ -24946,7 +24946,7 @@ UnknownRJump_0x3F513:
 	ld a, 21
 	ld [$A468], a
 	ld a, 0
-	ld [$A24F], a
+	ld [sGoalBell], a
 	ret
 
 UnknownCall_0x3F5A4:
@@ -25010,7 +25010,7 @@ UnknownCall_0x3F5A4:
 	ld a, 21
 	ld [$A468], a
 	ld a, 0
-	ld [$A24F], a
+	ld [sGoalBell], a
 	ret
 
 UnknownData_0x3F64D: ;bank tail (packed data); no direct reader found
@@ -27095,10 +27095,10 @@ SECTION "bank16", ROMX, BANK[$16]
 
 
 UnknownCall_0x58000:
-	ld a, [$A224]
+	ld a, [sMarioDead]
 	cp $FF
 	ret z
-	ld a, [$A24F]
+	ld a, [sGoalBell]
 	and a
 	jr z, UnknownRJump_0x5800F
 	xor a
@@ -34789,14 +34789,14 @@ UnknownCall_0x5B4C1:
 	ld a, [sCurPowerup]
 	and a
 	jr z, UnknownRJump_0x5B4E5
-	ld a, [$A291]
+	ld a, [sMarioDucking]
 	and a
 	jr nz, UnknownRJump_0x5B4EF
 	ld b, 5
 	jr UnknownRJump_0x5B4F1
 
 UnknownRJump_0x5B4E5:
-	ld a, [$A291]
+	ld a, [sMarioDucking]
 	and a
 	jr z, UnknownRJump_0x5B4EF
 	ld b, 20
@@ -36753,26 +36753,26 @@ UnknownJump_0x60939:
 	ld a, [$A7A8]
 	cp $03
 	jr nz, UnknownRJump_0x60955
-	ld a, [$A22C]
+	ld a, [sLives]
 	add 1
 	daa
-	ld [$A22C], a
+	ld [sLives], a
 	ret nc
 
 	ld a, 153
-	ld [$A22C], a
+	ld [sLives], a
 	ret
 
 
 UnknownRJump_0x60955:
-	ld a, [$A22C]
+	ld a, [sLives]
 	add 3
 	daa
-	ld [$A22C], a
+	ld [sLives], a
 	ret nc
 
 	ld a, 153
-	ld [$A22C], a
+	ld [sLives], a
 	ret
 
 
@@ -37379,20 +37379,20 @@ UnknownRJump_0x60DED:
 UnknownRJump_0x60DF9:
 	cp $04
 	jr nz, UnknownRJump_0x60E0B
-	ld a, [$A22C]
+	ld a, [sLives]
 	add 1
 	daa
-	ld [$A22C], a
+	ld [sLives], a
 	call c, UnknownCall_0x60EAF
 	jr UnknownRJump_0x60E7D
 
 UnknownRJump_0x60E0B:
 	cp $05
 	jr nz, UnknownRJump_0x60E1D
-	ld a, [$A22C]
+	ld a, [sLives]
 	add 3
 	daa
-	ld [$A22C], a
+	ld [sLives], a
 	call c, UnknownCall_0x60EAF
 	jr UnknownRJump_0x60E7D
 
@@ -37400,10 +37400,10 @@ UnknownRJump_0x60E1D:
 	cp $06
 	jr nz, UnknownRJump_0x60E2F
 
-	ld a, [$A22C]
+	ld a, [sLives]
 	add 5
 	daa
-	ld [$A22C], a
+	ld [sLives], a
 	call c, UnknownCall_0x60EAF
 	jr UnknownRJump_0x60E7D
 
@@ -37412,10 +37412,10 @@ UnknownRJump_0x60E2F:
 	cp $07
 	jr nz, UnknownRJump_0x60E41
 
-	ld a, [$A22C]
+	ld a, [sLives]
 	add 80
 	daa
-	ld [$A22C], a
+	ld [sLives], a
 	call c, UnknownCall_0x60EAF
 	jr UnknownRJump_0x60E7D
 
@@ -37425,7 +37425,7 @@ UnknownRJump_0x60E41:
 	jr nz, UnknownRJump_0x60E4C
 
 	ld a, 153
-	ld [$A22C], a
+	ld [sLives], a
 	jr UnknownRJump_0x60E7D
 
 
@@ -37452,10 +37452,10 @@ UnknownRJump_0x60E5B:
 UnknownRJump_0x60E6A:
 	cp $0B
 	jr nz, UnknownRJump_0x60E7C
-	ld a, [$A22C]
+	ld a, [sLives]
 	add 32
 	daa
-	ld [$A22C], a
+	ld [sLives], a
 	call c, UnknownCall_0x60EAF
 	jr UnknownRJump_0x60E7D
 
@@ -37498,7 +37498,7 @@ UnknownRJump_0x60EAB:
 
 UnknownCall_0x60EAF:
 	ld a, 153
-	ld [$A22C], a
+	ld [sLives], a
 	ret
 
 
@@ -39201,7 +39201,7 @@ SECTION "bank1A", ROMX, BANK[$1A]
 
 UnknownJump_0x68000:
 	xor a
-	ld [$A2DD], a
+	ld [sEndingState], a
 	ld [$A2DC], a
 	ldh_a_n $9B
 	inc a
@@ -39214,7 +39214,7 @@ UnknownJump_0x6800F:
 	ret
 
 UnknownCall_0x68016:
-	ld a, [$A2DD]
+	ld a, [sEndingState]
 	rst $28
 
 UnknownData_0x6801A: ;rst $28 jump table for UnknownCall_0x68016 (indexed by $A2DD)
@@ -39244,15 +39244,15 @@ UnknownData_0x6801A: ;rst $28 jump table for UnknownCall_0x68016 (indexed by $A2
 	ld a, [$A248]
 	and a
 	ret nz
-	ld a, [$A2DD]
+	ld a, [sEndingState]
 	inc a
-	ld [$A2DD], a
+	ld [sEndingState], a
 	ld a, 6
 	ld [$A460], a
 	xor a
-	ld [$A267], a
+	ld [sFadeTimerHigh], a
 	ld a, 64
-	ld [$A266], a
+	ld [sFadeTimerLow], a
 	ret
 	call UnknownCall_0x684C5
 	call UnknownCall_0x2A96
@@ -39275,9 +39275,9 @@ UnknownData_0x6801A: ;rst $28 jump table for UnknownCall_0x68016 (indexed by $A2
 	ldh_n_a $B6
 	ld a, 255
 	ld [$A248], a
-	ld a, [$A2DD]
+	ld a, [sEndingState]
 	inc a
-	ld [$A2DD], a
+	ld [sEndingState], a
 	ret
 	ld a, 195
 	ldh_n_a $40
@@ -39300,7 +39300,7 @@ UnknownRJump_0x680B8:
 	jr nz, UnknownRJump_0x680B8
 	ld a, 211
 	ldh_n_a $40
-	ld a, [$A266]
+	ld a, [sFadeTimerLow]
 	add 32
 	cp $40
 	jr nc, UnknownRJump_0x680FE
@@ -39335,43 +39335,43 @@ UnknownRJump_0x680FE:
 	ld a, [$A2D8]
 	and a
 	jr nz, UnknownRJump_0x6811D
-	ld a, [$A267]
+	ld a, [sFadeTimerHigh]
 	ld b, a
-	ld a, [$A266]
+	ld a, [sFadeTimerLow]
 	or b
 	ret nz
 	ld a, 4
 	ld [$A2D6], a
 	ld a, 0
-	ld [$A267], a
+	ld [sFadeTimerHigh], a
 	ld a, 255
-	ld [$A266], a
+	ld [sFadeTimerLow], a
 	ret
 
 UnknownRJump_0x6811D:
-	ld a, [$A2DD]
+	ld a, [sEndingState]
 	inc a
-	ld [$A2DD], a
+	ld [sEndingState], a
 	ret
 
 	call UnknownCall_0x68400
-	ld a, [$A267]
+	ld a, [sFadeTimerHigh]
 	ld b, a
-	ld a, [$A266]
+	ld a, [sFadeTimerLow]
 	or b
 	ret nz
-	ld a, [$A2DD]
+	ld a, [sEndingState]
 	inc a
-	ld [$A2DD], a
+	ld [sEndingState], a
 	ret
 
 	call UnknownCall_0x68400
 	ld a, [$A248]
 	and a
 	ret nz
-	ld a, [$A2DD]
+	ld a, [sEndingState]
 	inc a
-	ld [$A2DD], a
+	ld [sEndingState], a
 	ret
 	call UnknownCall_0x68400
 	ld a, [$A248]
@@ -39394,20 +39394,20 @@ UnknownRJump_0x6811D:
 	ld a, 255
 	ld [$A248], a
 	ld a, 2
-	ld [$A267], a
+	ld [sFadeTimerHigh], a
 	ld a, 0
-	ld [$A266], a
-	ld a, [$A2DD]
+	ld [sFadeTimerLow], a
+	ld a, [sEndingState]
 	inc a
-	ld [$A2DD], a
+	ld [sEndingState], a
 	ret
 	call UnknownCall_0x68492
 	call UnknownCall_0x2A96
-	ld a, [$A266]
+	ld a, [sFadeTimerLow]
 	and $F0
 	swap a
 	ld b, a
-	ld a, [$A267]
+	ld a, [sFadeTimerHigh]
 	and $0F
 	swap a
 	or b
@@ -39431,24 +39431,24 @@ UnknownRJump_0x6811D:
 	ld [$A2D8], a
 	ld a, 4
 	ld [$A2D6], a
-	ld a, [$A2DD]
+	ld a, [sEndingState]
 	inc a
-	ld [$A2DD], a
+	ld [sEndingState], a
 	ret
 	call UnknownCall_0x2A96
 	call UnknownCall_0x684E0
-	ld a, [$A267]
+	ld a, [sFadeTimerHigh]
 	ld b, a
-	ld a, [$A266]
+	ld a, [sFadeTimerLow]
 	or b
 	ret nz
 	ld a, 0
-	ld [$A267], a
+	ld [sFadeTimerHigh], a
 	ld a, 64
-	ld [$A266], a
-	ld a, [$A2DD]
+	ld [sFadeTimerLow], a
+	ld a, [sEndingState]
 	inc a
-	ld [$A2DD], a
+	ld [sEndingState], a
 	ld a, 7
 	ld [$A460], a
 	ld a, 44
@@ -39456,32 +39456,32 @@ UnknownRJump_0x6811D:
 	ret
 	call UnknownCall_0x2A96
 	call UnknownCall_0x684C5
-	ld a, [$A267]
+	ld a, [sFadeTimerHigh]
 	ld b, a
-	ld a, [$A266]
+	ld a, [sFadeTimerLow]
 	or b
 	ret nz
 	ld a, 2
-	ld [$A267], a
+	ld [sFadeTimerHigh], a
 	ld a, 0
-	ld [$A266], a
-	ld a, [$A2DD]
+	ld [sFadeTimerLow], a
+	ld a, [sEndingState]
 	inc a
-	ld [$A2DD], a
+	ld [sEndingState], a
 	ret
 	call UnknownCall_0x2A96
-	ld a, [$A267]
+	ld a, [sFadeTimerHigh]
 	ld b, a
-	ld a, [$A266]
+	ld a, [sFadeTimerLow]
 	or b
 	ret nz
 	ld a, 1
-	ld [$A267], a
+	ld [sFadeTimerHigh], a
 	ld a, 128
-	ld [$A266], a
-	ld a, [$A2DD]
+	ld [sFadeTimerLow], a
+	ld a, [sEndingState]
 	inc a
-	ld [$A2DD], a
+	ld [sEndingState], a
 	ld a, 255
 	ld [$A2E2], a
 	ret
@@ -39489,18 +39489,18 @@ UnknownRJump_0x6811D:
 	ld [$A2E1], a
 	call UnknownCall_0x68492
 	call UnknownCall_0x2A96
-	ld a, [$A267]
+	ld a, [sFadeTimerHigh]
 	ld b, a
-	ld a, [$A266]
+	ld a, [sFadeTimerLow]
 	or b
 	ret nz
 	ld a, 1
-	ld [$A267], a
+	ld [sFadeTimerHigh], a
 	ld a, 128
-	ld [$A266], a
-	ld a, [$A2DD]
+	ld [sFadeTimerLow], a
+	ld a, [sEndingState]
 	inc a
-	ld [$A2DD], a
+	ld [sEndingState], a
 	ret
 	ld a, 195
 	ldh_n_a $40
@@ -39539,15 +39539,15 @@ UnknownRJump_0x6829C:
 	cp $2C
 	ret nz
 	ld a, 0
-	ld [$A267], a
+	ld [sFadeTimerHigh], a
 	ld a, 32
-	ld [$A266], a
-	ld a, [$A2DD]
+	ld [sFadeTimerLow], a
+	ld a, [sEndingState]
 	inc a
-	ld [$A2DD], a
+	ld [sEndingState], a
 	ret
 
-	ld a, [$A266]
+	ld a, [sFadeTimerLow]
 	and $03
 	jr nz, UnknownRJump_0x682C8
 	ld a, [$A2E1]
@@ -39557,51 +39557,51 @@ UnknownRJump_0x6829C:
 UnknownRJump_0x682C8:
 	call UnknownCall_0x6845F
 	call UnknownCall_0x2A96
-	ld a, [$A267]
+	ld a, [sFadeTimerHigh]
 	ld b, a
-	ld a, [$A266]
+	ld a, [sFadeTimerLow]
 	or b
 	ret nz
 	ld a, 0
-	ld [$A267], a
+	ld [sFadeTimerHigh], a
 	ld a, 32
-	ld [$A266], a
-	ld a, [$A2DD]
+	ld [sFadeTimerLow], a
+	ld a, [sEndingState]
 	inc a
-	ld [$A2DD], a
+	ld [sEndingState], a
 	ld a, 13
 	ld [$A2DF], a
 	ret
 	call UnknownCall_0x6845F
 	call UnknownCall_0x2A96
-	ld a, [$A267]
+	ld a, [sFadeTimerHigh]
 	ld b, a
-	ld a, [$A266]
+	ld a, [sFadeTimerLow]
 	or b
 	ret nz
 	ld a, 0
-	ld [$A267], a
+	ld [sFadeTimerHigh], a
 	ld a, 128
-	ld [$A266], a
-	ld a, [$A2DD]
+	ld [sFadeTimerLow], a
+	ld a, [sEndingState]
 	inc a
-	ld [$A2DD], a
+	ld [sEndingState], a
 	ret
 
 UnknownData_0x6830F:
 	call UnknownCall_0x6845F
-	ld a, [$A267]
+	ld a, [sFadeTimerHigh]
 	ld b, a
-	ld a, [$A266]
+	ld a, [sFadeTimerLow]
 	or b
 	jr z, UnknownRJump_0x6835F
 	and $08
 	jr z, UnknownRJump_0x6833F
-	ld a, [$A266]
+	ld a, [sFadeTimerLow]
 	and $F0
 	swap a
 	ld b, a
-	ld a, [$A267]
+	ld a, [sFadeTimerHigh]
 	and $0F
 	swap a
 	add b
@@ -39634,9 +39634,9 @@ UnknownRJump_0x6834F:
 	ret
 
 UnknownRJump_0x6835F:
-	ld a, [$A2DD]
+	ld a, [sEndingState]
 	inc a
-	ld [$A2DD], a
+	ld [sEndingState], a
 	ret
 
 ;flag table ($FF = skip), indexed from the code above
@@ -39655,12 +39655,12 @@ UnknownRJump_0x6835F:
 	cp $0D
 	ret nz
 	ld a, 0
-	ld [$A267], a
+	ld [sFadeTimerHigh], a
 	ld a, 192
-	ld [$A266], a
-	ld a, [$A2DD]
+	ld [sFadeTimerLow], a
+	ld a, [sEndingState]
 	inc a
-	ld [$A2DD], a
+	ld [sEndingState], a
 	ret
 	call UnknownCall_0x68400
 	ldh_a_n $97
@@ -39687,9 +39687,9 @@ UnknownRJump_0x6835F:
 	ldh_n_a $B6
 	ld a, 255
 	ld [$A248], a
-	ld a, [$A2DD]
+	ld a, [sEndingState]
 	inc a
-	ld [$A2DD], a
+	ld [sEndingState], a
 	ret
 
 UnknownJump_0x68400:
@@ -39746,20 +39746,20 @@ UnknownCall_0x6845F:
 	ldh_n_a $BB
 	ld a, 1
 	ldh_n_a $C7
-	ld a, [$A222]
+	ld a, [sMarioWalkAnimTimer]
 	inc a
-	ld [$A222], a
+	ld [sMarioWalkAnimTimer], a
 	cp $30
 	jr c, UnknownRJump_0x68477
 	xor a
-	ld [$A222], a
+	ld [sMarioWalkAnimTimer], a
 
 UnknownRJump_0x68477:
 	ld a, 84
 	ldh_n_a $C5
 	ld a, [$A2E1]
 	ldh_n_a $C4
-	ld a, [$A222]
+	ld a, [sMarioWalkAnimTimer]
 	and $F0
 	swap a
 	add 229
@@ -39772,20 +39772,20 @@ UnknownCall_0x68492:
 	ldh_n_a $BB
 	ld a, 0
 	ldh_n_a $C7
-	ld a, [$A222]
+	ld a, [sMarioWalkAnimTimer]
 	inc a
-	ld [$A222], a
+	ld [sMarioWalkAnimTimer], a
 	cp $30
 	jr c, UnknownRJump_0x684AB
 	xor a
-	ld [$A222], a
+	ld [sMarioWalkAnimTimer], a
 
 UnknownRJump_0x684AB:
 	ld a, 84
 	ldh_n_a $C5
 	ld a, [$A2E1]
 	ldh_n_a $C4
-	ld a, [$A222]
+	ld a, [sMarioWalkAnimTimer]
 	and $F0
 	swap a
 	add 232
@@ -39837,9 +39837,9 @@ UnknownRJump_0x684EC:
 UnknownData_0x68518: ;sprites for $FFC6, indexed by ($FF97 & $1C) >> 2
 	db $EB, $EC, $ED, $EE, $EF, $EC, $ED, $EE
 
-	ld a, [$A2DD]
+	ld a, [sEndingState]
 	inc a
-	ld [$A2DD], a
+	ld [sEndingState], a
 	ret
 
 UnknownJump_0x68528:
@@ -39943,9 +39943,9 @@ UnknownRJump_0x685C1:
 	and a
 	jr nz, UnknownRJump_0x685D5
 	ld a, 1
-	ld [$A267], a
+	ld [sFadeTimerHigh], a
 	ld a, 0
-	ld [$A266], a
+	ld [sFadeTimerLow], a
 
 UnknownRJump_0x685D5:
 	ld a, [sCurROMBank] ;prepare bank switch
