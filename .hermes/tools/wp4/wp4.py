@@ -48,6 +48,13 @@ CHUNKS = {
                   file='gfx/enemies/spacezoneboss2.2bpp'),
     0x7B680: dict(end=0x7C000, kind='data',  label='UnknownData_0x7B680',
                   comment='level-layout-like data (0xAA-heavy), unclassified'),
+    # --- WP5 cheap wins: bank tails of $1B/$1C/$1F ---
+    0x6EF80: dict(end=0x70000, kind='gfx',   label='GFX_TilesetMarioZoneExtra',
+                  file='gfx/tilesets/mariozone_extra.2bpp'),
+    0x72F80: dict(end=0x74000, kind='data',  label='UnknownData_0x72F80',
+                  comment='unclassified packed data (MacroZone bank tail)'),
+    0x7EF80: dict(end=0x80000, kind='data',  label='UnknownData_0x7EF80',
+                  comment='unclassified packed data (0xAA-heavy, PumpkinZone bank tail)'),
 }
 
 # which chunks belong to which bank batch
@@ -59,6 +66,9 @@ BANKS = {
     '13': [0x4C000, 0x4C2F8, 0x4FEAF],
     '17': [0x5C000, 0x5C2F8, 0x5F81A],
     '1E': [0x79800, 0x7A800, 0x7B680],
+    '1B': [0x6EF80],
+    '1C': [0x72F80],
+    '1F': [0x7EF80],
 }
 
 
