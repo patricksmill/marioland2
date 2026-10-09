@@ -12334,8 +12334,43 @@ INCBIN "baserom.gb", $13FFD, $14000 - $13FFD
 SECTION "bank05", ROMX, BANK[$05]
 
 
-UnknownData_0x14000:
-INCBIN "baserom.gb", $14000, $14043 - $14000
+	ldh_n_a $99
+	swap a
+	and $0F
+	add 240
+	call UnknownCall_0x14017
+	ldh_a_n $99
+	and $0F
+	add 240
+	call UnknownCall_0x14017
+	ret
+
+UnknownCall_0x14017:
+	ldh_n_a $98
+	ld h, 192
+	ldh_a_n $8D
+	ld l, a
+	ldh a, [$FFC4]
+	ld [hli], a
+	ldh a, [$FFC5]
+	ld [hli], a
+	add 8
+	ldh [$FFC5], a
+	ldh_a_n $98
+	ld [hli], a
+	ldh a, [$FFC7]
+	ld [hli], a
+	ld a, l
+	ldh_n_a $8D
+	ret
+	call $FFA0
+	ld a, 1
+	ldh_n_a $82
+	pop hl
+	pop de
+	pop bc
+	pop af
+	reti
 
 
 UnknownJump_0x14043:
@@ -12391,8 +12426,27 @@ UnknownJump_0x1407C:
 	ret
 
 UnknownRJump_0x140A8:
-UnknownData_0x140A8:
-INCBIN "baserom.gb", $140A8, $140D6 - $140A8
+	ldh_a_n $80
+	bit 6, a
+	ret z
+	ldh_a_n $80
+	and $03
+	ld [$A0F0], a
+	ld a, 240
+	ld [sSoundDisabled], a
+	xor a
+	ld [$A2CF], a
+	ldh_n_a $97
+	ld hl, $4121
+	ld a, [$A0F0]
+	ld e, a
+	ld d, 0
+	add hl, de
+	ld a, [hl]
+	ld [sCurLevel], a
+	ld a, 11
+	ldh_n_a $9B
+	ret
 
 
 UnknownRJump_0x140D6:
@@ -12444,13 +12498,643 @@ UnknownRJump_0x14119:
 	jr c, UnknownRJump_0x14119
 	ret
 
-UnknownData_0x14121:
-INCBIN "baserom.gb", $14121, $141E5 - $14121
+UnknownData_0x14121: ;title-screen data: 4 per-slot bytes ($00/$11/$0E/$14, read as $4121 + ([$A0F0] & 3) at lines 11820 / $140AC)
+	db $00, $11, $0E, $14
+
+;32-entry ascending dw table ($4165-$41E2)
+	dw $4165, $4166, $4169, $416C
+	dw $416F, $4174, $4177, $417A
+	dw $417D, $417F, $4181, $4184
+	dw $418C, $4194, $419C, $41A4
+	dw $41AC, $41B4, $41B7, $41BA
+	dw $41C2, $41C5, $41C8, $41CB
+	dw $41CE, $41D1, $41D4, $41D7
+	dw $41D9, $41DC, $41DF, $41E2
+
+;payload (title-screen data) for the table above
+	db $FF, $40, $3B, $FF, $40, $18, $FF, $40, $29, $FF, $B2, $1E, $00, $6C, $FF, $40
+	db $19, $FF, $40, $03, $FF, $40, $16, $FF, $81, $FF, $82, $FF, $40, $21, $FF, $60
+	db $20, $30, $60, $60, $40, $04, $FF, $62, $20, $30, $58, $60, $40, $00, $FF, $63
+	db $20, $30, $58, $58, $40, $01, $FF, $65, $20, $30, $60, $68, $40, $03, $FF, $64
+	db $20, $30, $58, $60, $40, $02, $FF, $61, $20, $30, $60, $68, $40, $05, $FF, $40
+	db $21, $FF, $40, $02, $FF, $66, $20, $30, $C0, $C8, $40, $06, $FF, $40, $10, $FF
+	db $40, $20, $FF, $40, $11, $FF, $40, $3B, $FF, $40, $01, $FF, $40, $3E, $FF, $40
+	db $0B, $FF, $20, $FF, $40, $1D, $FF, $40, $19, $FF, $40, $19, $FF, $40, $19, $FF
 
 GFX_TitleScreen: ;$141E5
 INCBIN "gfx/titlescreen.2bpp"
 
-INCBIN "baserom.gb", $159E5, $18000 - $159E5
+;bank tail after the title screen graphics (packed $AA-heavy data + zero padding); no direct reader found
+	db $85, $86, $85, $86, $85, $86, $85, $86, $85, $86, $85, $86, $85, $86, $85, $86
+	db $85, $86, $85, $86, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $81, $92, $92, $92, $92, $92, $92, $92, $92, $92, $92, $92, $92, $92, $92, $92
+	db $92, $92, $92, $84, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $82, $9C, $9D, $7F, $7F, $8C, $8D, $7F, $7F, $7F, $7F, $C9, $CA, $CB, $CC, $CD
+	db $8C, $8D, $7F, $82, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $82, $7F, $7F, $7F, $7F, $9C, $9D, $7F, $7F, $8C, $D8, $D9, $DA, $DB, $DC, $DD
+	db $DE, $9D, $7F, $82, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $82, $7F, $E0, $8D, $7F, $7F, $7F, $E5, $E6, $E7, $E8, $E9, $EA, $EB, $EC, $ED
+	db $EE, $EF, $7F, $82, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $82, $7F, $F0, $F1, $F2, $F3, $F4, $F5, $F6, $F7, $F8, $F9, $FA, $FB, $FC, $FD
+	db $FE, $FF, $C0, $82, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $82, $7F, $00, $01, $02, $03, $04, $05, $06, $07, $08, $09, $0A, $0B, $0C, $0D
+	db $0E, $0F, $D0, $82, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $82, $7F, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $1A, $1B, $1C, $1D
+	db $1E, $1F, $7F, $82, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $82, $7F, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $2A, $2B, $2C, $2D
+	db $2E, $2F, $8C, $82, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $82, $8D, $30, $31, $32, $33, $34, $35, $36, $37, $38, $39, $3A, $3B, $3C, $3D
+	db $3E, $3F, $9C, $82, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $82, $9D, $40, $41, $42, $43, $44, $45, $46, $47, $48, $49, $4A, $4B, $4C, $4D
+	db $4E, $4F, $7F, $82, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $82, $7F, $7F, $7F, $9C, $9D, $7F, $7F, $8C, $57, $58, $59, $5A, $5B, $5C, $5D
+	db $5E, $5F, $7F, $82, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $82, $8C, $8D, $7F, $62, $63, $64, $65, $66, $67, $68, $69, $6A, $6B, $6C, $6D
+	db $6E, $6F, $7F, $82, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $82, $9C, $9D, $7F, $72, $73, $74, $75, $76, $77, $78, $79, $7A, $7B, $7C, $7D
+	db $8C, $8D, $7F, $82, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $91, $92, $92, $92, $92, $92, $92, $92, $92, $92, $92, $92, $92, $92, $92, $92
+	db $92, $92, $92, $94, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $86, $85, $86, $87, $88, $89, $8A, $8B, $86, $85, $86, $85, $86, $B1, $B2, $B3
+	db $B4, $85, $86, $85, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $85, $86, $85, $97, $98, $99, $9A, $9B, $85, $86, $85, $86, $85, $C1, $C2, $C3
+	db $C4, $86, $85, $86, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $95, $95, $95, $A7, $A8, $A9, $AA, $AB, $95, $95, $95, $95, $95, $D1, $D2, $D3
+	db $D4, $95, $95, $95, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $54, $54
+	db $2A, $B2, $E3, $E8, $EE, $F6, $BB, $B6, $FA, $BA, $A6, $AE, $7A, $AA, $AD, $E9
+	db $A7, $AA, $BE, $AA, $F6, $AA, $AA, $46, $8A, $BA, $EA, $AA, $EB, $E2, $EE, $F3
+	db $8F, $AE, $B8, $EE, $EB, $6B, $FA, $A3, $E2, $6B, $8E, $EA, $72, $A2, $B5, $EA
+	db $EF, $B6, $B8, $BB, $B2, $36, $EF, $BA, $BA, $AB, $2A, $B2, $9F, $23, $8A, $EE
+	db $AA, $BE, $E3, $62, $9B, $BF, $F8, $DE, $A6, $BA, $F3, $AE, $FC, $AB, $AF, $6A
+	db $EB, $E6, $BB, $FF, $A6, $3B, $AB, $FE, $7F, $AA, $FF, $8A, $20, $2B, $28, $29
+	db $02, $26, $82, $00, $A0, $A3, $00, $C8, $02, $88, $02, $82, $A2, $00, $AA, $22
+	db $A2, $2A, $18, $20, $06, $82, $28, $2A, $28, $A2, $20, $20, $9A, $2A, $1A, $A0
+	db $22, $AA, $A8, $EA, $28, $28, $AA, $02, $81, $0A, $0A, $A0, $A2, $28, $AA, $2A
+	db $AA, $8A, $A2, $82, $9A, $A8, $A2, $04, $0A, $82, $A0, $A2, $0A, $0C, $B8, $8A
+	db $0A, $2A, $6A, $80, $A8, $A0, $0A, $3A, $2B, $A1, $22, $00, $A8, $82, $83, $A0
+	db $4A, $24, $02, $2B, $6E, $A0, $08, $AC, $22, $11, $22, $20, $B8, $8A, $24, $A6
+	db $20, $39, $2A, $22, $82, $00, $06, $9A, $82, $A2, $00, $8A, $22, $28, $22, $AA
+	db $AA, $28, $88, $00, $0E, $8B, $0E, $20, $AA, $0A, $A2, $BA, $BA, $BE, $AA, $E2
+	db $0B, $AA, $2B, $7B, $AB, $2A, $FA, $A5, $C2, $FA, $AB, $22, $FA, $6C, $AA, $BA
+	db $AF, $AA, $FF, $AE, $29, $BE, $EE, $2B, $EE, $FA, $3F, $3F, $AA, $AE, $3A, $BA
+	db $AF, $BB, $2B, $CA, $83, $AE, $EE, $FE, $9F, $EB, $B2, $2F, $EE, $2E, $82, $1B
+	db $BB, $78, $E3, $FE, $EB, $A5, $B7, $A2, $AB, $3A, $EB, $EE, $FA, $AC, $A9, $6F
+	db $6F, $BE, $97, $9A, $A6, $EF, $BE, $BD, $39, $AA, $AB, $B0, $F2, $28, $E2, $AB
+	db $EB, $F6, $E8, $BF, $FF, $EA, $BB, $BA, $FB, $3F, $B3, $6E, $BE, $6F, $A2, $BE
+	db $BF, $A2, $2E, $E3, $7B, $2A, $7F, $FC, $F3, $BE, $AF, $AE, $9B, $F2, $AB, $E2
+	db $2F, $2E, $A7, $FA, $B6, $2E, $AA, $EA, $AF, $39, $36, $28, $02, $A2, $12, $BA
+	db $6A, $8A, $0A, $22, $22, $8A, $02, $20, $8A, $8A, $68, $AA, $00, $82, $A0, $20
+	db $B2, $A0, $32, $20, $A0, $A4, $00, $2A, $2B, $02, $A0, $AA, $00, $22, $EA, $A2
+	db $0A, $00, $08, $AA, $0A, $22, $08, $00, $22, $02, $2A, $20, $02, $A5, $02, $0A
+	db $42, $22, $82, $22, $83, $8A, $8A, $82, $20, $A3, $CA, $82, $AA, $AA, $00, $2A
+	db $02, $22, $0A, $AA, $0E, $24, $A2, $81, $A2, $2A, $A9, $22, $A8, $A2, $AA, $A2
+	db $82, $A1, $22, $0A, $82, $60, $A8, $BA, $20, $02, $A2, $80, $A2, $28, $BA, $20
+	db $03, $AA, $0A, $02, $AA, $60, $2A, $2E, $32, $B8, $8A, $A2, $AA, $20, $0A, $00
+	db $2A, $E0, $AA, $0A, $FA, $8A, $20, $08, $E2, $22, $20, $AB, $A3, $BB, $AA, $FA
+	db $A2, $9F, $AE, $7A, $F3, $FA, $AA, $EF, $AB, $AE, $EA, $FB, $2A, $63, $FE, $63
+	db $BA, $F0, $AA, $EA, $A6, $FA, $A7, $FA, $BB, $7B, $AA, $BB, $B2, $FF, $BF, $8B
+	db $CA, $26, $FF, $0B, $AD, $EE, $A0, $A6, $BD, $6E, $2A, $BA, $F6, $F8, $F2, $E6
+	db $BE, $EB, $38, $8F, $AE, $AE, $EA, $B2, $98, $FA, $82, $AB, $2A, $52, $A2, $F6
+	db $3E, $7A, $E8, $EC, $8E, $EB, $72, $2E, $F0, $F8, $A6, $BB, $6E, $EA, $DE, $A7
+	db $A2, $FB, $3E, $3A, $AE, $6B, $E2, $BB, $AB, $AB, $EE, $FE, $AC, $22, $AA, $B6
+	db $BA, $BA, $A3, $0D, $D3, $E6, $2F, $BA, $B9, $32, $A2, $AE, $EA, $EA, $32, $BA
+	db $FA, $2E, $AF, $3A, $AC, $FE, $7F, $79, $AA, $AB, $A3, $22, $A0, $2A, $AA, $88
+	db $AA, $88, $81, $AA, $02, $38, $AA, $02, $A2, $A8, $2A, $22, $22, $20, $82, $02
+	db $2B, $A2, $81, $22, $0C, $02, $8A, $86, $82, $01, $21, $AA, $02, $A2, $2A, $A0
+	db $AC, $22, $A8, $92, $A8, $2A, $02, $82, $0B, $80, $22, $02, $00, $E8, $0A, $20
+	db $22, $83, $AA, $2A, $A2, $A2, $2A, $0A, $28, $26, $82, $02, $26, $8A, $2A, $20
+	db $80, $08, $22, $02, $A4, $A2, $A8, $03, $AA, $0A, $A1, $AA, $B4, $A2, $26, $22
+	db $AB, $02, $82, $A0, $E8, $28, $AA, $08, $28, $A0, $A2, $6B, $A2, $F0, $82, $A8
+	db $18, $28, $A2, $80, $22, $08, $22, $AB, $22, $02, $A0, $28, $9A, $00, $A8, $00
+	db $2A, $A3, $22, $C0, $A8, $A0, $A2, $E8, $22, $42, $88, $CB, $AD, $BB, $4A, $CF
+	db $6A, $BB, $EA, $AA, $EE, $EA, $AA, $BA, $AB, $FE, $AA, $DE, $7B, $9A, $69, $EF
+	db $FA, $8B, $BA, $FF, $8F, $EF, $BF, $9E, $AF, $EA, $EA, $AA, $EB, $BB, $FA, $CE
+	db $9C, $EA, $BE, $6E, $2F, $2B, $FB, $BA, $AE, $A2, $9E, $DB, $F3, $AA, $AF, $AB
+	db $AF, $E9, $AE, $EE, $6B, $8E, $FA, $28, $AE, $AA, $E9, $B6, $EA, $AB, $EE, $BB
+	db $8A, $AA, $FA, $EE, $F8, $BF, $AF, $AE, $AB, $8A, $9E, $AA, $BA, $DA, $EA, $FE
+	db $CE, $EF, $AF, $6A, $A9, $FE, $7E, $EA, $EE, $AB, $BA, $BB, $EE, $AF, $AD, $EB
+	db $3F, $EA, $FC, $BE, $EE, $2E, $A2, $EB, $2A, $AB, $FB, $A3, $FE, $EB, $BA, $AB
+	db $B2, $8A, $EA, $BB, $EA, $B2, $EA, $BF, $AF, $BE, $AF, $80, $A2, $28, $82, $A8
+	db $8A, $82, $28, $82, $A2, $8A, $28, $0C, $8A, $8A, $2A, $A0, $28, $AA, $2A, $00
+	db $AA, $0A, $08, $A0, $08, $AA, $88, $28, $AA, $AA, $82, $60, $22, $28, $A2, $8A
+	db $2C, $A0, $88, $AA, $8A, $8A, $2E, $0A, $8A, $A2, $AA, $28, $2A, $00, $38, $2A
+	db $22, $6A, $8A, $E0, $22, $20, $3A, $2A, $AA, $68, $82, $A8, $0A, $9A, $89, $80
+	db $AA, $AA, $9A, $0A, $A2, $0B, $8A, $88, $EA, $88, $20, $02, $88, $2A, $8A, $AA
+	db $A8, $28, $AA, $AA, $81, $A0, $08, $AA, $A2, $98, $8A, $2A, $02, $E8, $AA, $06
+	db $88, $6A, $EA, $2A, $12, $A8, $A2, $8A, $AA, $02, $EA, $A2, $0A, $82, $A8, $0A
+	db $2A, $88, $30, $00, $A8, $A2, $C0, $A2, $AA, $A8, $8B, $AA, $26, $A2, $62, $82
+	db $1A, $B0, $8A, $A2, $2E, $A2, $0A, $82, $21, $A8, $A0, $8A, $2A, $AA, $82, $A6
+	db $2A, $4A, $A8, $82, $08, $22, $98, $20, $88, $A2, $A8, $8A, $2B, $A6, $82, $8C
+	db $9A, $A8, $E2, $32, $A6, $AA, $C2, $80, $A3, $A8, $A8, $08, $AA, $03, $AA, $02
+	db $A6, $AA, $82, $0A, $80, $80, $A2, $8A, $8A, $62, $A8, $2A, $22, $28, $8A, $A3
+	db $82, $8A, $22, $A8, $2A, $A8, $8A, $AA, $88, $A8, $0A, $8C, $AA, $8A, $AA, $AA
+	db $8A, $29, $AA, $AA, $CA, $AB, $23, $E2, $8A, $28, $02, $A0, $83, $88, $E2, $8E
+	db $A8, $28, $8B, $A4, $0A, $8A, $2A, $2A, $2A, $88, $32, $80, $BA, $02, $0A, $EA
+	db $A8, $AA, $08, $80, $22, $0A, $2A, $08, $8A, $AA, $B2, $BD, $A8, $EF, $BE, $AA
+	db $AA, $EA, $BB, $BA, $AA, $92, $AE, $EE, $AA, $BE, $F2, $BF, $AE, $BA, $AE, $A0
+	db $EB, $BE, $EE, $A9, $AE, $BB, $EB, $A2, $AA, $BE, $C3, $BE, $EE, $8A, $DF, $FA
+	db $AE, $AF, $AA, $AE, $AA, $BA, $FB, $FA, $E3, $AB, $BE, $FB, $9E, $2E, $3E, $AF
+	db $EA, $AE, $BA, $BB, $E9, $BC, $AA, $AE, $BB, $AC, $EA, $5F, $EB, $EF, $A8, $AA
+	db $EA, $F2, $8B, $AA, $BB, $78, $AB, $FB, $3E, $0B, $EE, $AF, $AA, $BE, $FE, $8E
+	db $AA, $2E, $AA, $EB, $AA, $A3, $FE, $6B, $2A, $FA, $EA, $EF, $BE, $AA, $EB, $CA
+	db $8F, $A8, $BB, $CB, $AF, $AF, $BE, $EB, $CB, $AA, $FF, $6B, $AC, $FB, $AA, $8A
+	db $A8, $EA, $72, $BF, $AE, $AF, $AE, $AE, $AF, $BB, $AB, $2E, $AE, $2A, $80, $82
+	db $28, $23, $E2, $21, $BA, $4A, $AA, $12, $AA, $0A, $82, $22, $22, $B9, $8A, $A2
+	db $20, $28, $8A, $00, $88, $22, $2A, $A2, $28, $22, $0A, $08, $2A, $AA, $02, $20
+	db $A6, $A8, $22, $83, $83, $2E, $22, $B8, $02, $A0, $80, $22, $22, $02, $00, $12
+	db $2A, $8A, $22, $2A, $98, $32, $8A, $32, $22, $A0, $80, $23, $2A, $82, $2B, $AA
+	db $18, $8A, $0E, $02, $A0, $CB, $EA, $AA, $F2, $28, $22, $2A, $80, $AA, $80, $20
+	db $8A, $02, $3A, $32, $A2, $A8, $8A, $2A, $28, $2C, $A8, $82, $08, $2A, $A2, $F2
+	db $0A, $A2, $A8, $A2, $22, $A2, $20, $3A, $82, $20, $0A, $88, $A3, $88, $A0, $A0
+	db $08, $AA, $02, $A2, $AA, $10, $23, $A0, $A2, $8B, $02, $A6, $7A, $2B, $AF, $FA
+	db $BE, $EA, $FE, $A3, $FA, $AE, $2A, $EE, $B6, $2A, $BE, $BB, $2A, $F3, $BE, $FA
+	db $BA, $EF, $EA, $3E, $2A, $A2, $EA, $EB, $6E, $BD, $BA, $AB, $EE, $BA, $AF, $FB
+	db $FB, $FB, $FF, $AE, $A3, $1A, $27, $DF, $AE, $BA, $B2, $3A, $AC, $BA, $2E, $EA
+	db $EF, $FE, $CA, $2B, $3E, $AA, $DA, $BC, $AB, $EB, $AB, $EE, $E9, $AB, $BF, $FC
+	db $EE, $7A, $AE, $B9, $2F, $EE, $CB, $26, $A2, $8F, $EF, $BF, $AA, $2A, $BA, $AE
+	db $3E, $AF, $F2, $F3, $AA, $6E, $38, $B6, $FB, $7A, $EB, $2A, $79, $A2, $2E, $BC
+	db $A6, $CB, $F3, $EA, $AB, $AA, $EA, $EA, $EE, $F6, $EC, $6E, $EB, $FE, $2A, $8A
+	db $AA, $6F, $A3, $BA, $BB, $A6, $9B, $BE, $BB, $AA, $9A, $80, $E2, $28, $22, $A2
+	db $28, $A6, $88, $2A, $01, $A6, $82, $03, $28, $0A, $28, $A8, $62, $A2, $24, $02
+	db $A0, $82, $28, $20, $2A, $02, $A2, $AA, $0A, $82, $A2, $82, $A2, $A8, $0A, $7A
+	db $22, $00, $80, $22, $80, $2A, $28, $82, $BA, $AB, $8A, $28, $22, $22, $20, $A2
+	db $E2, $A2, $EA, $22, $2E, $AB, $20, $6A, $3A, $A0, $28, $2A, $2A, $80, $62, $28
+	db $28, $82, $81, $00, $AA, $68, $A3, $2A, $02, $A0, $28, $AA, $88, $0A, $02, $0A
+	db $85, $AA, $00, $08, $23, $2A, $23, $1A, $A2, $80, $8B, $20, $20, $A2, $9A, $02
+	db $92, $08, $28, $02, $10, $A2, $AA, $2A, $22, $A2, $2A, $B2, $22, $22, $A8, $A8
+	db $AA, $0F, $21, $AA, $02, $08, $20, $A2, $00, $AA, $0E, $AE, $FA, $AB, $2B, $A9
+	db $CB, $FA, $BB, $A5, $BA, $AB, $FA, $AE, $EA, $CA, $2A, $23, $BA, $F6, $EE, $EE
+	db $FE, $3F, $EE, $3D, $FB, $A3, $BB, $22, $AE, $BE, $EE, $AF, $AE, $BB, $AE, $FB
+	db $7E, $B8, $EF, $B8, $AB, $BE, $AA, $7B, $BE, $FE, $AE, $E3, $BD, $AA, $2A, $3E
+	db $AA, $EA, $EB, $EF, $EE, $EE, $BB, $3F, $B9, $BE, $EE, $AA, $AA, $AE, $6A, $FA
+	db $B3, $FE, $EA, $FE, $AE, $AF, $A2, $BC, $BA, $9F, $BA, $AE, $A6, $AE, $AB, $AE
+	db $36, $BA, $A3, $E3, $BA, $3A, $AF, $72, $EB, $6A, $FB, $AE, $E7, $BA, $FB, $6B
+	db $BB, $E2, $B8, $A2, $EF, $3E, $BA, $BA, $FA, $EA, $EE, $FB, $BA, $2F, $EE, $E2
+	db $BA, $3A, $AB, $FE, $EA, $1E, $BB, $BB, $EA, $AB, $BF, $1A, $20, $A2, $0B, $00
+	db $2B, $00, $A8, $06, $4B, $00, $20, $22, $28, $28, $22, $4A, $A0, $AC, $A2, $A8
+	db $C8, $A2, $22, $8A, $0B, $02, $60, $20, $22, $28, $82, $20, $2A, $00, $2A, $A2
+	db $08, $08, $A6, $88, $08, $42, $A2, $22, $28, $86, $20, $21, $80, $AA, $20, $0A
+	db $00, $A2, $82, $A2, $5B, $8A, $22, $2A, $A2, $08, $0A, $AE, $28, $AA, $00, $2E
+	db $80, $30, $28, $02, $82, $00, $A8, $AA, $32, $B2, $A0, $80, $23, $A0, $28, $0A
+	db $A2, $28, $A0, $20, $0A, $28, $0A, $02, $82, $80, $0A, $02, $AA, $80, $26, $0A
+	db $A2, $00, $80, $20, $20, $80, $28, $0A, $2A, $B2, $2A, $2A, $26, $A3, $A2, $2A
+	db $22, $02, $12, $E8, $22, $A1, $A2, $20, $0A, $31, $A2, $2A, $AA, $BA, $8B, $A3
+	db $AA, $FE, $EF, $6A, $32, $EF, $BE, $2F, $B3, $AE, $8A, $0B, $AB, $66, $6A, $AE
+	db $FA, $FF, $E2, $EB, $6E, $FA, $BF, $BA, $0A, $6E, $AE, $3B, $BA, $BE, $A8, $E9
+	db $BB, $AE, $AB, $69, $EA, $A6, $A8, $FF, $B6, $97, $FA, $AA, $B2, $FB, $AB, $FF
+	db $EA, $AE, $3B, $7F, $A2, $EF, $32, $3E, $8E, $2B, $CA, $3B, $38, $EF, $FA, $B2
+	db $BA, $F9, $AA, $C2, $A2, $6B, $AF, $BC, $AA, $AB, $AA, $AF, $B3, $EB, $B6, $AA
+	db $28, $EF, $A2, $EB, $3F, $7A, $F9, $BA, $27, $9A, $AE, $3E, $2E, $EF, $AA, $AE
+	db $AE, $C7, $EB, $AF, $AB, $AA, $8D, $FA, $0F, $BE, $AA, $FB, $BA, $B6, $7B, $6F
+	db $FF, $EB, $AE, $AA, $4A, $AA, $EA, $6A, $AF, $AF, $FE, $08, $8A, $EA, $80, $B8
+	db $80, $AB, $88, $BA, $22, $A7, $28, $8B, $A8, $A0, $28, $0A, $20, $A0, $A7, $2B
+	db $AA, $A0, $8A, $22, $22, $8A, $8D, $2C, $68, $0B, $B8, $A2, $A8, $08, $A8, $2A
+	db $82, $2A, $80, $0B, $0A, $8A, $2A, $8A, $8A, $28, $22, $A2, $AA, $2A, $82, $80
+	db $AA, $2A, $20, $80, $A2, $24, $B8, $A8, $B3, $A2, $A8, $B8, $E8, $2A, $AA, $88
+	db $AA, $82, $EA, $A8, $8E, $20, $AA, $26, $A8, $0D, $AA, $A2, $2A, $BA, $EA, $A8
+	db $A9, $22, $80, $80, $82, $88, $22, $2A, $84, $A2, $AA, $A0, $82, $22, $AA, $22
+	db $2A, $AA, $2E, $EC, $0A, $AA, $AA, $80, $A8, $8A, $AC, $A8, $02, $C0, $AA, $AA
+	db $80, $2A, $80, $00, $A0, $AA, $AA, $A2, $88, $3A, $A2, $6A, $EA, $B6, $B2, $EF
+	db $AB, $9F, $AA, $FB, $AB, $AE, $AE, $AA, $6F, $AA, $BA, $AA, $AB, $BE, $1F, $BA
+	db $BE, $2A, $BB, $FF, $AB, $FE, $BF, $EA, $FE, $EA, $AF, $BB, $AB, $AE, $A6, $9A
+	db $AE, $8A, $FE, $EA, $6E, $BE, $AA, $EB, $AB, $EB, $BB, $E9, $AA, $FE, $AB, $AE
+	db $BB, $EE, $AA, $BE, $8A, $EA, $2B, $AB, $FA, $AB, $AA, $AF, $BE, $2F, $BE, $EE
+	db $AB, $EA, $BA, $BA, $AE, $FA, $AA, $A3, $BA, $F8, $BA, $19, $FA, $CA, $EE, $AB
+	db $8E, $DF, $AE, $EA, $FE, $BE, $B8, $AE, $FE, $EE, $A2, $AE, $AB, $7A, $BF, $AB
+	db $2A, $2A, $BA, $2E, $AF, $EB, $B6, $2A, $2E, $1E, $EB, $AA, $A8, $AE, $AE, $BA
+	db $EC, $AE, $EA, $AE, $FB, $AA, $AE, $F2, $AF, $FE, $BA, $0A, $A2, $2A, $88, $08
+	db $2A, $AA, $82, $8A, $AA, $A0, $8A, $2E, $AA, $AA, $22, $83, $2E, $AA, $0E, $80
+	db $AA, $AA, $A0, $98, $A2, $A2, $A0, $80, $8A, $A8, $0A, $0A, $A2, $28, $0A, $6A
+	db $EE, $8A, $A2, $AA, $82, $AA, $8C, $28, $0A, $28, $A0, $2E, $8A, $10, $02, $AA
+	db $08, $0A, $8E, $88, $2A, $AE, $AA, $0A, $04, $BA, $A9, $02, $AA, $12, $AA, $80
+	db $8A, $A8, $8A, $62, $28, $48, $2A, $AA, $20, $08, $88, $2A, $0A, $8A, $28, $20
+	db $B8, $82, $A2, $84, $A2, $8A, $28, $2A, $2A, $AB, $A8, $80, $A0, $82, $AA, $0A
+	db $A2, $9A, $EA, $2A, $8A, $A8, $2A, $8A, $AA, $A8, $08, $8A, $12, $2A, $AA, $A2
+	db $A8, $9B, $88, $AC, $A0, $E8, $88, $A8, $0E, $AA, $28, $AF, $FB, $2A, $BA, $EA
+	db $EA, $A8, $A7, $AE, $2A, $AA, $BB, $A3, $FE, $AE, $8A, $EF, $AF, $AA, $0A, $EB
+	db $FB, $AE, $AF, $AF, $AA, $AA, $AA, $A6, $8E, $FB, $BF, $FF, $EE, $BB, $AA, $EA
+	db $EE, $AE, $AF, $AB, $FA, $FB, $BE, $F8, $AF, $EE, $E3, $FB, $6D, $FB, $AE, $EB
+	db $BE, $BE, $BA, $F8, $EA, $E9, $AA, $AB, $AB, $AA, $BA, $BB, $DB, $BA, $29, $FE
+	db $AA, $AE, $FA, $AF, $EF, $7E, $AA, $FA, $AA, $AA, $EB, $EE, $9A, $BF, $AA, $AE
+	db $EE, $FA, $FB, $FB, $EA, $2E, $AE, $BF, $EE, $EE, $FF, $FF, $9A, $AA, $AF, $BB
+	db $EE, $BB, $BA, $FA, $69, $AA, $9A, $EA, $AB, $EA, $AF, $FA, $EA, $BF, $AA, $BA
+	db $8E, $AF, $EA, $BC, $EE, $BE, $EB, $B3, $8A, $BF, $AE, $88, $22, $22, $8A, $8A
+	db $AA, $8A, $A4, $8A, $AA, $8A, $A2, $22, $AA, $AA, $82, $88, $AA, $A0, $88, $22
+	db $AA, $08, $88, $0A, $A0, $08, $B8, $AE, $B2, $A8, $A2, $A2, $A2, $88, $A0, $0A
+	db $B2, $A8, $2A, $A2, $8B, $8B, $29, $AB, $A2, $00, $8E, $2C, $AB, $A8, $02, $88
+	db $AA, $82, $A2, $22, $82, $20, $AA, $2A, $A8, $AA, $E8, $22, $8A, $80, $22, $8A
+	db $A2, $82, $A8, $B0, $AC, $38, $20, $0A, $22, $A2, $A0, $AA, $8A, $AB, $6E, $A0
+	db $2A, $A2, $8A, $A2, $08, $8B, $AA, $AB, $28, $A0, $EA, $8A, $0B, $2A, $08, $82
+	db $AA, $A0, $AA, $0E, $82, $AA, $A2, $0A, $2B, $A6, $8B, $C2, $80, $60, $B2, $AA
+	db $88, $88, $00, $AA, $0E, $A8, $28, $2A, $AA, $82, $0A, $AB, $AA, $FF, $BD, $FA
+	db $BA, $AC, $AE, $AA, $EA, $BE, $B2, $EE, $BE, $BB, $BA, $BE, $AE, $AB, $8E, $AE
+	db $FE, $AF, $FA, $EB, $EB, $AE, $AC, $AB, $AA, $BE, $BA, $FB, $B2, $AF, $2B, $B2
+	db $AA, $FA, $AA, $9F, $AB, $EB, $8E, $9B, $FF, $AA, $FA, $EB, $AA, $E6, $EE, $AE
+	db $88, $9A, $BB, $EF, $AA, $AA, $1E, $FB, $B0, $AE, $AA, $AB, $AF, $AF, $FD, $EA
+	db $AE, $BB, $AA, $AF, $AA, $AE, $AA, $EF, $9E, $EB, $AA, $E6, $BB, $BF, $AB, $BF
+	db $B6, $3F, $AB, $AA, $BA, $BA, $BA, $AE, $AA, $EA, $FA, $AB, $FB, $EB, $AA, $83
+	db $AB, $EF, $AE, $FB, $FE, $FF, $FF, $EB, $AF, $EA, $BB, $CF, $AA, $FA, $F6, $FA
+	db $FB, $EB, $3B, $AA, $FA, $B9, $EE, $AB, $A6, $EF, $EA, $2B, $A2, $8A, $A9, $AD
+	db $1A, $B2, $2A, $B8, $A3, $A8, $A2, $82, $22, $82, $AA, $80, $82, $AA, $A8, $F8
+	db $20, $2A, $AA, $98, $A2, $2A, $AA, $28, $A0, $6A, $A6, $AA, $FC, $8A, $82, $82
+	db $A0, $AA, $AA, $06, $98, $20, $AA, $8B, $0A, $A8, $A2, $0E, $A6, $2A, $2A, $8A
+	db $82, $A8, $2A, $02, $22, $2A, $2A, $B6, $02, $06, $BB, $A2, $28, $A0, $84, $2A
+	db $A8, $8A, $80, $A0, $A8, $A8, $28, $2C, $3A, $AA, $2A, $82, $28, $48, $2A, $EA
+	db $8A, $28, $2A, $8A, $2A, $02, $22, $8A, $30, $0A, $28, $0C, $00, $E2, $A8, $A8
+	db $AA, $AA, $B8, $6A, $AA, $A2, $A6, $8A, $08, $C6, $2B, $A8, $A4, $AA, $22, $82
+	db $00, $0B, $3A, $22, $E8, $88, $22, $A8, $28, $08, $0A, $AD, $2A, $BE, $FE, $9B
+	db $FE, $2B, $BA, $BF, $8A, $AB, $E2, $FC, $AA, $AD, $AE, $FF, $ED, $AB, $BA, $BE
+	db $BE, $BA, $AE, $EF, $BB, $BB, $AB, $8E, $EA, $AE, $B6, $E3, $BE, $7A, $9B, $AF
+	db $AF, $AE, $A6, $BB, $AA, $AA, $EA, $FA, $BB, $3F, $BE, $FB, $AD, $FB, $EE, $AE
+	db $EA, $FA, $EA, $DE, $AB, $AA, $FA, $C8, $BE, $8A, $AA, $3F, $EA, $BB, $8F, $EA
+	db $AA, $FE, $FF, $F7, $EF, $AE, $9A, $BF, $AA, $AB, $EB, $EF, $AF, $AE, $EE, $FE
+	db $FB, $FE, $AE, $E9, $AB, $AE, $AC, $FF, $B3, $AB, $BA, $BA, $EA, $38, $EE, $BA
+	db $BA, $AE, $FE, $BA, $DA, $6A, $AA, $EB, $BB, $BE, $ED, $FE, $EB, $EE, $EA, $AE
+	db $AA, $A9, $AA, $B7, $EE, $82, $AA, $8A, $FA, $AB, $A7, $0C, $22, $2A, $2B, $82
+	db $AB, $88, $AA, $28, $A9, $22, $22, $A2, $28, $EA, $80, $AA, $24, $AE, $AB, $A8
+	db $82, $AA, $22, $A2, $02, $01, $82, $02, $AA, $A2, $A0, $26, $EA, $A1, $A8, $A2
+	db $18, $26, $AA, $AC, $00, $88, $A2, $8A, $22, $0A, $80, $82, $88, $A2, $A3, $88
+	db $AA, $82, $82, $02, $AA, $28, $8A, $88, $EA, $88, $A2, $A2, $2A, $B8, $A2, $62
+	db $2A, $8C, $AA, $A4, $88, $A0, $A0, $2D, $80, $9A, $2A, $28, $08, $A0, $A2, $98
+	db $8A, $84, $2A, $2B, $8A, $08, $B8, $A2, $20, $AA, $CA, $20, $A9, $AA, $10, $28
+	db $8A, $88, $8A, $A8, $8A, $08, $8C, $20, $8A, $A0, $2A, $28, $AA, $A0, $8A, $9A
+	db $AA, $28, $89, $0A, $A2, $A0, $8A, $0A, $AA, $AA, $08, $62, $BE, $BB, $FB, $AB
+	db $AA, $EE, $FB, $E6, $EB, $EA, $2A, $EF, $AF, $AB, $AA, $BB, $BB, $FA, $B2, $EF
+	db $AB, $EF, $BF, $AB, $BF, $CA, $EA, $AA, $FB, $EA, $3A, $EE, $BE, $EE, $2A, $EA
+	db $EE, $AA, $EF, $F3, $BE, $AE, $FA, $FE, $FB, $AB, $BB, $AB, $BA, $8A, $AA, $69
+	db $AA, $AE, $6A, $8B, $2A, $EA, $BA, $FE, $EB, $AA, $BE, $AA, $AA, $AA, $AE, $AB
+	db $AE, $BB, $BE, $EA, $AE, $AA, $EB, $FF, $AB, $BE, $6A, $FA, $FB, $BF, $FA, $BA
+	db $AB, $AA, $BE, $EF, $EA, $E9, $FB, $EF, $AA, $BA, $FE, $BB, $AA, $EB, $BE, $BA
+	db $B8, $AE, $AF, $AB, $E8, $BB, $9F, $FB, $BF, $BF, $EA, $BF, $AE, $FB, $AA, $AA
+	db $BA, $8A, $F6, $EA, $B8, $BF, $AE, $BA, $3A, $EA, $AA, $E0, $A2, $88, $80, $A8
+	db $B2, $8A, $AA, $22, $A8, $0A, $28, $AA, $80, $AA, $4E, $82, $8A, $2B, $8A, $88
+	db $8A, $2A, $82, $A6, $82, $0A, $22, $80, $2A, $2E, $AA, $A8, $AE, $20, $AA, $0A
+	db $A8, $2A, $A8, $A0, $8C, $CA, $2A, $A2, $82, $8A, $20, $80, $A8, $82, $20, $62
+	db $8A, $20, $3A, $8A, $28, $08, $28, $62, $8A, $20, $2C, $29, $20, $2A, $A0, $2A
+	db $AA, $3A, $22, $B2, $28, $82, $A2, $E3, $A8, $A2, $48, $A1, $80, $AE, $82, $A8
+	db $A0, $A6, $2A, $2A, $88, $28, $A2, $2A, $AA, $28, $A8, $B2, $AB, $E9, $A8, $8A
+	db $AA, $8A, $0B, $2A, $20, $88, $AA, $28, $2A, $AA, $BA, $0A, $0B, $80, $8A, $B8
+	db $28, $A2, $A0, $6A, $20, $88, $80, $AA, $80, $AE, $8A, $AF, $BA, $3E, $FB, $AE
+	db $AB, $FA, $BB, $AF, $AF, $EE, $B2, $7F, $23, $BB, $EE, $AE, $8A, $FA, $BF, $EE
+	db $7A, $FA, $BE, $CF, $2C, $EE, $EF, $BA, $BA, $BA, $FE, $FA, $9E, $FA, $2B, $BB
+	db $2A, $2F, $BA, $BA, $FF, $AA, $A8, $FA, $E8, $8E, $EA, $BA, $FA, $EB, $2E, $BB
+	db $EA, $CF, $8E, $EE, $AF, $A4, $AA, $9A, $FA, $FA, $E2, $FA, $EA, $AF, $EF, $EA
+	db $2A, $E2, $EE, $BA, $AB, $BE, $AB, $8E, $FF, $BA, $EE, $AA, $BF, $EB, $EA, $3A
+	db $BE, $AE, $AB, $FE, $BE, $EA, $BE, $BE, $AA, $FC, $BF, $EE, $BB, $BF, $BF, $AB
+	db $AF, $A1, $EB, $AA, $FB, $FE, $BA, $FF, $AF, $AA, $BF, $CE, $AE, $BF, $FF, $BC
+	db $FE, $BE, $FA, $AA, $EE, $AA, $AE, $6E, $AA, $EA, $99, $A8, $22, $A0, $A2, $A8
+	db $0E, $A0, $B8, $8B, $22, $88, $A2, $2A, $8A, $98, $AA, $22, $A0, $A0, $8A, $82
+	db $88, $A9, $AC, $2A, $00, $48, $0E, $2A, $A8, $08, $A8, $2A, $89, $AA, $25, $02
+	db $AA, $8C, $A8, $22, $0A, $A2, $A2, $8A, $A8, $02, $AA, $AA, $2A, $00, $08, $00
+	db $98, $8A, $A8, $28, $EA, $84, $AA, $AE, $2A, $28, $A0, $28, $02, $28, $EA, $84
+	db $A8, $AA, $82, $AA, $8A, $68, $82, $AA, $CA, $AA, $BA, $88, $EA, $8A, $A2, $68
+	db $23, $AA, $2A, $CA, $A8, $8A, $AA, $A8, $8A, $82, $A2, $82, $BA, $A2, $02, $A2
+	db $A8, $20, $20, $28, $82, $2A, $2A, $22, $8A, $A8, $A8, $A8, $A2, $2A, $EB, $A8
+	db $2A, $E2, $E0, $00, $AA, $02, $80, $80, $AA, $A2, $A8, $EA, $FA, $EA, $EA, $EA
+	db $AE, $FA, $DC, $FA, $AB, $AF, $8A, $FF, $9E, $AE, $EA, $AA, $EB, $CA, $AB, $B3
+	db $AE, $EB, $BB, $AA, $FF, $AF, $AA, $88, $B9, $BA, $FA, $BA, $A8, $AB, $FF, $EA
+	db $AA, $AB, $BF, $AE, $BA, $A9, $F3, $AA, $AE, $AF, $AE, $3B, $AF, $AC, $FA, $BA
+	db $AF, $FB, $A8, $AE, $F3, $BA, $AB, $8B, $AC, $BA, $EA, $AB, $FA, $AB, $AA, $BE
+	db $2E, $AA, $EE, $EE, $EA, $AB, $AA, $EF, $7E, $AE, $FA, $EA, $BE, $EF, $EB, $AC
+	db $FE, $BF, $AA, $EE, $FD, $3F, $AE, $BE, $EE, $E2, $BB, $EE, $AB, $BE, $AA, $FF
+	db $AA, $AA, $AA, $AA, $AA, $AE, $EA, $6F, $EC, $8A, $FA, $6B, $AA, $82, $AE, $FE
+	db $3E, $BE, $A8, $BE, $EC, $BC, $AE, $EA, $AB, $AE, $3B, $B8, $AA, $A2, $0A, $28
+	db $2E, $A9, $AA, $AA, $A8, $A2, $A6, $28, $AA, $24, $82, $B0, $9A, $82, $4E, $28
+	db $02, $08, $EA, $20, $8A, $AA, $A2, $8A, $82, $0B, $B8, $A0, $AA, $A4, $A8, $A0
+	db $B8, $A8, $A2, $80, $AA, $82, $A2, $A8, $80, $00, $32, $A0, $20, $82, $AA, $A0
+	db $2A, $AA, $0A, $AB, $A0, $20, $6A, $A2, $22, $8A, $AA, $29, $0A, $8A, $AF, $80
+	db $00, $28, $AA, $C3, $A8, $C2, $8A, $AA, $A0, $22, $AA, $02, $A2, $3A, $A3, $3A
+	db $A8, $92, $88, $A1, $88, $82, $8A, $80, $A8, $A8, $20, $2E, $AA, $08, $18, $32
+	db $88, $28, $01, $42, $26, $A6, $2A, $AA, $22, $8A, $00, $AA, $84, $0A, $82, $28
+	db $82, $AA, $82, $A2, $AA, $20, $A2, $AA, $22, $E8, $22, $AE, $FE, $7B, $8B, $E9
+	db $BB, $BA, $AA, $A2, $FA, $BB, $AA, $BC, $BA, $EB, $E9, $EA, $BB, $AA, $FB, $3A
+	db $3B, $A9, $82, $DF, $CB, $CF, $AE, $FE, $BB, $BE, $EF, $AB, $FA, $AE, $FE, $FE
+	db $BA, $8E, $AF, $EE, $AF, $EF, $FE, $FE, $AA, $FB, $AE, $FB, $BA, $B8, $8B, $BB
+	db $AB, $AF, $EA, $FA, $AA, $AA, $BA, $EA, $8B, $E2, $EB, $BF, $AB, $EE, $2A, $BA
+	db $EF, $AA, $EA, $EA, $AB, $E2, $BB, $AF, $BE, $EE, $63, $AB, $EE, $EF, $AA, $7A
+	db $AB, $AF, $AE, $AF, $7A, $FB, $BE, $FA, $EA, $83, $E7, $BB, $BA, $AA, $BA, $AA
+	db $EE, $BA, $AB, $FA, $EA, $EA, $B6, $EA, $EE, $AB, $2F, $EF, $B7, $AF, $AA, $FA
+	db $AB, $AA, $AF, $2F, $3F, $BF, $AE, $A9, $A7, $EA, $EE, $2A, $AA, $28, $A8, $AA
+	db $82, $8A, $A6, $2A, $00, $A8, $80, $A0, $8A, $AA, $AA, $AA, $AA, $A0, $2A, $22
+	db $2A, $0A, $A0, $0A, $82, $0A, $A0, $88, $82, $4A, $A2, $88, $68, $8A, $A8, $AA
+	db $AA, $A8, $AC, $8A, $A2, $A8, $A2, $2A, $2A, $8A, $82, $22, $A0, $22, $8A, $22
+	db $2A, $2A, $0A, $A2, $8A, $2C, $3A, $28, $AA, $20, $A2, $8A, $AA, $2A, $2A, $82
+	db $28, $22, $02, $AA, $AA, $2E, $AA, $BA, $8A, $8A, $A8, $02, $A0, $2A, $AC, $AA
+	db $AC, $80, $2A, $88, $8A, $A0, $AA, $8A, $22, $88, $22, $02, $AA, $82, $4A, $C8
+	db $AA, $80, $2A, $22, $82, $AA, $A0, $2A, $28, $A8, $83, $A0, $8A, $22, $8A, $22
+	db $AA, $0C, $8A, $20, $2C, $28, $82, $88, $EA, $A0, $0A, $AA, $8B, $EE, $AA, $AA
+	db $2C, $EE, $AF, $E2, $EE, $A8, $AA, $8F, $AA, $AA, $2A, $A6, $AB, $EE, $EA, $AA
+	db $6A, $EA, $A8, $AE, $AE, $BA, $2A, $AA, $EA, $AA, $BA, $AE, $AF, $BA, $AA, $3E
+	db $AE, $EA, $EA, $EA, $E2, $AA, $EA, $AE, $BA, $EA, $FA, $AA, $AA, $AA, $AC, $AA
+	db $AE, $EF, $AA, $AA, $AE, $8A, $AA, $FB, $EA, $EE, $AA, $DA, $2A, $EA, $BE, $BA
+	db $EC, $8A, $E7, $BE, $8E, $AA, $8E, $AA, $E2, $AA, $EA, $AA, $AA, $A8, $AA, $8E
+	db $EA, $EB, $2E, $EA, $AE, $EA, $AF, $AA, $CA, $EE, $EA, $EF, $EA, $AA, $FB, $EA
+	db $EA, $EA, $EA, $AE, $EE, $2E, $8A, $CC, $EA, $EA, $AA, $2A, $EA, $EB, $EF, $AE
+	db $BE, $AF, $EE, $AA, $EA, $A6, $EA, $A8, $E6, $AA, $AB, $8A, $2E, $E2, $AA, $08
+	db $A8, $AA, $24, $A8, $A2, $08, $82, $2A, $AA, $A8, $82, $A2, $8A, $AE, $A4, $AA
+	db $2A, $AA, $2A, $A2, $A2, $2A, $AA, $08, $A8, $A2, $AB, $2A, $3A, $82, $88, $E8
+	db $A0, $A8, $8E, $A8, $20, $88, $8A, $80, $A2, $AA, $EA, $80, $AA, $90, $08, $A8
+	db $20, $A2, $A2, $2E, $A8, $8A, $A0, $88, $AA, $28, $22, $AA, $88, $22, $2A, $20
+	db $8A, $A8, $A4, $EA, $8A, $AA, $00, $08, $A8, $AA, $2A, $AA, $AA, $00, $88, $88
+	db $A8, $AA, $AA, $2A, $28, $88, $A0, $A2, $28, $88, $A2, $22, $AA, $AA, $AC, $40
+	db $2A, $0A, $A8, $20, $02, $88, $0A, $02, $80, $A2, $AA, $6A, $AA, $AA, $00, $82
+	db $8A, $42, $A0, $8A, $8A, $A8, $A0, $8A, $AA, $0C, $2E, $AA, $CA, $AA, $EA, $AA
+	db $AE, $AA, $6E, $A8, $2A, $AB, $AA, $AB, $AE, $AA, $EA, $BE, $AA, $2A, $EA, $CA
+	db $EA, $A2, $AE, $BB, $AE, $EB, $AA, $EB, $AA, $A7, $FA, $AB, $EA, $AA, $BA, $AE
+	db $AA, $E8, $AE, $EA, $8E, $BA, $AD, $AA, $AE, $82, $2A, $86, $EE, $E2, $EE, $EE
+	db $AC, $AE, $AF, $8F, $B2, $AE, $AB, $6E, $AA, $6A, $CE, $BA, $FA, $EE, $EA, $AB
+	db $EA, $2A, $EE, $EA, $A3, $8E, $EE, $6E, $FE, $A3, $AA, $AA, $AA, $9E, $8B, $AF
+	db $E9, $FB, $AA, $AE, $AA, $CA, $AE, $E8, $AE, $AE, $AE, $AE, $AB, $AE, $EA, $A2
+	db $E2, $EF, $AA, $AB, $BA, $EE, $EE, $8A, $EA, $AE, $AA, $EE, $AA, $BE, $BA, $AA
+	db $AB, $AA, $AA, $EA, $6B, $CE, $EA, $AE, $BE, $EE, $AF, $0A, $2A, $0A, $AA, $AE
+	db $A2, $A2, $A2, $AA, $0A, $B0, $E8, $20, $0A, $AA, $A8, $80, $88, $2A, $A0, $02
+	db $02, $AA, $00, $20, $AE, $22, $22, $A8, $00, $28, $CA, $A0, $8A, $0A, $22, $2A
+	db $88, $62, $28, $2A, $A0, $82, $A0, $A2, $2A, $AA, $A2, $A2, $0A, $8A, $88, $C4
+	db $AA, $A2, $AA, $AA, $82, $A8, $2A, $A0, $80, $20, $A2, $0A, $A2, $AA, $E2, $82
+	db $2A, $2A, $28, $A8, $2A, $A8, $0A, $60, $A8, $2A, $A8, $2A, $A8, $08, $B2, $62
+	db $A2, $0E, $22, $88, $2A, $E2, $AA, $A2, $A0, $AA, $80, $26, $82, $AA, $0A, $88
+	db $AA, $88, $0A, $AA, $82, $62, $A8, $AA, $AA, $20, $8A, $0A, $8A, $A2, $1A, $A2
+	db $22, $A2, $AA, $22, $2A, $40, $A2, $88, $0A, $A2, $08, $EE, $AA, $EE, $EF, $EA
+	db $AA, $EA, $A8, $2B, $EA, $AA, $AA, $E8, $AE, $AA, $AE, $EE, $EA, $EE, $AE, $FA
+	db $EE, $E2, $EB, $BE, $EA, $AA, $AA, $EA, $AA, $EF, $AB, $EE, $E2, $AA, $AE, $EF
+	db $EB, $A6, $AA, $22, $AA, $AE, $A8, $EE, $82, $AE, $AF, $2A, $AA, $8E, $AF, $AE
+	db $EB, $FA, $AA, $EA, $AA, $6A, $AA, $AE, $AA, $EA, $BC, $EE, $6A, $BA, $EF, $FC
+	db $AA, $AE, $EB, $E8, $DA, $B8, $EA, $FA, $AE, $8E, $AA, $EA, $EF, $EE, $AA, $DA
+	db $A2, $AA, $BA, $CE, $AA, $C6, $AF, $E3, $AE, $AA, $AA, $AA, $AA, $BA, $AC, $AA
+	db $AE, $EA, $EE, $AE, $AA, $AA, $BE, $AA, $AA, $AE, $8F, $EE, $EA, $CA, $AF, $EA
+	db $AE, $AA, $EE, $AE, $8A, $AA, $A8, $AA, $FE, $AE, $EE, $9A, $0A, $A2, $AA, $23
+	db $8A, $08, $A8, $02, $AB, $AA, $A8, $02, $80, $A2, $AC, $2A, $A8, $AA, $A6, $80
+	db $A0, $AA, $22, $22, $A1, $AA, $88, $0A, $83, $00, $82, $82, $A6, $88, $8A, $A0
+	db $A2, $A2, $6A, $AA, $AA, $28, $AA, $0E, $BA, $82, $2B, $88, $2A, $C2, $00, $2A
+	db $2A, $2E, $A2, $B0, $82, $28, $AA, $22, $22, $28, $A8, $AA, $B0, $28, $88, $A0
+	db $8A, $80, $32, $82, $0A, $AE, $2A, $0A, $2A, $82, $A8, $2A, $A8, $88, $A8, $AA
+	db $8A, $28, $A0, $A2, $EA, $2A, $AA, $8A, $80, $08, $22, $88, $88, $0E, $AA, $AA
+	db $C8, $0A, $2A, $6A, $23, $B2, $3B, $08, $8A, $8A, $22, $B8, $80, $CA, $AA, $A8
+	db $AA, $2A, $A8, $02, $2A, $22, $82, $82, $89, $0A, $A2, $32, $B8, $EA, $B2, $FA
+	db $FB, $E3, $AE, $A6, $BB, $EA, $AA, $FA, $AA, $BB, $FA, $BB, $E6, $BA, $BB, $AE
+	db $AE, $BB, $AE, $BB, $EE, $EA, $AA, $EA, $AB, $B9, $BF, $2A, $AA, $AB, $BA, $AF
+	db $FE, $AB, $EE, $FB, $CA, $3A, $AE, $E6, $EB, $EE, $AB, $EB, $FB, $EB, $AA, $BA
+	db $FF, $AE, $AA, $FA, $B2, $FE, $8E, $AB, $AE, $AA, $EA, $3E, $BA, $AA, $EB, $FB
+	db $AA, $AA, $8F, $EB, $EA, $EB, $BC, $EB, $AA, $AA, $AE, $AA, $7A, $AE, $8B, $BA
+	db $AA, $BB, $BB, $FA, $B8, $EA, $3A, $AB, $BF, $AF, $6A, $FE, $AA, $96, $AA, $BB
+	db $A2, $AA, $AA, $F8, $EE, $9A, $B2, $AE, $AB, $EA, $AE, $BE, $AA, $EE, $EE, $BE
+	db $EB, $A6, $BA, $BA, $AA, $BE, $EE, $BA, $A8, $FF, $AB, $AF, $BB, $FB, $EA, $BA
+	db $FB, $BF, $AE, $FE, $AF, $2A, $EA, $AA, $BF, $EA, $BA, $AF, $FB, $BF, $AF, $FA
+	db $AB, $BB, $EE, $BB, $AA, $AF, $AA, $A2, $EA, $BB, $EF, $AE, $EE, $FE, $AA, $AB
+	db $B3, $6F, $EA, $EB, $EE, $BF, $B8, $BD, $AE, $AB, $AB, $AF, $AA, $CB, $CA, $DA
+	db $BE, $AE, $AF, $E0, $BA, $AE, $E6, $9A, $AB, $FF, $EA, $FA, $EA, $FA, $AB, $AA
+	db $27, $BA, $EA, $BA, $AA, $BB, $FF, $9A, $FA, $BF, $EF, $BA, $3E, $BE, $A9, $BA
+	db $AA, $BB, $BA, $3E, $AA, $BA, $7E, $E3, $BB, $EF, $AA, $B8, $AA, $B3, $BA, $B7
+	db $BB, $B0, $FA, $AF, $BB, $9E, $EA, $BA, $B8, $BE, $2F, $AF, $BB, $E5, $AE, $A2
+	db $A3, $E3, $AA, $BE, $CF, $E9, $BF, $AF, $B7, $6A, $AE, $20, $C6, $A8, $02, $4A
+	db $AA, $C8, $8A, $0A, $C0, $2A, $A8, $AA, $AA, $AA, $2A, $A0, $A6, $22, $08, $AA
+	db $B8, $AA, $02, $28, $AA, $2A, $8A, $AA, $2B, $AA, $82, $A0, $88, $8A, $B2, $86
+	db $88, $A2, $AA, $8A, $A8, $87, $8A, $A9, $AA, $A0, $80, $A8, $A8, $62, $82, $A0
+	db $2A, $AA, $02, $A3, $8A, $8A, $82, $83, $88, $A0, $82, $A0, $A2, $AC, $A0, $0A
+	db $02, $08, $82, $2A, $B8, $82, $AC, $02, $26, $DA, $A0, $0A, $83, $E0, $23, $A2
+	db $A0, $2A, $A2, $00, $89, $82, $AA, $2B, $8A, $08, $A2, $29, $52, $28, $A5, $0C
+	db $B8, $0E, $22, $8A, $22, $8A, $AA, $20, $A3, $9A, $C0, $04, $A0, $23, $AA, $8A
+	db $EA, $2C, $8A, $80, $28, $22, $AA, $A2, $2A, $AA, $AA, $6B, $AE, $DF, $BB, $DA
+	db $A2, $AA, $EF, $9A, $B2, $EE, $BA, $E3, $6B, $A8, $EA, $AE, $BA, $B6, $BA, $BD
+	db $EB, $BF, $AB, $B9, $6F, $BA, $BD, $E6, $B7, $FA, $A2, $6A, $3A, $BA, $F3, $FB
+	db $A2, $B8, $BA, $EE, $AA, $F2, $EA, $A6, $E2, $F6, $E2, $BF, $CE, $37, $26, $AE
+	db $AE, $AA, $FA, $FA, $BA, $A8, $BA, $AE, $B2, $82, $EB, $FA, $AA, $BA, $AA, $B2
+	db $EA, $2E, $EF, $EA, $BE, $EE, $E2, $AF, $AA, $BA, $E7, $BF, $BA, $FA, $BE, $CA
+	db $7A, $EB, $FA, $AF, $B7, $A2, $BE, $B1, $FB, $A2, $EB, $DF, $EE, $EB, $AA, $5A
+	db $AB, $6A, $AA, $2E, $B3, $B9, $AB, $3F, $A6, $EE, $AB, $BA, $FA, $3E, $AA, $BB
+	db $2A, $AE, $BF, $BA, $AE, $B8, $AE, $AA, $F2, $FB, $BA, $A2, $22, $82, $01, $22
+	db $28, $02, $2A, $22, $AA, $0A, $86, $A2, $8A, $8A, $22, $28, $2A, $A2, $2A, $8B
+	db $2A, $2A, $22, $20, $A6, $90, $03, $26, $A0, $38, $A0, $AA, $22, $0A, $80, $82
+	db $A0, $A2, $A2, $82, $02, $08, $28, $20, $0A, $A3, $A0, $2A, $22, $23, $2A, $08
+	db $2A, $AA, $AA, $0A, $2A, $E0, $A2, $A0, $2A, $A2, $00, $A3, $20, $0C, $0A, $22
+	db $EA, $23, $A2, $AA, $22, $02, $A6, $2E, $A0, $A3, $22, $22, $37, $00, $22, $0B
+	db $E2, $A2, $08, $44, $82, $2A, $0C, $2C, $AA, $2B, $02, $02, $62, $A2, $22, $83
+	db $20, $12, $28, $0B, $2A, $24, $80, $02, $A2, $80, $3A, $8B, $2A, $2D, $02, $08
+	db $B2, $80, $A8, $B8, $A8, $3A, $AA, $22, $22, $4A, $A8, $FB, $EF, $2B, $BB, $BA
+	db $2E, $6E, $AA, $EF, $D6, $AB, $BB, $FA, $AA, $BE, $A6, $23, $AF, $AF, $EB, $B8
+	db $BE, $3B, $E3, $CA, $B8, $28, $A2, $B8, $AB, $EF, $FA, $BF, $AB, $6A, $8F, $BE
+	db $A6, $2E, $AA, $AE, $E2, $B8, $BE, $EB, $EA, $EA, $AF, $BE, $6A, $AE, $BB, $6A
+	db $EB, $4E, $BB, $A7, $AB, $FB, $EE, $AF, $6A, $FF, $A6, $EA, $AA, $EB, $A3, $EA
+	db $EE, $BB, $AA, $B6, $AA, $6E, $AA, $EC, $AE, $E3, $AE, $BF, $AA, $FF, $7E, $FA
+	db $2F, $8C, $E8, $AA, $BB, $AA, $AA, $AE, $6F, $4A, $2A, $32, $B3, $EF, $1A, $B6
+	db $AE, $F8, $7E, $B3, $B2, $BF, $AF, $6F, $BA, $AA, $BA, $EF, $3A, $AA, $8A, $AF
+	db $AA, $6D, $BB, $2A, $AE, $BA, $76, $FB, $BA, $9E, $29, $08, $6A, $CA, $2A, $11
+	db $0A, $3A, $6A, $2A, $AA, $20, $20, $A3, $60, $26, $0A, $22, $1A, $28, $82, $A6
+	db $20, $22, $AA, $0A, $8A, $08, $4A, $02, $82, $82, $AA, $28, $20, $82, $A2, $02
+	db $8A, $80, $22, $BA, $22, $06, $A0, $0B, $80, $0A, $A0, $10, $80, $A2, $28, $08
+	db $A8, $2A, $AA, $C2, $CA, $0A, $A2, $8A, $2C, $A0, $AA, $02, $A2, $22, $80, $8A
+	db $AA, $22, $A4, $09, $2E, $AA, $A8, $22, $80, $2E, $AA, $A2, $AA, $A8, $AA, $22
+	db $88, $0A, $A2, $80, $22, $22, $22, $82, $02, $28, $2C, $A0, $22, $20, $1A, $22
+	db $AB, $22, $22, $A8, $2B, $2A, $B2, $2A, $34, $A8, $8E, $A2, $2A, $1A, $2A, $2B
+	db $A2, $22, $A2, $22, $A2, $A1, $A2, $2A, $23, $A8, $8A, $EC, $22, $AB, $F3, $2A
+	db $38, $9F, $AB, $6E, $BA, $A2, $12, $AE, $EE, $AF, $EB, $BE, $EE, $BD, $A2, $AA
+	db $2B, $EF, $AB, $FA, $E2, $BE, $BF, $82, $AE, $2B, $B9, $E0, $9C, $E7, $A2, $2D
+	db $BA, $B3, $B2, $EF, $EE, $EE, $FA, $E9, $BA, $A3, $FF, $22, $EB, $EE, $38, $AA
+	db $EA, $AA, $33, $AE, $AE, $CB, $BB, $EA, $AF, $BF, $EA, $BA, $AA, $76, $3E, $8F
+	db $EC, $EA, $E7, $BB, $BE, $A3, $AB, $BE, $AA, $EF, $EA, $EE, $F2, $D3, $A7, $EF
+	db $B7, $26, $AA, $BE, $E3, $A2, $3E, $BB, $EB, $BA, $36, $92, $FF, $33, $FB, $BB
+	db $FB, $6B, $3B, $6E, $AF, $BF, $9B, $AE, $BE, $EB, $E2, $A8, $2A, $BB, $F6, $3E
+	db $EA, $EA, $EA, $BB, $AE, $BB, $A9, $BF, $EE, $B6, $AE, $3A, $A2, $A2, $A2, $22
+	db $30, $08, $22, $2A, $0A, $28, $B8, $3A, $AA, $62, $23, $08, $AC, $A0, $2A, $02
+	db $A0, $02, $AA, $82, $A2, $2A, $B0, $A2, $88, $88, $AA, $82, $A8, $A0, $A2, $02
+	db $A2, $02, $12, $A2, $2B, $25, $2E, $60, $0C, $32, $82, $62, $AA, $02, $1A, $0A
+	db $A2, $A6, $AA, $00, $23, $88, $22, $EA, $28, $0A, $A0, $20, $2A, $20, $02, $8A
+	db $A8, $22, $A8, $A8, $22, $22, $2A, $08, $A8, $06, $23, $AB, $A2, $22, $02, $80
+	db $A2, $02, $88, $2A, $2A, $88, $22, $22, $26, $00, $A0, $88, $18, $26, $AA, $20
+	db $38, $02, $A2, $22, $80, $20, $22, $C3, $20, $80, $1A, $AA, $A2, $20, $88, $A0
+	db $82, $08, $2A, $29, $28, $02, $28, $82, $A2, $82, $00, $AA, $BE, $BF, $AF, $BA
+	db $BA, $FB, $2A, $BF, $7A, $FA, $AE, $9E, $BE, $AA, $EF, $FF, $A2, $FE, $FB, $EA
+	db $FA, $EB, $AF, $EB, $BE, $EB, $9C, $EB, $EB, $AE, $AF, $7E, $AE, $AF, $EF, $A2
+	db $3F, $EA, $EE, $BE, $FF, $FA, $FE, $B4, $AA, $AA, $FA, $3E, $EB, $EA, $BB, $EB
+	db $AE, $BA, $AA, $E2, $EF, $BA, $BA, $AF, $FA, $7B, $BE, $2A, $EF, $BE, $AB, $FA
+	db $AE, $DA, $A3, $BA, $AA, $EA, $AA, $8E, $EE, $EA, $BE, $FF, $BB, $EE, $EB, $FF
+	db $BE, $BA, $AA, $EF, $EA, $B8, $BE, $AA, $BE, $AB, $AE, $EE, $EB, $FB, $AA, $2E
+	db $AA, $CE, $BE, $AE, $AE, $EF, $AB, $EA, $FA, $AC, $AA, $AE, $BE, $FF, $BB, $2B
+	db $2A, $AF, $B3, $AF, $EA, $EA, $AE, $FE, $AF, $BB, $A8, $08, $2C, $8A, $A0, $AA
+	db $82, $80, $82, $2A, $A8, $A2, $2A, $08, $8A, $AA, $2A, $26, $03, $EC, $A2, $0A
+	db $A0, $08, $88, $AA, $AC, $82, $24, $AA, $8A, $08, $AA, $A8, $A8, $8F, $AA, $22
+	db $A2, $20, $8A, $88, $AA, $8C, $EA, $A2, $A8, $A0, $82, $82, $28, $2A, $A2, $0C
+	db $89, $98, $22, $DA, $AA, $8A, $AA, $02, $AA, $20, $A0, $4A, $48, $9A, $AA, $3A
+	db $8E, $0A, $0A, $A0, $82, $80, $2A, $2A, $82, $A3, $00, $02, $AA, $A0, $A2, $A2
+	db $2A, $02, $0A, $82, $02, $28, $08, $22, $E8, $2A, $AA, $4A, $08, $1A, $8A, $BA
+	db $20, $08, $82, $28, $22, $2A, $A2, $2A, $E8, $AD, $A2, $A2, $42, $A8, $88, $81
+	db $8A, $8A, $EA, $08, $A8, $22, $2E, $23, $08, $A1, $A2, $EC, $AA, $FA, $AF, $E3
+	db $AC, $FA, $BD, $EA, $EE, $CB, $EA, $B3, $EF, $32, $FF, $FE, $AB, $EB, $AE, $EA
+	db $BA, $A9, $AA, $FC, $EA, $A7, $BA, $AB, $8E, $AB, $3F, $BB, $BA, $AB, $A2, $8B
+	db $EB, $AB, $AA, $A6, $EA, $BB, $BB, $EE, $AB, $FA, $EA, $BE, $AA, $AF, $AB, $AB
+	db $BA, $9A, $AA, $CE, $EB, $EA, $FC, $AA, $FE, $EB, $BA, $AE, $AA, $AA, $A6, $FB
+	db $E8, $AA, $EE, $BF, $BA, $EF, $9E, $AA, $AA, $EA, $6B, $8F, $FE, $FA, $6E, $EF
+	db $AA, $BB, $AE, $FA, $AB, $A2, $FE, $BB, $9E, $BE, $0A, $EB, $AF, $2B, $AF, $AE
+	db $BB, $F8, $BF, $EA, $EF, $AD, $EF, $AB, $6E, $8A, $BA, $AA, $AE, $2B, $EA, $EB
+	db $AF, $A9, $E2, $B7, $EA, $B2, $EB, $AA, $FE, $3B, $EE, $28, $AA, $2A, $2B, $A8
+	db $AA, $E0, $22, $E6, $02, $80, $A0, $02, $1A, $88, $A8, $A8, $82, $22, $A0, $A4
+	db $A8, $2A, $08, $80, $AA, $A0, $2A, $AA, $23, $E8, $0A, $2A, $01, $2A, $A8, $A2
+	db $A8, $AA, $AA, $AA, $08, $B8, $86, $22, $0A, $AA, $A2, $AA, $A2, $0E, $A8, $C8
+	db $AA, $AA, $21, $A2, $4A, $AA, $AE, $82, $A8, $02, $AA, $8A, $29, $A2, $8A, $CA
+	db $E0, $A8, $8A, $20, $C0, $E8, $82, $82, $0E, $2A, $AA, $08, $88, $0A, $0E, $A2
+	db $A2, $AA, $A9, $80, $22, $88, $80, $28, $22, $2A, $8A, $22, $A4, $0A, $AA, $A8
+	db $AA, $80, $2A, $20, $A2, $08, $AC, $8A, $2A, $A0, $AA, $02, $AE, $A8, $CA, $0A
+	db $2A, $EA, $AA, $2E, $AA, $3A, $A2, $2A, $A0, $A8, $82, $3B, $EA, $EA, $EB, $93
+	db $EB, $BB, $EE, $BA, $E8, $EF, $AA, $EA, $EA, $AB, $AE, $FA, $99, $AB, $AB, $AF
+	db $AB, $EE, $EA, $AB, $AB, $BF, $AA, $BE, $BE, $A8, $AA, $96, $A9, $AA, $AE, $AB
+	db $AF, $BB, $6A, $FE, $BB, $EB, $E6, $B8, $AF, $AA, $EE, $BF, $AB, $A9, $AA, $EB
+	db $1A, $F5, $CA, $B6, $BA, $2E, $AB, $BB, $FB, $BE, $AB, $BA, $BE, $B6, $AE, $9A
+	db $BA, $BE, $BF, $8A, $FA, $AA, $BF, $8F, $9A, $FA, $AE, $AA, $EE, $EA, $DF, $AF
+	db $AE, $AE, $AA, $CB, $BE, $A8, $AE, $BF, $3A, $E2, $FA, $BE, $EA, $AE, $BF, $DB
+	db $FA, $A8, $EA, $FA, $AE, $7F, $BA, $E8, $9B, $BE, $EA, $A3, $E7, $BF, $AA, $AB
+	db $FB, $BB, $F6, $AE, $AE, $AB, $AA, $AE, $FF, $AA, $BE, $AA, $AA, $AB, $AA, $EA
+	db $B0, $B8, $E8, $60, $8A, $AE, $A2, $28, $2A, $A0, $8A, $22, $06, $A8, $8A, $A8
+	db $2A, $AA, $2A, $AA, $A2, $88, $22, $8A, $8A, $AA, $A8, $26, $A2, $81, $8A, $28
+	db $A8, $A8, $8A, $EB, $82, $AA, $AA, $26, $AA, $82, $2A, $A8, $AA, $0A, $A2, $AA
+	db $80, $8A, $A2, $A0, $EA, $0A, $AE, $A2, $AE, $A2, $08, $A2, $AB, $80, $82, $A0
+	db $AA, $8A, $0A, $B6, $A0, $0A, $A2, $08, $A8, $2A, $AA, $08, $27, $A2, $AA, $22
+	db $0A, $A3, $8A, $88, $EA, $8A, $88, $AA, $88, $23, $A2, $6A, $2A, $AA, $2A, $8A
+	db $A0, $2A, $82, $2A, $AA, $32, $A0, $AC, $A8, $8A, $AC, $02, $40, $AA, $2E, $80
+	db $22, $AE, $A0, $82, $AA, $82, $82, $90, $88, $A2, $88, $FE, $E8, $FE, $DE, $FF
+	db $BA, $AE, $AE, $BA, $6A, $FE, $BF, $CC, $AB, $A6, $AC, $2E, $A8, $A9, $3E, $CE
+	db $8F, $AA, $FE, $EF, $AB, $AE, $AE, $AA, $AA, $EF, $AA, $EE, $AB, $BF, $FE, $FE
+	db $FF, $5D, $BA, $CA, $F3, $AE, $FF, $AA, $A2, $F2, $DF, $8E, $AA, $0A, $FA, $BA
+	db $AB, $EE, $FA, $AB, $FE, $AB, $EB, $FE, $AA, $8B, $BE, $FE, $ED, $AA, $AE, $FB
+	db $AC, $FE, $EA, $FE, $FA, $AC, $A2, $D6, $AA, $BC, $FE, $FB, $9A, $BB, $EB, $A9
+	db $A2, $BF, $BE, $AB, $BC, $EA, $AA, $B2, $AF, $AA, $ED, $AD, $BB, $AA, $AA, $AF
+	db $BA, $CA, $AA, $AF, $BE, $AB, $EE, $BB, $AF, $FB, $B7, $BE, $AE, $EB, $A8, $EE
+	db $AA, $9E, $AE, $A7, $AA, $AF, $AA, $BB, $AE, $AA, $BC, $08, $88, $28, $A2, $8E
+	db $02, $AA, $8A, $AA, $20, $2B, $88, $0A, $E8, $28, $82, $88, $AB, $9A, $AA, $CC
+	db $00, $88, $AA, $A8, $8A, $AA, $88, $AA, $AE, $AA, $08, $A0, $2A, $22, $A2, $80
+	db $C0, $A0, $8A, $AA, $22, $2A, $AA, $A1, $A1, $AA, $2C, $AA, $A8, $A8, $AA, $09
+	db $2A, $A3, $08, $4A, $00, $88, $80, $0A, $2A, $8A, $A2, $CA, $AB, $00, $9A, $00
+	db $A2, $0A, $A2, $A8, $82, $22, $2A, $AC, $A2, $22, $AF, $28, $AA, $80, $2A, $00
+	db $A2, $A8, $AA, $A0, $2A, $28, $82, $82, $EB, $AA, $AE, $AA, $CA, $0A, $6A, $20
+	db $82, $9A, $AA, $AB, $2E, $AA, $08, $0A, $BA, $B8, $8A, $2A, $AA, $22, $A8, $A2
+	db $92, $A8, $28, $AA, $80, $B2, $A8, $02, $08, $A2, $A2, $AE, $BB, $EA, $EA, $AB
+	db $EE, $F9, $AA, $AA, $2B, $BE, $EF, $BB, $BA, $FB, $AF, $BA, $E8, $BF, $EF, $AF
+	db $FA, $AA, $BE, $BE, $BA, $BF, $FA, $AC, $BA, $EA, $AB, $AB, $EF, $EA, $EF, $AB
+	db $AA, $AE, $AB, $EA, $EE, $AF, $BB, $AA, $BA, $BE, $BE, $AB, $BA, $AA, $A7, $BA
+	db $BB, $B8, $EE, $EE, $EB, $BA, $DE, $FB, $8B, $BF, $FA, $9A, $AA, $BA, $AB, $AA
+	db $AB, $CE, $EF, $DA, $AF, $EE, $FF, $EC, $EB, $AE, $EE, $EB, $FE, $EE, $EC, $AA
+	db $FB, $EA, $AA, $BA, $FE, $AA, $AB, $AA, $FB, $BE, $EA, $FF, $AB, $BA, $BB, $AB
+	db $BF, $AA, $FE, $AF, $AF, $8B, $EB, $AB, $AB, $FA, $FA, $BA, $BA, $EA, $BF, $EE
+	db $AB, $EF, $AE, $2A, $9A, $AA, $EF, $EA, $AB, $AE, $AE, $0A, $8A, $2A, $6A, $A9
+	db $0A, $A2, $08, $AA, $00, $8A, $AA, $64, $82, $0A, $2A, $8C, $88, $01, $2A, $AC
+	db $A0, $29, $A8, $88, $8A, $80, $B8, $8A, $AA, $A0, $AA, $08, $A0, $AA, $82, $2A
+	db $80, $AA, $AA, $82, $AA, $80, $AA, $D9, $B3, $0A, $AA, $AA, $A2, $A1, $AA, $82
+	db $8A, $8C, $2A, $AA, $03, $22, $28, $AA, $0A, $26, $22, $00, $E6, $A2, $A9, $08
+	db $28, $21, $A2, $2A, $A0, $88, $A2, $A8, $A2, $00, $BA, $80, $20, $AA, $A9, $90
+	db $90, $6A, $88, $2B, $A2, $A2, $82, $82, $22, $AA, $88, $0A, $22, $89, $02, $AC
+	db $A8, $A8, $AA, $22, $AA, $A2, $3A, $B4, $EA, $82, $A2, $AA, $B1, $88, $A8, $02
+	db $20, $AA, $8A, $20, $28, $92, $9A, $A2, $AA, $EA, $A2, $EB, $BA, $9B, $2D, $BF
+	db $EE, $EA, $BE, $BE, $B1, $BE, $BF, $AE, $EB, $FA, $8E, $AA, $BA, $6F, $FA, $EB
+	db $E9, $BB, $68, $FF, $6A, $EE, $EC, $BA, $FE, $E0, $BF, $AA, $7A, $EB, $AE, $FE
+	db $EA, $AA, $BA, $7B, $FA, $AA, $EA, $F6, $AB, $FF, $EF, $BF, $3A, $8E, $AA, $AA
+	db $F2, $AA, $EA, $C3, $FB, $BB, $AB, $AF, $AA, $AA, $EB, $AF, $BA, $3B, $AE, $BA
+	db $AA, $EA, $BA, $BB, $EA, $3F, $BF, $AF, $DE, $EA, $AA, $FA, $A3, $AE, $EA, $7A
+	db $AA, $AE, $AB, $BA, $EA, $E9, $EA, $FB, $EE, $B8, $8B, $EF, $AA, $0A, $AA, $BF
+	db $AF, $AB, $CA, $DB, $AB, $FA, $BA, $BA, $EA, $A2, $AB, $AF, $87, $8B, $2E, $BF
+	db $EA, $AB, $32, $8E, $BE, $AA, $BB, $FE, $EA, $3B, $EA, $0A, $2A, $88, $A8, $2A
+	db $2A, $2A, $28, $A0, $AC, $82, $8A, $AA, $8A, $10, $22, $82, $80, $BC, $84, $A4
+	db $8A, $22, $AA, $2A, $9A, $B8, $BA, $EC, $AA, $20, $2A, $A2, $8C, $AA, $42, $88
+	db $83, $AA, $2A, $8A, $A2, $2A, $20, $AA, $22, $AA, $8A, $0E, $A2, $8A, $88, $00
+	db $AA, $02, $2A, $8A, $22, $2A, $AA, $28, $98, $A8, $AA, $2A, $A2, $A4, $AA, $80
+	db $A2, $92, $8A, $82, $0A, $2A, $2A, $9A, $A2, $22, $08, $AA, $82, $A2, $28, $02
+	db $82, $8A, $AA, $A2, $2B, $20, $A2, $A0, $AA, $A9, $8A, $80, $AB, $88, $AA, $8A
+	db $A8, $28, $2A, $8E, $A8, $86, $AA, $88, $A2, $8A, $EA, $AA, $08, $A8, $8A, $AA
+	db $28, $A2, $9A, $A8, $26, $02, $A2, $2A, $A8, $A2, $20, $F9, $AF, $AB, $FE, $CF
+	db $EA, $2E, $82, $EA, $BE, $EE, $AB, $AA, $AE, $AF, $BF, $BB, $AB, $EB, $AE, $E8
+	db $78, $AB, $AA, $3A, $BA, $EE, $EA, $BB, $FA, $FA, $EF, $EB, $2A, $8A, $BF, $FA
+	db $EB, $E9, $BE, $8B, $B7, $AA, $CB, $AE, $BA, $EF, $BA, $BA, $9E, $BA, $EA, $82
+	db $BB, $FA, $BB, $EE, $AB, $FC, $EA, $AA, $AB, $FA, $EA, $AF, $AE, $AB, $BB, $BB
+	db $BA, $BE, $AA, $EA, $EA, $EE, $EA, $2F, $AF, $AA, $EF, $A8, $BB, $EA, $BE, $FE
+	db $CF, $2E, $FB, $BB, $AA, $EA, $AA, $EA, $AA, $8A, $BF, $EE, $FB, $FE, $FB, $AF
+	db $EE, $AE, $A5, $BC, $EA, $A8, $2C, $BE, $AA, $E8, $EB, $EF, $F7, $FE, $AB, $AA
+	db $FE, $62, $BF, $A6, $AB, $6E, $BF, $AF, $8A, $B1, $BB, $C9, $A4, $82, $EA, $80
+	db $AA, $AA, $AA, $A0, $8E, $04, $A8, $AA, $A8, $A2, $AA, $A8, $2A, $02, $AA, $A8
+	db $A8, $1A, $A3, $88, $0E, $22, $6A, $82, $6A, $0A, $A2, $66, $A0, $22, $0A, $2A
+	db $AA, $02, $AA, $AB, $0C, $A2, $A2, $00, $88, $28, $8A, $88, $2A, $A8, $AA, $8A
+	db $22, $28, $20, $AA, $2A, $B2, $2A, $A8, $AA, $A8, $2A, $E0, $88, $AA, $AA, $AA
+	db $88, $C3, $8A, $BA, $AA, $20, $2A, $28, $A2, $2F, $AA, $AC, $A8, $28, $A2, $AA
+	db $AA, $8A, $20, $08, $2A, $AE, $2A, $2A, $2A, $22, $2A, $22, $08, $AE, $6A, $02
+	db $A8, $AA, $A6, $2A, $4A, $26, $88, $AB, $A1, $B2, $82, $8A, $0A, $2A, $22, $AB
+	db $AA, $A2, $AA, $A2, $20, $88, $AA, $0C, $29, $AA, $88, $AA, $AE, $FA, $BA, $F4
+	db $F8, $FB, $8E, $FB, $FB, $FE, $FB, $EB, $FA, $EB, $AA, $EB, $DE, $EF, $32, $FE
+	db $9B, $FB, $EE, $CA, $BA, $FE, $BA, $EA, $BE, $AB, $8B, $BE, $FE, $FF, $EA, $FA
+	db $BF, $DE, $EA, $EC, $AA, $EA, $AF, $AA, $EE, $BB, $AB, $EA, $A6, $EE, $BB, $FF
+	db $A8, $83, $A8, $CB, $FA, $EB, $AB, $7E, $AA, $E7, $2E, $BE, $AE, $AA, $EB, $FB
+	db $8A, $BB, $AA, $AA, $B2, $EE, $BD, $EE, $2F, $EA, $AE, $F8, $AE, $EA, $9A, $F6
+	db $CA, $FA, $7E, $AE, $EE, $AA, $A3, $3E, $FF, $FE, $2B, $A6, $6A, $EE, $EA, $EB
+	db $3B, $ED, $82, $FE, $A5, $F8, $8B, $AF, $AB, $AF, $EE, $A0, $E9, $BE, $6F, $AB
+	db $AA, $2E, $AE, $EB, $A2, $EB, $BA, $A2, $AA, $EF, $92, $82, $2A, $AA, $AA, $20
+	db $A6, $8A, $2A, $9A, $4A, $2C, $88, $A2, $82, $E2, $2A, $A2, $AA, $0A, $A2, $00
+	db $AA, $2A, $88, $BA, $A3, $AA, $28, $AA, $A8, $28, $A8, $AA, $22, $28, $AA, $10
+	db $2A, $8A, $2A, $A0, $A2, $28, $8A, $AA, $0A, $20, $23, $6A, $A2, $2A, $88, $AA
+	db $AE, $2A, $AA, $20, $A2, $20, $2A, $A8, $8A, $08, $2C, $A0, $22, $AA, $AA, $03
+	db $AA, $0A, $AA, $AA, $8A, $8A, $22, $30, $A2, $AA, $AA, $98, $C2, $A2, $A0, $22
+	db $CB, $23, $28, $00, $AA, $A8, $A8, $AA, $82, $AA, $2A, $2A, $20, $A8, $0B, $A8
+	db $8E, $B8, $AA, $AA, $2A, $82, $AA, $2A, $8A, $A9, $A0, $82, $A0, $60, $8A, $88
+	db $AA, $2A, $AB, $AA, $A1, $68, $2A, $6A, $8A, $08, $AA, $00, $00, $47, $03, $40
+	db $03, $00, $21, $10, $94, $11, $0A, $10, $72, $00, $83, $10, $05, $11, $0D, $10
+	db $0B, $00, $12, $20, $06, $00, $12, $20, $06, $00, $0A, $80, $08, $00, $38, $20
+	db $18, $00, $08, $10, $CA, $00, $26, $10, $05, $11, $06, $10, $1C, $00, $D1, $10
+	db $14, $11, $0D, $10, $2F, $11, $09, $00, $23, $10, $14, $00, $12, $10, $50, $11
+	db $08, $10, $09, $00, $0E, $10, $0D, $11, $0D, $10, $0F, $00, $20, $10, $2F, $11
+	db $0E, $10, $18, $00, $0F, $20, $08, $00, $58, $01, $04, $11, $02, $10, $08, $00
+	db $2A, $10, $0E, $11, $0B, $10, $61, $00, $09, $10, $01, $11, $13, $10, $0D, $00
+	db $7B, $01, $0D, $00, $04, $20, $0D, $00, $06, $01, $02, $11, $27, $10, $01, $00
+	db $0D, $01, $0B, $11, $0A, $10, $04, $00, $05, $20, $1C, $00, $06, $10, $05, $00
+	db $0B, $01, $09, $00, $03, $10, $09, $00, $0A, $01, $12, $00, $01, $20, $07, $00
+	db $0F, $20, $01, $21, $05, $01, $04, $00, $08, $01, $08, $00, $0A, $01, $01, $11
+	db $05, $10, $01, $00, $C5, $80, $70, $00, $03, $01, $0C, $11, $0C, $10, $18, $11
+	db $08, $10, $07, $11, $07, $10, $05, $11, $07, $10, $04, $11, $07, $10, $06, $11
+	db $06, $10, $05, $11, $07, $10, $04, $11, $06, $10, $06, $11, $06, $10, $04, $11
+	db $07, $10, $05, $11, $06, $10, $05, $11, $07, $10, $04, $11, $06, $10, $05, $11
+	db $06, $10, $06, $11, $05, $10, $06, $11, $06, $FF, $00, $00, $00, $46, $03, $40
+	db $01, $00, $15, $10, $47, $11, $08, $10, $34, $11, $07, $10, $20, $11, $06, $10
+	db $19, $11, $05, $10, $17, $11, $09, $10, $0C, $11, $0B, $01, $03, $00, $09, $01
+	db $09, $11, $05, $01, $01, $00, $08, $01, $0A, $11, $06, $10, $19, $11, $11, $10
+	db $2E, $11, $0A, $10, $16, $00, $23, $10, $46, $11, $0F, $10, $1A, $11, $0A, $10
+	db $23, $11, $0D, $10, $84, $11, $07, $10, $27, $11, $05, $10, $1F, $11, $05, $10
+	db $1A, $11, $06, $10, $1B, $11, $08, $10, $15, $11, $0A, $10, $14, $11, $06, $10
+	db $15, $11, $05, $10, $22, $00, $07, $80, $A3, $00, $01, $10, $04, $11, $05, $10
+	db $15, $11, $06, $10, $15, $11, $07, $10, $1A, $11, $07, $10, $18, $11, $08, $10
+	db $17, $11, $0A, $10, $16, $11, $08, $10, $14, $11, $0B, $10, $15, $11, $05, $10
+	db $21, $11, $06, $10, $1A, $11, $0A, $10, $0D, $11, $0A, $10, $0D, $11, $0C, $10
+	db $0B, $11, $03, $01, $0E, $00, $05, $10, $03, $11, $08, $01, $02, $00, $08, $01
+	db $09, $11, $04, $10, $12, $11, $0E, $10, $02, $00, $0F, $01, $0E, $11, $04, $10
+	db $24, $11, $0A, $10, $0B, $00, $04, $01, $09, $00, $09, $01, $0C, $00, $07, $20
+	db $01, $21, $07, $01, $03, $00, $08, $01, $0E, $21, $01, $20, $0B, $21, $0D, $20
+	db $10, $21, $06, $01, $0D, $00, $07, $01, $10, $00, $07, $01, $09, $11, $05, $10
+	db $0B, $11, $0C, $10, $17, $11, $0A, $10, $20, $FF, $00, $00, $00, $45, $03, $00
+	db $22, $10, $B9, $11, $0B, $10, $0E, $00, $1C, $10, $0D, $00, $12, $10, $02, $11
+	db $08, $10, $02, $00, $0C, $10, $09, $11, $09, $10, $08, $11, $26, $10, $3B, $11
+	db $1D, $01, $11, $21, $0E, $01, $16, $11, $12, $01, $05, $21, $08, $01, $17, $11
+	db $04, $00, $12, $20, $02, $00, $03, $10, $06, $00, $04, $20, $05, $00, $1D, $20
+	db $06, $00, $17, $10, $08, $00, $1B, $01, $27, $00, $01, $10, $07, $00, $0B, $10
+	db $12, $11, $09, $01, $06, $21, $0A, $01, $13, $11, $17, $01, $48, $11, $12, $01
+	db $16, $21, $06, $01, $12, $11, $28, $10, $27, $00, $22, $01, $0E, $21, $04, $01
+	db $06, $11, $13, $00, $0E, $10, $06, $11, $01, $01, $4E, $00, $44, $10, $19, $11
+	db $23, $10, $2A, $11, $23, $10, $20, $00, $02, $01, $0E, $00, $10, $10, $29, $11
+	db $26, $10, $18, $11, $06, $10, $39, $11, $17, $10, $7E, $11, $07, $10, $0F, $11
+	db $07, $10, $08, $11, $08, $10, $07, $11, $08, $10, $05, $11, $09, $01, $01, $00
+	db $04, $01, $03, $21, $05, $01, $02, $00, $05, $11, $0A, $10, $05, $11, $0B, $10
+	db $05, $11, $0D, $01, $02, $11, $16, $10, $19, $00, $09, $01, $04, $11, $07, $10
+	db $05, $00, $1D, $10, $09, $11, $0A, $01, $04, $00, $03, $10, $06, $11, $0E, $10
+	db $38, $00, $07, $20, $03, $00, $16, $10, $6B, $11, $09, $10, $1C, $11, $0D, $10
+	db $1A, $11, $0C, $10, $12, $11, $15, $10, $10, $FF, $00, $00, $00, $44, $03, $40
+	db $08, $00, $0B, $10, $FF, $10, $1E, $11, $07, $10, $17, $11, $08, $10, $1B, $11
+	db $06, $10, $9E, $11, $0C, $10, $3A, $00, $02, $01, $09, $00, $14, $01, $09, $00
+	db $12, $10, $0E, $00, $15, $10, $59, $11, $11, $10, $33, $11, $0F, $10, $7A, $11
+	db $0E, $10, $5F, $11, $0D, $10, $8B, $11, $0F, $10, $1D, $11, $09, $10, $09, $00
+	db $12, $01, $09, $00, $0D, $10, $09, $11, $07, $10, $01, $00, $0D, $01, $08, $00
+	db $04, $10, $0E, $11, $07, $10, $0F, $11, $09, $10, $52, $11, $0D, $10, $3A, $00
+	db $1C, $10, $04, $00, $25, $10, $07, $00, $38, $10, $06, $11, $0D, $10, $0B, $00
+	db $05, $20, $05, $00, $1E, $20, $08, $00, $0A, $10, $FF, $10, $97, $00, $1D, $01
+	db $02, $11, $09, $10, $21, $11, $0D, $10, $21, $00, $13, $10, $2E, $11, $0B, $10
+	db $24, $11, $0D, $10, $79, $11, $05, $10, $04, $00, $0C, $01, $07, $11, $01, $10
+	db $0E, $11, $02, $01, $06, $00, $0A, $01, $09, $00, $02, $10, $0B, $01, $08, $00
+	db $0A, $01, $09, $00, $0C, $20, $60, $00, $03, $01, $05, $11, $10, $10, $3E, $12
+	db $AC, $13, $12, $12, $27, $02, $02, $22, $35, $02, $02, $12, $30, $13, $10, $12
+	db $1D, $13, $09, $12, $2D, $13, $0E, $12, $2E, $10, $12, $11, $13, $10, $2C, $00
+	db $04, $10, $2E, $00, $21, $01, $03, $81, $05, $80, $35, $00, $0D, $20, $22, $00
+	db $03, $10, $23, $00, $18, $01, $06, $11, $15, $FF, $00
 
 
 SECTION "bank06", ROMX, BANK[$06]
