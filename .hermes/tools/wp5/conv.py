@@ -115,6 +115,40 @@ SPEC = {
                       comment='tile-row window table (20-byte windows at stride 4, read by UnknownJump_0x309CD)',
                       seg_comments={0x30A52: 'bulk data, read at $4A52 ($400 B -> $9800), $4C92 ($1800 B -> $8000, renders as tiles), $6492/$688A ($300 B each -> $9800); mixes graphics and tables, boundaries open'}),
     },
+    0x01: {
+        0x4000: dict(segs=[('dw', 0x4000, 0x41E4)],
+                     comment='sprite-mapping pointer table, indexed by [$FFC6] * 2 (reader UnknownCall_0x5297); entries point into the $80-terminated mappings at $41E4 (gfx/spritemappings.asm)'),
+        0x5348: dict(segs=[('db', 0x5348, 0x534C)],
+                     comment='spin-jump sprite selection, indexed by ($FF97 & $0C) >> 2 -> $FFC6'),
+        0x588B: dict(segs=[('db', 0x588B, 0x591F)],
+                     comment='data following the level headers; no direct reader found'),
+        0x5933: dict(segs=[('code', 0x5933, 0x593D)]),
+        0x59DA: dict(segs=[('code', 0x59DA, 0x59DF)]),
+        0x5A4A: dict(segs=[('db', 0x5A4A, 0x5A72)],
+                     comment='vertical offsets indexed by $A23F (40 entries)'),
+        0x5AE0: dict(segs=[('db', 0x5AE0, 0x5AF9), ('db', 0x5AF9, 0x5AFD)],
+                     comment='vertical offsets indexed by $A23F >> 1 (25 entries)',
+                     labels={0x5AF9: ['UnknownData_0x5AF9']},
+                     seg_comments={0x5AF9: 'sprites for $FFC6, indexed by ($A23F & $0C) >> 2'}),
+        0x5B7E: dict(segs=[('code', 0x5B7E, 0x5B8A)]),
+        0x5BB4: dict(segs=[('db', 0x5BB4, 0x5BBC)],
+                     comment='8-byte vertical offset table, indexed by $A23F'),
+        0x5BC8: dict(segs=[('code', 0x5BC8, 0x5BD3)]),
+        0x5C27: dict(segs=[('code', 0x5C27, 0x5C2C)]),
+        0x5C52: dict(segs=[('code', 0x5C52, 0x5CDE), ('db', 0x5CDE, 0x5CF1)],
+                     seg_comments={0x5CDE: 'unreferenced tail (values $10/$20); no direct reader found'}),
+        0x5DF2: dict(segs=[('code', 0x5DF2, 0x5DF9)]),
+        0x5DF9: dict(segs=[('code', 0x5DF9, 0x5E03)]),
+        0x5E42: dict(segs=[('code', 0x5E42, 0x5E95), ('dw', 0x5E95, 0x5EE1), ('db', 0x5EE1, 0x6442)],
+                     comment='sprite-list builder (called from home.asm); entry points via the dw table below',
+                     seg_comments={0x5E95: 'sprite-list pointers, indexed by $FFC6 * 2',
+                                   0x5EE1: 'sprite lists: 4-byte entries (x, y, tile, attr) + $FF terminator'}),
+        0x6442: dict(segs=[('code', 0x6442, 0x647D), ('db', 0x647D, 0x6485)],
+                     comment='palette fade step (called via UnknownCall_0x6442)',
+                     seg_comments={0x647D: 'palette rows read at +idx from $647D/$6481 (idx = [$A29B] >> 4)'}),
+        0x6529: dict(segs=[('db', 0x6529, 0x8000)],
+                     comment='packed data ($AA-heavy / high-bit-set runs); format unknown; not the layout RLE streams'),
+    },
 }
 for s, e in CODE18:
     SPEC[0x18][s] = dict(segs=[('code', s, e)])
@@ -163,10 +197,7 @@ def label_for(bank, t, kind):
     if name:
         return name
     pref = {'call': 'UnknownCall', 'jp': 'UnknownJump', 'jr': 'UnknownRJump'}[kind]
-    if rom < 0x4000:
-        name = f'{pref}_0x{rom:04X}'
-    else:
-        name = f'{pref}_0x{rom:05X}'
+    name = f'{pref}_0x{rom:04X}'  # convention: zero-padded to 4 digits ('0x03F1', '0x5BFC', '0x60E7C')
     CREATED[rom] = name
     return name
 
@@ -358,7 +389,7 @@ def main():
             continue
         li = info[s]['line']
         old = main_lines[li - 1]
-        assert old.startswith(f'INCBIN "baserom.gb", ${s:05X},'), old
+        assert re.match(rf'INCBIN "baserom\.gb", \$0*{s:X}, \$0*{info[s]["e"]:X} - ', old), old
         j = li - 2
         while j >= 0 and re.match(r'^\w+:\s*(;.*)?$', main_lines[j]):
             j -= 1
