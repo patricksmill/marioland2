@@ -312,6 +312,61 @@ SPEC = {
         0xB41A: dict(segs=[('db', 0xB41A, 0xC000)],
                      comment='bank tail after the $B16B blob region; no direct reader found'),
     },
+    0x03: {
+        0xC0B1: dict(segs=[('dw', 0xC0B1, 0xC201)],
+                     comment='sprite-mapping pointer table, selected when [$AF06] == 0 (else $CF11) by UnknownCall_0xC000 (lines 8493/8497); 168 entries pointing into the gfx/spritemappings2/3 regions ($C202+)'),
+        0xCF11: dict(segs=[('dw', 0xCF11, 0xD0D9)],
+                     comment='sprite-mapping pointer table, selected when [$AF06] != 0; 228 entries pointing into the gfx/spritemappings regions',
+                     labels={0xCF11: ['UnknownData_0xCF11']}),
+        0xE037: dict(segs=[('dw', 0xE037, 0xE077), ('db', 0xE077, 0xEBB6)],
+                     comment='per-level dw table, indexed by sCurLevel * 2 (32 entries; read at line 8644)',
+                     labels={0xE037: ['UnknownData_0xE037']},
+                     seg_comments={0xE077: 'level payload records (targets of the table above)'}),
+        0xEC61: dict(segs=[('db', 0xEC61, 0xFFA0)],
+                     comment='packed data ($AA-heavy; same family as the bank tails); no direct reader found'),
+        0xFFA0: dict(segs=[('db', 0xFFA0, 0x10000)],
+                     comment='packed data tail; the $FFA0 labels reflect the `call $FFA0` HRAM OAM-DMA convention (OAMDMARoutine in home.asm), not this data'),
+    },
+    0x05: {
+        0x14000: dict(segs=[('code', 0x14000, 0x14043)]),
+        0x140A8: dict(segs=[('code', 0x140A8, 0x140D6)]),
+        0x14121: dict(segs=[('db', 0x14121, 0x14125), ('dw', 0x14125, 0x14165), ('db', 0x14165, 0x141E5)],
+                     comment='title-screen data: 4 per-slot bytes ($00/$11/$0E/$14, read as $4121 + ([$A0F0] & 3) at lines 11820 / $140AC)',
+                     seg_comments={0x14125: '32-entry ascending dw table ($4165-$41E2)',
+                                   0x14165: 'payload (title-screen data) for the table above'}),
+        0x159E5: dict(segs=[('db', 0x159E5, 0x18000)],
+                     comment='bank tail after the title screen graphics (packed $AA-heavy data + zero padding); no direct reader found'),
+    },
+    0x09: {
+        0x24000: dict(segs=[('db', 0x24000, 0x242F0)],
+                     comment='per-level group block preceding the Level_01/26/27/28 pointer list'),
+        0x242F8: dict(segs=[('db', 0x242F8, 0x24500)],
+                     comment='shared group block between the pointer list and Level_01',
+                     labels={0x242F8: ['UnknownData_0x242F8']}),
+        0x25CF7: dict(segs=[('db', 0x25CF7, 0x28000)],
+                     comment='level-data tail after the last layout stream (level28.bin) in bank $09',
+                     labels={0x25CF7: ['UnknownData_0x25CF7']}),
+    },
+    0x14: {
+        0x50000: dict(segs=[('db', 0x50000, 0x502F0)],
+                      comment='per-level group block preceding the Level_15/16/17 pointer list'),
+        0x502F6: dict(segs=[('db', 0x502F6, 0x50500)],
+                      comment='shared group block between the pointer list and Level_15',
+                      labels={0x502F6: ['UnknownData_0x502F6']}),
+        0x52341: dict(segs=[('db', 0x52341, 0x54000)],
+                      comment='level-data tail after the last layout stream (level17.bin) in bank $14',
+                      labels={0x52341: ['UnknownData_0x52341']}),
+    },
+    0x15: {
+        0x54000: dict(segs=[('db', 0x54000, 0x542F0)],
+                      comment='per-level group block preceding the Level_21/22/23/24 pointer list'),
+        0x542F8: dict(segs=[('db', 0x542F8, 0x54500)],
+                      comment='shared group block between the pointer list and Level_21',
+                      labels={0x542F8: ['UnknownData_0x542F8']}),
+        0x562DE: dict(segs=[('db', 0x562DE, 0x58000)],
+                      comment='level-data tail after the last layout stream (level24.bin) in bank $15',
+                      labels={0x562DE: ['UnknownData_0x562DE']}),
+    },
 }
 for s, e in CODE18:
     SPEC[0x18][s] = dict(segs=[('code', s, e)])
@@ -386,7 +441,10 @@ def render_code(bank, a, b, extras):
                     out.append('')
                 out.append(f'{nm}:')
         if 'target' in info:
-            m = m.rsplit(' ', 1)[0] + ' ' + label_for(bank, info['target'], info['kind'])
+            if info['kind'] in ('call', 'jp') and info['target'] >= 0xFF00:
+                pass  # HRAM/IO address (e.g. `call $FFA0` = OAM DMA stub) — keep the raw operand
+            else:
+                m = m.rsplit(' ', 1)[0] + ' ' + label_for(bank, info['target'], info['kind'])
         op = ROM[pc]
         if op in (0xC6, 0xCE, 0xD6, 0xDE):
             m = f"{['add', 'adc', 'sub', 'sbc'][(op - 0xC6) // 8]} {ROM[pc + 1]}"
@@ -493,7 +551,8 @@ def main():
                 n, m, tgt = D.decode(pc)
                 assert m is not None, f'illegal at ${pc:05X}'
                 if 'target' in tgt:
-                    label_for(bank, tgt['target'], tgt['kind'])
+                    if not (tgt['kind'] in ('call', 'jp') and tgt['target'] >= 0xFF00):
+                        label_for(bank, tgt['target'], tgt['kind'])
                 pc += n
 
     # pass 3: render blocks
