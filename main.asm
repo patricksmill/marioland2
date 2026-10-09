@@ -18432,8 +18432,8 @@ UnknownJump_0x3C0DF:
 	and $20
 	jr z, UnknownRJump_0x3C101
 
-UnknownData_0x3C0FC:
-INCBIN "baserom.gb", $3C0FC, $3C101 - $3C0FC
+	ld a, 9
+	ld [$A7A6], a
 
 
 UnknownRJump_0x3C101:
@@ -18456,8 +18456,10 @@ UnknownJump_0x3C10E:
 	and $20
 	jr z, UnknownRJump_0x3C131
 
-UnknownData_0x3C127:
-INCBIN "baserom.gb", $3C127, $3C131 - $3C127
+	ld a, 9
+	ld [$A7A6], a
+	ld a, 20
+	ld [$A7A7], a
 
 
 UnknownRJump_0x3C131:
@@ -18594,8 +18596,16 @@ UnknownRJump_0x3C201:
 	ld [$A460], a
 	ret
 
-UnknownData_0x3C218:
-INCBIN "baserom.gb", $3C218, $3C29A - $3C218
+UnknownData_0x3C218: ;data block, read at line 18536
+	db $00, $FE, $FE, $FE, $19, $11, $FE, $FE, $FE, $FE, $FE, $FE, $FE, $FE, $FE, $FE
+	db $FE, $FE, $FE, $FE, $FE, $FE, $FE, $FE, $FE, $FE, $11, $FE, $FE, $FE, $FE, $FE
+	db $05, $03, $02, $01, $04, $FE, $1D, $FE, $06, $07, $08, $09, $FE, $FE, $FE, $FE
+	db $FE, $FE, $14, $15, $16, $17, $FE, $FE, $FE, $FE, $FE, $FE, $12, $13, $FE, $FE
+	db $FE, $FE, $FE, $FE, $1C, $FE, $0E, $FE, $0F, $10, $FE, $FE, $FE, $FE, $FE, $FE
+	db $0A, $0B, $0C, $0D, $FE, $FE, $FE, $FE, $FE, $FE, $FE, $FF, $FF, $FE, $FE, $FE
+	db $FE, $FE, $FE, $FE, $FE, $FE, $1A, $FE, $FE, $FE, $1E, $FE, $FE, $FE, $FE, $FE
+	db $FE, $FE, $FE, $FE, $FE, $FE, $FE, $FE, $1B, $FE, $1F, $FE, $FE, $FE, $FE, $FE
+	db $FE, $FE
 
 
 UnknownCall_0x3C29A:
@@ -18675,8 +18685,7 @@ UnknownCall_0x3C2FE:
 	ldh_n_a $81
 	ret
 
-UnknownData_0x3C315:
-INCBIN "baserom.gb", $3C315, $3C316 - $3C315
+	ret
 
 
 UnknownJump_0x3C316:
@@ -18687,8 +18696,9 @@ UnknownJump_0x3C316:
 	bit 7, a
 	jp z, UnknownJump_0x3C4CC
 
-UnknownData_0x3C325:
-INCBIN "baserom.gb", $3C325, $3C32D - $3C325
+	ld a, 20
+	ld [$A840], a
+	jp UnknownJump_0x3C4D3
 
 
 UnknownCall_0x3C32D:
@@ -18726,8 +18736,10 @@ UnknownCall_0x3C32D:
 	ldh_n_a $81
 	ret
 
-UnknownData_0x3C364:
-INCBIN "baserom.gb", $3C364, $3C38C - $3C364
+UnknownData_0x3C364: ;data block; no direct reader found
+	db $00, $02, $03, $05, $05, $05, $07, $08, $09, $09, $0B, $0C, $0D, $0E, $0E, $10
+	db $11, $11, $13, $10, $15, $16, $17, $17, $19, $1A, $1B, $1C, $1D, $1D, $1F, $20
+	db $21, $22, $23, $24, $25, $26, $27, $28
 
 
 UnknownCall_0x3C38C:
@@ -18857,6 +18869,7 @@ UnknownJump_0x3C4CC:
 	ld a, [$A690]
 	or a
 	jp nz, UnknownJump_0x3C7EC
+UnknownJump_0x3C4D3:
 	call UnknownCall_0x3E1D7
 	or a
 	jp z, UnknownJump_0x3C5DA
@@ -19397,8 +19410,8 @@ UnknownRJump_0x3C8EB:
 	and $0F
 	jr nz, UnknownRJump_0x3C901
 
-UnknownData_0x3C8F2:
-INCBIN "baserom.gb", $3C8F2, $3C8F4 - $3C8F2
+UnknownRJump_0x3C8F2:
+	jr UnknownRJump_0x3C8F2
 
 
 UnknownJump_0x3C8F4:
@@ -19499,8 +19512,8 @@ UnknownRJump_0x3C971:
 	ld e, l
 	jr UnknownRJump_0x3C990
 
-UnknownData_0x3C98C:
-INCBIN "baserom.gb", $3C98C, $3C990 - $3C98C
+UnknownData_0x3C98C: ;data block; no direct reader found
+	db $00, $08, $00, $10
 
 
 UnknownRJump_0x3C990:
@@ -19600,8 +19613,9 @@ UnknownRJump_0x3CA0A:
 	jr nz, UnknownRJump_0x3CA0A
 	ret
 
-UnknownData_0x3CA11:
-INCBIN "baserom.gb", $3CA11, $3CA31 - $3CA11
+UnknownData_0x3CA11: ;data block, read at line 19585
+	db $18, $50, $7E, $00, $8C, $50, $7E, $40, $54, $10, $39, $00, $54, $98, $39, $20
+	db $18, $50, $7F, $00, $8C, $50, $7F, $40, $54, $10, $7F, $00, $54, $98, $7F, $20
 
 
 UnknownCall_0x3CA31:
@@ -19726,8 +19740,24 @@ UnknownRJump_0x3CABF:
 	ld [$A843], a
 	ret
 
-UnknownData_0x3CAD7:
-INCBIN "baserom.gb", $3CAD7, $3CBE7 - $3CAD7
+UnknownData_0x3CAD7: ;data block, read at line 19420
+	db $17, $4B, $27, $4B, $37, $4B, $07, $4B, $1F, $4B, $2F, $4B, $3F, $4B, $0F, $4B
+	db $4F, $4B, $5F, $4B, $4F, $4B, $6F, $4B, $47, $4B, $57, $4B, $47, $4B, $67, $4B
+	db $4C, $4B, $0A, $00, $4C, $53, $0A, $20, $54, $4B, $0B, $00, $54, $53, $0B, $20
+	db $00, $00, $01, $00, $02, $00, $03, $00, $01, $20, $00, $20, $03, $20, $02, $20
+	db $00, $00, $01, $00, $04, $00, $05, $00, $01, $20, $00, $20, $05, $20, $04, $20
+	db $00, $00, $01, $00, $06, $00, $07, $00, $01, $20, $00, $20, $07, $20, $06, $20
+	db $00, $00, $01, $00, $08, $00, $09, $00, $01, $20, $00, $20, $09, $20, $08, $20
+	db $0A, $00, $0A, $20, $0B, $00, $0B, $20, $0D, $00, $0D, $20, $0E, $00, $0E, $20
+	db $0A, $00, $0A, $20, $0B, $00, $0C, $20, $0D, $00, $0D, $20, $0E, $00, $0F, $20
+	db $0A, $00, $0A, $20, $0C, $00, $0B, $20, $0D, $00, $0D, $20, $0F, $00, $0E, $20
+	db $14, $00, $15, $20, $16, $00, $17, $20, $15, $00, $14, $20, $17, $00, $16, $20
+	db $7F, $00, $7F, $00, $7F, $00, $7F, $00, $10, $00, $7F, $00, $7F, $00, $7F, $00
+	db $11, $00, $7F, $00, $7F, $00, $7F, $00, $12, $00, $7F, $00, $7F, $00, $7F, $00
+	db $13, $00, $7F, $00, $7F, $00, $7F, $00, $10, $20, $7F, $00, $7F, $00, $7F, $00
+	db $11, $20, $7F, $00, $7F, $00, $7F, $00, $12, $20, $7F, $00, $7F, $00, $7F, $00
+	db $13, $20, $7F, $00, $7F, $00, $7F, $00, $18, $20, $7F, $00, $7F, $00, $7F, $00
+	db $19, $20, $7F, $00, $7F, $00, $7F, $00, $1A, $20, $7F, $00, $7F, $00, $7F, $00
 
 
 UnknownCall_0x3CBE7:
@@ -19746,8 +19776,44 @@ UnknownRJump_0x3CBF3:
 	call UnknownCall_0x3CFC8
 	ret
 
-UnknownData_0x3CBFD:
-INCBIN "baserom.gb", $3CBFD, $3CE43 - $3CBFD
+UnknownData_0x3CBFD: ;data block, read at line 19738
+	db $00, $4C, $4F, $01, $10, $78, $36, $FF, $10, $A8, $F0, $09, $01, $C0, $28, $09
+	db $10, $7F, $55, $FF, $01, $5A, $00, $FF, $00, $D2, $60, $FF, $10, $28, $38, $FF
+	db $11, $B0, $5C, $FF, $10, $8E, $C8, $FF, $11, $98, $78, $FF, $11, $90, $78, $FF
+	db $11, $88, $78, $FF, $11, $80, $78, $FF, $11, $88, $70, $05, $11, $78, $78, $FF
+	db $00, $D8, $A8, $FF, $10, $00, $B0, $FF, $00, $80, $80, $FF, $00, $80, $80, $FF
+	db $6F, $4C, $73, $4C, $BF, $4C, $D3, $4C, $E7, $4C, $FB, $4C, $23, $4D, $4B, $4D
+	db $73, $4D, $9B, $4D, $BF, $4D, $D3, $4D, $DF, $4D, $F3, $4D, $07, $4E, $1B, $4E
+	db $2F, $4E, $FF, $FF, $FF, $FF, $00, $08, $54, $00, $00, $10, $55, $00, $00, $18
+	db $54, $20, $08, $00, $56, $00, $08, $08, $57, $00, $08, $10, $58, $00, $08, $18
+	db $6D, $00, $08, $20, $7A, $00, $10, $00, $59, $00, $10, $08, $5A, $00, $10, $10
+	db $5B, $00, $10, $18, $5A, $20, $10, $20, $7B, $00, $18, $00, $5C, $00, $18, $08
+	db $5D, $00, $18, $10, $6C, $00, $18, $18, $5D, $20, $18, $20, $5C, $20, $FF, $FF
+	db $FF, $FF, $00, $00, $60, $00, $00, $08, $61, $00, $08, $00, $62, $00, $08, $08
+	db $63, $00, $FF, $FF, $FF, $FF, $00, $00, $64, $00, $00, $08, $65, $00, $08, $00
+	db $66, $00, $08, $08, $67, $00, $FF, $FF, $FF, $FF, $00, $00, $68, $00, $00, $08
+	db $69, $00, $08, $00, $6A, $00, $08, $08, $6B, $00, $FF, $FF, $FF, $FF, $00, $00
+	db $3A, $00, $00, $08, $3B, $00, $00, $10, $3C, $00, $08, $00, $3D, $00, $08, $08
+	db $3E, $00, $08, $10, $3F, $00, $10, $00, $40, $00, $10, $08, $41, $00, $10, $10
+	db $42, $00, $FF, $FF, $FF, $FF, $00, $00, $45, $00, $00, $08, $3B, $00, $00, $10
+	db $3C, $00, $08, $00, $46, $00, $08, $08, $47, $00, $08, $10, $3F, $00, $10, $00
+	db $48, $00, $10, $08, $49, $00, $10, $10, $42, $00, $FF, $FF, $FF, $FF, $00, $00
+	db $4A, $00, $00, $08, $3B, $00, $00, $10, $3C, $00, $08, $00, $4B, $00, $08, $08
+	db $4C, $00, $08, $10, $3F, $00, $10, $00, $4D, $00, $10, $08, $4E, $00, $10, $10
+	db $42, $00, $FF, $FF, $FF, $FF, $00, $00, $4F, $00, $00, $08, $3B, $00, $00, $10
+	db $3C, $00, $08, $00, $50, $00, $08, $08, $51, $00, $08, $10, $3F, $00, $10, $00
+	db $52, $00, $10, $08, $53, $00, $10, $10, $42, $00, $FF, $FF, $FF, $FF, $00, $00
+	db $20, $00, $00, $08, $21, $00, $00, $10, $22, $00, $00, $18, $23, $00, $08, $00
+	db $24, $00, $08, $08, $25, $00, $08, $10, $26, $00, $08, $18, $27, $00, $FF, $FF
+	db $FF, $FF, $00, $00, $36, $00, $00, $08, $36, $20, $00, $10, $36, $00, $00, $18
+	db $36, $20, $FF, $FF, $FF, $FF, $00, $00, $43, $00, $08, $00, $44, $00, $FF, $FF
+	db $FF, $FF, $00, $00, $7C, $00, $00, $08, $7C, $20, $08, $00, $7D, $00, $08, $08
+	db $7D, $20, $FF, $FF, $FF, $FF, $00, $00, $37, $00, $00, $08, $38, $00, $08, $00
+	db $37, $40, $08, $08, $38, $40, $FF, $FF, $FF, $FF, $00, $00, $38, $20, $00, $08
+	db $37, $20, $08, $00, $38, $60, $08, $08, $37, $60, $FF, $FF, $FF, $FF, $00, $00
+	db $7D, $40, $00, $08, $7D, $60, $08, $00, $7C, $40, $08, $08, $7C, $60, $FF, $FF
+	db $FF, $FF, $00, $00, $00, $00, $FF, $FF, $FF, $FF, $51, $A8, $4D, $A8, $56, $A8
+	db $59, $A8, $5F, $A8, $65, $A8
 
 
 UnknownCall_0x3CE43:
@@ -19987,8 +20053,9 @@ UnknownRJump_0x3CF9E:
 UnknownRJump_0x3CFA7:
 	ret
 
-UnknownData_0x3CFA8:
-INCBIN "baserom.gb", $3CFA8, $3CFC8 - $3CFA8
+UnknownData_0x3CFA8: ;data block, read at line 19868
+	db $D8, $AA, $DC, $B0, $E0, $AC, $DC, $AA, $D8, $AA, $D5, $B2, $D6, $B4, $D8, $B1
+	db $02, $B0, $00, $B2, $04, $AC, $03, $AE, $01, $B0, $00, $B2, $02, $AA, $00, $B4
 
 
 UnknownCall_0x3CFC8:
@@ -20580,8 +20647,9 @@ UnknownCall_0x3D409:
 	bit 0, a
 	jr z, UnknownRJump_0x3D432
 
-UnknownData_0x3D42D:
-INCBIN "baserom.gb", $3D42D, $3D432 - $3D42D
+	xor a
+	ld [$A7BA], a
+	ret
 
 
 UnknownRJump_0x3D432:
@@ -20629,8 +20697,22 @@ UnknownRJump_0x3D469:
 	ret
 
 UnknownJump_0x3D477:
-UnknownData_0x3D477:
-INCBIN "baserom.gb", $3D477, $3D49F - $3D477
+	ld a, 16
+	ld [$A842], a
+	ld a, 100
+	ld [$A843], a
+	ld a, 60
+	ld [$A840], a
+	ld a, 255
+	ld [$A224], a
+	call UnknownCall_0x3E9FB
+	ld a, 255
+	ld [$A468], a
+	call UnknownCall_0x2AAA
+	call UnknownCall_0x3D49F
+	ld a, 1
+	call UnknownCall_0x3E3BA
+	ret
 
 
 UnknownCall_0x3D49F:
@@ -21291,8 +21373,9 @@ UnknownRJump_0x3DA12:
 	call UnknownCall_0x3E277
 	ret
 
-UnknownData_0x3DA16:
-INCBIN "baserom.gb", $3DA16, $3DA2D - $3DA16
+UnknownData_0x3DA16: ;data block, read at line 21209
+	db $00, $01, $00, $01, $00, $01, $00, $01, $02, $01, $03, $0F, $0F, $0F, $10, $11
+	db $11, $11, $11, $12, $13, $14, $15
 
 
 UnknownCall_0x3DA2D:
@@ -21631,8 +21714,7 @@ UnknownRJump_0x3DC3D:
 	cp $7C
 	jr c, UnknownRJump_0x3DC59
 
-UnknownData_0x3DC57:
-INCBIN "baserom.gb", $3DC57, $3DC59 - $3DC57
+	ld a, 123
 
 
 UnknownRJump_0x3DC59:
@@ -21754,7 +21836,15 @@ UnknownRJump_0x3DD16:
 	ret nz
 
 UnknownData_0x3DD52:
-INCBIN "baserom.gb", $3DD52, $3DD8C - $3DD52
+	ld a, 21
+	ld [$A460], a
+	ret
+
+;clamped-value/data bytes (read as a table)
+	db $49, $4A, $4B, $49, $46, $47, $48, $47, $43, $44, $45, $FF, $FF, $43, $44, $45
+	db $45, $FF, $43, $44, $20, $80, $18, $48, $28, $68, $60, $30, $70, $3A, $90, $80
+	db $98, $64, $90, $14, $10, $10, $40, $14, $14, $8A, $9C, $28, $9C, $90, $12, $78
+	db $48, $46, $40, $56
 
 
 UnknownCall_0x3DD8C:
@@ -22055,8 +22145,12 @@ UnknownRJump_0x3DF9C:
 	call UnknownCall_0x3F8E
 	ret
 
-UnknownData_0x3DFA0:
-INCBIN "baserom.gb", $3DFA0, $3DFE8 - $3DFA0
+UnknownData_0x3DFA0: ;data block, read at line 21985
+	db $1E, $1F, $20, $21, $22, $21, $20, $1F, $25, $24, $23, $24, $25, $24, $23, $24
+	db $25, $24, $23, $24, $25, $24, $23, $24, $4A, $4B, $4C, $4B, $4A, $49, $48, $49
+	db $5E, $5F, $60, $5F, $5E, $5D, $5C, $5D, $00, $01, $02, $01, $00, $0E, $0F, $0E
+	db $03, $0C, $0D, $0C, $03, $04, $05, $04, $07, $08, $08, $07, $06, $06, $06, $06
+	db $09, $09, $09, $09, $0A, $0B, $0B, $0A
 
 
 UnknownCall_0x3DFE8:
@@ -22234,8 +22328,9 @@ UnknownCall_0x3E0FD:
 	cp $50
 	ret c
 
-UnknownData_0x3E129:
-INCBIN "baserom.gb", $3E129, $3E12F - $3E129
+	ld a, 255
+	ld [$A6C0], a
+	ret
 
 
 UnknownCall_0x3E12F:
@@ -22308,8 +22403,7 @@ UnknownRJump_0x3E199:
 	cp $03
 	jr c, UnknownRJump_0x3E17E
 
-UnknownData_0x3E1A2:
-INCBIN "baserom.gb", $3E1A2, $3E1A4 - $3E1A2
+	jr UnknownRJump_0x3E1A9
 
 
 UnknownRJump_0x3E1A4:
@@ -22339,8 +22433,8 @@ UnknownRJump_0x3E1C0:
 	ld [$A79F], a
 	ret
 
-UnknownData_0x3E1CB:
-INCBIN "baserom.gb", $3E1CB, $3E1D7 - $3E1CB
+UnknownData_0x3E1CB: ;data block; no direct reader found
+	db $00, $01, $02, $01, $00, $01, $00, $02, $30, $70, $60, $40
 
 
 UnknownCall_0x3E1D7:
@@ -22383,8 +22477,14 @@ UnknownRJump_0x3E210:
 	ld a, 255
 	ret
 
-UnknownData_0x3E213:
-INCBIN "baserom.gb", $3E213, $3E277 - $3E213
+UnknownData_0x3E213: ;data block; no direct reader found
+	db $00, $00, $00, $00, $01, $02, $03, $03, $03, $03, $03, $02, $01, $00, $00, $00
+	db $00, $00, $00, $00, $19, $19, $19, $19, $19, $19, $10, $10, $19, $10, $10, $10
+	db $11, $10, $11, $11, $11, $01, $11, $01, $81, $91, $81, $91, $91, $91, $90, $91
+	db $90, $90, $90, $99, $90, $90, $99, $99, $99, $99, $99, $99, $99, $99, $99, $99
+	db $99, $99, $90, $90, $99, $90, $90, $90, $91, $90, $91, $91, $91, $81, $91, $81
+	db $01, $11, $01, $11, $11, $11, $10, $11, $10, $10, $10, $19, $10, $10, $19, $19
+	db $19, $19, $19, $19
 
 
 UnknownCall_0x3E277:
@@ -22683,8 +22783,7 @@ UnknownCall_0x3E426:
 	cp $08
 	jr z, UnknownRJump_0x3E45D
 
-UnknownData_0x3E439:
-INCBIN "baserom.gb", $3E439, $3E43A - $3E439
+	ret
 
 
 UnknownRJump_0x3E43A:
@@ -22818,8 +22917,50 @@ UnknownCall_0x3E4EB:
 	ld [$A6C6], a
 	ret
 
-UnknownData_0x3E50E:
-INCBIN "baserom.gb", $3E50E, $3E7BE - $3E50E
+UnknownData_0x3E50E: ;data block; no direct reader found
+	db $00, $FE, $FE, $FE, $28, $1F, $FE, $FE, $FE, $FE, $FE, $FE, $FE, $FE, $FE, $FE
+	db $FF, $FE, $FE, $FE, $FE, $FE, $FE, $FE, $FE, $FE, $1F, $FE, $FE, $FE, $FE, $FE
+	db $05, $03, $02, $01, $04, $FE, $24, $FE, $06, $07, $08, $09, $FE, $FE, $FE, $FE
+	db $FE, $FE, $0B, $0C, $0D, $0E, $FE, $FE, $FE, $FE, $FE, $FE, $10, $11, $FE, $13
+	db $FE, $FE, $FE, $FE, $29, $FE, $15, $FE, $16, $17, $FE, $FE, $FE, $FE, $FE, $FE
+	db $1A, $1B, $1C, $1D, $FE, $FE, $FE, $FE, $FE, $FE, $20, $FE, $FE, $FE, $FE, $FE
+	db $FE, $FE, $FE, $FE, $FE, $FE, $25, $FE, $FE, $FE, $23, $FE, $FE, $FE, $FE, $FE
+	db $FE, $FE, $FE, $FE, $FE, $FE, $FE, $FE, $26, $FE, $27, $FE, $FE, $FE, $FE, $FE
+	db $FE, $FE, $FE, $00, $10, $40, $40, $40, $00, $40, $20, $40, $00, $00, $10, $10
+	db $10, $00, $00, $40, $00, $00, $10, $00, $80, $80, $00, $00, $00, $40, $40, $40
+	db $00, $00, $10, $00, $00, $00, $00, $00, $00, $00, $00, $00, $44, $11, $00, $80
+	db $58, $04, $1C, $32, $06, $57, $6D, $FF, $34, $7A, $FF, $5C, $7A, $FF, $73, $4E
+	db $FF, $30, $4E, $FF, $4E, $2E, $FF, $80, $84, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+	db $54, $35, $0F, $78, $34, $12, $18, $10, $16, $56, $65, $FF, $6A, $4F, $FF, $3A
+	db $4F, $FF, $57, $43, $FF, $FF, $FF, $FF, $00, $00, $FF, $00, $00, $FF, $FF, $FF
+	db $FF, $24, $28, $49, $20, $47, $43, $20, $20, $43, $40, $81, $43, $4F, $5D, $FF
+	db $3F, $2D, $FF, $E0, $E0, $46, $F8, $90, $FF, $F8, $90, $FF, $56, $56, $FF, $97
+	db $2D, $FF, $FF, $FF, $FF, $00, $00, $FF, $00, $00, $FF, $FF, $FF, $FF, $17, $49
+	db $FF, $00, $00, $FF, $00, $00, $FF, $00, $00, $FF, $17, $81, $FF, $27, $71, $FF
+	db $5B, $71, $FF, $63, $49, $FF, $FF, $FF, $FF, $00, $00, $FF, $FF, $FF, $FF, $46
+	db $24, $1C, $5A, $24, $1D, $4C, $10, $23, $4A, $2C, $24, $5E, $2C, $24, $38, $77
+	db $25, $72, $2B, $1E, $42, $7B, $FF, $54, $65, $FF, $54, $52, $FF, $54, $16, $FF
+	db $FF, $FF, $FF, $04, $07, $00, $0E, $07, $03, $08, $09, $06, $08, $07, $09, $FF
+	db $FF, $FF, $58, $48, $FF, $18, $78, $2A, $70, $70, $2B, $90, $60, $2C, $4F, $2D
+	db $FF, $77, $65, $FF, $5F, $7D, $FF, $80, $40, $2E, $30, $50, $2E, $A0, $40, $32
+	db $94, $10, $FF, $FF, $FF, $FF, $00, $00, $FF, $FF, $FF, $FF, $19, $20, $34, $50
+	db $21, $35, $34, $1C, $FF, $70, $62, $39, $FF, $FF, $FF, $FF, $FF, $FF, $08, $10
+	db $42, $80, $14, $42, $80, $88, $5F, $8D, $90, $60, $95, $90, $60, $9D, $90, $60
+	db $FF, $FF, $FF, $FF, $FF, $FF, $20, $A0, $00, $40, $38, $01, $98, $64, $05, $28
+	db $64, $08, $28, $5C, $FF, $C0, $17, $17, $FF, $FF, $FF, $FF, $FF, $FF, $20, $A0
+	db $00, $40, $38, $01, $98, $64, $05, $28, $64, $08, $28, $5C, $FF, $C0, $17, $17
+	db $FF, $FF, $FF, $FF, $FF, $FF, $20, $A0, $00, $40, $38, $01, $98, $64, $05, $28
+	db $64, $08, $28, $5C, $FF, $C0, $17, $17, $FF, $FF, $FF, $FF, $FF, $FF, $20, $A0
+	db $00, $40, $38, $01, $98, $64, $05, $28, $64, $08, $28, $5C, $FF, $C0, $17, $17
+	db $FF, $FF, $FF, $FF, $FF, $FF, $20, $A0, $00, $60, $34, $1F, $60, $44, $21, $60
+	db $3C, $20, $60, $44, $FF, $60, $4C, $FF, $60, $54, $FF, $8C, $60, $FF, $8C, $60
+	db $FF, $8C, $60, $FF, $8C, $60, $FF, $8C, $60, $FF, $18, $70, $FF, $FF, $FF, $FF
+	db $FF, $FF, $FF, $20, $A0, $00, $20, $10, $2D, $40, $10, $2E, $60, $10, $2F, $80
+	db $10, $30, $30, $2D, $FF, $30, $3D, $FF, $30, $4D, $FF, $50, $35, $FF, $50, $45
+	db $FF, $50, $55, $FF, $70, $2D, $FF, $70, $3D, $FF, $70, $4D, $FF, $24, $60, $FF
+	db $20, $20, $FF, $FF, $FF, $FF, $04, $04, $FF, $04, $06, $FF, $04, $08, $FF, $08
+	db $05, $FF, $08, $07, $FF, $08, $09, $FF, $0C, $04, $FF, $0C, $06, $FF, $0C, $08
+	db $FF, $03, $0B, $FF, $07, $0B, $FF, $0B, $0B, $FF, $0F, $0B, $FF, $FF, $FF, $FF
 
 
 UnknownCall_0x3E7BE:
@@ -23269,8 +23410,12 @@ UnknownRJump_0x3EA45:
 	jr nz, UnknownRJump_0x3EA45
 	ret
 
-UnknownData_0x3EA53:
-INCBIN "baserom.gb", $3EA53, $3EA9A - $3EA53
+UnknownData_0x3EA53: ;data block, read at line 22515
+	db $00, $00, $40, $80, $D0, $D0, $D0, $00, $00, $00, $00, $40, $10, $80, $24, $D1
+	db $39, $D2, $39, $D2, $39, $16, $E4, $1E, $01, $CD, $EC, $69, $CD, $EC, $69, $CD
+	db $EC, $69, $FA, $7E, $A2, $CB, $3A, $1F, $CB, $3A, $1F, $EA, $7E, $A2, $D5, $21
+	db $5A, $6A, $16, $00, $CB, $23, $19, $2A, $EA, $7F, $A2, $7E, $EA, $80, $A2, $D1
+	db $1C, $7B, $FE, $05, $20, $D3, $C9
 
 
 UnknownCall_0x3EA9A:
@@ -23588,8 +23733,8 @@ UnknownRJump_0x3EC0E:
 	ld [hl], a
 	ret
 
-UnknownData_0x3EC75:
-INCBIN "baserom.gb", $3EC75, $3EC7D - $3EC75
+UnknownData_0x3EC75: ;data block, read at line 23500
+	db $40, $7B, $2A, $7C, $14, $7D, $FE, $7D
 
 
 UnknownCall_0x3EC7D:
@@ -23626,8 +23771,11 @@ UnknownRJump_0x3EC8C:
 	call UnknownCall_0x3EA4
 	ret
 
-UnknownData_0x3ECB5:
-INCBIN "baserom.gb", $3ECB5, $3ECF5 - $3ECB5
+UnknownData_0x3ECB5: ;data block; no direct reader found
+	db $04, $04, $05, $05, $06, $06, $07, $07, $04, $04, $05, $05, $06, $06, $07, $07
+	db $04, $04, $05, $05, $06, $06, $07, $07, $04, $04, $05, $05, $06, $06, $07, $07
+	db $08, $0B, $0A, $09, $08, $08, $04, $04, $08, $09, $0A, $0B, $08, $08, $08, $08
+	db $04, $04, $05, $05, $08, $08, $08, $08, $00, $01, $02, $03, $00, $00, $00, $00
 
 
 UnknownCall_0x3ECF5:
@@ -23664,8 +23812,8 @@ UnknownRJump_0x3ED04:
 	call UnknownCall_0x3ECB
 	ret
 
-UnknownData_0x3ED2D:
-INCBIN "baserom.gb", $3ED2D, $3ED35 - $3ED2D
+UnknownData_0x3ED2D: ;data block; no direct reader found
+	db $00, $01, $02, $03, $03, $03, $03, $03
 
 
 UnknownCall_0x3ED35:
@@ -24253,14 +24401,15 @@ UnknownJump_0x3F123:
 	jp UnknownJump_0x3F060
 
 UnknownJump_0x3F142:
-UnknownData_0x3F142:
-INCBIN "baserom.gb", $3F142, $3F147 - $3F142
+	call UnknownCall_0x3F156
+	jr UnknownRJump_0x3F14C
 
 
 UnknownJump_0x3F147:
 UnknownRJump_0x3F147:
 	ld a, 146
 	ld [$A878], a
+UnknownRJump_0x3F14C:
 	ei
 	call UnknownCall_0x2934
 	ld a, 12
@@ -24383,8 +24532,10 @@ UnknownRJump_0x3F24C:
 	jr nz, UnknownRJump_0x3F24C
 	ret
 
-UnknownData_0x3F251:
-INCBIN "baserom.gb", $3F251, $3F275 - $3F251
+UnknownData_0x3F251: ;data block, read at line 24343
+	db $98, $58, $7C, $00, $98, $60, $6F, $00, $98, $68, $70, $00, $98, $70, $70, $00
+	db $98, $80, $7D, $00, $98, $88, $6F, $00, $98, $90, $70, $00, $98, $98, $70, $00
+	db $98, $A0, $70, $00
 
 
 UnknownCall_0x3F275:
@@ -24543,8 +24694,8 @@ UnknownCall_0x3F37F:
 	ld a, [hl]
 	ret
 
-UnknownData_0x3F38B:
-INCBIN "baserom.gb", $3F38B, $3F38F - $3F38B
+UnknownData_0x3F38B: ;data block; no direct reader found
+	db $20, $00, $45, $70
 
 
 UnknownCall_0x3F38F:
@@ -24712,20 +24863,21 @@ UnknownCall_0x3F4B1:
 	and $0F
 	jr nz, UnknownRJump_0x3F507
 
-UnknownData_0x3F502:
-INCBIN "baserom.gb", $3F502, $3F507 - $3F502
+	ld hl, $4A1A
+	jr UnknownRJump_0x3F513
 
 
 UnknownRJump_0x3F507:
 	cp $01
 	jr nz, UnknownRJump_0x3F510
 
-UnknownData_0x3F50B:
-INCBIN "baserom.gb", $3F50B, $3F510 - $3F50B
+	ld hl, $4A2F
+	jr UnknownRJump_0x3F513
 
 
 UnknownRJump_0x3F510:
 	ld hl, $4A58
+UnknownRJump_0x3F513:
 	ld a, l
 	ld [$A7AE], a
 	ld [$A7B5], a
@@ -24861,8 +25013,163 @@ UnknownCall_0x3F5A4:
 	ld [$A24F], a
 	ret
 
-UnknownData_0x3F64D:
-INCBIN "baserom.gb", $3F64D, $40000 - $3F64D
+UnknownData_0x3F64D: ;bank tail (packed data); no direct reader found
+	db $AF, $8E, $FF, $EF, $F8, $AE, $FE, $EA, $FB, $E9, $6E, $F6, $AE, $8B, $FE, $AE
+	db $BE, $EA, $EB, $AA, $A9, $AF, $8E, $FF, $AB, $AA, $CE, $BD, $A7, $BE, $FE, $EE
+	db $9A, $FC, $2B, $BA, $FF, $AB, $FD, $AE, $BE, $BA, $EE, $E2, $CF, $9B, $E7, $EA
+	db $7E, $EE, $E7, $0A, $88, $E8, $2C, $BA, $AA, $A0, $84, $EA, $80, $A0, $AA, $8A
+	db $6E, $20, $23, $AA, $8A, $32, $0A, $AA, $38, $2A, $22, $A3, $88, $A6, $08, $2B
+	db $A2, $24, $4A, $8B, $AA, $A6, $E8, $AA, $B8, $3A, $A8, $A2, $02, $2A, $BA, $AE
+	db $A8, $A2, $83, $28, $BA, $CA, $AB, $E8, $A8, $60, $0A, $89, $88, $0A, $20, $8E
+	db $86, $23, $22, $0A, $A8, $AC, $32, $AA, $03, $A2, $00, $08, $CA, $00, $20, $20
+	db $A8, $A8, $A1, $A2, $68, $A1, $2A, $29, $F0, $88, $22, $BA, $88, $A0, $BA, $A2
+	db $B8, $00, $88, $8A, $09, $A2, $72, $B3, $2B, $08, $CB, $28, $82, $2A, $22, $2A
+	db $4A, $82, $1B, $83, $A0, $28, $AA, $A2, $8A, $AA, $A8, $8A, $47, $62, $81, $82
+	db $A2, $0A, $A8, $EE, $BB, $AB, $D9, $AA, $BB, $AA, $FD, $A7, $AE, $E7, $BE, $A6
+	db $96, $6B, $2D, $ED, $A8, $CA, $DB, $BA, $A9, $3A, $FE, $AA, $AB, $FF, $3E, $BF
+	db $E5, $A9, $EB, $AB, $52, $E5, $ED, $3F, $DF, $BF, $AB, $DE, $AA, $EA, $B6, $ED
+	db $DC, $EF, $BF, $B8, $BE, $2E, $AA, $AF, $B6, $A2, $AF, $AA, $FF, $3C, $AF, $EE
+	db $FF, $B2, $CD, $BF, $E9, $9B, $9B, $EA, $FA, $CF, $89, $AA, $FE, $EE, $63, $BB
+	db $E5, $BE, $BB, $F9, $EA, $09, $2A, $FE, $BF, $C7, $FC, $FE, $FE, $B2, $B9, $37
+	db $F7, $FB, $7B, $F7, $EF, $2A, $BB, $BE, $9A, $5B, $D7, $FA, $FE, $FE, $7F, $EE
+	db $EE, $2A, $DB, $AB, $CB, $5E, $AB, $AF, $FA, $BA, $BF, $AB, $EF, $FF, $B8, $3A
+	db $FA, $60, $BF, $82, $A8, $86, $8B, $EA, $AA, $20, $0A, $A2, $4A, $22, $83, $88
+	db $01, $6C, $B0, $4A, $A0, $A0, $A2, $2B, $31, $2A, $00, $2A, $C8, $08, $40, $82
+	db $C3, $C0, $A1, $08, $82, $A0, $18, $9A, $A2, $AA, $02, $82, $AA, $82, $81, $84
+	db $A6, $18, $35, $02, $C2, $A6, $A9, $0A, $6B, $2C, $88, $8A, $A3, $2A, $A4, $30
+	db $4A, $22, $A1, $22, $20, $A9, $AA, $EA, $A8, $A8, $D3, $38, $92, $8A, $12, $0A
+	db $29, $AA, $22, $A6, $29, $AA, $88, $22, $0E, $3B, $B8, $A6, $68, $08, $AA, $A0
+	db $89, $80, $A8, $22, $22, $A0, $08, $8A, $0B, $82, $AC, $AC, $0A, $20, $8A, $C9
+	db $00, $00, $AB, $20, $AE, $00, $00, $AA, $02, $02, $80, $2A, $AA, $2E, $A4, $2B
+	db $81, $AB, $24, $AA, $BF, $BA, $EA, $BA, $FB, $EB, $BF, $BF, $A8, $BF, $4F, $EA
+	db $FA, $FB, $EA, $EC, $F6, $AF, $FB, $AB, $AC, $BA, $AF, $AB, $BF, $8A, $FA, $AE
+	db $BB, $BE, $EE, $AE, $EC, $A9, $FF, $A8, $AF, $FF, $AF, $AB, $EF, $AF, $AE, $BF
+	db $EF, $BF, $FF, $FB, $AA, $FF, $AE, $EE, $AA, $CF, $8F, $ED, $EA, $A7, $9A, $A6
+	db $AE, $EF, $BE, $BA, $EA, $9E, $EB, $EE, $FF, $6A, $7F, $BB, $BB, $E3, $FF, $EA
+	db $EA, $AB, $FC, $AE, $BF, $EB, $AA, $AB, $3B, $7A, $AE, $AE, $DA, $F8, $BE, $AC
+	db $AB, $BA, $E8, $EB, $AE, $AA, $E9, $AE, $BA, $8B, $EB, $AA, $EF, $BB, $EF, $9F
+	db $F6, $BB, $EB, $FE, $AB, $B6, $B8, $2F, $B6, $CB, $FB, $BA, $F8, $FB, $F8, $EE
+	db $F7, $3A, $E6, $A2, $52, $88, $EB, $A0, $A0, $2A, $9A, $08, $82, $AA, $82, $83
+	db $A9, $9A, $23, $0A, $08, $0B, $0A, $22, $BA, $8A, $22, $0A, $38, $22, $82, $AA
+	db $A0, $88, $80, $00, $A0, $88, $2A, $8A, $C4, $1A, $88, $83, $A2, $A9, $A8, $28
+	db $03, $AA, $09, $A8, $B8, $2A, $0C, $2E, $33, $0A, $20, $2A, $A6, $13, $A0, $EA
+	db $C8, $CC, $3C, $AA, $02, $08, $00, $82, $28, $8A, $29, $2A, $A2, $8B, $04, $88
+	db $AC, $A8, $8A, $98, $0A, $AD, $08, $E2, $2E, $0A, $2A, $0A, $20, $8C, $AA, $2A
+	db $A9, $AA, $6A, $AA, $88, $8A, $20, $A2, $8A, $E8, $08, $A2, $00, $AE, $B2, $A8
+	db $7A, $88, $28, $08, $AA, $82, $0A, $8A, $2A, $A2, $28, $A2, $A2, $6E, $81, $0A
+	db $0E, $AA, $A4, $BB, $EC, $AE, $2B, $BB, $EA, $EB, $F8, $FA, $A2, $EA, $EC, $8E
+	db $BA, $8E, $9B, $FA, $EF, $BF, $FE, $BF, $8E, $C2, $B6, $FE, $DD, $BA, $F9, $B0
+	db $AB, $BE, $AF, $BA, $DB, $B2, $BB, $FE, $EF, $BD, $EB, $AF, $97, $BF, $F8, $FA
+	db $FF, $AB, $78, $AB, $AE, $AB, $EB, $AE, $EB, $F9, $AE, $AB, $BB, $AB, $F3, $AF
+	db $0F, $FE, $EF, $E2, $BB, $BA, $2B, $CB, $BF, $EA, $EE, $EA, $B8, $AC, $8A, $EE
+	db $EF, $B2, $CB, $AE, $EE, $BA, $FF, $BF, $6F, $AE, $EE, $FB, $AF, $EB, $8A, $EE
+	db $BF, $FE, $EE, $EF, $B6, $BA, $7B, $AF, $FD, $9A, $A9, $EE, $AA, $FA, $7D, $BA
+	db $C3, $EF, $BC, $FA, $7F, $DE, $CE, $EE, $EA, $B9, $B6, $AB, $B5, $7E, $3B, $9B
+	db $DA, $AB, $AB, $6A, $82, $8A, $2A, $CA, $E6, $EA, $02, $A8, $80, $0A, $2A, $E0
+	db $00, $E0, $EE, $A2, $B3, $28, $EC, $0A, $42, $8A, $AA, $00, $9B, $A2, $82, $2A
+	db $63, $04, $0C, $AE, $82, $89, $88, $A8, $A0, $AA, $A6, $AA, $82, $AA, $8C, $2B
+	db $04, $89, $E3, $8A, $B8, $28, $02, $AA, $20, $82, $22, $AA, $C0, $AC, $C0, $08
+	db $EA, $0A, $22, $28, $AA, $A2, $A2, $02, $25, $42, $8A, $21, $80, $AA, $90, $2A
+	db $2A, $BA, $42, $AA, $AA, $E2, $68, $8A, $42, $0A, $2E, $A8, $89, $AA, $0A, $A2
+	db $AA, $2A, $26, $A2, $A8, $8E, $AE, $A0, $06, $88, $AA, $A0, $B0, $08, $09, $AC
+	db $01, $20, $08, $A8, $80, $82, $AA, $A3, $82, $88, $60, $0A, $20, $80, $00, $A6
+	db $30, $8A, $0C, $9E, $EF, $F3, $E3, $AB, $EF, $EF, $A3, $FE, $CB, $AE, $FF, $BF
+	db $DE, $EE, $B7, $BE, $FA, $AE, $BF, $CC, $FF, $EB, $AF, $FB, $DA, $AF, $EA, $BA
+	db $BD, $BC, $A3, $BB, $BF, $BA, $AA, $EA, $FA, $BF, $FE, $BE, $EB, $EB, $B3, $DE
+	db $7E, $AB, $2B, $BE, $EB, $AB, $BB, $E8, $AE, $CE, $6F, $FB, $EE, $EE, $EF, $AA
+	db $AA, $8F, $FF, $AA, $BF, $EC, $6E, $BF, $A3, $C6, $AA, $FF, $EF, $BA, $3A, $FF
+	db $AF, $AC, $FB, $E6, $EA, $AA, $A9, $BE, $F2, $CA, $CE, $BA, $FA, $EF, $BA, $B8
+	db $FE, $FA, $EA, $9B, $FE, $BA, $EF, $2E, $9B, $2F, $BE, $AF, $8D, $BE, $EE, $AF
+	db $EF, $AF, $EA, $EA, $F9, $FA, $BB, $AA, $A8, $EB, $BF, $B8, $AA, $FE, $AD, $AB
+	db $EA, $AA, $EF, $8A, $AA, $AE, $AA, $08, $20, $22, $B2, $A2, $AA, $8A, $32, $CA
+	db $78, $AA, $40, $EA, $81, $28, $E2, $B2, $8E, $E8, $22, $28, $22, $AA, $A8, $26
+	db $82, $E0, $88, $AA, $2A, $8A, $32, $0A, $A4, $8B, $22, $8B, $8A, $20, $8A, $A2
+	db $80, $8A, $A1, $A8, $AA, $88, $22, $22, $E2, $8A, $00, $A8, $A8, $A8, $A8, $2A
+	db $BA, $A8, $6B, $AA, $28, $B8, $81, $6A, $87, $9A, $22, $02, $A2, $12, $AA, $2A
+	db $88, $20, $88, $A0, $8A, $AA, $B0, $A8, $32, $A2, $82, $60, $A8, $20, $AA, $22
+	db $A8, $3E, $28, $2A, $02, $08, $8E, $A2, $A0, $8E, $20, $20, $2A, $2A, $21, $2A
+	db $00, $0A, $81, $28, $08, $A0, $3A, $0E, $00, $A2, $12, $23, $A8, $A8, $2A, $28
+	db $A8, $0E, $AE, $BE, $FE, $FE, $BE, $AF, $7F, $AE, $BF, $AB, $B3, $EF, $AA, $AB
+	db $6B, $BE, $F3, $AA, $AE, $FE, $EB, $BE, $B7, $EA, $D3, $FF, $DF, $AE, $FC, $AA
+	db $4A, $FF, $FE, $BF, $DE, $EB, $6B, $EF, $FE, $EF, $FA, $A2, $EF, $66, $8F, $FB
+	db $EF, $8F, $EA, $FC, $A6, $B2, $94, $EA, $BB, $FB, $DB, $AB, $EB, $BA, $A7, $EE
+	db $EA, $BA, $FF, $2F, $BF, $3F, $F6, $6E, $72, $FF, $E2, $AA, $FF, $AA, $B7, $C6
+	db $F6, $FD, $FE, $AA, $8E, $EB, $E2, $AF, $EA, $8B, $C7, $B3, $AE, $EF, $5E, $E2
+	db $2B, $0E, $EA, $3F, $DE, $FA, $88, $BE, $A3, $AB, $DE, $EB, $FF, $FB, $3B, $AB
+	db $AB, $3E, $CF, $EF, $AF, $CE, $BA, $B3, $E9, $D3, $BE, $9F, $FF, $EE, $EE, $BA
+	db $BC, $AF, $FE, $AA, $A0, $02, $22, $2A, $00, $12, $2C, $22, $84, $80, $8A, $28
+	db $2A, $1A, $2A, $8A, $2E, $16, $28, $68, $90, $88, $F4, $A9, $F8, $AA, $8A, $63
+	db $26, $C9, $6F, $23, $3B, $A2, $08, $8C, $58, $D8, $C9, $89, $81, $82, $8B, $A2
+	db $80, $8A, $5E, $EE, $80, $2C, $AC, $2A, $6E, $8C, $BA, $A2, $00, $BA, $AA, $8E
+	db $A4, $88, $0A, $A8, $AA, $EA, $B2, $09, $88, $02, $22, $BA, $0A, $A9, $88, $A0
+	db $84, $20, $A4, $AA, $10, $AE, $A0, $28, $A8, $88, $4B, $0A, $AA, $A8, $3C, $02
+	db $58, $A0, $08, $A4, $21, $29, $80, $62, $2A, $A9, $22, $82, $80, $AA, $29, $AA
+	db $C8, $8A, $B9, $28, $E0, $20, $A0, $82, $0E, $1A, $82, $24, $28, $01, $28, $0A
+	db $96, $3A, $AA, $3B, $BD, $AA, $2C, $AF, $82, $AA, $AB, $AF, $B0, $CE, $AE, $8E
+	db $AE, $EB, $AE, $AE, $EC, $AA, $A7, $EF, $FF, $AF, $EE, $FA, $AE, $AA, $A7, $EE
+	db $89, $EA, $6A, $AB, $BF, $BA, $AE, $AA, $46, $AE, $AE, $BC, $F6, $EE, $EE, $EA
+	db $FE, $AE, $FA, $3A, $AB, $EE, $3F, $BE, $AA, $EA, $EE, $AE, $EA, $EF, $6F, $EE
+	db $AE, $BE, $AE, $FA, $EF, $86, $EA, $EA, $BC, $AE, $AA, $EE, $B3, $EA, $AE, $AA
+	db $B7, $3F, $AB, $AA, $EF, $AE, $AA, $6A, $AA, $6F, $2F, $BA, $8A, $8E, $EB, $FA
+	db $AB, $BE, $EE, $2A, $BE, $AF, $EA, $AF, $AF, $BE, $66, $A8, $AA, $A2, $EA, $EE
+	db $AA, $EB, $AA, $EA, $A8, $BA, $BE, $EE, $A1, $DA, $CA, $AA, $AE, $EE, $EB, $EF
+	db $AA, $FE, $9E, $AA, $EC, $AA, $22, $80, $20, $28, $28, $AA, $20, $40, $8A, $88
+	db $00, $A8, $AC, $88, $22, $20, $AA, $A8, $8A, $2A, $A2, $AA, $22, $28, $20, $A2
+	db $02, $A2, $8A, $A2, $60, $20, $A8, $88, $2A, $C2, $88, $28, $AA, $2C, $08, $88
+	db $A8, $28, $4E, $2A, $6A, $AA, $EA, $22, $08, $AA, $0A, $A8, $08, $88, $AF, $88
+	db $22, $20, $28, $2E, $8A, $A8, $02, $20, $88, $A2, $AA, $28, $A2, $08, $A8, $8A
+	db $68, $A9, $48, $88, $A2, $22, $20, $CA, $A8, $A8, $A8, $06, $A0, $AC, $A8, $0A
+	db $2A, $BA, $92, $A2, $8A, $0C, $8A, $2A, $00, $82, $8A, $A2, $A8, $E2, $02, $2A
+	db $82, $08, $08, $AA, $28, $8A, $04, $00, $22, $00, $22, $2A, $88, $0A, $A0, $0A
+	db $80, $22, $0A, $AE, $A9, $AA, $96, $EB, $2A, $A2, $7F, $FE, $B2, $EA, $FE, $A9
+	db $AB, $E3, $AF, $FB, $EE, $6B, $AA, $FE, $BF, $BA, $6C, $AA, $7E, $AF, $6E, $EA
+	db $9F, $FA, $CE, $EA, $BE, $C2, $8F, $C8, $EE, $AB, $CA, $A2, $9F, $FB, $AA, $EA
+	db $AF, $AA, $AE, $EF, $2B, $FB, $EE, $8E, $EE, $AB, $8B, $82, $AF, $AA, $E8, $AE
+	db $8B, $AA, $AA, $E2, $EF, $EA, $BE, $EE, $ED, $EE, $FF, $AB, $AE, $AA, $BA, $EB
+	db $FA, $E2, $E9, $AA, $1A, $EE, $BB, $EA, $EE, $FE, $CA, $A2, $FA, $AE, $CE, $EA
+	db $EA, $AE, $E3, $EE, $BE, $AE, $AE, $BF, $AE, $EE, $BE, $AA, $6F, $AF, $A7, $AE
+	db $AF, $A8, $FA, $BA, $EE, $2E, $72, $E8, $CA, $EE, $6E, $E8, $EA, $A8, $AF, $BB
+	db $F3, $AE, $FE, $8E, $8A, $A2, $AA, $A8, $28, $A0, $2A, $8A, $02, $E8, $28, $AA
+	db $8A, $0B, $8A, $AA, $08, $2A, $08, $A4, $28, $88, $00, $80, $60, $08, $AA, $2A
+	db $E8, $8A, $1A, $AA, $22, $A0, $84, $20, $08, $82, $80, $0A, $82, $2A, $A0, $8A
+	db $A2, $88, $00, $A2, $82, $02, $82, $8A, $98, $AA, $A2, $8A, $2E, $2A, $02, $A0
+	db $C6, $88, $08, $2E, $22, $D2, $A8, $A2, $0A, $0A, $00, $A2, $80, $A2, $28, $E8
+	db $A4, $00, $F2, $02, $2A, $C0, $8A, $22, $80, $AE, $88, $8A, $6A, $A8, $02, $84
+	db $02, $2B, $26, $88, $EA, $2A, $EA, $AA, $88, $A0, $00, $82, $A0, $88, $8C, $28
+	db $A8, $9A, $34, $AA, $2C, $22, $28, $A9, $40, $B2, $86, $A2, $80, $AA, $C8, $A8
+	db $A0, $08, $20, $CA, $FB, $A2, $B6, $AA, $BE, $EF, $8A, $EA, $EE, $AA, $EA, $EA
+	db $8E, $EE, $AE, $EA, $AE, $8A, $BE, $AA, $FF, $EA, $BA, $AE, $6F, $EB, $FA, $EA
+	db $2B, $62, $EC, $E6, $8F, $AE, $E9, $EA, $AA, $AE, $AA, $EA, $E2, $E2, $EA, $AE
+	db $AE, $EF, $FF, $AE, $33, $EF, $AA, $AF, $B2, $FA, $AA, $BA, $AA, $FE, $9A, $EC
+	db $CF, $FE, $E6, $AE, $FE, $C8, $FB, $EA, $BA, $EE, $E8, $AB, $EE, $AB, $AB, $EA
+	db $B9, $EA, $BF, $AA, $AB, $E1, $CE, $EE, $EE, $EB, $EF, $AC, $EF, $E2, $FE, $BB
+	db $BF, $BF, $8C, $A4, $EF, $3E, $AA, $E6, $E8, $AE, $EB, $B3, $EB, $AF, $FF, $AE
+	db $EE, $EA, $CF, $EA, $AA, $AE, $EA, $FE, $BA, $8E, $C9, $A6, $AF, $BA, $A6, $A6
+	db $9F, $FE, $BE, $38, $A8, $88, $4C, $8A, $A0, $86, $08, $AA, $AA, $22, $0A, $28
+	db $68, $00, $2A, $22, $08, $8A, $A0, $AE, $28, $8A, $A0, $C0, $82, $2C, $88, $A8
+	db $08, $28, $02, $8A, $A2, $AA, $0A, $A8, $8A, $8C, $08, $2A, $80, $00, $A8, $A2
+	db $AA, $82, $02, $EA, $06, $A0, $88, $8A, $0A, $A8, $88, $20, $82, $20, $AA, $AA
+	db $C8, $80, $8C, $AA, $20, $AC, $8A, $AA, $20, $AA, $0A, $8A, $0A, $A3, $4C, $80
+	db $0E, $A2, $82, $A8, $2A, $2A, $28, $AA, $A8, $A8, $08, $2A, $60, $20, $80, $AA
+	db $E2, $06, $8A, $8A, $2C, $8E, $2A, $80, $20, $04, $A0, $A0, $AA, $88, $82, $80
+	db $2A, $2A, $A8, $8A, $0A, $05, $88, $AA, $68, $22, $02, $2A, $82, $AC, $88, $82
+	db $82, $AA, $A8, $AA, $FA, $BA, $F2, $BD, $FE, $BE, $AB, $AB, $63, $EA, $EE, $B6
+	db $69, $AB, $AA, $EF, $A9, $BE, $FC, $EB, $B8, $B6, $A3, $EF, $EB, $EB, $FB, $7F
+	db $FB, $EB, $9A, $BA, $CB, $BE, $8B, $EA, $FA, $EA, $BB, $FA, $FB, $B9, $ED, $FA
+	db $BA, $AB, $F8, $A9, $8F, $AF, $EA, $BF, $CF, $9E, $A9, $AB, $E8, $AE, $AA, $AB
+	db $E2, $AF, $EB, $FA, $BD, $BE, $EF, $A6, $0F, $EE, $AE, $EB, $BD, $FF, $DE, $FA
+	db $7B, $AE, $B9, $BA, $3E, $EB, $7A, $7A, $EF, $2A, $1F, $BE, $1B, $FB, $AB, $AA
+	db $E6, $AE, $8B, $E3, $B2, $7A, $AB, $AB, $FB, $AB, $EC, $2B, $D7, $FE, $EB, $FF
+	db $A1, $BF, $BF, $FB, $FB, $3E, $AF, $FE, $EA, $BA, $9F, $AE, $AE, $EF, $DF, $DE
+	db $FE, $AE, $DE, $22, $20, $02, $32, $A2, $A0, $B0, $22, $A2, $80, $AC, $0B, $9A
+	db $A2, $B0, $33, $22, $8E, $E1, $82, $AF, $20, $2A, $EA, $A4, $22, $A2, $23, $CF
+	db $22, $28, $A5, $E8, $50, $20, $00, $A0, $22, $A2, $0A, $2A, $20, $A8, $EF, $2A
+	db $0B, $82, $38, $20, $88, $2B, $28, $36, $42, $AE, $88, $BA, $0A, $EA, $A2, $8A
+	db $86, $28, $43, $2A, $AA, $82, $04, $88, $02, $01, $00, $26, $E4, $0A, $88, $EA
+	db $AC, $E0, $22, $A2, $20, $08, $02, $28, $AA, $E8, $80, $B2, $82, $23, $C2, $8A
+	db $82, $22, $A1, $CE, $33, $80, $02, $0A, $29, $08, $3C, $8A, $32, $08, $89, $AA
+	db $82, $2A, $9C, $A8, $22, $2A, $6A, $80, $AA, $80, $32, $E2, $A0, $A8, $20, $3A
+	db $F3, $A7, $00
 
 
 
