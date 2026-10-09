@@ -26826,8 +26826,20 @@ UnknownRJump_0x5802B:
 	ldh a, [$FFD5]
 	rst $28
 
-UnknownData_0x58040:
-INCBIN "baserom.gb", $58040, $58101 - $58040
+UnknownData_0x58040: ;data block; no direct reader found
+	db $B1, $41, $D1, $42, $4F, $43, $9B, $43, $44, $44, $00, $41, $00, $41, $CB, $44
+	db $2E, $46, $01, $42, $A9, $42, $00, $41, $E0, $44, $41, $45, $ED, $45, $E1, $46
+	db $F5, $46, $12, $47, $58, $47, $58, $47, $55, $47, $12, $47, $BD, $47, $D7, $47
+	db $00, $41, $58, $47, $A1, $47, $EE, $46, $EE, $46, $EE, $46, $EB, $46, $48, $48
+	db $A6, $49, $6F, $4A, $43, $4B, $00, $41, $00, $41, $00, $41, $00, $41, $00, $41
+	db $CB, $4B, $BA, $4B, $6A, $4C, $41, $4C, $E0, $4C, $34, $4D, $D1, $4D, $12, $4E
+	db $7E, $4E, $00, $41, $00, $41, $4C, $4F, $F6, $61, $2D, $50, $7A, $51, $A3, $51
+	db $52, $4C, $DE, $51, $F9, $51, $01, $42, $A9, $42, $70, $52, $4A, $53, $76, $53
+	db $DA, $53, $31, $54, $5A, $54, $87, $54, $EB, $54, $FB, $54, $00, $41, $00, $41
+	db $00, $41, $00, $41, $00, $41, $00, $41, $00, $41, $45, $55, $B2, $55, $FE, $55
+	db $6C, $56, $D9, $56, $28, $57, $63, $57, $74, $57, $BD, $57, $A6, $59, $AD, $5A
+	db $C5, $5B, $E1, $5B, $0E, $5B, $00, $41, $1F, $5B, $AF, $5B, $E7, $5C, $06, $5E
+	db $C9
 
 
 UnknownJump_0x58101:
@@ -26844,8 +26856,8 @@ UnknownRJump_0x58110:
 	dec a
 	rst $28
 
-UnknownData_0x58112:
-INCBIN "baserom.gb", $58112, $5811A - $58112
+UnknownData_0x58112: ;data block; no direct reader found
+	db $1A, $41, $42, $41, $58, $41, $85, $41
 
 	ld b, 1
 	call UnknownCall_0x3D32
@@ -26991,8 +27003,8 @@ UnknownRJump_0x58215:
 	dec a
 	rst $28
 
-UnknownData_0x5821E:
-INCBIN "baserom.gb", $5821E, $58226 - $5821E
+UnknownData_0x5821E: ;data block; no direct reader found
+	db $26, $42, $53, $42, $71, $42, $82, $42
 
 
 UnknownJump_0x58226:
@@ -27106,8 +27118,9 @@ UnknownJump_0x582DD:
 	bit 3, a
 	jr nz, UnknownRJump_0x582EE
 
-UnknownData_0x582E7:
-INCBIN "baserom.gb", $582E7, $582EE - $582E7
+	call UnknownCall_0x5B451
+	call UnknownCall_0x3D3D
+	ret
 
 
 UnknownRJump_0x582EE:
@@ -27121,8 +27134,8 @@ UnknownRJump_0x582F5:
 	dec a
 	rst $28
 
-UnknownData_0x582F7:
-INCBIN "baserom.gb", $582F7, $582FB - $582F7
+UnknownData_0x582F7: ;data block; no direct reader found
+	db $FB, $42, $1A, $43
 
 
 UnknownJump_0x582FB:
@@ -27236,8 +27249,8 @@ UnknownRJump_0x583B2:
 	dec a
 	rst $28
 
-UnknownData_0x583B4:
-INCBIN "baserom.gb", $583B4, $583BC - $583B4
+UnknownData_0x583B4: ;data block; no direct reader found
+	db $BC, $43, $E6, $43, $02, $44, $33, $44
 
 	call UnknownCall_0x3BA4
 	ld a, [$AF2F]
@@ -27333,8 +27346,8 @@ UnknownRJump_0x5845F:
 	dec a
 	rst $28
 
-UnknownData_0x58461:
-INCBIN "baserom.gb", $58461, $58463 - $58461
+UnknownData_0x58461: ;data block; no direct reader found
+	db $63, $44
 
 	call UnknownCall_0x5B4C1
 	call UnknownCall_0x5B697
@@ -27480,8 +27493,8 @@ UnknownRJump_0x5855A:
 	dec a
 	rst $28
 
-UnknownData_0x5855E:
-INCBIN "baserom.gb", $5855E, $58566 - $5855E
+UnknownData_0x5855E: ;data block; no direct reader found
+	db $66, $45, $A2, $45, $B6, $45, $CB, $45
 
 	call UnknownCall_0x585DA
 	ld b, 1
@@ -27619,8 +27632,8 @@ UnknownRJump_0x58642:
 	dec a
 	rst $28
 
-UnknownData_0x58646:
-INCBIN "baserom.gb", $58646, $5864E - $58646
+UnknownData_0x58646: ;data block; no direct reader found
+	db $4E, $46, $6D, $46, $4E, $46, $6D, $46
 
 	ldh a, [$FFF0]
 	and $01
@@ -27711,8 +27724,8 @@ UnknownRJump_0x586D6:
 	ldh [$FFE2], a
 	ret
 
-UnknownData_0x586EB:
-INCBIN "baserom.gb", $586EB, $586EE - $586EB
+UnknownData_0x586EB: ;data block; no direct reader found
+	db $CD, $84, $76
 
 	ldh a, [$FFD5]
 	add 102
@@ -27888,8 +27901,8 @@ UnknownRJump_0x587FB:
 	ldh a, [$FFDF]
 	rst $28
 
-UnknownData_0x58807:
-INCBIN "baserom.gb", $58807, $5880F - $58807
+UnknownData_0x58807: ;data block; no direct reader found
+	db $0F, $48, $14, $48, $23, $48, $35, $48
 
 	ld a, 1
 	ldh [$FFDF], a
@@ -27939,8 +27952,8 @@ UnknownRJump_0x58859:
 	dec a
 	rst $28
 
-UnknownData_0x5885D:
-INCBIN "baserom.gb", $5885D, $58865 - $5885D
+UnknownData_0x5885D: ;data block; no direct reader found
+	db $65, $48, $83, $48, $29, $49, $72, $49
 
 	ldh a, [$FFEC]
 	and a
@@ -28034,8 +28047,9 @@ UnknownRJump_0x588E8:
 	xor b
 	jr z, UnknownRJump_0x5891D
 
-UnknownData_0x588FA:
-INCBIN "baserom.gb", $588FA, $58900 - $588FA
+	ld a, 3
+	ldh [$FFDF], a
+	jr UnknownRJump_0x5890B
 
 
 UnknownRJump_0x58900:
@@ -28045,6 +28059,7 @@ UnknownRJump_0x58900:
 	jr z, UnknownRJump_0x5891D
 	ld a, 4
 	ldh [$FFDF], a
+UnknownRJump_0x5890B:
 	ldh a, [$FFE9]
 	inc a
 	ldh [$FFE9], a
@@ -28163,13 +28178,14 @@ UnknownRJump_0x589BA:
 	dec a
 	rst $28
 
-UnknownData_0x589BE:
-INCBIN "baserom.gb", $589BE, $589CA - $589BE
+UnknownData_0x589BE: ;data block; no direct reader found
+	db $CA, $49, $F7, $49, $14, $4A, $35, $4A, $3D, $4A, $50, $4A
 
 	call UnknownCall_0x5B521
 	ldh a, [$FFF0]
 	and $01
 	jr nz, UnknownRJump_0x589E7
+UnknownRJump_0x589D3:
 	ld b, 1
 	call UnknownCall_0x3D22
 	call UnknownCall_0x3C30
@@ -28177,8 +28193,9 @@ INCBIN "baserom.gb", $589BE, $589CA - $589BE
 	bit 1, a
 	ret z
 
-UnknownData_0x589E1:
-INCBIN "baserom.gb", $589E1, $589E7 - $589E1
+	ld a, 1
+	ld [$A478], a
+	ret
 
 
 UnknownRJump_0x589E7:
@@ -28187,13 +28204,16 @@ UnknownRJump_0x589E7:
 	bit 3, a
 	ret nz
 
-UnknownData_0x589F0:
-INCBIN "baserom.gb", $589F0, $589F7 - $589F0
+	ldh a, [$FFDF]
+	add 2
+	ldh [$FFDF], a
+	ret
 
 	call UnknownCall_0x5B521
 	ldh a, [$FFF0]
 	and $01
 	jr nz, UnknownRJump_0x589E7
+UnknownRJump_0x58A00:
 	ld b, 1
 	call UnknownCall_0x3D32
 	call UnknownCall_0x3BCC
@@ -28201,8 +28221,33 @@ INCBIN "baserom.gb", $589F0, $589F7 - $589F0
 	bit 0, a
 	ret z
 
-UnknownData_0x58A0E:
-INCBIN "baserom.gb", $58A0E, $58A3D - $58A0E
+	ld a, 1
+	ld [$A478], a
+	ret
+	ldh a, [$FFF0]
+	and $01
+	jr z, UnknownRJump_0x589D3
+
+UnknownRJump_0x58A1A:
+	call UnknownCall_0x3B40
+	ld a, [$AF2F]
+	bit 3, a
+	jr nz, UnknownRJump_0x58A2B
+	call UnknownCall_0x5B451
+	call UnknownCall_0x3D3D
+	ret
+
+UnknownRJump_0x58A2B:
+	xor a
+	ldh [$FFE0], a
+	ldh a, [$FFDF]
+	sub 2
+	ldh [$FFDF], a
+	ret
+	ldh a, [$FFF0]
+	and $01
+	jr z, UnknownRJump_0x58A00
+	jr UnknownRJump_0x58A1A
 
 	call UnknownCall_0x5B521
 	ldh a, [$FFEA]
@@ -28242,8 +28287,8 @@ UnknownRJump_0x58A76:
 	dec a
 	rst $28
 
-UnknownData_0x58A7A:
-INCBIN "baserom.gb", $58A7A, $58A82 - $58A7A
+UnknownData_0x58A7A: ;data block; no direct reader found
+	db $82, $4A, $D3, $4A, $0F, $4B, $31, $4B
 
 	call UnknownCall_0x5B68B
 	ldh a, [$FFEC]
@@ -28295,8 +28340,13 @@ UnknownRJump_0x58ABE:
 	and a
 	jr z, UnknownRJump_0x58AE7
 
-UnknownData_0x58ADB:
-INCBIN "baserom.gb", $58ADB, $58AE7 - $58ADB
+	dec a
+	ldh [$FFEC], a
+	ret nz
+	ld a, 64
+	ldh [$FFDB], a
+	ld a, 76
+	ldh [$FFE2], a
 
 
 UnknownRJump_0x58AE7:
@@ -28341,8 +28391,16 @@ UnknownRJump_0x58B21:
 	ldh [$FFEC], a
 	ret
 
-UnknownData_0x58B31:
-INCBIN "baserom.gb", $58B31, $58B43 - $58B31
+	call UnknownCall_0x5B521
+	ldh a, [$FFF0]
+	and $01
+	ret nz
+	ldh a, [$FFE9]
+	inc a
+	ldh [$FFE9], a
+	cp $28
+	jr z, UnknownRJump_0x58B21
+	ret
 
 	ldh a, [$FFDF]
 	and a
@@ -28357,8 +28415,8 @@ UnknownRJump_0x58B50:
 	dec a
 	rst $28
 
-UnknownData_0x58B54:
-INCBIN "baserom.gb", $58B54, $58B58 - $58B54
+UnknownData_0x58B54: ;data block; no direct reader found
+	db $58, $4B, $9C, $4B
 
 	ldh a, [$FFEC]
 	and a
@@ -28445,8 +28503,8 @@ UnknownRJump_0x58BDC:
 	dec a
 	rst $28
 
-UnknownData_0x58BDE:
-INCBIN "baserom.gb", $58BDE, $58BE6 - $58BDE
+UnknownData_0x58BDE: ;data block; no direct reader found
+	db $E6, $4B, $00, $4C, $1A, $4C, $37, $4C
 
 	ldh a, [$FFE8]
 	ld c, a
@@ -28536,8 +28594,8 @@ UnknownRJump_0x58C7B:
 	dec a
 	rst $28
 
-UnknownData_0x58C7D:
-INCBIN "baserom.gb", $58C7D, $58C85 - $58C7D
+UnknownData_0x58C7D: ;data block; no direct reader found
+	db $85, $4C, $9F, $4C, $B9, $4C, $D6, $4C
 
 	ldh a, [$FFE8]
 	ld c, a
@@ -28612,8 +28670,8 @@ UnknownRJump_0x58CF4:
 	dec a
 	rst $28
 
-UnknownData_0x58CFD:
-INCBIN "baserom.gb", $58CFD, $58D01 - $58CFD
+UnknownData_0x58CFD: ;data block; no direct reader found
+	db $01, $4D, $22, $4D
 
 	ld b, 1
 	call UnknownCall_0x3D22
@@ -28658,8 +28716,32 @@ UnknownRJump_0x58D45:
 	dec a
 	rst $28
 
-UnknownData_0x58D4E:
-INCBIN "baserom.gb", $58D4E, $58D78 - $58D4E
+	ld d, [hl]
+	ld c, l
+	ld a, b
+	ld c, l
+	sbc d
+	ld c, l
+	cp a
+	ld c, l
+	ldh a, [$FFE8]
+	ld c, a
+	ld b, 1
+	call UnknownCall_0x3D22
+	call UnknownCall_0x3CF1
+	ld b, 1
+	call UnknownCall_0x3D2D
+	call UnknownCall_0x3D10
+	ldh a, [$FFE0]
+	inc a
+	ldh [$FFE0], a
+	cp c
+	ret nz
+	xor a
+	ldh [$FFE0], a
+	ld a, 4
+	ldh [$FFDF], a
+	ret
 
 	ldh a, [$FFE8]
 	ld c, a
@@ -28721,8 +28803,8 @@ UnknownRJump_0x58DDF:
 	dec a
 	rst $28
 
-UnknownData_0x58DE1:
-INCBIN "baserom.gb", $58DE1, $58DE5 - $58DE1
+UnknownData_0x58DE1: ;data block; no direct reader found
+	db $E5, $4D, $04, $4E
 
 	ldh a, [$FFEC]
 	and a
@@ -28771,8 +28853,8 @@ UnknownRJump_0x58E30:
 	dec a
 	rst $28
 
-UnknownData_0x58E32:
-INCBIN "baserom.gb", $58E32, $58E38 - $58E32
+UnknownData_0x58E32: ;data block; no direct reader found
+	db $38, $4E, $57, $4E, $20, $4E
 
 
 UnknownJump_0x58E38:
@@ -28844,12 +28926,13 @@ UnknownRJump_0x58E99:
 	dec a
 	rst $28
 
-UnknownData_0x58E9B:
-INCBIN "baserom.gb", $58E9B, $58EA7 - $58E9B
+UnknownData_0x58E9B: ;data block; no direct reader found
+	db $A7, $4E, $BE, $4E, $C8, $4E, $E9, $4E, $0A, $4F, $2B, $4F
 
 	ld b, 1
 	call UnknownCall_0x3D22
 	call UnknownCall_0x3CF1
+UnknownRJump_0x58EAF:
 	ldh a, [$FFE9]
 	dec a
 	ldh [$FFE9], a
@@ -28860,8 +28943,10 @@ INCBIN "baserom.gb", $58E9B, $58EA7 - $58E9B
 	ldh [$FFE9], a
 	ret
 
-UnknownData_0x58EBE:
-INCBIN "baserom.gb", $58EBE, $58EC8 - $58EBE
+	ld b, 1
+	call UnknownCall_0x3D32
+	call UnknownCall_0x3CC0
+	jr UnknownRJump_0x58EAF
 
 	ld b, 1
 	call UnknownCall_0x3D3D
@@ -28880,8 +28965,9 @@ INCBIN "baserom.gb", $58EBE, $58EC8 - $58EBE
 	ret
 
 UnknownRJump_0x58EE4:
-UnknownData_0x58EE4:
-INCBIN "baserom.gb", $58EE4, $58EE9 - $58EE4
+	ld a, 6
+	ldh [$FFDF], a
+	ret
 
 	ld b, 1
 	call UnknownCall_0x3D32
@@ -28900,8 +28986,9 @@ INCBIN "baserom.gb", $58EE4, $58EE9 - $58EE4
 	ret
 
 UnknownRJump_0x58F05:
-UnknownData_0x58F05:
-INCBIN "baserom.gb", $58F05, $58F0A - $58F05
+	ld a, 3
+	ldh [$FFDF], a
+	ret
 
 	ld b, 1
 	call UnknownCall_0x3D2D
@@ -28920,8 +29007,9 @@ INCBIN "baserom.gb", $58F05, $58F0A - $58F05
 	ret
 
 UnknownRJump_0x58F26:
-UnknownData_0x58F26:
-INCBIN "baserom.gb", $58F26, $58F2B - $58F26
+	ld a, 4
+	ldh [$FFDF], a
+	ret
 
 	ld b, 1
 	call UnknownCall_0x3D22
@@ -28931,8 +29019,19 @@ INCBIN "baserom.gb", $58F26, $58F2B - $58F26
 	ldh [$FFE9], a
 	ret nz
 
-UnknownData_0x58F39:
-INCBIN "baserom.gb", $58F39, $58F4C - $58F39
+	ldh a, [$FFE0]
+	ldh [$FFE9], a
+	ldh a, [$FFDD]
+	and a
+	jr nz, UnknownRJump_0x58F47
+	ld a, 3
+	ldh [$FFDF], a
+	ret
+
+UnknownRJump_0x58F47:
+	ld a, 5
+	ldh [$FFDF], a
+	ret
 
 	ldh a, [$FFDF]
 	and a
@@ -28948,8 +29047,8 @@ UnknownRJump_0x58F5D:
 	dec a
 	rst $28
 
-UnknownData_0x58F5F:
-INCBIN "baserom.gb", $58F5F, $58F69 - $58F5F
+UnknownData_0x58F5F: ;data block; no direct reader found
+	db $69, $4F, $8C, $4F, $D1, $4F, $0B, $50, $B0, $4F
 
 	call UnknownCall_0x5B54C
 	ldh a, [$FFF0]
@@ -28971,8 +29070,17 @@ UnknownRJump_0x58F80:
 	ldh [$FFEA], a
 	ret
 
-UnknownData_0x58F8C:
-INCBIN "baserom.gb", $58F8C, $58FA5 - $58F8C
+	call UnknownCall_0x5B54C
+	ldh a, [$FFF0]
+	and $01
+	jr nz, UnknownRJump_0x58FA5
+	ld b, 1
+	call UnknownCall_0x3D32
+	call UnknownCall_0x3BB8
+	ld a, [$AF2F]
+	bit 0, a
+	ret z
+	jr UnknownRJump_0x58F80
 
 
 UnknownRJump_0x58FA5:
@@ -28990,8 +29098,68 @@ UnknownRJump_0x58FA5:
 	cp $28
 	ret nz
 
-UnknownData_0x58FC0:
-INCBIN "baserom.gb", $58FC0, $5902D - $58FC0
+	xor a
+	ldh [$FFE8], a
+	call UnknownCall_0x5B3C6
+	ldh a, [$FFDF]
+	add 2
+	ldh [$FFDF], a
+	ld a, 32
+	ldh [$FFEC], a
+	ret
+	call UnknownCall_0x5B521
+	ldh a, [$FFEC]
+	and a
+	jr z, UnknownRJump_0x58FDD
+	dec a
+	ldh [$FFEC], a
+	ret nz
+
+UnknownRJump_0x58FDD:
+	ldh a, [$FFF0]
+	and $01
+	jr nz, UnknownRJump_0x58FF3
+	call UnknownCall_0x3C58
+	ld a, [$AF2F]
+	bit 1, a
+	jr nz, UnknownRJump_0x59003
+	ld b, 2
+	call UnknownCall_0x3D22
+	ret
+
+UnknownRJump_0x58FF3:
+	call UnknownCall_0x3B40
+	ld a, [$AF2F]
+	bit 3, a
+	jr nz, UnknownRJump_0x59003
+	ld b, 1
+	call UnknownCall_0x3D3D
+	ret
+
+UnknownRJump_0x59003:
+	call UnknownCall_0x5B3C6
+	ld a, 86
+	ldh [$FFDB], a
+	ret
+	call UnknownCall_0x5B521
+	ldh a, [$FFEC]
+	and a
+	jr z, UnknownRJump_0x59017
+	dec a
+	ldh [$FFEC], a
+	ret nz
+
+UnknownRJump_0x59017:
+	ldh a, [$FFF0]
+	and $01
+	jr nz, UnknownRJump_0x58FF3
+	call UnknownCall_0x3BF4
+	ld a, [$AF2F]
+	bit 0, a
+	jr nz, UnknownRJump_0x59003
+	ld b, 2
+	call UnknownCall_0x3D32
+	ret
 
 	ldh a, [$FFDF]
 	and a
@@ -29050,8 +29218,9 @@ UnknownRJump_0x59078:
 	dec a
 	rst $28
 
-UnknownData_0x5907A:
-INCBIN "baserom.gb", $5907A, $59092 - $5907A
+UnknownData_0x5907A: ;data block; no direct reader found
+	db $92, $50, $A8, $50, $BE, $50, $D8, $50, $04, $EC, $E0, $28, $1C, $10, $D4, $F8
+	db $00, $F0, $18, $E8, $20, $D8, $F0, $28
 
 	call UnknownCall_0x5B518
 	ldh a, [$FFF0]
@@ -29144,8 +29313,9 @@ UnknownRJump_0x59116:
 	call UnknownCall_0x3D2D
 	ret
 
-UnknownData_0x59125:
-INCBIN "baserom.gb", $59125, $59136 - $59125
+UnknownData_0x59125: ;data block, read at line 29129
+	db $FD, $FE, $FE, $FF, $FE, $FF, $FF, $00, $00, $00, $01, $01, $02, $01, $02, $02
+	db $03
 
 
 UnknownCall_0x59136:
@@ -29171,8 +29341,19 @@ UnknownRJump_0x5914D:
 	jr nz, UnknownRJump_0x5914D
 	jr nc, UnknownRJump_0x59166
 
-UnknownData_0x59154:
-INCBIN "baserom.gb", $59154, $59166 - $59154
+	dec b
+
+UnknownRJump_0x59155:
+	inc e
+	rrca
+	inc [hl]
+	jr nc, UnknownRJump_0x59166
+	dec b
+	jr nz, UnknownRJump_0x59155
+	ld a, 2
+	ld [$AF26], a
+	call UnknownCall_0x5B2D7
+	ret
 
 
 UnknownRJump_0x59166:
@@ -29207,8 +29388,8 @@ UnknownRJump_0x59189:
 	dec a
 	rst $28
 
-UnknownData_0x5918B:
-INCBIN "baserom.gb", $5918B, $5918F - $5918B
+UnknownData_0x5918B: ;data block; no direct reader found
+	db $CE, $41, $8F, $51
 
 	call UnknownCall_0x5B451
 	call UnknownCall_0x3D3D
@@ -29246,8 +29427,8 @@ UnknownRJump_0x591CC:
 	dec a
 	rst $28
 
-UnknownData_0x591CE:
-INCBIN "baserom.gb", $591CE, $591D2 - $591CE
+UnknownData_0x591CE: ;data block; no direct reader found
+	db $D2, $51, $D8, $51
 
 	call UnknownCall_0x5B5B6
 	jp UnknownJump_0x58E38
@@ -29267,8 +29448,8 @@ UnknownRJump_0x591EF:
 	dec a
 	rst $28
 
-UnknownData_0x591F1:
-INCBIN "baserom.gb", $591F1, $591F3 - $591F1
+UnknownData_0x591F1: ;data block; no direct reader found
+	db $F3, $51
 
 	ld b, 1
 	call UnknownCall_0x3D22
@@ -29292,8 +29473,8 @@ UnknownRJump_0x5920D:
 	dec a
 	rst $28
 
-UnknownData_0x59216:
-INCBIN "baserom.gb", $59216, $5921E - $59216
+UnknownData_0x59216: ;data block; no direct reader found
+	db $1E, $52, $32, $52, $3A, $52, $5F, $52
 
 	call UnknownCall_0x5B481
 	call UnknownCall_0x3D2D
@@ -29315,8 +29496,9 @@ UnknownRJump_0x59224:
 	and a
 	jr z, UnknownRJump_0x59243
 
-UnknownData_0x5923F:
-INCBIN "baserom.gb", $5923F, $59243 - $5923F
+	dec a
+	ldh [$FFEC], a
+	ret
 
 
 UnknownRJump_0x59243:
@@ -29344,8 +29526,9 @@ UnknownRJump_0x5925A:
 	and a
 	jr z, UnknownRJump_0x59268
 
-UnknownData_0x59264:
-INCBIN "baserom.gb", $59264, $59268 - $59264
+	dec a
+	ldh [$FFEC], a
+	ret
 
 
 UnknownRJump_0x59268:
@@ -29370,8 +29553,8 @@ UnknownRJump_0x59285:
 	dec a
 	rst $28
 
-UnknownData_0x5928C:
-INCBIN "baserom.gb", $5928C, $59298 - $5928C
+UnknownData_0x5928C: ;data block; no direct reader found
+	db $98, $52, $BF, $52, $E6, $52, $0B, $53, $E6, $52, $22, $53
 
 	ldh a, [$FFE8]
 	ld c, a
@@ -29467,8 +29650,11 @@ UnknownRJump_0x592EE:
 	cp c
 	ret nz
 
-UnknownData_0x59342:
-INCBIN "baserom.gb", $59342, $5934A - $59342
+	xor a
+	ldh [$FFE0], a
+	ld a, 3
+	ldh [$FFDF], a
+	ret
 
 	ldh a, [$FFDF]
 	and a
@@ -29479,8 +29665,8 @@ UnknownRJump_0x59352:
 	dec a
 	rst $28
 
-UnknownData_0x59354:
-INCBIN "baserom.gb", $59354, $5935C - $59354
+UnknownData_0x59354: ;data block; no direct reader found
+	db $92, $50, $A8, $50, $5C, $53, $D8, $50
 
 	call UnknownCall_0x5B511
 	ldh a, [$FFEC]
@@ -29515,8 +29701,8 @@ UnknownRJump_0x5938C:
 	dec a
 	rst $28
 
-UnknownData_0x5938E:
-INCBIN "baserom.gb", $5938E, $59394 - $5938E
+UnknownData_0x5938E: ;data block; no direct reader found
+	db $94, $53, $AE, $53, $BC, $53
 
 	call UnknownCall_0x3B40
 	ld a, [$AF2F]
@@ -29572,8 +29758,8 @@ UnknownRJump_0x593F2:
 	dec a
 	rst $28
 
-UnknownData_0x593F4:
-INCBIN "baserom.gb", $593F4, $593F8 - $593F4
+UnknownData_0x593F4: ;data block; no direct reader found
+	db $F8, $53, $1A, $54
 
 	call UnknownCall_0x5B518
 
@@ -29619,8 +29805,9 @@ UnknownRJump_0x5942D:
 	bit 3, a
 	jr nz, UnknownRJump_0x5944F
 
-UnknownData_0x59448:
-INCBIN "baserom.gb", $59448, $5944F - $59448
+	call UnknownCall_0x5B451
+	call UnknownCall_0x3D3D
+	ret
 
 
 UnknownRJump_0x5944F:
@@ -29643,8 +29830,9 @@ UnknownRJump_0x5944F:
 	bit 3, a
 	jr nz, UnknownRJump_0x5947C
 
-UnknownData_0x59475:
-INCBIN "baserom.gb", $59475, $5947C - $59475
+	call UnknownCall_0x5B451
+	call UnknownCall_0x3D3D
+	ret
 
 
 UnknownRJump_0x5947C:
@@ -29671,8 +29859,8 @@ UnknownRJump_0x5949E:
 	dec a
 	rst $28
 
-UnknownData_0x594A0:
-INCBIN "baserom.gb", $594A0, $594A4 - $594A0
+UnknownData_0x594A0: ;data block; no direct reader found
+	db $A4, $54, $C9, $54
 
 	ldh a, [$FFEC]
 	and a
@@ -29682,8 +29870,44 @@ INCBIN "baserom.gb", $594A0, $594A4 - $594A0
 	ret
 
 UnknownRJump_0x594AD:
-UnknownData_0x594AD:
-INCBIN "baserom.gb", $594AD, $594EB - $594AD
+	call UnknownCall_0x5B481
+	call UnknownCall_0x3D2D
+	ldh a, [$FFE8]
+	add b
+	ldh [$FFE8], a
+	ldh a, [$FFE0]
+	cp c
+	ret nz
+	xor a
+	ldh [$FFE0], a
+	ld a, 48
+	ldh [$FFEC], a
+	ldh a, [$FFDF]
+	inc a
+	ldh [$FFDF], a
+	ret
+	ldh a, [$FFEC]
+	and a
+	jr z, UnknownRJump_0x594D2
+	dec a
+	ldh [$FFEC], a
+	ret
+
+UnknownRJump_0x594D2:
+	ldh a, [$FFF0]
+	and $01
+	ret nz
+	ld b, 1
+	call UnknownCall_0x3D3D
+	ldh a, [$FFE8]
+	dec a
+	ldh [$FFE8], a
+	ret nz
+	ld a, 64
+	ldh [$FFEC], a
+	ld a, 1
+	ldh [$FFDF], a
+	ret
 
 	call UnknownCall_0x5B585
 	ldh a, [$FFDF]
@@ -29707,8 +29931,8 @@ UnknownRJump_0x5950C:
 	dec a
 	rst $28
 
-UnknownData_0x5950E:
-INCBIN "baserom.gb", $5950E, $59512 - $5950E
+UnknownData_0x5950E: ;data block; no direct reader found
+	db $12, $55, $34, $55
 
 	call UnknownCall_0x5B521
 	call UnknownCall_0x5B68B
@@ -29823,8 +30047,8 @@ UnknownRJump_0x595CF:
 	dec a
 	rst $28
 
-UnknownData_0x595D3:
-INCBIN "baserom.gb", $595D3, $595D7 - $595D3
+UnknownData_0x595D3: ;data block; no direct reader found
+	db $D7, $55, $F5, $55
 
 	ldh a, [$FFEC]
 	dec a
@@ -29870,8 +30094,8 @@ UnknownRJump_0x59619:
 	dec a
 	rst $28
 
-UnknownData_0x5961D:
-INCBIN "baserom.gb", $5961D, $59621 - $5961D
+UnknownData_0x5961D: ;data block; no direct reader found
+	db $21, $56, $4D, $56
 
 	ldh a, [$FFEC]
 	and a
@@ -29921,8 +30145,75 @@ UnknownRJump_0x5965F:
 	ret nz
 	jr UnknownRJump_0x5963E
 
-UnknownData_0x5966C:
-INCBIN "baserom.gb", $5966C, $596D9 - $5966C
+	ldh a, [$FFDF]
+	and a
+	jr nz, UnknownRJump_0x59686
+	ld a, 72
+	ldh [$FFE2], a
+	ld a, 48
+	ldh [$FFE9], a
+	call UnknownCall_0x5B3C6
+	ld a, 16
+	ldh [$FFDE], a
+	ld b, 4
+	call UnknownCall_0x3D2D
+	ret
+
+UnknownRJump_0x59686:
+	ldh a, [$FFDF]
+	dec a
+	rst $28
+	adc [hl]
+	ld d, [hl]
+	cp d
+	ld d, [hl]
+	ldh a, [$FFEC]
+	and a
+	jr z, UnknownRJump_0x596A0
+	call UnknownCall_0x5B68B
+	ldh a, [$FFEC]
+	dec a
+	ldh [$FFEC], a
+	ret nz
+	ld a, 16
+	ldh [$FFDE], a
+
+UnknownRJump_0x596A0:
+	ld b, 1
+	call UnknownCall_0x3D22
+	ldh a, [$FFE9]
+	sub b
+	ldh [$FFE9], a
+	ret nz
+
+UnknownRJump_0x596AB:
+	ld a, 96
+	ldh [$FFE9], a
+	ld a, 16
+	ldh [$FFEC], a
+	ldh a, [$FFDF]
+	xor $03
+	ldh [$FFDF], a
+	ret
+	ldh a, [$FFEC]
+	and a
+	jr z, UnknownRJump_0x596CC
+	call UnknownCall_0x5B68B
+	ldh a, [$FFEC]
+	dec a
+	ldh [$FFEC], a
+	ret nz
+	ld a, 16
+	ldh [$FFDE], a
+
+UnknownRJump_0x596CC:
+	ld b, 1
+	call UnknownCall_0x3D32
+	ldh a, [$FFE9]
+	sub b
+	ldh [$FFE9], a
+	ret nz
+	jr UnknownRJump_0x596AB
 
 	ldh a, [$FFDF]
 	and a
@@ -29936,8 +30227,8 @@ UnknownRJump_0x596E6:
 	dec a
 	rst $28
 
-UnknownData_0x596E8:
-INCBIN "baserom.gb", $596E8, $596EE - $596E8
+UnknownData_0x596E8: ;data block; no direct reader found
+	db $EE, $56, $EE, $56, $16, $57
 
 	ldh a, [$FFEC]
 	and a
@@ -30073,8 +30364,8 @@ UnknownRJump_0x597D2:
 	dec a
 	rst $28
 
-UnknownData_0x597DE:
-INCBIN "baserom.gb", $597DE, $597EE - $597DE
+UnknownData_0x597DE: ;data block; no direct reader found
+	db $EE, $57, $5C, $58, $06, $58, $74, $58, $27, $58, $99, $58, $43, $58, $B5, $58
 
 	call UnknownCall_0x598CE
 	ld hl, $594E
@@ -30114,8 +30405,81 @@ INCBIN "baserom.gb", $597DE, $597EE - $597DE
 	cp $15
 	ret nz
 
-UnknownData_0x59838:
-INCBIN "baserom.gb", $59838, $598CE - $59838
+	ld [hl], 20
+	ld a, 20
+	ldh [$FFE8], a
+	ld a, 7
+	ldh [$FFDF], a
+	ret
+	call UnknownCall_0x5992A
+	ld hl, $5990
+	call UnknownCall_0x598EA
+	ld hl, $FFE9
+	dec [hl]
+	ret nz
+	ld [hl], 1
+	ld a, 1
+	ldh [$FFE8], a
+	ld a, 2
+	ldh [$FFDF], a
+	ret
+	call UnknownCall_0x598CE
+	ld hl, $594E
+	call UnknownCall_0x598EA
+	ld hl, $FFE9
+	inc [hl]
+	ld a, [hl]
+	cp $15
+	ret nz
+	ld [hl], 1
+	ld a, 4
+	ldh [$FFDF], a
+	ret
+	call UnknownCall_0x598F5
+	ld hl, $5964
+	call UnknownCall_0x598EA
+	ld hl, $FFE9
+	inc [hl]
+	ld a, [hl]
+	cp $15
+	ret nz
+	ld [hl], 1
+	ld a, 1
+	ldh [$FFE8], a
+	ld a, 6
+	ldh [$FFDF], a
+	xor a
+	ldh [$FFEA], a
+	ldh a, [$FFDD]
+	xor $20
+	ldh [$FFDD], a
+	ret
+	call UnknownCall_0x59919
+	ld hl, $5990
+	call UnknownCall_0x5990E
+	ld hl, $FFE9
+	inc [hl]
+	ld a, [hl]
+	cp $15
+	ret nz
+	ld [hl], 20
+	ld a, 20
+	ldh [$FFE8], a
+	ld a, 8
+	ldh [$FFDF], a
+	ret
+	call UnknownCall_0x5992A
+	ld hl, $5990
+	call UnknownCall_0x5990E
+	ld hl, $FFE9
+	dec [hl]
+	ret nz
+	ld [hl], 1
+	ld a, 1
+	ldh [$FFE8], a
+	ld a, 1
+	ldh [$FFDF], a
+	ret
 
 
 UnknownCall_0x598CE:
@@ -30183,8 +30547,83 @@ UnknownCall_0x59919:
 	cp $15
 	ret nz
 
-UnknownData_0x59927:
-INCBIN "baserom.gb", $59927, $599A6 - $59927
+	ld [hl], 1
+	ret
+
+UnknownCall_0x5992A:
+	ld hl, $597A
+	call UnknownCall_0x598DF
+	ld hl, $FFE8
+	dec [hl]
+	ret nz
+	ld [hl], 1
+	ret
+	add b
+	ld bc, $0101
+	ld bc, $0102
+	ld bc, $0101
+	ld bc, $0001
+	ld bc, $0001
+	ld bc, $0000
+	nop
+	ld bc, $8080
+	nop
+	nop
+	nop
+	ld bc, $0100
+	ld bc, $0101
+	ld [bc], a
+	ld bc, $0201
+	ld [bc], a
+	ld bc, $0202
+	ld [bc], a
+	ld [bc], a
+	ld [bc], a
+	add b
+	add b
+	ld bc, $0202
+	ld [bc], a
+	ld [bc], a
+	ld bc, $0202
+	ld bc, $0201
+	ld bc, $0101
+	ld bc, $0100
+	nop
+	nop
+	ld bc, $8080
+	nop
+	ld bc, $0101
+	ld bc, $0101
+	ld [bc], a
+	ld [bc], a
+	ld [bc], a
+	ld [bc], a
+	ld [bc], a
+	ld [bc], a
+	inc bc
+	ld [bc], a
+	inc bc
+	ld [bc], a
+	ld [bc], a
+	ld [bc], a
+	nop
+	add b
+	add b
+	nop
+	nop
+	nop
+	nop
+	nop
+	ld bc, $0100
+	ld bc, $0101
+	ld bc, $0201
+	ld [bc], a
+	ld [bc], a
+	ld [bc], a
+	inc bc
+	inc bc
+	inc bc
+	add b
 
 	ldh a, [$FFDF]
 	and a
@@ -30199,8 +30638,8 @@ UnknownRJump_0x599B4:
 	dec a
 	rst $28
 
-UnknownData_0x599B6:
-INCBIN "baserom.gb", $599B6, $599C4 - $599B6
+UnknownData_0x599B6: ;data block, read at line 30260
+	db $0F, $5A, $5D, $5A, $6D, $5A, $7D, $5A, $C4, $59, $DA, $59, $EE, $59
 
 	ld b, 2
 	call UnknownCall_0x3D2D
@@ -30313,8 +30752,9 @@ UnknownRJump_0x59A55:
 	ldh [$FFE9], a
 	jr UnknownRJump_0x59A1D
 
-UnknownData_0x59A8D:
-INCBIN "baserom.gb", $59A8D, $59AAD - $59A8D
+UnknownData_0x59A8D: ;zero padding
+	db $00, $00, $00, $00, $00, $01, $01, $01, $01, $01, $00, $01, $00, $01, $00, $01
+	db $03, $03, $03, $03, $03, $03, $02, $02, $01, $01, $00, $00, $00, $00, $00, $00
 
 	ldh a, [$FFDF]
 	and a
@@ -30333,8 +30773,8 @@ UnknownRJump_0x59ABA:
 	dec a
 	rst $28
 
-UnknownData_0x59AC6:
-INCBIN "baserom.gb", $59AC6, $59ACA - $59AC6
+UnknownData_0x59AC6: ;data block; no direct reader found
+	db $CA, $5A, $D1, $5A
 
 	ld b, 1
 	call UnknownCall_0x3D22
@@ -30400,8 +30840,8 @@ UnknownRJump_0x59B2F:
 	dec a
 	rst $28
 
-UnknownData_0x59B31:
-INCBIN "baserom.gb", $59B31, $59B35 - $59B31
+UnknownData_0x59B31: ;data block; no direct reader found
+	db $35, $5B, $54, $5B
 
 	ldh a, [$FFF0]
 	and $01
@@ -30413,8 +30853,12 @@ INCBIN "baserom.gb", $59B31, $59B35 - $59B31
 	bit 1, a
 	ret z
 
-UnknownData_0x59B49:
-INCBIN "baserom.gb", $59B49, $59B54 - $59B49
+	ld a, 2
+	ldh [$FFDF], a
+	ldh a, [$FFDD]
+	xor $20
+	ldh [$FFDD], a
+	ret
 
 	ldh a, [$FFF0]
 	and $01
@@ -30426,8 +30870,12 @@ INCBIN "baserom.gb", $59B49, $59B54 - $59B49
 	bit 0, a
 	ret z
 
-UnknownData_0x59B68:
-INCBIN "baserom.gb", $59B68, $59B73 - $59B68
+	ld a, 1
+	ldh [$FFDF], a
+	ldh a, [$FFDD]
+	xor $20
+	ldh [$FFDD], a
+	ret
 
 
 UnknownRJump_0x59B73:
@@ -30478,15 +30926,15 @@ UnknownRJump_0x59BBF:
 	dec a
 	rst $28
 
-UnknownData_0x59BC1:
-INCBIN "baserom.gb", $59BC1, $59BC5 - $59BC1
+UnknownData_0x59BC1: ;data block; no direct reader found
+	db $FB, $42, $1A, $43
 
 	call UnknownCall_0x5B585
 	ldh a, [$FFDF]
 	rst $28
 
-UnknownData_0x59BCB:
-INCBIN "baserom.gb", $59BCB, $59BD1 - $59BCB
+UnknownData_0x59BCB: ;data block; no direct reader found
+	db $D1, $5B, $05, $5D, $41, $5D
 
 	ld a, 16
 	ldh [$FFDE], a
@@ -30499,8 +30947,8 @@ INCBIN "baserom.gb", $59BCB, $59BD1 - $59BCB
 	ldh a, [$FFDF]
 	rst $28
 
-UnknownData_0x59BE4:
-INCBIN "baserom.gb", $59BE4, $59BE8 - $59BE4
+UnknownData_0x59BE4: ;data block; no direct reader found
+	db $E8, $5B, $F5, $5B
 
 	ld a, 16
 	ldh [$FFDE], a
@@ -30522,8 +30970,21 @@ UnknownJump_0x59C04:
 	ldh a, [$FFD5]
 	rst $28
 
-UnknownData_0x59C07:
-INCBIN "baserom.gb", $59C07, $59CE7 - $59C07
+UnknownData_0x59C07: ;data block; no direct reader found
+	db $B1, $41, $D1, $42, $4F, $43, $9B, $43, $44, $44, $E7, $5C, $5A, $5D, $06, $5E
+	db $2E, $46, $01, $42, $A9, $42, $5B, $5E, $E0, $44, $41, $45, $ED, $45, $E1, $46
+	db $F5, $46, $12, $47, $58, $47, $58, $47, $55, $47, $12, $47, $BD, $47, $D7, $47
+	db $04, $48, $58, $47, $A1, $47, $EE, $46, $EE, $46, $EE, $46, $EB, $46, $E6, $46
+	db $B9, $5F, $FF, $5E, $CE, $5F, $DF, $5F, $31, $60, $AA, $60, $1E, $61, $79, $61
+	db $00, $41, $00, $41, $00, $41, $41, $4C, $E0, $4C, $00, $41, $D1, $4D, $12, $4E
+	db $00, $41, $00, $41, $00, $41, $4C, $4F, $F6, $61, $D2, $68, $E4, $68, $69, $69
+	db $00, $41, $DE, $51, $F9, $51, $01, $42, $A9, $42, $E7, $5C, $36, $62, $58, $62
+	db $D0, $62, $0E, $63, $CB, $44, $55, $63, $45, $65, $C7, $65, $00, $41, $EC, $65
+	db $67, $66, $83, $66, $E7, $66, $21, $67, $39, $67, $73, $67, $16, $68, $5C, $68
+	db $92, $69, $D2, $68, $D3, $69, $E8, $69, $68, $6A, $5E, $5F, $71, $6A, $71, $6A
+	db $D7, $6F, $6D, $70, $D5, $70, $77, $71, $C8, $71, $AF, $5B, $41, $72, $8C, $72
+	db $D1, $4D, $12, $4E, $B9, $6A, $4B, $6B, $79, $6B, $01, $6C, $3C, $6C, $7D, $6C
+	db $E4, $6C, $E4, $6C, $2D, $6D, $4D, $6D, $00, $41, $00, $41, $DD, $6D, $F4, $6E
 
 	call UnknownCall_0x5B51A
 	ldh a, [$FFDF]
@@ -30542,8 +31003,8 @@ UnknownRJump_0x59CFF:
 	dec a
 	rst $28
 
-UnknownData_0x59D01:
-INCBIN "baserom.gb", $59D01, $59D05 - $59D01
+UnknownData_0x59D01: ;data block; no direct reader found
+	db $05, $5D, $41, $5D
 
 	call UnknownCall_0x3C1C
 	ld a, [$AF2F]
@@ -30617,8 +31078,8 @@ UnknownRJump_0x59D6E:
 	dec a
 	rst $28
 
-UnknownData_0x59D72:
-INCBIN "baserom.gb", $59D72, $59D7A - $59D72
+UnknownData_0x59D72: ;data block; no direct reader found
+	db $7A, $5D, $8B, $5D, $A8, $5D, $C7, $5D
 
 	call UnknownCall_0x3C44
 	ld a, [$AF2F]
@@ -30717,8 +31178,8 @@ UnknownRJump_0x59E1F:
 	dec a
 	rst $28
 
-UnknownData_0x59E28:
-INCBIN "baserom.gb", $59E28, $59E2C - $59E28
+UnknownData_0x59E28: ;data block; no direct reader found
+	db $2C, $5E, $4B, $5E
 
 	ldh a, [$FFEC]
 	and a
@@ -30768,8 +31229,8 @@ UnknownRJump_0x59E70:
 	dec a
 	rst $28
 
-UnknownData_0x59E72:
-INCBIN "baserom.gb", $59E72, $59E7A - $59E72
+UnknownData_0x59E72: ;data block; no direct reader found
+	db $7A, $5E, $A0, $5E, $B5, $5E, $E1, $5E
 
 	call UnknownCall_0x5B51A
 	call UnknownCall_0x3C1C
@@ -30868,8 +31329,8 @@ UnknownRJump_0x59F17:
 	dec a
 	rst $28
 
-UnknownData_0x59F20:
-INCBIN "baserom.gb", $59F20, $59F24 - $59F20
+UnknownData_0x59F20: ;data block; no direct reader found
+	db $24, $5F, $41, $5F
 
 	ldh a, [$FFEC]
 	and a
@@ -30928,8 +31389,8 @@ UnknownRJump_0x59F76:
 	dec a
 	rst $28
 
-UnknownData_0x59F7F:
-INCBIN "baserom.gb", $59F7F, $59F83 - $59F7F
+UnknownData_0x59F7F: ;data block; no direct reader found
+	db $83, $5F, $A3, $5F
 
 	ld b, 2
 	call UnknownCall_0x3D22
@@ -30999,8 +31460,8 @@ UnknownRJump_0x59FF0:
 	dec a
 	rst $28
 
-UnknownData_0x59FF2:
-INCBIN "baserom.gb", $59FF2, $59FF8 - $59FF2
+UnknownData_0x59FF2: ;data block; no direct reader found
+	db $F8, $5F, $F8, $5F, $1C, $60
 
 	ldh a, [$FFEC]
 	and a
@@ -31048,16 +31509,16 @@ UnknownRJump_0x5A001:
 	ret
 
 UnknownRJump_0x5A04B:
-UnknownData_0x5A04B:
-INCBIN "baserom.gb", $5A04B, $5A04F - $5A04B
+	call UnknownCall_0x3D32
+	ret
 
 
 UnknownRJump_0x5A04F:
 	dec a
 	rst $28
 
-UnknownData_0x5A051:
-INCBIN "baserom.gb", $5A051, $5A055 - $5A051
+UnknownData_0x5A051: ;data block; no direct reader found
+	db $55, $60, $6F, $60
 
 	call UnknownCall_0x3C1C
 	ld a, [$AF2F]
@@ -31073,8 +31534,12 @@ UnknownRJump_0x5A066:
 	call UnknownCall_0x5B2D7
 	ret
 
-UnknownData_0x5A06F:
-INCBIN "baserom.gb", $5A06F, $5A07E - $5A06F
+	call UnknownCall_0x3BB8
+	ld a, [$AF2F]
+	bit 0, a
+	jr nz, UnknownRJump_0x5A066
+	ld b, 1
+	call UnknownCall_0x3D32
 
 
 UnknownRJump_0x5A07E:
@@ -31126,8 +31591,8 @@ UnknownRJump_0x5A0BB:
 	dec a
 	rst $28
 
-UnknownData_0x5A0CD:
-INCBIN "baserom.gb", $5A0CD, $5A0D5 - $5A0CD
+UnknownData_0x5A0CD: ;data block; no direct reader found
+	db $FB, $42, $1A, $43, $FE, $60, $FE, $60
 
 
 UnknownRJump_0x5A0D5:
@@ -31194,8 +31659,8 @@ UnknownRJump_0x5A13E:
 	dec a
 	rst $28
 
-UnknownData_0x5A140:
-INCBIN "baserom.gb", $5A140, $5A148 - $5A140
+UnknownData_0x5A140: ;data block; no direct reader found
+	db $48, $61, $54, $61, $6D, $61, $73, $61
 
 	ldh a, [$FFF0]
 	and $03
@@ -31240,8 +31705,8 @@ UnknownRJump_0x5A18D:
 	dec a
 	rst $28
 
-UnknownData_0x5A18F:
-INCBIN "baserom.gb", $5A18F, $5A197 - $5A18F
+UnknownData_0x5A18F: ;data block; no direct reader found
+	db $97, $61, $9C, $61, $BE, $61, $D4, $61
 
 	call UnknownCall_0x582FB
 	jr UnknownRJump_0x5A19F
@@ -31316,8 +31781,8 @@ UnknownRJump_0x5A204:
 	dec a
 	rst $28
 
-UnknownData_0x5A206:
-INCBIN "baserom.gb", $5A206, $5A20C - $5A206
+UnknownData_0x5A206: ;data block; no direct reader found
+	db $21, $62, $28, $62, $0C, $62
 
 	ldh a, [$FFDB]
 	set 0, a
@@ -31354,8 +31819,8 @@ UnknownRJump_0x5A244:
 	dec a
 	rst $28
 
-UnknownData_0x5A248:
-INCBIN "baserom.gb", $5A248, $5A24A - $5A248
+UnknownData_0x5A248: ;data block; no direct reader found
+	db $4A, $62
 
 	call UnknownCall_0x5B5AD
 	ldh a, [$FFF0]
@@ -31384,8 +31849,8 @@ UnknownRJump_0x5A271:
 	dec a
 	rst $28
 
-UnknownData_0x5A275:
-INCBIN "baserom.gb", $5A275, $5A27B - $5A275
+UnknownData_0x5A275: ;data block; no direct reader found
+	db $7B, $62, $A5, $62, $CC, $62
 
 	ldh a, [$FFE7]
 	bit 3, a
@@ -31463,8 +31928,8 @@ UnknownRJump_0x5A2E6:
 	dec a
 	rst $28
 
-UnknownData_0x5A2ED:
-INCBIN "baserom.gb", $5A2ED, $5A2F7 - $5A2ED
+UnknownData_0x5A2ED: ;data block; no direct reader found
+	db $4E, $46, $6D, $46, $4E, $46, $6D, $46, $F7, $62
 
 	ldh a, [$FFF0]
 	and $01
@@ -31501,8 +31966,8 @@ UnknownRJump_0x5A325:
 	dec a
 	rst $28
 
-UnknownData_0x5A32E:
-INCBIN "baserom.gb", $5A32E, $5A332 - $5A32E
+UnknownData_0x5A32E: ;data block; no direct reader found
+	db $32, $63, $39, $63
 
 	ld b, 1
 	call UnknownCall_0x3D22
@@ -31533,8 +31998,15 @@ UnknownRJump_0x5A33E:
 	and a
 	jr z, UnknownRJump_0x5A376
 
-UnknownData_0x5A365:
-INCBIN "baserom.gb", $5A365, $5A376 - $5A365
+	ld a, 16
+	ldh [$FFDF], a
+	ld a, 1
+	ldh [$FFE8], a
+	ld a, 20
+	ldh [$FFE9], a
+	ld a, 72
+	ldh [$FFE2], a
+	ret
 
 
 UnknownRJump_0x5A376:
@@ -31782,8 +32254,13 @@ UnknownCall_0x5A4E2:
 	call UnknownCall_0x3D22
 	ret
 
-UnknownData_0x5A4ED:
-INCBIN "baserom.gb", $5A4ED, $5A545 - $5A4ED
+UnknownData_0x5A4ED: ;data block; no direct reader found
+	db $80, $01, $00, $00, $01, $01, $01, $01, $02, $01, $02, $02, $02, $02, $02, $02
+	db $03, $02, $02, $03, $02, $80, $80, $03, $03, $02, $02, $03, $02, $02, $02, $02
+	db $02, $02, $01, $02, $01, $01, $01, $01, $00, $00, $00, $80, $80, $01, $00, $01
+	db $00, $02, $01, $01, $02, $02, $02, $03, $02, $03, $02, $03, $03, $03, $03, $03
+	db $03, $80, $80, $04, $03, $03, $03, $03, $03, $02, $03, $02, $03, $02, $02, $02
+	db $01, $01, $02, $00, $01, $00, $00, $80
 
 	ldh a, [$FFDF]
 	and a
@@ -31811,8 +32288,8 @@ UnknownRJump_0x5A568:
 	dec a
 	rst $28
 
-UnknownData_0x5A574:
-INCBIN "baserom.gb", $5A574, $5A578 - $5A574
+UnknownData_0x5A574: ;data block; no direct reader found
+	db $78, $65, $8D, $65
 
 	call UnknownCall_0x3C58
 	ld a, [$AF2F]
@@ -31871,8 +32348,8 @@ UnknownRJump_0x5A5DA:
 	dec a
 	rst $28
 
-UnknownData_0x5A5E1:
-INCBIN "baserom.gb", $5A5E1, $5A5E3 - $5A5E1
+UnknownData_0x5A5E1: ;data block; no direct reader found
+	db $E3, $65
 
 	call UnknownCall_0x5B4F5
 	ld b, 24
@@ -31897,8 +32374,8 @@ UnknownRJump_0x5A603:
 	dec a
 	rst $28
 
-UnknownData_0x5A607:
-INCBIN "baserom.gb", $5A607, $5A60F - $5A607
+UnknownData_0x5A607: ;data block; no direct reader found
+	db $0F, $66, $33, $66, $0F, $66, $5A, $66
 
 	ldh a, [$FFF0]
 	and $01
@@ -31944,6 +32421,7 @@ INCBIN "baserom.gb", $5A607, $5A60F - $5A607
 	dec a
 	ldh [$FFEC], a
 	ret nz
+UnknownJump_0x5A663:
 	call UnknownCall_0x5B2BF
 	ret
 	ldh a, [$FFDF]
@@ -31960,8 +32438,8 @@ UnknownRJump_0x5A674:
 	dec a
 	rst $28
 
-UnknownData_0x5A67B:
-INCBIN "baserom.gb", $5A67B, $5A683 - $5A67B
+UnknownData_0x5A67B: ;data block; no direct reader found
+	db $26, $42, $53, $42, $71, $42, $82, $42
 
 	ldh a, [$FFDF]
 	and a
@@ -31976,8 +32454,8 @@ UnknownRJump_0x5A691:
 	dec a
 	rst $28
 
-UnknownData_0x5A693:
-INCBIN "baserom.gb", $5A693, $5A69B - $5A693
+UnknownData_0x5A693: ;data block; no direct reader found
+	db $A5, $66, $B6, $66, $D2, $66, $9B, $66
 
 	ldh a, [$FFE7]
 	bit 3, a
@@ -32040,8 +32518,8 @@ UnknownRJump_0x5A6F7:
 	dec a
 	rst $28
 
-UnknownData_0x5A6FB:
-INCBIN "baserom.gb", $5A6FB, $5A6FF - $5A6FB
+UnknownData_0x5A6FB: ;data block; no direct reader found
+	db $FF, $66, $10, $67
 
 	ld b, 1
 	call UnknownCall_0x3D22
@@ -32083,8 +32561,8 @@ UnknownRJump_0x5A749:
 	dec a
 	rst $28
 
-UnknownData_0x5A74D:
-INCBIN "baserom.gb", $5A74D, $5A751 - $5A74D
+UnknownData_0x5A74D: ;data block; no direct reader found
+	db $51, $67, $62, $67
 
 	ld b, 1
 	call UnknownCall_0x3D22
@@ -32117,8 +32595,8 @@ UnknownRJump_0x5A787:
 	dec a
 	rst $28
 
-UnknownData_0x5A78B:
-INCBIN "baserom.gb", $5A78B, $5A793 - $5A78B
+UnknownData_0x5A78B: ;data block; no direct reader found
+	db $93, $67, $9D, $67, $CB, $67, $01, $68
 
 	call UnknownCall_0x5B51A
 	ld b, 1
@@ -32215,8 +32693,8 @@ UnknownRJump_0x5A834:
 	dec a
 	rst $28
 
-UnknownData_0x5A836:
-INCBIN "baserom.gb", $5A836, $5A83E - $5A836
+UnknownData_0x5A836: ;data block; no direct reader found
+	db $3E, $68, $45, $68, $50, $68, $56, $68
 
 	ld b, 1
 	call UnknownCall_0x3D22
@@ -32235,8 +32713,74 @@ UnknownRJump_0x5A84A:
 	call UnknownCall_0x3D32
 	ret
 
-UnknownData_0x5A85C:
-INCBIN "baserom.gb", $5A85C, $5A8D2 - $5A85C
+	ldh a, [$FFDF]
+	and a
+	jr nz, UnknownRJump_0x5A86F
+	ld a, 32
+	ldh [$FFE2], a
+	ldh a, [$FFE7]
+	bit 3, a
+	ret z
+	ld a, 1
+	ldh [$FFDF], a
+	ret
+
+UnknownRJump_0x5A86F:
+	ldh a, [$FFDF]
+	dec a
+	rst $28
+	ld a, e
+	ld l, b
+	sbc a
+	ld l, b
+	ld a, e
+	ld l, b
+	add 104
+	ldh a, [$FFF0]
+	and $01
+	ret nz
+	ld b, 1
+	call UnknownCall_0x3D2D
+	call UnknownCall_0x3D10
+	call UnknownCall_0x3D22
+	call UnknownCall_0x3CF1
+	ldh a, [$FFE9]
+	add b
+	ldh [$FFE9], a
+	cp $30
+	ret nz
+	xor a
+	ldh [$FFE9], a
+	ldh a, [$FFDF]
+	inc a
+	ldh [$FFDF], a
+	ret
+	ldh a, [$FFF0]
+	and $01
+	ret nz
+	ld b, 1
+	call UnknownCall_0x3D3D
+	call UnknownCall_0x3CDF
+	call UnknownCall_0x3D22
+	call UnknownCall_0x3CF1
+	ldh a, [$FFE9]
+	add b
+	ldh [$FFE9], a
+	cp $20
+	ret nz
+	xor a
+	ldh [$FFE9], a
+	ld a, 3
+	ldh [$FFDF], a
+	ld a, 64
+	ldh [$FFEC], a
+	ret
+	call UnknownCall_0x5B68B
+	ldh a, [$FFEC]
+	dec a
+	ldh [$FFEC], a
+	ret nz
+	jp UnknownJump_0x5A663
 
 	ld a, 1
 	ld [$AF3E], a
@@ -32274,8 +32818,8 @@ UnknownRJump_0x5A913:
 	dec a
 	rst $28
 
-UnknownData_0x5A915:
-INCBIN "baserom.gb", $5A915, $5A91D - $5A915
+UnknownData_0x5A915: ;data block; no direct reader found
+	db $39, $69, $2D, $69, $45, $69, $4D, $69
 
 
 UnknownRJump_0x5A91D:
@@ -32288,8 +32832,12 @@ UnknownRJump_0x5A91D:
 	ldh [$FFDF], a
 	ret
 
-UnknownData_0x5A92D:
-INCBIN "baserom.gb", $5A92D, $5A939 - $5A92D
+	ldh a, [$FFF0]
+	and $01
+	jr nz, UnknownRJump_0x5A91D
+	ld b, 3
+	call UnknownCall_0x3D22
+	ret
 
 	ldh a, [$FFF0]
 	and $01
@@ -32304,8 +32852,8 @@ UnknownRJump_0x5A93F:
 	jr z, UnknownRJump_0x5A93F
 	jr UnknownRJump_0x5A953
 
-UnknownData_0x5A94D:
-INCBIN "baserom.gb", $5A94D, $5A953 - $5A94D
+UnknownData_0x5A94D: ;data block; no direct reader found
+	db $F0, $F0, $E6, $01, $28, $E0
 
 
 UnknownRJump_0x5A953:
@@ -32331,8 +32879,8 @@ UnknownRJump_0x5A973:
 	dec a
 	rst $28
 
-UnknownData_0x5A977:
-INCBIN "baserom.gb", $5A977, $5A979 - $5A977
+UnknownData_0x5A977: ;data block; no direct reader found
+	db $79, $69
 
 	call UnknownCall_0x5B585
 	call UnknownCall_0x5B4F5
@@ -32366,15 +32914,15 @@ UnknownRJump_0x5A9A9:
 	dec a
 	rst $28
 
-UnknownData_0x5A9B2:
-INCBIN "baserom.gb", $5A9B2, $5A9B6 - $5A9B2
+UnknownData_0x5A9B2: ;data block; no direct reader found
+	db $B6, $69, $BD, $69
 
 	ld b, 1
 	call UnknownCall_0x3D3D
 	jr UnknownRJump_0x5A9C2
 
-UnknownData_0x5A9BD:
-INCBIN "baserom.gb", $5A9BD, $5A9C2 - $5A9BD
+UnknownData_0x5A9BD: ;data block; no direct reader found
+	db $06, $01, $CD, $2D, $3D
 
 
 UnknownRJump_0x5A9C2:
@@ -32383,8 +32931,12 @@ UnknownRJump_0x5A9C2:
 	ldh [$FFE8], a
 	ret nz
 
-UnknownData_0x5A9C8:
-INCBIN "baserom.gb", $5A9C8, $5A9D3 - $5A9C8
+	ldh a, [$FFE9]
+	ldh [$FFE8], a
+	ldh a, [$FFDF]
+	xor $03
+	ldh [$FFDF], a
+	ret
 
 	call UnknownCall_0x5B511
 	xor a
@@ -32425,8 +32977,8 @@ UnknownRJump_0x5AA14:
 	dec a
 	rst $28
 
-UnknownData_0x5AA16:
-INCBIN "baserom.gb", $5AA16, $5AA20 - $5AA16
+UnknownData_0x5AA16: ;data block; no direct reader found
+	db $20, $6A, $30, $6A, $53, $6A, $5A, $6A, $0A, $6A
 
 	ldh a, [$FFEC]
 	and a
@@ -32496,8 +33048,8 @@ UnknownRJump_0x5AA85:
 	dec a
 	rst $28
 
-UnknownData_0x5AA89:
-INCBIN "baserom.gb", $5AA89, $5AA8F - $5AA89
+UnknownData_0x5AA89: ;data block; no direct reader found
+	db $A0, $6A, $A7, $6A, $8F, $6A
 
 	call UnknownCall_0x5B4B4
 	cp $20
@@ -32525,8 +33077,8 @@ UnknownRJump_0x5AAAC:
 	ldh a, [$FFDF]
 	rst $28
 
-UnknownData_0x5AABC:
-INCBIN "baserom.gb", $5AABC, $5AAC6 - $5AABC
+UnknownData_0x5AABC: ;data block; no direct reader found
+	db $C6, $6A, $0F, $6B, $21, $6B, $D9, $6A, $F0, $6A
 
 	ld a, 16
 	ldh [$FFDE], a
@@ -32609,8 +33161,8 @@ UnknownCall_0x5AB45:
 	ldh a, [$FFDF]
 	rst $28
 
-UnknownData_0x5AB4E:
-INCBIN "baserom.gb", $5AB4E, $5AB58 - $5AB4E
+UnknownData_0x5AB4E: ;data block; no direct reader found
+	db $C6, $6A, $0F, $6B, $21, $6B, $D9, $6A, $58, $6B
 
 	ldh a, [$FFEC]
 	dec a
@@ -32633,8 +33185,8 @@ INCBIN "baserom.gb", $5AB4E, $5AB58 - $5AB4E
 	ldh a, [$FFDF]
 	rst $28
 
-UnknownData_0x5AB7F:
-INCBIN "baserom.gb", $5AB7F, $5AB89 - $5AB7F
+UnknownData_0x5AB7F: ;data block; no direct reader found
+	db $89, $6B, $AE, $6B, $B3, $6B, $B8, $6B, $D0, $6B
 
 	ld a, 74
 	ldh [$FFE2], a
@@ -32715,8 +33267,8 @@ UnknownRJump_0x5ABFC:
 	ldh a, [$FFDF]
 	rst $28
 
-UnknownData_0x5AC04:
-INCBIN "baserom.gb", $5AC04, $5AC08 - $5AC04
+UnknownData_0x5AC04: ;data block; no direct reader found
+	db $08, $6C, $11, $6C
 
 	ld a, 1
 	ldh [$FFDF], a
@@ -32750,8 +33302,8 @@ UnknownRJump_0x5AC2A:
 	ldh a, [$FFDF]
 	rst $28
 
-UnknownData_0x5AC3F:
-INCBIN "baserom.gb", $5AC3F, $5AC47 - $5AC3F
+UnknownData_0x5AC3F: ;data block; no direct reader found
+	db $47, $6C, $5F, $6C, $65, $6C, $54, $6C
 
 	ld a, 16
 	ldh [$FFDE], a
@@ -32778,14 +33330,15 @@ INCBIN "baserom.gb", $5AC3F, $5AC47 - $5AC3F
 	ret
 
 UnknownRJump_0x5AC78:
-UnknownData_0x5AC78:
-INCBIN "baserom.gb", $5AC78, $5AC7D - $5AC78
+	ld a, 3
+	ldh [$FFDF], a
+	ret
 
 	ldh a, [$FFDF]
 	rst $28
 
-UnknownData_0x5AC80:
-INCBIN "baserom.gb", $5AC80, $5AC88 - $5AC80
+UnknownData_0x5AC80: ;data block; no direct reader found
+	db $88, $6C, $9B, $6C, $B4, $6C, $CF, $6C
 
 	ld a, 32
 	ldh [$FFE2], a
@@ -32844,8 +33397,8 @@ UnknownRJump_0x5ACC9:
 	ldh a, [$FFDF]
 	rst $28
 
-UnknownData_0x5ACE7:
-INCBIN "baserom.gb", $5ACE7, $5ACED - $5ACE7
+UnknownData_0x5ACE7: ;data block; no direct reader found
+	db $ED, $6C, $1C, $6D, $FA, $6C
 
 
 UnknownRJump_0x5ACED:
@@ -32887,8 +33440,8 @@ UnknownCall_0x5AD11:
 	ldh a, [$FFDF]
 	rst $28
 
-UnknownData_0x5AD30:
-INCBIN "baserom.gb", $5AD30, $5AD36 - $5AD30
+UnknownData_0x5AD30: ;data block; no direct reader found
+	db $36, $6D, $3C, $6D, $FA, $6C
 
 	ld a, 32
 	ldh [$FFDD], a
@@ -32904,8 +33457,8 @@ INCBIN "baserom.gb", $5AD30, $5AD36 - $5AD30
 	ldh a, [$FFDF]
 	rst $28
 
-UnknownData_0x5AD50:
-INCBIN "baserom.gb", $5AD50, $5AD5A - $5AD50
+UnknownData_0x5AD50: ;data block; no direct reader found
+	db $5A, $6D, $72, $6D, $85, $6D, $72, $6D, $B1, $6D
 
 	ld a, 32
 	ldh [$FFE2], a
@@ -32986,8 +33539,8 @@ UnknownRJump_0x5ADC0:
 	ldh a, [$FFDF]
 	rst $28
 
-UnknownData_0x5ADE3:
-INCBIN "baserom.gb", $5ADE3, $5ADED - $5ADE3
+UnknownData_0x5ADE3: ;data block; no direct reader found
+	db $ED, $6D, $F9, $6D, $0D, $6E, $2E, $6E, $42, $6E
 
 	ld a, 72
 	ldh [$FFE2], a
@@ -33067,15 +33620,24 @@ UnknownRJump_0x5AE5E:
 	ld a, 1
 	jr UnknownRJump_0x5AE28
 
-UnknownData_0x5AE62:
-INCBIN "baserom.gb", $5AE62, $5AEF4 - $5AE62
+UnknownData_0x5AE62: ;data block, read at line 32998
+	db $04, $04, $04, $04, $03, $03, $03, $02, $03, $02, $02, $02, $02, $02, $02, $01
+	db $02, $02, $01, $02, $01, $01, $01, $01, $00, $01, $00, $01, $00, $00, $00, $00
+	db $00, $00, $00, $00, $80, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $01
+	db $00, $01, $01, $01, $01, $02, $01, $02, $02, $01, $02, $02, $02, $02, $02, $02
+	db $03, $02, $03, $03, $03, $04, $04, $04, $04, $80, $00, $01, $01, $01, $01, $01
+	db $01, $01, $01, $02, $01, $02, $01, $02, $02, $02, $02, $02, $02, $02, $02, $02
+	db $02, $02, $02, $02, $02, $02, $02, $01, $01, $00, $00, $00, $00, $00, $00, $00
+	db $00, $00, $00, $01, $01, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02
+	db $02, $02, $02, $02, $02, $01, $02, $01, $02, $01, $01, $01, $01, $01, $01, $01
+	db $01, $00
 
 	call UnknownCall_0x5B57E
 	ldh a, [$FFDF]
 	rst $28
 
-UnknownData_0x5AEFA:
-INCBIN "baserom.gb", $5AEFA, $5AF04 - $5AEFA
+UnknownData_0x5AEFA: ;data block; no direct reader found
+	db $ED, $6D, $04, $6F, $19, $6F, $2E, $6F, $40, $6F
 
 	ld hl, $6F55
 	call UnknownCall_0x5B33E
@@ -33111,14 +33673,22 @@ UnknownJump_0x5AF4F:
 	ld hl, $6FB7
 	jp UnknownJump_0x5AE53
 
-UnknownData_0x5AF55:
-INCBIN "baserom.gb", $5AF55, $5AFD7 - $5AF55
+UnknownData_0x5AF55: ;data block, read at line 33080
+	db $04, $04, $03, $03, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $01, $01
+	db $01, $01, $01, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+	db $80, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $01, $01
+	db $01, $01, $01, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $03, $03, $04
+	db $04, $80, $00, $01, $01, $01, $01, $01, $01, $01, $02, $01, $02, $01, $02, $01
+	db $02, $02, $02, $02, $02, $02, $01, $01, $01, $01, $00, $00, $00, $00, $00, $00
+	db $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $01, $01, $01, $02, $02
+	db $02, $02, $02, $02, $01, $02, $01, $02, $01, $02, $01, $01, $01, $01, $01, $01
+	db $01, $00
 
 	ldh a, [$FFDF]
 	rst $28
 
-UnknownData_0x5AFDA:
-INCBIN "baserom.gb", $5AFDA, $5AFE4 - $5AFDA
+UnknownData_0x5AFDA: ;data block; no direct reader found
+	db $E4, $6F, $F4, $6F, $FB, $6F, $37, $70, $5E, $70
 
 	ld a, 77
 	ldh [$FFE2], a
@@ -33200,8 +33770,8 @@ UnknownRJump_0x5B018:
 	ldh a, [$FFDF]
 	rst $28
 
-UnknownData_0x5B070:
-INCBIN "baserom.gb", $5B070, $5B078 - $5B070
+UnknownData_0x5B070: ;data block; no direct reader found
+	db $78, $70, $85, $70, $8C, $70, $C6, $70
 
 	ld b, 16
 	call UnknownCall_0x3D2D
@@ -33213,8 +33783,8 @@ INCBIN "baserom.gb", $5B070, $5B078 - $5B070
 	call UnknownCall_0x3D22
 	jr UnknownRJump_0x5B091
 
-UnknownData_0x5B08C:
-INCBIN "baserom.gb", $5B08C, $5B091 - $5B08C
+UnknownData_0x5B08C: ;data block; no direct reader found
+	db $06, $01, $CD, $32, $3D
 
 
 UnknownRJump_0x5B091:
@@ -33261,8 +33831,8 @@ UnknownRJump_0x5B0B9:
 	ldh a, [$FFDF]
 	rst $28
 
-UnknownData_0x5B0DB:
-INCBIN "baserom.gb", $5B0DB, $5B0E5 - $5B0DB
+UnknownData_0x5B0DB: ;data block; no direct reader found
+	db $E5, $70, $F8, $70, $1E, $71, $37, $71, $5D, $71
 
 	ld a, 77
 	ldh [$FFE2], a
@@ -33356,8 +33926,8 @@ UnknownRJump_0x5B154:
 	ldh a, [$FFDF]
 	rst $28
 
-UnknownData_0x5B17D:
-INCBIN "baserom.gb", $5B17D, $5B183 - $5B17D
+UnknownData_0x5B17D: ;data block; no direct reader found
+	db $83, $71, $8F, $71, $9B, $71
 
 	ld a, 77
 	ldh [$FFE2], a
@@ -33404,8 +33974,8 @@ UnknownRJump_0x5B1BA:
 	ldh a, [$FFDF]
 	rst $28
 
-UnknownData_0x5B1CB:
-INCBIN "baserom.gb", $5B1CB, $5B1D3 - $5B1CB
+UnknownData_0x5B1CB: ;data block; no direct reader found
+	db $D3, $71, $E4, $71, $13, $72, $29, $72
 
 
 UnknownRJump_0x5B1D3:
@@ -33483,8 +34053,8 @@ UnknownRJump_0x5B232:
 	ldh a, [$FFDF]
 	rst $28
 
-UnknownData_0x5B244:
-INCBIN "baserom.gb", $5B244, $5B24A - $5B244
+UnknownData_0x5B244: ;data block; no direct reader found
+	db $4A, $72, $53, $72, $77, $72
 
 	ld a, 72
 	ldh [$FFE2], a
@@ -33527,8 +34097,8 @@ UnknownRJump_0x5B284:
 	ldh a, [$FFDF]
 	rst $28
 
-UnknownData_0x5B28F:
-INCBIN "baserom.gb", $5B28F, $5B295 - $5B28F
+UnknownData_0x5B28F: ;data block; no direct reader found
+	db $4A, $72, $95, $72, $AA, $72
 
 	ldh a, [$FFE8]
 	and a
@@ -33724,8 +34294,11 @@ UnknownRJump_0x5B3AE:
 	ld [$AF38], a
 	ret
 
-UnknownData_0x5B3B9:
-INCBIN "baserom.gb", $5B3B9, $5B3C6 - $5B3B9
+	ld a, [$AF30]
+	ld [$AF34], a
+	ld a, [$AF32]
+	ld [$AF35], a
+	ret
 
 
 UnknownCall_0x5B3C6:
@@ -33878,8 +34451,10 @@ UnknownCall_0x5B481:
 	ld hl, $74A4
 	jr UnknownRJump_0x5B456
 
-UnknownData_0x5B488:
-INCBIN "baserom.gb", $5B488, $5B4B4 - $5B488
+UnknownData_0x5B488: ;data block, read at line 33841
+	db $00, $00, $01, $01, $01, $02, $01, $02, $02, $01, $02, $03, $02, $03, $03, $03
+	db $02, $03, $03, $02, $03, $03, $03, $02, $03, $03, $02, $03, $03, $03, $02, $03
+	db $02, $01, $02, $02, $01, $02, $01, $01, $01, $00, $00, $00
 
 
 UnknownCall_0x5B4B4:
@@ -33973,8 +34548,13 @@ UnknownRJump_0x5B526:
 	ldh [$FFDB], a
 	ret
 
-UnknownData_0x5B52D:
-INCBIN "baserom.gb", $5B52D, $5B539 - $5B52D
+	ldh a, [$FFF0]
+	and $01
+	ret nz
+	ldh a, [$FFDB]
+	xor $06
+	ldh [$FFDB], a
+	ret
 
 
 UnknownCall_0x5B539:
@@ -34025,8 +34605,8 @@ UnknownRJump_0x5B562:
 	ldh [$FFDD], a
 	ret
 
-UnknownData_0x5B57A:
-INCBIN "baserom.gb", $5B57A, $5B57E - $5B57A
+UnknownData_0x5B57A: ;data block, read at line 34013
+	db $FF, $01, $FF, $01
 
 
 UnknownCall_0x5B57E:
@@ -34059,8 +34639,8 @@ UnknownRJump_0x5B595:
 	ldh [$FFDB], a
 	ret
 
-UnknownData_0x5B5A2:
-INCBIN "baserom.gb", $5B5A2, $5B5A6 - $5B5A2
+UnknownData_0x5B5A2: ;data block, read at line 34053
+	db $FE, $01, $FF, $02
 
 
 UnknownCall_0x5B5A6:
@@ -34102,8 +34682,8 @@ UnknownRJump_0x5B5C6:
 	ldh [$FFDB], a
 	ret
 
-UnknownData_0x5B5D3:
-INCBIN "baserom.gb", $5B5D3, $5B5D8 - $5B5D3
+UnknownData_0x5B5D3: ;data block, read at line 34096
+	db $FE, $01, $01, $18, $13
 
 
 UnknownCall_0x5B5D8:
@@ -34142,8 +34722,8 @@ UnknownRJump_0x5B5F6:
 	ldh [$FFDB], a
 	ret
 
-UnknownData_0x5B603:
-INCBIN "baserom.gb", $5B603, $5B607 - $5B603
+UnknownData_0x5B603: ;data block, read at line 34136
+	db $FD, $01, $01, $01
 
 
 UnknownCall_0x5B607:
@@ -34177,8 +34757,8 @@ UnknownRJump_0x5B61D:
 	ldh [$FFDD], a
 	ret
 
-UnknownData_0x5B635:
-INCBIN "baserom.gb", $5B635, $5B639 - $5B635
+UnknownData_0x5B635: ;data block, read at line 34165
+	db $FF, $01, $01, $FF
 
 
 UnknownCall_0x5B639:
@@ -34217,8 +34797,8 @@ UnknownRJump_0x5B662:
 	ldh [$FFDD], a
 	ret
 
-UnknownData_0x5B669:
-INCBIN "baserom.gb", $5B669, $5B678 - $5B669
+UnknownData_0x5B669: ;data block, read at line 34194
+	db $FF, $01, $01, $FF, $FF, $01, $01, $FF, $F0, $F0, $E6, $0F, $C0, $18, $05
 
 
 UnknownCall_0x5B678:
@@ -34230,14 +34810,17 @@ UnknownCall_0x5B678:
 	ldh [$FFDD], a
 	ret
 
-UnknownData_0x5B684:
-INCBIN "baserom.gb", $5B684, $5B68B - $5B684
+	ldh a, [$FFF0]
+	and $03
+	ret nz
+	jr UnknownRJump_0x5B690
 
 
 UnknownCall_0x5B68B:
 	ldh a, [$FFF0]
 	and $01
 	ret nz
+UnknownRJump_0x5B690:
 	ldh a, [$FFDE]
 	xor $10
 	ldh [$FFDE], a
@@ -34320,8 +34903,151 @@ UnknownRJump_0x5B708:
 	pop hl
 	ret
 
-UnknownData_0x5B70A:
-INCBIN "baserom.gb", $5B70A, $5C000 - $5B70A
+UnknownData_0x5B70A: ;bank tail (packed data/tables); no direct reader found
+	db $DF, $C7, $73, $F7, $3F, $C1, $EB, $D2, $77, $B7, $BD, $5F, $F7, $7D, $BF, $4C
+	db $FC, $75, $F7, $EF, $FE, $EE, $97, $78, $FA, $DD, $F7, $EF, $FE, $E3, $EF, $29
+	db $D3, $B8, $D3, $F7, $DB, $1F, $2F, $3E, $B9, $FF, $23, $D6, $FB, $FD, $BF, $DF
+	db $BF, $3F, $EA, $DE, $F6, $AD, $FB, $F2, $BE, $D7, $EB, $F1, $AF, $7E, $F8, $6F
+	db $FF, $6A, $EF, $FF, $EB, $EE, $FB, $FF, $FA, $FE, $AD, $74, $D9, $DF, $FE, $1F
+	db $FD, $FE, $77, $B9, $99, $FB, $EB, $F7, $F4, $D9, $20, $BF, $5B, $3E, $A8, $CD
+	db $FD, $93, $FB, $D6, $FA, $F5, $C3, $3F, $73, $DE, $5F, $DF, $FF, $DE, $8D, $FE
+	db $EE, $FD, $BA, $F9, $D9, $D8, $11, $32, $26, $C0, $4C, $80, $80, $14, $30, $60
+	db $72, $A8, $DA, $9E, $CE, $CC, $69, $48, $00, $92, $49, $13, $42, $11, $10, $54
+	db $01, $08, $14, $9E, $80, $56, $88, $02, $64, $82, $18, $96, $41, $15, $E5, $1C
+	db $05, $C1, $40, $51, $84, $15, $41, $09, $18, $50, $28, $5A, $A9, $20, $8B, $49
+	db $E1, $85, $8D, $89, $0C, $10, $08, $8A, $00, $21, $AA, $91, $08, $01, $09, $06
+	db $20, $86, $B0, $05, $10, $25, $23, $14, $6A, $C1, $A0, $89, $08, $58, $04, $83
+	db $21, $0A, $20, $33, $30, $C2, $04, $3A, $A4, $04, $21, $0D, $B1, $06, $94, $D7
+	db $92, $25, $8C, $E0, $C0, $38, $12, $3A, $02, $CC, $64, $5C, $01, $5D, $89, $92
+	db $90, $50, $12, $00, $1C, $02, $AC, $F5, $62, $FB, $E8, $3F, $AB, $D7, $3F, $F2
+	db $AD, $DD, $AB, $DC, $9D, $A9, $DE, $3F, $FF, $F3, $CA, $3F, $F4, $73, $BF, $DF
+	db $F8, $76, $7B, $5B, $3A, $FD, $FE, $DA, $AC, $D7, $F8, $FE, $FF, $45, $9F, $FF
+	db $EF, $B7, $9B, $7F, $7E, $F7, $73, $F3, $FF, $5F, $BB, $9E, $BD, $7F, $FB, $EF
+	db $FD, $77, $F2, $FD, $F8, $8E, $B6, $EB, $7E, $C7, $AA, $7B, $94, $CC, $B7, $BF
+	db $F7, $51, $FE, $F3, $CA, $F1, $AB, $EF, $E9, $BF, $7D, $C7, $BD, $EF, $FF, $EF
+	db $E7, $F7, $DA, $6B, $AE, $F4, $E7, $DF, $5F, $3B, $7E, $FD, $DA, $7F, $3F, $82
+	db $EF, $F3, $F2, $3B, $DB, $FF, $BA, $77, $A6, $6C, $3D, $FF, $3A, $FD, $FF, $DD
+	db $9F, $FF, $FE, $DE, $B8, $6E, $80, $82, $06, $92, $24, $00, $A9, $99, $00, $4D
+	db $90, $01, $10, $8B, $10, $64, $32, $60, $C0, $40, $6C, $2C, $42, $97, $68, $00
+	db $E4, $64, $42, $0C, $48, $45, $9B, $04, $A0, $78, $C0, $86, $08, $11, $4D, $03
+	db $52, $4A, $28, $04, $69, $44, $00, $11, $33, $02, $2A, $A1, $D0, $06, $2A, $32
+	db $A0, $46, $22, $10, $2C, $0B, $23, $20, $06, $00, $2E, $28, $10, $19, $42, $24
+	db $46, $02, $80, $0E, $0C, $5C, $08, $01, $2E, $20, $8A, $04, $43, $12, $18, $38
+	db $10, $44, $23, $24, $81, $A4, $9A, $34, $0A, $12, $A8, $10, $C7, $14, $50, $8E
+	db $1B, $B4, $38, $02, $62, $C0, $80, $A0, $E9, $A0, $1C, $06, $2C, $05, $89, $50
+	db $A0, $00, $54, $02, $48, $08, $93, $75, $75, $8C, $3A, $F7, $1B, $3F, $FB, $7F
+	db $E3, $1E, $7F, $FF, $E9, $DF, $AB, $AC, $09, $FF, $63, $B3, $7D, $F3, $9F, $25
+	db $AF, $FF, $ED, $BE, $9F, $DB, $B8, $6D, $F9, $7B, $BA, $9F, $E6, $F4, $D4, $DD
+	db $FD, $96, $DB, $2D, $D8, $6D, $BB, $8B, $B2, $BB, $AB, $F8, $EB, $FD, $7F, $BE
+	db $E1, $86, $EF, $EE, $92, $F1, $FB, $B5, $DF, $33, $FB, $33, $FB, $EE, $6B, $FE
+	db $2E, $9C, $F2, $CE, $B7, $EE, $BE, $F3, $F7, $6B, $7A, $3D, $39, $B6, $BB, $F0
+	db $9A, $73, $78, $BF, $B3, $EF, $FD, $5F, $BF, $BD, $7F, $DA, $2B, $75, $AC, $FE
+	db $74, $BE, $BB, $7F, $CD, $64, $4A, $CA, $DB, $DD, $BF, $9B, $B7, $DF, $F9, $6D
+	db $BB, $FF, $BF, $FB, $1A, $3E, $D8, $23, $24, $64, $02, $DD, $42, $50, $11, $BB
+	db $10, $6D, $A3, $8C, $01, $4C, $80, $14, $40, $41, $AE, $84, $80, $81, $38, $00
+	db $01, $15, $00, $06, $03, $45, $04, $DC, $01, $80, $00, $76, $83, $0B, $EA, $A4
+	db $10, $23, $22, $05, $86, $10, $38, $11, $40, $81, $A8, $29, $A1, $09, $22, $50
+	db $40, $40, $C0, $E5, $08, $1C, $30, $BA, $00, $1C, $EB, $02, $50, $51, $80, $40
+	db $D1, $06, $30, $50, $8C, $46, $00, $8E, $08, $19, $00, $29, $28, $94, $08, $0A
+	db $18, $80, $06, $A8, $00, $12, $52, $46, $80, $F2, $02, $F2, $D8, $18, $00, $42
+	db $01, $1D, $88, $A6, $43, $40, $EA, $D8, $AC, $B5, $90, $6A, $2A, $31, $8A, $8B
+	db $18, $0E, $09, $28, $80, $23, $FE, $DB, $BE, $FA, $FF, $F7, $BE, $B1, $9F, $AF
+	db $EF, $CF, $FF, $7D, $E3, $EF, $2D, $9F, $FA, $F6, $BC, $9F, $76, $96, $BB, $B6
+	db $EE, $EB, $7F, $FE, $6D, $72, $BC, $11, $4F, $FF, $37, $AD, $BE, $7F, $FF, $B6
+	db $AA, $DF, $FC, $65, $F6, $74, $FA, $8B, $F4, $6D, $96, $4F, $80, $9F, $7B, $34
+	db $DF, $0F, $1F, $7C, $FF, $BF, $BA, $AD, $7F, $C6, $E6, $E5, $5B, $3F, $CE, $EE
+	db $FD, $AB, $FB, $FB, $5E, $7D, $63, $72, $7D, $C3, $7A, $CB, $21, $E1, $EA, $DB
+	db $F6, $FF, $EF, $DA, $EE, $53, $B7, $FA, $FA, $F7, $9F, $2F, $8F, $F1, $FC, $07
+	db $AB, $C7, $0B, $BF, $AB, $FF, $FE, $FA, $DF, $65, $BF, $B4, $DE, $1E, $AB, $AD
+	db $EF, $3F, $6F, $D9, $6E, $DA, $84, $08, $51, $50, $85, $41, $46, $00, $0E, $90
+	db $88, $09, $0C, $02, $48, $20, $08, $5A, $03, $01, $60, $40, $C1, $E0, $01, $11
+	db $93, $9A, $22, $0D, $1A, $70, $00, $41, $64, $70, $C6, $83, $02, $41, $00, $08
+	db $60, $80, $28, $A2, $08, $29, $C4, $12, $22, $41, $EC, $AD, $00, $20, $00, $83
+	db $8A, $14, $8C, $4E, $01, $8D, $00, $49, $92, $01, $01, $CA, $20, $35, $85, $8A
+	db $8A, $1A, $A2, $67, $85, $00, $82, $80, $A8, $82, $00, $A0, $0A, $01, $30, $02
+	db $8C, $22, $20, $11, $D1, $00, $22, $61, $01, $C0, $1E, $02, $10, $47, $AA, $04
+	db $38, $5A, $A6, $51, $30, $C0, $88, $8E, $E4, $0C, $08, $A5, $09, $87, $28, $62
+	db $32, $06, $A0, $1B, $0D, $08, $7A, $C8, $F7, $BF, $BA, $FF, $E6, $3F, $7F, $73
+	db $FE, $C5, $DA, $E8, $3F, $1C, $F7, $8F, $FE, $89, $D1, $5E, $FE, $7F, $0B, $27
+	db $E7, $09, $D2, $DD, $BC, $E3, $FE, $FE, $FC, $F1, $7F, $B7, $C9, $D6, $36, $BF
+	db $7B, $3D, $AA, $2F, $D7, $FC, $FF, $DE, $CF, $DE, $F9, $29, $ED, $E8, $FA, $DF
+	db $FE, $FD, $F3, $BB, $2E, $F7, $B5, $77, $FC, $1D, $EE, $99, $61, $BC, $8B, $A7
+	db $AF, $DB, $3F, $7A, $97, $BB, $AF, $CB, $BF, $6B, $6B, $AE, $57, $53, $FB, $5F
+	db $77, $CE, $FE, $FB, $4E, $BE, $FF, $F7, $AB, $5D, $BB, $FF, $7F, $E7, $8C, $FE
+	db $DD, $FF, $9E, $FD, $BB, $76, $9F, $7F, $AF, $56, $6E, $F7, $FF, $FE, $BB, $DB
+	db $AB, $BE, $B7, $DC, $EF, $FF, $C3, $13, $A0, $96, $A6, $40, $59, $81, $02, $8E
+	db $A1, $85, $54, $40, $64, $04, $92, $CC, $19, $51, $8C, $32, $20, $00, $2C, $A6
+	db $99, $4C, $53, $89, $C1, $9C, $04, $0C, $10, $26, $F9, $19, $08, $94, $04, $3C
+	db $00, $5C, $86, $71, $10, $04, $88, $A4, $B0, $82, $23, $6C, $2A, $44, $22, $02
+	db $6A, $12, $31, $A0, $82, $1F, $08, $B4, $9E, $50, $86, $42, $0D, $04, $C0, $50
+	db $80, $40, $10, $4D, $32, $16, $2A, $D8, $68, $05, $2A, $14, $18, $9C, $A0, $86
+	db $18, $64, $40, $B0, $1A, $27, $D4, $0B, $04, $03, $06, $59, $1C, $52, $02, $54
+	db $46, $00, $25, $3B, $C5, $B0, $20, $32, $C1, $01, $90, $14, $06, $C8, $3A, $A5
+	db $40, $00, $20, $A0, $00, $55, $BC, $65, $6E, $F9, $AA, $ED, $E7, $E1, $EE, $DC
+	db $EB, $5B, $6A, $DF, $68, $E6, $A4, $EC, $BA, $EA, $AE, $DC, $DF, $8D, $9A, $EB
+	db $E7, $DE, $2B, $FD, $AB, $76, $8C, $EF, $EE, $77, $CE, $F6, $F7, $EA, $6F, $DE
+	db $8B, $78, $BB, $7A, $EE, $6F, $B7, $EC, $A2, $ED, $EA, $F6, $F9, $E5, $EA, $EE
+	db $FD, $67, $E8, $8E, $27, $DC, $E6, $FE, $4E, $68, $F3, $95, $FA, $F7, $AE, $EA
+	db $9F, $4D, $AB, $C7, $FA, $B6, $FE, $A2, $DF, $4E, $BA, $B6, $EF, $E6, $7B, $FB
+	db $BE, $46, $EE, $BE, $F3, $EC, $DE, $36, $AC, $6E, $7B, $7E, $64, $D6, $E6, $FD
+	db $AD, $B3, $36, $3E, $EE, $9F, $89, $FF, $FF, $9E, $EA, $3A, $BE, $AB, $E4, $B6
+	db $AA, $6E, $EB, $F6, $FF, $6F, $80, $84, $42, $21, $00, $04, $A0, $C4, $AA, $21
+	db $01, $CA, $21, $A0, $02, $C0, $CA, $2C, $88, $0D, $A7, $00, $83, $60, $24, $02
+	db $C0, $04, $90, $E8, $22, $6A, $43, $C8, $80, $2C, $00, $8A, $44, $41, $20, $81
+	db $24, $08, $20, $44, $21, $2D, $4A, $88, $02, $B1, $48, $44, $80, $09, $08, $00
+	db $02, $8A, $E0, $88, $10, $BA, $82, $06, $80, $24, $06, $C0, $02, $C2, $A0, $8A
+	db $08, $1E, $24, $C6, $23, $C8, $08, $B0, $86, $80, $80, $06, $20, $B8, $A0, $40
+	db $09, $06, $A3, $E1, $0A, $A0, $94, $C4, $00, $84, $43, $A1, $1A, $10, $20, $30
+	db $24, $03, $00, $30, $C0, $20, $22, $64, $28, $00, $2A, $74, $23, $60, $2A, $26
+	db $20, $00, $30, $1E, $00, $02, $AA, $C7, $A9, $37, $DF, $EB, $CD, $2E, $E3, $77
+	db $BE, $EB, $E9, $F4, $8F, $DA, $3F, $8E, $0E, $C9, $CA, $A4, $EE, $5E, $FB, $3B
+	db $76, $D7, $BD, $C6, $F7, $D4, $33, $BF, $DB, $25, $71, $FE, $7A, $76, $CE, $E6
+	db $F0, $68, $8F, $F7, $FA, $CD, $67, $9E, $E9, $7A, $7E, $E9, $CE, $70, $EA, $FB
+	db $EF, $F3, $FB, $0A, $88, $96, $26, $8F, $EF, $77, $7E, $C5, $6F, $F6, $6E, $EE
+	db $A7, $6F, $5F, $EF, $FA, $9F, $3A, $EC, $F2, $FD, $F8, $ED, $86, $F0, $FE, $F5
+	db $D8, $FB, $0E, $3E, $F8, $F8, $EB, $DE, $FE, $7C, $97, $D7, $E2, $FD, $2B, $3F
+	db $FF, $7F, $96, $7B, $EF, $3C, $B3, $A6, $29, $12, $DB, $78, $E7, $3F, $CA, $DB
+	db $C7, $5B, $FA, $BF, $F4, $F7, $03, $6C, $04, $08, $43, $28, $0A, $82, $28, $00
+	db $20, $F8, $00, $46, $00, $00, $08, $22, $20, $08, $82, $02, $88, $03, $70, $00
+	db $4E, $06, $03, $04, $84, $90, $84, $40, $00, $08, $84, $04, $84, $03, $80, $46
+	db $64, $42, $20, $40, $00, $D1, $00, $84, $01, $00, $2C, $30, $42, $70, $83, $98
+	db $24, $10, $20, $85, $68, $E4, $28, $48, $80, $03, $02, $00, $A0, $0E, $22, $08
+	db $C0, $07, $10, $10, $20, $22, $00, $76, $A0, $00, $A9, $00, $80, $C0, $02, $A4
+	db $55, $02, $21, $00, $08, $47, $A2, $07, $18, $60, $52, $82, $20, $55, $D0, $16
+	db $5B, $34, $0A, $04, $4A, $42, $01, $02, $94, $42, $22, $04, $02, $37, $80, $44
+	db $34, $44, $CA, $22, $44, $CC, $EA, $BF, $A8, $8D, $EA, $D7, $EA, $5E, $6E, $96
+	db $F2, $3B, $BA, $CA, $F7, $04, $AF, $E8, $FF, $F8, $FE, $25, $3B, $62, $B6, $AD
+	db $AC, $CB, $FF, $EE, $EA, $EE, $4E, $F9, $BE, $C7, $FA, $E0, $FF, $D7, $2E, $7E
+	db $EE, $F3, $FA, $95, $EA, $FC, $FA, $A7, $B6, $0F, $3B, $27, $36, $4F, $E6, $33
+	db $FC, $DE, $8F, $F7, $EB, $67, $C4, $E7, $D9, $AE, $F0, $FE, $60, $FF, $EB, $3C
+	db $EE, $C7, $CE, $AE, $93, $FC, $EE, $FD, $FF, $7E, $AD, $EC, $8E, $7E, $EA, $23
+	db $6E, $F0, $E8, $BF, $5F, $E8, $EA, $62, $FA, $4D, $EE, $A7, $EA, $63, $A7, $8E
+	db $E3, $3E, $FF, $6B, $63, $CF, $EA, $EE, $AA, $FF, $AC, $3F, $AE, $F6, $2F, $FE
+	db $AA, $79, $AF, $8C, $AE, $2B, $0A, $08, $0A, $7A, $82, $00, $68, $20, $80, $80
+	db $20, $26, $C0, $A8, $06, $06, $00, $04, $14, $40, $10, $3E, $10, $82, $49, $02
+	db $01, $C2, $20, $00, $41, $1C, $E6, $C0, $27, $A0, $82, $28, $80, $42, $A2, $C1
+	db $A0, $12, $02, $08, $82, $05, $00, $81, $16, $04, $20, $10, $02, $00, $A2, $3A
+	db $88, $C6, $F2, $60, $08, $40, $00, $43, $A4, $08, $C8, $02, $32, $8A, $0A, $52
+	db $16, $00, $00, $E0, $60, $0B, $48, $8E, $E1, $83, $00, $26, $50, $08, $41, $09
+	db $02, $A3, $20, $02, $04, $02, $C8, $18, $2A, $88, $08, $80, $B0, $02, $80, $00
+	db $AF, $5A, $42, $AD, $24, $0C, $23, $16, $00, $80, $EA, $00, $E0, $40, $9E, $41
+	db $20, $80, $02, $01, $08, $44, $76, $02, $77, $7F, $F3, $EF, $AA, $9B, $E9, $3D
+	db $E9, $F4, $FB, $FF, $FD, $1A, $AF, $A6, $B8, $21, $FF, $71, $77, $79, $FB, $DB
+	db $36, $8B, $AB, $EA, $76, $70, $7F, $F2, $41, $B7, $E2, $DB, $96, $47, $7E, $7B
+	db $14, $7B, $92, $7A, $7F, $A1, $CF, $FF, $E1, $FE, $FF, $6F, $BB, $3D, $FF, $FB
+	db $EB, $17, $BF, $F2, $BF, $5C, $AE, $8E, $FE, $A4, $FE, $FF, $3E, $BF, $F0, $9F
+	db $D0, $DB, $D8, $7F, $7A, $AC, $CB, $97, $DF, $6B, $EF, $94, $16, $9D, $03, $76
+	db $E1, $DE, $CE, $FE, $CC, $DE, $34, $3B, $F2, $7C, $FE, $77, $FE, $5F, $6D, $FD
+	db $BF, $FF, $BA, $FE, $EF, $7A, $63, $EA, $BA, $FF, $BF, $93, $6F, $BA, $BF, $FE
+	db $A6, $A4, $3F, $BB, $F9, $9F, $02, $51, $10, $95, $00, $C4, $00, $48, $25, $A8
+	db $38, $1B, $AA, $10, $00, $10, $80, $D0, $85, $CA, $C3, $E9, $2C, $01, $01, $15
+	db $6B, $22, $00, $21, $B1, $05, $43, $80, $2B, $28, $03, $43, $24, $AC, $B0, $82
+	db $32, $90, $00, $0D, $08, $10, $23, $44, $2A, $15, $8F, $20, $1C, $01, $EA, $01
+	db $40, $51, $34, $94, $00, $31, $E3, $16, $01, $14, $81, $E2, $08, $74, $10, $04
+	db $F6, $C0, $03, $0A, $02, $92, $31, $10, $01, $08, $02, $2B, $40, $50, $76, $D8
+	db $0A, $00, $A6, $23, $34, $92, $68, $80, $EB, $C8, $0C, $A2, $2D, $1F, $49, $2A
+	db $44, $12, $80, $0C, $43, $42, $22, $00, $65, $00, $8B, $14, $31, $44, $87, $2B
+	db $0E, $00, $B3, $80, $08, $A0
 
 
 
