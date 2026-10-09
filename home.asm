@@ -160,7 +160,7 @@ UnknownRJump_0x01C5:
 	ldh a, [$FF9B]
 	cp $18
 	call z, UpdateSound
-	ld a, [$A24E] ;prepare bank switch
+	ld a, [sCurROMBank] ;prepare bank switch
 	ld [$2100], a
 	ld a, 1
 	ldh [$FF82], a
@@ -281,7 +281,7 @@ UnknownRJump_0x028D:
 
 UnknownJump_0x029F: ;soft reset (A+B+Start+Select held)
 	ld a, 4 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x1002D
 	jp Init
@@ -521,7 +521,7 @@ UnknownJump_0x03F1:
 	call UnknownCall_0x2D41
 	call UnknownCall_0x0F2A
 	ld a, 8 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld a, [$A80B]
 	ld l, a
@@ -537,7 +537,7 @@ UnknownRJump_0x040A:
 	cp $A8
 	jr nz, UnknownRJump_0x040A
 	ld a, [$A80D] ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld hl, $4000
 	ld a, [hli]
@@ -570,7 +570,7 @@ UnknownRJump_0x043F:
 	dec b
 	jr nz, UnknownRJump_0x043F
 	ld a, [$A80D] ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld hl, $4002
 	ld a, [hli]
@@ -668,7 +668,7 @@ UnknownJump_0x04F1:
 	call DisableVBlank
 	call LoadMarioGFX
 	ld a, [sLevelBank] ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x0361
 	ld a, [$A80F]
@@ -724,7 +724,7 @@ UnknownRJump_0x052F:
 	ld [sScrollX], a
 	call UnknownCall_0x07DB
 	ld a, 3 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0xEBBB
 	ld a, 227
@@ -832,7 +832,7 @@ UnknownCall_0x0652:
 	and $F0
 	jr nz, UnknownRJump_0x0665
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x8000
 	ret
@@ -853,7 +853,7 @@ LoadMarioGFX: ;$0669
 	and a
 	jr nz, .MarioDark
 	ld a, BANK(GFX_Mario) ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld bc, $0800
 	ld hl, GFX_Mario
@@ -865,7 +865,7 @@ LoadMarioGFX: ;$0669
 	cp $01
 	jr nz, .MarioMoon
 	ld a, BANK(GFX_MarioDark)  ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld bc, $0800
 	ld hl, GFX_MarioDark
@@ -875,7 +875,7 @@ LoadMarioGFX: ;$0669
 
 .MarioMoon
 	ld a, BANK(GFX_MarioMoon)  ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld bc, $0800
 	ld hl, GFX_MarioMoon
@@ -884,7 +884,7 @@ LoadMarioGFX: ;$0669
 
 UnknownRJump_0x06C0:
 	ld a, 7 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld a, [$A2D2]
 	and $F0
@@ -903,7 +903,7 @@ UnknownRJump_0x06C0:
 	ld de, $8E80
 	call CopyMem
 	ld a, 27 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld a, [$A2D2]
 	and $F0
@@ -926,7 +926,7 @@ UnknownRJump_0x06C0:
 	ld d, 0
 	add hl, de
 	ld a, [hli] ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	inc hl
 	ld bc, $0380 ;size of enemy sets
@@ -946,7 +946,7 @@ UnknownRJump_0x06C0:
 	ld d, 0
 	add hl, de
 	ld a, [hli] ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	inc hl
 	ld bc, $0600 ;size of tilesets
@@ -1106,7 +1106,7 @@ UnknownRJump_0x082D:
 
 UnknownCall_0x0879:
 	ld a, [sLevelBank] ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld a, 0
 	ldh [$FFAF], a
@@ -4244,7 +4244,7 @@ UnknownRJump_0x206D:
 
 UnknownCall_0x207D:
 	ld a, 4 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x10000
 	ret
@@ -4263,7 +4263,7 @@ UnknownCall_0x2097:
 
 UnknownCall_0x2098:
 	ld a, 4 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownRJump_0x10003
 	ret
@@ -4281,7 +4281,7 @@ UnknownCall_0x20A4:
 	call UnknownCall_0x2728
 	call $FFA0
 	ld a, 5 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld a, [$A28E]
 	ld e, a
@@ -4299,7 +4299,7 @@ UnknownCall_0x20A4:
 
 UnknownJump_0x20D9:
 	ld a, 5 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld a, [hl]
 	cp $FF
@@ -4484,7 +4484,7 @@ UnknownCall_0x2202:
 	cp $03
 	jr z, UnknownRJump_0x222E
 	ld a, [hli]
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$A265], a
 	ld a, [hli]
 	ldh [$FFB1], a
@@ -4502,7 +4502,7 @@ UnknownCall_0x2202:
 
 UnknownRJump_0x222E:
 	ld a, [hli]
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$A265], a
 	ld a, [hli]
 	ldh [$FFB1], a
@@ -4521,7 +4521,7 @@ UnknownRJump_0x222E:
 
 UnknownRJump_0x224E:
 	ld a, [hli]
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$A265], a
 	ld a, [hli]
 	ldh [$FFB1], a
@@ -4546,7 +4546,7 @@ UnknownCall_0x226D:
 	cp $02
 	jr z, UnknownRJump_0x2297
 	ld a, [hli]
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$A265], a
 	ld [$2100], a
 	ld a, [hli]
@@ -4565,7 +4565,7 @@ UnknownCall_0x226D:
 
 UnknownRJump_0x2297:
 	ld a, [hli]
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$A265], a
 	ld [$2100], a
 	ld a, [hli]
@@ -4596,7 +4596,7 @@ UnknownRJump_0x22BE:
 	call UnknownCall_0x2D0A
 	call UnknownCall_0x0652
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x2CFF
 
@@ -4610,7 +4610,7 @@ UnknownRJump_0x22D5:
 
 UnknownCall_0x22DF:
 	ld a, [hli]
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$A265], a
 	ld [$2100], a
 	ld a, [hli]
@@ -4634,7 +4634,7 @@ UnknownRJump_0x2300:
 	call UnknownCall_0x2D0A
 	call UnknownCall_0x0652
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x2CFF
 	call UnknownCall_0x2728
@@ -4678,7 +4678,7 @@ UnknownCall_0x2323:
 
 UnknownRJump_0x2359:
 	ld a, [sLevelBank] ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld a, 0
 	ldh [$FFAF], a
@@ -4703,7 +4703,7 @@ UnknownRJump_0x2359:
 	call UnknownCall_0x0A35
 	call UnknownCall_0x2728
 	ld a, [sLevelBank] ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld a, 0
 	ldh [$FFAF], a
@@ -4721,7 +4721,7 @@ UnknownRJump_0x2359:
 	call UnknownCall_0x0A35
 	call UnknownCall_0x2728
 	ld a, [sLevelBank] ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld a, 0
 	ldh [$FFAF], a
@@ -4742,7 +4742,7 @@ UnknownRJump_0x2359:
 
 UnknownJump_0x23E4:
 	ld a, [sLevelBank] ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld a, 0
 	ldh [$FFAF], a
@@ -4767,7 +4767,7 @@ UnknownJump_0x23E4:
 	call UnknownCall_0x0A35
 	call UnknownCall_0x2728
 	ld a, [sLevelBank] ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld a, 0
 	ldh [$FFAF], a
@@ -4785,7 +4785,7 @@ UnknownJump_0x23E4:
 	call UnknownCall_0x0A35
 	call UnknownCall_0x2728
 	ld a, [sLevelBank] ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld a, 0
 	ldh [$FFAF], a
@@ -4806,7 +4806,7 @@ UnknownJump_0x23E4:
 
 UnknownJump_0x246F:
 	ld a, [sLevelBank] ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld a, 0
 	ldh [$FFAF], a
@@ -4831,7 +4831,7 @@ UnknownJump_0x246F:
 	call UnknownCall_0x0969
 	call UnknownCall_0x2728
 	ld a, [sLevelBank] ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld a, 0
 	ldh [$FFAF], a
@@ -4849,7 +4849,7 @@ UnknownJump_0x246F:
 	call UnknownCall_0x0969
 	call UnknownCall_0x2728
 	ld a, [sLevelBank] ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld a, 0
 	ldh [$FFAF], a
@@ -4867,7 +4867,7 @@ UnknownJump_0x246F:
 	call UnknownCall_0x0969
 	call UnknownCall_0x2728
 	ld a, [sLevelBank] ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld a, 0
 	ldh [$FFAF], a
@@ -4888,7 +4888,7 @@ UnknownJump_0x246F:
 
 UnknownJump_0x2524:
 	ld a, [sLevelBank] ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld a, 0
 	ldh [$FFAF], a
@@ -4913,7 +4913,7 @@ UnknownJump_0x2524:
 	call UnknownCall_0x0969
 	call UnknownCall_0x2728
 	ld a, [sLevelBank] ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld a, 0
 	ldh [$FFAF], a
@@ -4931,7 +4931,7 @@ UnknownJump_0x2524:
 	call UnknownCall_0x0969
 	call UnknownCall_0x2728
 	ld a, [sLevelBank] ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld a, 0
 	ldh [$FFAF], a
@@ -4963,7 +4963,7 @@ UnknownCall_0x25AF:
 	ld [$A812], a
 	call UnknownCall_0x0361
 	ld a, 7 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld bc, $0050
 	ld hl, $7800
@@ -5033,7 +5033,7 @@ UnknownRJump_0x2614:
 UnknownRJump_0x264F:
 	call CopyMem
 	ld a, 8 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld hl, UnknownData_0x26B5
 	ld a, [$A22D]
@@ -5099,7 +5099,7 @@ UnknownJump_0x26C3:
 	and a
 	jr z, UnknownRJump_0x2712
 	ld a, [sLevelBank] ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call ScrollLevelMap
 	jr UnknownRJump_0x2712
@@ -5152,7 +5152,7 @@ UnknownRJump_0x2712:
 	call nz, UpdateSound
 	ld a, 1
 	ldh [$FF82], a
-	ld a, [$A24E] ;prepare bank switch
+	ld a, [sCurROMBank] ;prepare bank switch
 	ld [$2100], a
 	pop hl
 	pop de
@@ -5244,7 +5244,7 @@ UnknownJump_0x27AF:
 	ldh [$FF8D], a
 	call UnknownCall_0x2D41
 	ld a, 12 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld bc, $1800
 	ld hl, $4C92
@@ -5340,7 +5340,7 @@ UnknownData_0x2874:
 
 UnknownJump_0x287E:
 	ld a, 12 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x30884
 	call UnknownCall_0x28A7
@@ -5383,7 +5383,7 @@ UnknownCall_0x28A7:
 
 UnknownRJump_0x28CD:
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x5297
 	ret
@@ -5509,7 +5509,7 @@ UnknownJump_0x2974:
 	ldh [$FF8D], a
 	call UnknownCall_0x2D41
 	ld a, 5 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld hl, $41E5
 	ld de, $8800
@@ -5566,14 +5566,14 @@ UnknownRJump_0x29D8:
 
 	call DisableVBlank
 	ld a, 17 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld bc, $1800
 	ld hl, $5800
 	ld de, $8000
 	call CopyMem
 	ld a, 26 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld hl, $9800
 	ld de, $548E
@@ -5611,7 +5611,7 @@ UnknownRJump_0x2A23:
 	ld a, 44
 	ld [$A2E1], a
 	ld a, 26 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld a, [$A2DD]
 	inc a
@@ -5620,65 +5620,65 @@ UnknownRJump_0x2A23:
 
 UnknownJump_0x2A4D:
 	ld a, 12 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x309CD
 
 UnknownCall_0x2A58:
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x6485
 
 UnknownCall_0x2A63:
 	ld a, 5 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld bc, $1000
 	ld hl, $41E5
 	ld de, $8800
 	call CopyMem
 	ld a, 12 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownJump_0x2A80:
 	ld a, 12 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp $477B
 
 UnknownJump_0x2A8B:
 	ld a, 12 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp $47A9
 
 
 UnknownCall_0x2A96:
 	ld a, 4 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call _UpdateSound
 	ld a, 26 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x2AAA:
 	ld a, 4 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call _UpdateSound
 	ld a, 15 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x2ABE:
 	ld a, BANK(GFX_TitleScreen) ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld bc, $1800
 	ld hl, GFX_TitleScreen
@@ -5688,102 +5688,102 @@ UnknownCall_0x2ABE:
 
 UnknownJump_0x2AD3:
 	ld a, 12 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x305B6
 
 UnknownJump_0x2ADE:
 	ld a, 12 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x3067A
 
 UnknownJump_0x2AE9:
 	ld a, 12 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x3041D
 
 UnknownJump_0x2AF4:
 	ld a, 12 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x30451
 
 UnknownCall_0x2AFF:
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x5297
 	ld a, 5 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 
 UnknownCall_0x2B13:
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x5297
 	ld a, 12 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x2B27:
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x5297
 	ld a, 26 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x2B3B:
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x5267
 	ld a, 12 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x2B4F:
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x52E7
 	ld a, 26 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x2B63:
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x52E7
 	ld a, 12 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x2B77:
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x5302
 	ld a, 12 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x2B8B:
 	ld a, 7 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld bc, $0600
 	ld hl, $5E00
@@ -5794,14 +5794,14 @@ UnknownCall_0x2B8B:
 	ld de, $8E80
 	call CopyMem
 	ld a, BANK(GFX_Mario) ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld bc, $0800
 	ld hl, GFX_Mario
 	ld de, $8000
 	call CopyMem
 	ld a, 27 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld hl, $7000
 	ld bc, $0300
@@ -5817,122 +5817,122 @@ UnknownCall_0x2B8B:
 
 UnknownJump_0x2BE5:
 	ld a, 12 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x30000
 
 UnknownJump_0x2BF0:
 	ld a, 12 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x3005F
 
 FarCopyMem: ;$2BFB copymem from bank a
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call CopyMem
 	ld a, 15 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x2C0D:
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x5CF2
 
 UnknownJump_0x2C18:
 	ld a, 15 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x3E73
 
 UnknownJump_0x2C23:
 	ld a, 15 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x3EF2B
 
 UnknownJump_0x2C2E:
 	ld a, 15 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x3C000
 
 UnknownCall_0x2C39:
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownData_0x5C52
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x2C4D:
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownData_0x5E42
 	ld a, 5 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 
 UnknownCall_0x2C61:
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x5D25
 
 UnknownCall_0x2C6C:
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x5960
 
 UnknownCall_0x2C77:
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x591F
 
 UnknownCall_0x2C82:
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x5997
 
 UnknownCall_0x2C8D:
 	ld a, 26 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x68528
 
 UnknownJump_0x2C98:
 	ld a, 26 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x68528
 
 
 UnknownJump_0x2CA3:
 	ld a, 26 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x68528
 
 UnknownJump_0x2CAE:
 	ld a, 26 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x68000
 
 UnknownJump_0x2CB9:
 	ld a, 26 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x6800F
 
@@ -5943,75 +5943,75 @@ UnknownJump_0x2CC4:
 	ldh [$FF8D], a
 	call UnknownCall_0x2CFF
 	ld a, 5 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x14043
 
 UnknownJump_0x2CDB:
 	call UnknownCall_0x031C
 	ld a, 5 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x1407C
 
 UnknownJump_0x2CE9:
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x5579
 
 UnknownCall_0x2CF4:
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x5297
 
 UnknownCall_0x2CFF:
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x52E7
 
 UnknownCall_0x2D0A:
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x530D
 
 UnknownCall_0x2D15:
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x5550
 
 UnknownCall_0x2D20:
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownCall_0x5272
 
 UnknownCall_0x2D2B:
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownCall_0x5267
 
 UnknownCall_0x2D36:
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownRJump_0x534C
 
 
 UnknownCall_0x2D41:
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x5302
 
 UnknownCall_0x2D4C:
 	ld a, [sLevelBank]
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ldh a, [$FFC1]
 	swap a
@@ -6032,7 +6032,7 @@ UnknownCall_0x2D4C:
 	xor $01
 	ldh [$FFBB], a
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
@@ -6541,7 +6541,7 @@ UnknownRJump_0x3098:
 	cp $20
 	ret c
 	ld a, [sLevelBank] ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ldh a, [$FFC9]
 	swap a
@@ -6578,7 +6578,7 @@ UnknownRJump_0x30D9:
 	cp $70
 	ret nc
 	ld a, [sLevelBank] ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ldh a, [$FFC9]
 	swap a
@@ -7236,7 +7236,7 @@ UnknownJump_0x3573:
 	ld [sOAMPalette1], a
 	call DisableVBlank
 	ld a, 26 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld hl, $4656
 	ld bc, $0300
@@ -7425,7 +7425,7 @@ UnknownRJump_0x38C8:
 
 UnknownJump_0x38CE:
 	ld a, 4 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x1002D
 	ld a, [$A0F0]
@@ -7525,345 +7525,345 @@ UnknownData_0x3947:
 
 UnknownCall_0x3A00:
 	ld a, 3 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0xEC31
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3A14:
 	ld a, 25 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x66000
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3A28:
 	ld a, 3 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0xEC40
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3A3C:
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x8240
 	ld a, 22 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 
 UnknownCall_0x3A50:
 	ld a, 22 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x58000
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3A64:
 	ld a, 22 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x3D3D
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3A78:
 	ld a, 22 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x5B31D
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3A8C:
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x85AA
 	ld a, 22 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3AA0:
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x863C
 	ld a, 22 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3AB4:
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x85DC
 	ld a, 22 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3AC8:
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call $4638
 	ld a, 22 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 
 UnknownCall_0x3ADC:
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x85FC
 	ld a, 22 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3AF0:
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x83EC
 	ld a, 22 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3B04:
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x8403
 	ld a, 22 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3B18:
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x8318
 	ld a, 22 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3B2C:
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x8338
 	ld a, 22 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3B40:
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x8358
 	ld a, 22 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3B54:
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x8381
 	ld a, 22 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3B68:
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x8394
 	ld a, 22 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3B7C:
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x83B0
 	ld a, 22 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3B90:
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x83D0
 	ld a, 22 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3BA4:
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x841A
 	ld a, 22 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3BB8:
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x843C
 	ld a, 22 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3BCC:
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x8462
 	ld a, 22 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3BE0:
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x8484
 	ld a, 22 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3BF4:
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x84A6
 	ld a, 22 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3C08:
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x84C8
 	ld a, 22 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3C1C:
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x84EA
 	ld a, 22 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3C30:
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x8510
 	ld a, 22 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3C44:
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x8532
 	ld a, 22 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3C58:
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x8554
 	ld a, 22 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3C6C:
 	ld a, 22 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x5B2D7
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3C80:
 	ld a, 3 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0xC000
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3C94:
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x8D9C
 
 UnknownCall_0x3C9F:
 	ld a, 2 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	jp UnknownJump_0x8DA9
 
@@ -7998,46 +7998,46 @@ UnknownData_0x3D42:
 
 
 UnknownCall_0x3E00:
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$3000], a
 	jp hl
 
 UnknownJump_0x3E07:
 	ld a, 15
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$3000], a
 	ret
 
 UnknownCall_0x3E10:
 	di
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$3000], a
 	ld a, [hl]
 	ld [bc], a
 	ld a, 15
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$3000], a
 	ret
 
 UnknownCall_0x3E22:
 	di
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$3000], a
 	ld a, [hli]
 	ld [bc], a
 	ld a, 15
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$3000], a
 	ret
 
 UnknownCall_0x3E34:
 	di
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$3000], a
 	ld a, [hl]
 	ld [de], a
 	ld a, 15
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$3000], a
 	ret
 
@@ -8054,7 +8054,7 @@ UnknownRJump_0x3E49:
 
 UnknownCall_0x3E51:
 	ld a, 16
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$3000], a
 	ld a, [hli]
 	ld [bc], a
@@ -8074,7 +8074,7 @@ UnknownCall_0x3E51:
 	ld a, [hli]
 	ld [bc], a
 	ld a, 15
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$3000], a
 	ret
 
@@ -8086,11 +8086,11 @@ UnknownJump_0x3E73:
 UnknownCall_0x3E7B:
 	di
 	push bc
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$3000], a
 	ld b, [hl]
 	ld a, 15
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$3000], a
 	ld a, b
 	pop bc
@@ -8099,12 +8099,12 @@ UnknownCall_0x3E7B:
 UnknownCall_0x3E8F:
 	di
 	push de
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$3000], a
 	ld a, [bc]
 	ld d, a
 	ld a, 15
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$3000], a
 	ld a, d
 	pop de
@@ -8112,7 +8112,7 @@ UnknownCall_0x3E8F:
 
 UnknownCall_0x3EA4:
 	ld a, 16
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$3000], a
 	ld de, $88E0
 	ld c, 32
@@ -8133,13 +8133,13 @@ UnknownRJump_0x3EBC:
 	dec c
 	jr nz, UnknownRJump_0x3EBC
 	ld a, 15
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$3000], a
 	ret
 
 UnknownCall_0x3ECB:
 	ld a, 14
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$3000], a
 	ld de, $8820
 	ld c, 32
@@ -8160,13 +8160,13 @@ UnknownRJump_0x3EE3:
 	dec c
 	jr nz, UnknownRJump_0x3EE3
 	ld a, 15
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$3000], a
 	ret
 
 UnknownCall_0x3EF2:
 	ld a, 14
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$3000], a
 	ld de, $9000
 	ld c, 32
@@ -8178,13 +8178,13 @@ UnknownRJump_0x3EFF:
 	dec c
 	jr nz, UnknownRJump_0x3EFF
 	ld a, 15
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$3000], a
 	ret
 
 UnknownCall_0x3F0E:
 	ld a, 25
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$3000], a
 	ld b, 16
 
@@ -8202,52 +8202,52 @@ UnknownRJump_0x3F1D:
 	dec b
 	jr nz, UnknownRJump_0x3F18
 	ld a, 24
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$3000], a
 	ret
 
 UnknownCall_0x3F30:
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x5297
 	ld a, 15 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3F44:
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x5297
 	ld a, 24 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3F58:
 	ld a, BANK(GFX_Mario) ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld bc, $0800
 	ld hl, GFX_Mario
 	ld de, $8000
 	call CopyMem
 	ld a, 15 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 
 UnknownCall_0x3F75:
 	push af
 	ld a, 24 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ld hl, $62E6
 	call UnknownCall_0x6109B
 	ld a, 15 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	pop af
 	ret
@@ -8255,18 +8255,18 @@ UnknownCall_0x3F75:
 UnknownCall_0x3F8E:
 	push af
 	ld a, 24 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x61147
 	ld a, 15 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	pop af
 	ret
 
 UnknownCall_0x3FA4:
 	ld a, 14 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 
 UnknownRJump_0x3FAC:
@@ -8278,7 +8278,7 @@ UnknownRJump_0x3FAC:
 	or c
 	jr nz, UnknownRJump_0x3FAC
 	ld a, 15 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ret
 

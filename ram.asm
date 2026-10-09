@@ -13,6 +13,7 @@ DEF sMarioScreenY EQU $A23B
 DEF sMarioScreenX EQU $A23C
 DEF sTimerLow EQU $A254
 DEF sTimerHigh EQU $A255
+DEF sCurROMBank EQU $A24E
 DEF sLevelBank EQU $A258
 DEF sCoinLow EQU $A262
 DEF sCoinHigh EQU $A263

@@ -107,7 +107,7 @@ UnknownCall_0x527C:
 UnknownJump_0x5297:
 UnknownCall_0x5297:
 	ld a, 1 ;prepare bank switch
-	ld [$A24E], a
+	ld [sCurROMBank], a
 	ld [$2100], a
 	ldh a, [$FFC6]
 	ld d, 0
@@ -17357,7 +17357,7 @@ UnknownRJump_0x30A0D:
 	xor a
 	ld [$A2C9], a
 	call $FFA0
-	ld a, [$A24E] ;prepare bank switch
+	ld a, [sCurROMBank] ;prepare bank switch
 	ld [$2100], a
 	ld a, 1
 	ldh_n_a $82
@@ -39869,7 +39869,7 @@ UnknownJump_0x68528:
 	ld [$A2E2], a
 
 UnknownRJump_0x68562:
-	ld a, [$A24E] ;prepare bank switch
+	ld a, [sCurROMBank] ;prepare bank switch
 	ld [$2100], a
 	ld a, 1
 	ldh_n_a $82
@@ -39948,7 +39948,7 @@ UnknownRJump_0x685C1:
 	ld [$A266], a
 
 UnknownRJump_0x685D5:
-	ld a, [$A24E] ;prepare bank switch
+	ld a, [sCurROMBank] ;prepare bank switch
 	ld [$2100], a
 	ld a, 1
 	ldh_n_a $82
@@ -39992,7 +39992,7 @@ UnknownRJump_0x685F8:
 	ld [$A2DA], a
 
 UnknownRJump_0x68616:
-	ld a, [$A24E]
+	ld a, [sCurROMBank]
 	ld [$2100], a
 	ld a, 1
 	ldh_n_a $82
@@ -40022,7 +40022,7 @@ UnknownRJump_0x68633:
 	ld [$A2DB], a
 
 UnknownRJump_0x68646:
-	ld a, [$A24E]
+	ld a, [sCurROMBank]
 	ld [$2100], a
 	ld a, 1
 	ldh_n_a $82
