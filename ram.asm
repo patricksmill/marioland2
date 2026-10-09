@@ -38,6 +38,8 @@ DEF sBlockAnimYLow EQU $A240
 DEF sBlockAnimYHigh EQU $A241
 DEF sBlockAnimXLow EQU $A242
 DEF sBlockAnimXHigh EQU $A243
+DEF sVRAMTransferActive EQU $A248
+DEF sWaterCurrentState EQU $A24C
 DEF sCurROMBank EQU $A24E
 DEF sGoalBell EQU $A24F
 DEF sTimerLow EQU $A254
@@ -48,6 +50,7 @@ DEF sCoinHigh EQU $A263
 DEF sFadeTimerLow EQU $A266
 DEF sFadeTimerHigh EQU $A267
 DEF sSpinJump EQU $A268
+DEF sSwimming EQU $A26D
 DEF sCurLevel EQU $A269
 DEF sStarTimerHigh EQU $A271
 DEF sStarTimerLow EQU $A272
@@ -63,8 +66,12 @@ DEF sLevelSong EQU $A292
 DEF sScrollY EQU $A2B0
 DEF sScrollX EQU $A2B1
 DEF sAutoScroll EQU $A2C8
+DEF sMusicQueue EQU $A2CB
 DEF sSoundDisabled EQU $A2CE
+DEF sBossFightPhase EQU $A2DC
 DEF sEndingState EQU $A2DD
+DEF sBossDefeated EQU $A2E0
+DEF sCreditsScrollY EQU $A2E1
 DEF sBossClearFlag EQU $A2E3
 DEF sEasyMode EQU $A2E4
 

@@ -1391,7 +1391,7 @@ UnknownRJump_0x5E03:
 
 UnknownJump_0x5E12:
 UnknownRJump_0x5E12:
-	ld a, [$A2DC]
+	ld a, [sBossFightPhase]
 	cp $03
 	ret nz
 	xor a
@@ -3623,7 +3623,7 @@ UnknownCall_0x8DFD:
 	inc b
 
 UnknownRJump_0x8E20:
-	ld a, [$A2DC]
+	ld a, [sBossFightPhase]
 	add b
 	ld [$AFC0], a
 	ld a, 80
@@ -6730,7 +6730,7 @@ UnknownData_0xA90E: ;dw values ($5CAC/$6920/$69BD/... in the $69xx-$6Axx domain)
 	ret c
 	call UnknownCall_0xB15B
 	ld a, 1
-	ld [$A2DC], a
+	ld [sBossFightPhase], a
 	xor a
 	ld [$A28B], a
 	ld hl, $AB00
@@ -7144,7 +7144,7 @@ UnknownData_0xAC04: ;dw values ($5CAC/$6920/... spanning $69xx-$6Dxx); no direct
 	ret c
 	call UnknownCall_0xB15B
 	ld a, 2
-	ld [$A2DC], a
+	ld [sBossFightPhase], a
 	xor a
 	ld [$A28B], a
 	ld a, 171
@@ -7472,7 +7472,7 @@ UnknownRJump_0xAEBF:
 	ret c
 	call UnknownCall_0xB15B
 	ld a, 3
-	ld [$A2DC], a
+	ld [sBossFightPhase], a
 	xor a
 	ld [$A28B], a
 	ret
@@ -16659,7 +16659,7 @@ UnknownRJump_0x30494:
 	add hl, de
 	ld a, 128
 	ld [hl], a
-	ld a, [$A2CB]
+	ld a, [sMusicQueue]
 	cp $05
 	jr z, UnknownRJump_0x304DD
 	ld a, 20
@@ -16753,7 +16753,7 @@ UnknownRJump_0x30567:
 UnknownRJump_0x30593:
 	ld a, 15
 	ld [$A468], a
-	ld a, [$A2CB]
+	ld a, [sMusicQueue]
 	cp $05
 	jr nz, UnknownRJump_0x305A4
 	ld a, 26
@@ -16923,7 +16923,7 @@ UnknownData_0x306D1: ;4-byte palette records (BGPalette, OAMPalette1, OAMPalette
 
 	ld a, 187
 	ldh [$FFC6], a
-	ld a, [$A2CB]
+	ld a, [sMusicQueue]
 	cp $06
 	jr nz, UnknownRJump_0x30700
 	ldh_a_n $81
@@ -17046,7 +17046,7 @@ UnknownRJump_0x307B9:
 
 UnknownCall_0x307BC:
 	xor a
-	ld [$A2CB], a
+	ld [sMusicQueue], a
 	ld a, 1
 	ldh [$FFBB], a
 	ld a, [$A84D]
@@ -17059,9 +17059,9 @@ UnknownCall_0x307BC:
 	ld a, [$49BA]
 	ldh [$FFC6], a
 	call UnknownCall_0x2B13
-	ld a, [$A2CB]
+	ld a, [sMusicQueue]
 	inc a
-	ld [$A2CB], a
+	ld [sMusicQueue], a
 
 UnknownRJump_0x307E4:
 	ld a, [$A851]
@@ -17074,9 +17074,9 @@ UnknownRJump_0x307E4:
 	ld a, [$49BE]
 	ldh [$FFC6], a
 	call UnknownCall_0x2B13
-	ld a, [$A2CB]
+	ld a, [sMusicQueue]
 	inc a
-	ld [$A2CB], a
+	ld [sMusicQueue], a
 
 UnknownRJump_0x30804:
 	ld a, [$A865]
@@ -17089,9 +17089,9 @@ UnknownRJump_0x30804:
 	ld a, [$49C2]
 	ldh [$FFC6], a
 	call UnknownCall_0x2B13
-	ld a, [$A2CB]
+	ld a, [sMusicQueue]
 	inc a
-	ld [$A2CB], a
+	ld [sMusicQueue], a
 
 UnknownRJump_0x30824:
 	ld a, [$A85F]
@@ -17104,9 +17104,9 @@ UnknownRJump_0x30824:
 	ld a, [$49C5]
 	ldh [$FFC6], a
 	call UnknownCall_0x2B13
-	ld a, [$A2CB]
+	ld a, [sMusicQueue]
 	inc a
-	ld [$A2CB], a
+	ld [sMusicQueue], a
 
 UnknownRJump_0x30844:
 	ld a, [$A859]
@@ -17119,9 +17119,9 @@ UnknownRJump_0x30844:
 	ld a, [$49C8]
 	ldh [$FFC6], a
 	call UnknownCall_0x2B13
-	ld a, [$A2CB]
+	ld a, [sMusicQueue]
 	inc a
-	ld [$A2CB], a
+	ld [sMusicQueue], a
 
 UnknownRJump_0x30864:
 	ld a, [$A856]
@@ -17134,9 +17134,9 @@ UnknownRJump_0x30864:
 	ld a, [$49CC]
 	ldh [$FFC6], a
 	call UnknownCall_0x2B13
-	ld a, [$A2CB]
+	ld a, [sMusicQueue]
 	inc a
-	ld [$A2CB], a
+	ld [sMusicQueue], a
 	ret
 
 UnknownCall_0x30884:
@@ -27284,11 +27284,11 @@ UnknownRJump_0x581E2:
 	ld a, 2
 	ld [$AF26], a
 	call UnknownCall_0x5B2D7
-	ld a, [$A2E0]
+	ld a, [sBossDefeated]
 	and a
 	ret z
 	dec a
-	ld [$A2E0], a
+	ld [sBossDefeated], a
 	ret
 	call UnknownCall_0x5B51A
 	ldh a, [$FFDF]
@@ -33600,11 +33600,11 @@ UnknownRJump_0x5AC2A:
 	ld a, 2
 	ld [$AF26], a
 	call UnknownCall_0x5B2D7
-	ld a, [$A2E0]
+	ld a, [sBossDefeated]
 	and a
 	ret z
 	dec a
-	ld [$A2E0], a
+	ld [sBossDefeated], a
 	ret
 	ldh a, [$FFDF]
 	rst $28
@@ -39202,7 +39202,7 @@ SECTION "bank1A", ROMX, BANK[$1A]
 UnknownJump_0x68000:
 	xor a
 	ld [sEndingState], a
-	ld [$A2DC], a
+	ld [sBossFightPhase], a
 	ldh_a_n $9B
 	inc a
 	ldh_n_a $9B
@@ -39241,7 +39241,7 @@ UnknownData_0x6801A: ;rst $28 jump table for UnknownCall_0x68016 (indexed by $A2
 
 	call UnknownCall_0x684C5
 	call UnknownCall_0x2A96
-	ld a, [$A248]
+	ld a, [sVRAMTransferActive]
 	and a
 	ret nz
 	ld a, [sEndingState]
@@ -39256,7 +39256,7 @@ UnknownData_0x6801A: ;rst $28 jump table for UnknownCall_0x68016 (indexed by $A2
 	ret
 	call UnknownCall_0x684C5
 	call UnknownCall_0x2A96
-	ld a, [$A248]
+	ld a, [sVRAMTransferActive]
 	and a
 	ret nz
 	ld a, 26
@@ -39274,7 +39274,7 @@ UnknownData_0x6801A: ;rst $28 jump table for UnknownCall_0x68016 (indexed by $A2
 	ld a, 8
 	ldh_n_a $B6
 	ld a, 255
-	ld [$A248], a
+	ld [sVRAMTransferActive], a
 	ld a, [sEndingState]
 	inc a
 	ld [sEndingState], a
@@ -39366,7 +39366,7 @@ UnknownRJump_0x6811D:
 	ret
 
 	call UnknownCall_0x68400
-	ld a, [$A248]
+	ld a, [sVRAMTransferActive]
 	and a
 	ret nz
 	ld a, [sEndingState]
@@ -39374,7 +39374,7 @@ UnknownRJump_0x6811D:
 	ld [sEndingState], a
 	ret
 	call UnknownCall_0x68400
-	ld a, [$A248]
+	ld a, [sVRAMTransferActive]
 	and a
 	ret nz
 	ld a, 16
@@ -39392,7 +39392,7 @@ UnknownRJump_0x6811D:
 	ld a, 16
 	ldh_n_a $B6
 	ld a, 255
-	ld [$A248], a
+	ld [sVRAMTransferActive], a
 	ld a, 2
 	ld [sFadeTimerHigh], a
 	ld a, 0
@@ -39417,7 +39417,7 @@ UnknownRJump_0x6811D:
 	ld b, a
 	ld a, 44
 	sub b
-	ld [$A2E1], a
+	ld [sCreditsScrollY], a
 	ld a, b
 	cp $18
 	ret nz
@@ -39452,7 +39452,7 @@ UnknownRJump_0x6811D:
 	ld a, 7
 	ld [$A460], a
 	ld a, 44
-	ld [$A2E1], a
+	ld [sCreditsScrollY], a
 	ret
 	call UnknownCall_0x2A96
 	call UnknownCall_0x684C5
@@ -39486,7 +39486,7 @@ UnknownRJump_0x6811D:
 	ld [$A2E2], a
 	ret
 	ld a, 44
-	ld [$A2E1], a
+	ld [sCreditsScrollY], a
 	call UnknownCall_0x68492
 	call UnknownCall_0x2A96
 	ld a, [sFadeTimerHigh]
@@ -39528,14 +39528,14 @@ UnknownRJump_0x68281:
 	ldh_a_n $97
 	and $03
 	jr nz, UnknownRJump_0x6829C
-	ld a, [$A2E1]
+	ld a, [sCreditsScrollY]
 	dec a
-	ld [$A2E1], a
+	ld [sCreditsScrollY], a
 
 UnknownRJump_0x6829C:
 	call UnknownCall_0x68492
 	call UnknownCall_0x2A96
-	ld a, [$A2E1]
+	ld a, [sCreditsScrollY]
 	cp $2C
 	ret nz
 	ld a, 0
@@ -39550,9 +39550,9 @@ UnknownRJump_0x6829C:
 	ld a, [sFadeTimerLow]
 	and $03
 	jr nz, UnknownRJump_0x682C8
-	ld a, [$A2E1]
+	ld a, [sCreditsScrollY]
 	inc a
-	ld [$A2E1], a
+	ld [sCreditsScrollY], a
 
 UnknownRJump_0x682C8:
 	call UnknownCall_0x6845F
@@ -39686,7 +39686,7 @@ UnknownRJump_0x6835F:
 	ld a, 4
 	ldh_n_a $B6
 	ld a, 255
-	ld [$A248], a
+	ld [sVRAMTransferActive], a
 	ld a, [sEndingState]
 	inc a
 	ld [sEndingState], a
@@ -39757,7 +39757,7 @@ UnknownCall_0x6845F:
 UnknownRJump_0x68477:
 	ld a, 84
 	ldh_n_a $C5
-	ld a, [$A2E1]
+	ld a, [sCreditsScrollY]
 	ldh_n_a $C4
 	ld a, [sMarioWalkAnimTimer]
 	and $F0
@@ -39783,7 +39783,7 @@ UnknownCall_0x68492:
 UnknownRJump_0x684AB:
 	ld a, 84
 	ldh_n_a $C5
-	ld a, [$A2E1]
+	ld a, [sCreditsScrollY]
 	ldh_n_a $C4
 	ld a, [sMarioWalkAnimTimer]
 	and $F0
@@ -39795,7 +39795,7 @@ UnknownRJump_0x684AB:
 UnknownCall_0x684C5:
 	ld a, 0
 	ldh_n_a $C7
-	ld a, [$A2E1]
+	ld a, [sCreditsScrollY]
 	add 52
 	ldh_n_a $C4
 	ld a, 79

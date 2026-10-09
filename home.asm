@@ -130,7 +130,7 @@ UnknownRJump_0x018B:
 	ldh a, [$FF9B]
 	cp $0C
 	jp z, UnknownJump_0x2C18
-	ld a, [$A248]
+	ld a, [sVRAMTransferActive]
 	and a
 	jp nz, UnknownJump_0x26D7
 	ldh a, [$FF9B]
@@ -254,7 +254,7 @@ UnknownJump_0x0264:
 	ld a, [sScreenTransition]
 	and a
 	jr nz, UnknownRJump_0x0279
-	ld a, [$A2DC]
+	ld a, [sBossFightPhase]
 	cp $03
 	call nz, ReadJoypad
 	call UnknownCall_0x38B9
@@ -612,7 +612,7 @@ UnknownRJump_0x0472:
 	xor a
 	ld [sScreenTransition], a
 	ld [$A2A7], a
-	ld [$A248], a
+	ld [sVRAMTransferActive], a
 	ld [$A26E], a
 	ld hl, $AA80
 
@@ -751,7 +751,7 @@ UnknownRJump_0x0598:
 	ld [sInvincibilityTimer], a
 	ld [$A880], a
 	ld [$A890], a
-	ld [$A2E0], a
+	ld [sBossDefeated], a
 	ld [sBossClearFlag], a
 	ldh a, [$FF9B]
 	inc a
@@ -1113,7 +1113,7 @@ UnknownCall_0x0879:
 	ld a, 170
 	ldh [$FFB0], a
 	xor a
-	ld [$A24C], a
+	ld [sWaterCurrentState], a
 	ldh a, [$FF97]
 	and $03
 	jr z, UnknownRJump_0x08A2
@@ -1132,7 +1132,7 @@ UnknownRJump_0x08A2:
 	bit 6, a
 	ret z
 	ld a, 255
-	ld [$A24C], a
+	ld [sWaterCurrentState], a
 
 UnknownCall_0x08AD:
 	ldh a, [$FFCA]
@@ -1159,7 +1159,7 @@ UnknownRJump_0x08D4:
 	bit 7, a
 	ret z
 	ld a, 255
-	ld [$A24C], a
+	ld [sWaterCurrentState], a
 	ldh a, [$FFCA]
 	sub 128
 	ldh [$FFCE], a
@@ -1184,7 +1184,7 @@ UnknownRJump_0x0905:
 	bit 5, a
 	ret z
 	ld a, 255
-	ld [$A24C], a
+	ld [sWaterCurrentState], a
 	ldh a, [$FFCA]
 	sub 128
 	ldh [$FFCE], a
@@ -1209,7 +1209,7 @@ UnknownJump_0x0937:
 	bit 4, a
 	ret z
 	ld a, 255
-	ld [$A24C], a
+	ld [sWaterCurrentState], a
 	ldh a, [$FFCA]
 	add 112
 	ldh [$FFCE], a
@@ -1509,7 +1509,7 @@ UnknownCall_0x0B2A:
 	ld a, [$A28B]
 	and $F0
 	ret nz
-	ld a, [$A2E0]
+	ld a, [sBossDefeated]
 	and a
 	jr z, UnknownRJump_0x0B39
 	and $F0
@@ -2025,18 +2025,18 @@ UnknownRJump_0x0EB0:
 	ld a, [sCurLevel]
 	cp $18
 	jr nz, UnknownRJump_0x0EE4
-	ld a, [$A2DC]
+	ld a, [sBossFightPhase]
 	add 33
 	ld [$A468], a
 	ld [sLevelSong], a
 
 UnknownRJump_0x0EE4:
-	ld a, [$A2E0]
+	ld a, [sBossDefeated]
 	and $F0
 	jr z, UnknownRJump_0x0EF3
-	ld a, [$A2E0]
+	ld a, [sBossDefeated]
 	and $0F
-	ld [$A2E0], a
+	ld [sBossDefeated], a
 
 UnknownRJump_0x0EF3:
 	ld a, 5
@@ -2482,7 +2482,7 @@ UnknownRJump_0x120E:
 	ld a, [sMarioOnGround]
 	and a
 	ret z
-	ld a, [$A2E0]
+	ld a, [sBossDefeated]
 	and a
 	ret nz
 
@@ -2495,7 +2495,7 @@ UnknownRJump_0x1225:
 	ld [$A890], a
 	ld a, 128
 	ld [sHVelocityIndex], a
-	ld a, [$A2DC]
+	ld a, [sBossFightPhase]
 	and a
 	ret nz
 	ld a, 5
@@ -2770,7 +2770,7 @@ UnknownCall_0x13FE:
 UnknownCall_0x1413:
 	jr UnknownRJump_0x1432
 
-	ld a, [$A26D]
+	ld a, [sSwimming]
 	and a
 	jr z, UnknownRJump_0x1432
 	ld a, [sHVelocityIndex]
@@ -2985,7 +2985,7 @@ UnknownRJump_0x156B:
 	and a
 	jr nz, UnknownRJump_0x1580
 	ld hl, MarioSpeedTableV
-	ld a, [$A26D]
+	ld a, [sSwimming]
 	and a
 	jr z, UnknownRJump_0x1580
 	ld hl, MarioSpeedTableVGoo
@@ -3050,7 +3050,7 @@ UnknownRJump_0x15CF:
 	ld a, [sMoonPhysics]
 	and $0F
 	jr nz, UnknownRJump_0x15F4
-	ld a, [$A26D]
+	ld a, [sSwimming]
 	and a
 	jr nz, UnknownRJump_0x15F4
 	ld a, 2
@@ -3077,7 +3077,7 @@ UnknownCall_0x160A:
 	ld a, [sMarioOnGround]
 	and a
 	jr nz, UnknownRJump_0x161E
-	ld a, [$A26D]
+	ld a, [sSwimming]
 	and a
 	jp z, UnknownJump_0x16AE
 	jr UnknownRJump_0x1622
@@ -3118,7 +3118,7 @@ UnknownRJump_0x1637:
 	jr UnknownRJump_0x1664
 
 UnknownRJump_0x1659:
-	ld a, [$A26D]
+	ld a, [sSwimming]
 	and a
 	jr z, UnknownRJump_0x1664
 
@@ -3157,7 +3157,7 @@ UnknownRJump_0x1675:
 	jr nz, UnknownRJump_0x16AE
 	ld a, 48
 	ld [sVVelocityIndex], a
-	ld a, [$A26D]
+	ld a, [sSwimming]
 	and a
 	jr z, UnknownRJump_0x16AE
 	ld a, 72
@@ -3184,7 +3184,7 @@ UnknownCall_0x16AF:
 
 
 UnknownCall_0x16CC:
-	ld a, [$A26D]
+	ld a, [sSwimming]
 	and a
 	jr nz, UnknownRJump_0x16DE
 	ld a, [sMoonPhysics]
@@ -3237,7 +3237,7 @@ UnknownCall_0x1701:
 	ld a, [sHVelocityIndex]
 	add 8
 	ld [sHVelocityIndex], a
-	ld a, [$A26D]
+	ld a, [sSwimming]
 	ld b, a
 	ld a, [sMarioOnGround]
 	or b
@@ -3283,7 +3283,7 @@ UnknownRJump_0x1771:
 	ld a, [sHVelocityIndex]
 	sub 8
 	ld [sHVelocityIndex], a
-	ld a, [$A26D]
+	ld a, [sSwimming]
 	ld b, a
 	ld a, [sMarioOnGround]
 	or b
@@ -3377,7 +3377,7 @@ UnknownCall_0x181C:
 	and a
 	jr nz, UnknownRJump_0x1842
 	ld hl, MarioSpeedTableHWater
-	ld a, [$A26D]
+	ld a, [sSwimming]
 	and a
 	jr nz, UnknownRJump_0x1845
 	ld a, [sMoonPhysics]
@@ -3573,10 +3573,10 @@ UnknownCall_0x1BFF:
 	push hl
 	push de
 	push bc
-	ld a, [$A26D]
+	ld a, [sSwimming]
 	ld [$A27B], a
 	xor a
-	ld [$A26D], a
+	ld [sSwimming], a
 	ldh a, [$FFC2]
 	add 16
 	ldh [$FFB9], a
@@ -3662,7 +3662,7 @@ UnknownRJump_0x1C9F:
 
 UnknownRJump_0x1CAA:
 	ld a, 255
-	ld [$A26D], a
+	ld [sSwimming], a
 	ld a, [sMoonPhysics]
 	res 1, a
 	ld [sMoonPhysics], a
@@ -4330,7 +4330,7 @@ UnknownRJump_0x210E:
 	ld a, [hl]
 	and $0F
 	or $F0
-	ld [$A2E0], a
+	ld [sBossDefeated], a
 	inc hl
 	jp UnknownJump_0x21E8
 
@@ -4586,7 +4586,7 @@ UnknownRJump_0x2297:
 
 UnknownJump_0x22B9:
 	ld a, 255
-	ld [$A248], a
+	ld [sVRAMTransferActive], a
 
 UnknownRJump_0x22BE:
 	ld a, [$A28C]
@@ -4603,7 +4603,7 @@ UnknownRJump_0x22BE:
 
 UnknownRJump_0x22D5:
 	call UnknownCall_0x2728
-	ld a, [$A248]
+	ld a, [sVRAMTransferActive]
 	and a
 	jr nz, UnknownRJump_0x22BE
 	ret
@@ -4626,7 +4626,7 @@ UnknownCall_0x22DF:
 	ld a, [hli]
 	ldh [$FFB6], a
 	ld a, 255
-	ld [$A248], a
+	ld [sVRAMTransferActive], a
 
 UnknownRJump_0x2300:
 	ld a, 128
@@ -4685,7 +4685,7 @@ UnknownRJump_0x2359:
 	ld a, 170
 	ldh [$FFB0], a
 	ld a, 255
-	ld [$A24C], a
+	ld [sWaterCurrentState], a
 	ldh a, [$FFCA]
 	add 80
 	ldh [$FFCE], a
@@ -4710,7 +4710,7 @@ UnknownRJump_0x2359:
 	ld a, 170
 	ldh [$FFB0], a
 	ld a, 255
-	ld [$A24C], a
+	ld [sWaterCurrentState], a
 	ldh a, [$FFCA]
 	add 96
 	ldh [$FFCE], a
@@ -4728,7 +4728,7 @@ UnknownRJump_0x2359:
 	ld a, 170
 	ldh [$FFB0], a
 	ld a, 255
-	ld [$A24C], a
+	ld [sWaterCurrentState], a
 	ldh a, [$FFCA]
 	add 112
 	ldh [$FFCE], a
@@ -4749,7 +4749,7 @@ UnknownJump_0x23E4:
 	ld a, 170
 	ldh [$FFB0], a
 	ld a, 255
-	ld [$A24C], a
+	ld [sWaterCurrentState], a
 	ldh a, [$FFCA]
 	sub 96
 	ldh [$FFCE], a
@@ -4774,7 +4774,7 @@ UnknownJump_0x23E4:
 	ld a, 170
 	ldh [$FFB0], a
 	ld a, 255
-	ld [$A24C], a
+	ld [sWaterCurrentState], a
 	ldh a, [$FFCA]
 	sub 112
 	ldh [$FFCE], a
@@ -4792,7 +4792,7 @@ UnknownJump_0x23E4:
 	ld a, 170
 	ldh [$FFB0], a
 	ld a, 255
-	ld [$A24C], a
+	ld [sWaterCurrentState], a
 	ldh a, [$FFCA]
 	sub 128
 	ldh [$FFCE], a
@@ -4813,7 +4813,7 @@ UnknownJump_0x246F:
 	ld a, 170
 	ldh [$FFB0], a
 	ld a, 255
-	ld [$A24C], a
+	ld [sWaterCurrentState], a
 	ldh a, [$FFCA]
 	sub 128
 	ldh [$FFCE], a
@@ -4838,7 +4838,7 @@ UnknownJump_0x246F:
 	ld a, 170
 	ldh [$FFB0], a
 	ld a, 255
-	ld [$A24C], a
+	ld [sWaterCurrentState], a
 	ldh a, [$FFC8]
 	add 104
 	ldh [$FFCC], a
@@ -4856,7 +4856,7 @@ UnknownJump_0x246F:
 	ld a, 170
 	ldh [$FFB0], a
 	ld a, 255
-	ld [$A24C], a
+	ld [sWaterCurrentState], a
 	ldh a, [$FFC8]
 	add 88
 	ldh [$FFCC], a
@@ -4874,7 +4874,7 @@ UnknownJump_0x246F:
 	ld a, 170
 	ldh [$FFB0], a
 	ld a, 255
-	ld [$A24C], a
+	ld [sWaterCurrentState], a
 	ldh a, [$FFC8]
 	add 72
 	ldh [$FFCC], a
@@ -4895,7 +4895,7 @@ UnknownJump_0x2524:
 	ld a, 170
 	ldh [$FFB0], a
 	ld a, 255
-	ld [$A24C], a
+	ld [sWaterCurrentState], a
 	ldh a, [$FFCA]
 	sub 128
 	ldh [$FFCE], a
@@ -4920,7 +4920,7 @@ UnknownJump_0x2524:
 	ld a, 170
 	ldh [$FFB0], a
 	ld a, 255
-	ld [$A24C], a
+	ld [sWaterCurrentState], a
 	ldh a, [$FFC8]
 	sub 104
 	ldh [$FFCC], a
@@ -4938,7 +4938,7 @@ UnknownJump_0x2524:
 	ld a, 170
 	ldh [$FFB0], a
 	ld a, 255
-	ld [$A24C], a
+	ld [sWaterCurrentState], a
 	ldh a, [$FFC8]
 	sub 88
 	ldh [$FFCC], a
@@ -5144,7 +5144,7 @@ UnknownRJump_0x26EF:
 	or c
 	jr nz, UnknownRJump_0x2712
 	xor a
-	ld [$A248], a
+	ld [sVRAMTransferActive], a
 
 UnknownRJump_0x2712:
 	ldh a, [$FF9B]
@@ -5609,7 +5609,7 @@ UnknownRJump_0x2A23:
 	ld a, 0
 	ld [sFadeTimerLow], a
 	ld a, 44
-	ld [$A2E1], a
+	ld [sCreditsScrollY], a
 	ld a, 26 ;prepare bank switch
 	ld [sCurROMBank], a
 	ld [$2100], a
@@ -6624,7 +6624,7 @@ UnknownRJump_0x3120:
 UnknownRJump_0x3127:
 	xor a
 	ld [$A299], a
-	ld [$A2DC], a
+	ld [sBossFightPhase], a
 	ld a, 20
 	ldh [$FF9B], a
 	call UnknownCall_0x2D41
