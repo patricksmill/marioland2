@@ -60,10 +60,11 @@ short address (`ldh [$41], a`) is also invalid — always the full `$FFxx`.
 - Data left un-extracted is typed inline as `db`/`dw` (16 bytes per line) and **keeps
   its `UnknownData_0xNNNNN:` label** so cross-bank pointers still resolve.
 - Tooling is in `.hermes/tools/`: `wp3/{sm83.py,addrmap.py,gen.py}` (decoder, address
-  mapper, bank-0 chunk generator), `wp4/wp4.py` (per-bank chunk replacement).
-  `gen.py` and `sm83.py`'s symbol loader are bank-0-specific — extend them for banked
-  work. Regenerate the symbol table before each batch:
-  `rgblink -n sml2.sym -o /dev/null main.o`.
+  mapper, bank-0 chunk generator), `wp4/wp4.py` (per-bank chunk replacement),
+  `wp5/{classify.py,disctx.py,conv.py}` (chunk classifier, banked disassembly,
+  **banked chunk converter** — the banked extension the older docs asked for; add a
+  per-bank `SPEC` entry and run `conv.py BANK --dry` first). Regenerate the symbol
+  table before each batch: `rgblink -n sml2.sym -o /dev/null main.o`.
 - **Classify a chunk from the ROM bytes before acting on it.** Graphics tilesets render
   as structured pixel art and are blank-padded (`$00`/`$FF` heavy); packed/level data is
   `$AA`-heavy or high-bit-set and renders as static; code sweeps cleanly through
