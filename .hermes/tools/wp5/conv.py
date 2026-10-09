@@ -87,6 +87,34 @@ SPEC = {
                       comment='object records pointed to by OW_Movement_Pointers ($61602)',
                       labels={0x61A40: ['UnknownData_0x61A40']}),
     },
+    0x0C: {
+        0x3012A: dict(segs=[('db', 0x3012A, 0x3012E)],
+                      comment='indexed by ($FF97 & $0C) >> 2; value is added to 201 and written to $FFC6 (reader at $300B4)'),
+        0x30132: dict(segs=[('dw', 0x30132, 0x30140)],
+                      comment='dw pointers (descending); no direct reader found'),
+        0x301C2: dict(segs=[('db', 0x301C2, 0x301C6)],
+                      comment='indexed from ($A278 & $18); value written to $FFC6 (reader at $301A6)'),
+        0x3046F: dict(segs=[('jt', 0x3046F, 0x30477)],
+                      comment='rst $28 jump table for UnknownCall_0x3046B (indexed by $A277)'),
+        0x304F1: dict(segs=[('db', 0x304F1, 0x3050A)],
+                      comment='per-level byte, indexed by sCurLevel (value is an offset into $A848)'),
+        0x30697: dict(segs=[('jt', 0x30697, 0x3069F)],
+                      comment='rst $28 jump table for UnknownCall_0x30693 (indexed by $A277)'),
+        0x306D1: dict(segs=[('db', 0x306D1, 0x306E1)],
+                      comment='4-byte palette records (BGPalette, OAMPalette1, OAMPalette2, $00), indexed by ($A266 & $F0) >> 4'),
+        0x30748: dict(segs=[('db', 0x30748, 0x3074C)],
+                      comment='indexed by ($FF97 & $0C) >> 2; value written to $FFC6'),
+        0x30777: dict(segs=[('db', 0x30777, 0x3077B), ('code', 0x3077B, 0x307BC)],
+                      comment='4-byte lookup table (indexed by ($FF97 & $0C) >> 2 -> $FFC6) followed by code'),
+        0x30985: dict(segs=[('db', 0x30985, 0x3099D), ('db', 0x3099D, 0x309B5), ('db', 0x309B5, 0x309CD)],
+                      comment='per-level values for $FFC2, indexed by sCurLevel',
+                      labels={0x3099D: ['UnknownData_0x3099D'], 0x309B5: ['UnknownData_0x309B5']},
+                      seg_comments={0x3099D: 'per-level values for $FFC0, indexed by sCurLevel',
+                                    0x309B5: 'per-level values for $FFC6, indexed by sCurLevel'}),
+        0x30A2A: dict(segs=[('db', 0x30A2A, 0x30A52), ('db', 0x30A52, 0x34000)],
+                      comment='tile-row window table (20-byte windows at stride 4, read by UnknownJump_0x309CD)',
+                      seg_comments={0x30A52: 'bulk data, read at $4A52 ($400 B -> $9800), $4C92 ($1800 B -> $8000, renders as tiles), $6492/$688A ($300 B each -> $9800); mixes graphics and tables, boundaries open'}),
+    },
 }
 for s, e in CODE18:
     SPEC[0x18][s] = dict(segs=[('code', s, e)])
@@ -119,7 +147,7 @@ def pick(bank, rom, kind):
     cands = [n for n in names if not n.startswith('UnknownData_') and n not in DROPPED]
     if not cands:
         return None
-    pref = {'call': 'UnknownCall', 'jp': 'UnknownJump', 'jr': 'UnknownRJump'}.get(kind)
+    pref = {'call': 'UnknownCall', 'jp': 'UnknownJump', 'jt': 'UnknownJump', 'jr': 'UnknownRJump'}.get(kind)
     if pref:
         for n in cands:
             if n.startswith(pref + '_'):
@@ -168,9 +196,24 @@ def render_code(bank, a, b, extras):
         op = ROM[pc]
         if op in (0xC6, 0xCE, 0xD6, 0xDE):
             m = f"{['add', 'adc', 'sub', 'sbc'][(op - 0xC6) // 8]} {ROM[pc + 1]}"
+        if op in (0xEA, 0xFA):  # $FFxx access: keep the ROM's 3-byte form via the project macro
+            v = ROM[pc + 1] | ROM[pc + 2] << 8
+            if v >= 0xFF00:
+                macro = 'ldh_n_a' if op == 0xEA else 'ldh_a_n'
+                m = f'{macro} ${v & 0xFF:02X}'
         out.append('\t' + m)
         pc += n
     assert pc == b, f'code segment overruns at ${a:05X}-${b:05X}'
+    return out
+
+
+def render_jt(bank, a, b):
+    out = []
+    for i, p in enumerate(range(a, b, 2)):
+        t = ROM[p] | ROM[p + 1] << 8
+        rom = to_rom(bank, t, 'jt')
+        nm = CREATED.get(rom) or pick(bank, rom, 'jt')
+        out.append(f'\tdw {nm if nm else f"${t:04X}"} ;${i:02X}')
     return out
 
 
@@ -229,14 +272,14 @@ def main():
     for s, ch in spec.items():
         if s not in info:
             continue
-        is_code = any(k == 'code' for k, *_ in ch['segs'])
+        starts_with_code = ch['segs'][0][0] == 'code'
         above = []
         j = info[s]['line'] - 2  # 0-based index of line above INCBIN
         while j >= 0 and re.match(r'^\w+:\s*(;.*)?$', main_lines[j]):
             above.append(main_lines[j].split(':')[0])
             j -= 1
         d = []
-        if is_code:
+        if starts_with_code:
             for n in above:
                 if n.startswith('UnknownData_') and external_refs(n) == 0:
                     d.append(n)
@@ -294,6 +337,8 @@ def main():
                 out.append(f';{seg_comments[a]}')
             if kind == 'code':
                 body = render_code(bank, a, b, extras)
+            elif kind == 'jt':
+                body = render_jt(bank, a, b)
             else:
                 body = render_data(bank, kind, a, b)
             out += body
