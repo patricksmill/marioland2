@@ -1628,7 +1628,7 @@ UnknownCall_0x6442: ;palette fade step (called via UnknownCall_0x6442)
 
 
 UnknownJump_0x6485:
-	ld a, [$A2B6]
+	ld a, [sMoonFxState]
 	and a
 	ret z
 	cp $01
@@ -1636,22 +1636,22 @@ UnknownJump_0x6485:
 	ldh a, [$FF97]
 	and $01
 	jr nz, UnknownRJump_0x64CB
-	ld a, [$A2B9]
+	ld a, [sMoonFxY]
 	sub 2
-	ld [$A2B9], a
-	ld a, [$A2B8]
+	ld [sMoonFxY], a
+	ld a, [sMoonFxYU]
 	sbc 0
-	ld [$A2B8], a
-	ld a, [$A2BB]
+	ld [sMoonFxYU], a
+	ld a, [sMoonFxX]
 	add 16
 	ldh [$FFB9], a
-	ld a, [$A2BA]
+	ld a, [sMoonFxXU]
 	adc 0
 	ldh [$FFBA], a
-	ld a, [$A2B9]
+	ld a, [sMoonFxY]
 	add 24
 	ldh [$FFB7], a
-	ld a, [$A2B8]
+	ld a, [sMoonFxYU]
 	adc 0
 	ldh [$FFB8], a
 	call UnknownCall_0x1EFA
@@ -1663,13 +1663,13 @@ UnknownJump_0x6485:
 UnknownRJump_0x64CB:
 	ldh a, [$FFCA]
 	ld b, a
-	ld a, [$A2BB]
+	ld a, [sMoonFxX]
 	sub b
 	add 96
 	ldh [$FFC5], a
 	ldh a, [$FFC8]
 	ld b, a
-	ld a, [$A2B9]
+	ld a, [sMoonFxY]
 	sub b
 	add 98
 	ldh [$FFC4], a
@@ -1686,24 +1686,24 @@ UnknownRJump_0x64CB:
 
 UnknownRJump_0x64F4:
 	xor a
-	ld [$A2B6], a
+	ld [sMoonFxState], a
 	ret
 
 UnknownRJump_0x64F9:
-	ld a, [$A2B7]
+	ld a, [sMoonFxTimer]
 	inc a
-	ld [$A2B7], a
+	ld [sMoonFxTimer], a
 	cp $10
 	jr nc, UnknownRJump_0x64F4
 	ldh a, [$FFCA]
 	ld b, a
-	ld a, [$A2BB]
+	ld a, [sMoonFxX]
 	sub b
 	add 96
 	ldh [$FFC5], a
 	ldh a, [$FFC8]
 	ld b, a
-	ld a, [$A2B9]
+	ld a, [sMoonFxY]
 	sub b
 	add 98
 	ldh [$FFC4], a
@@ -16029,7 +16029,7 @@ UnknownJump_0x3005F:
 	ld a, 1
 	ldh [$FFBB], a
 	xor a
-	ld [$A2C7], a
+	ld [sCursorHopActive], a
 	ld a, [sEasyMode]
 	cp $01
 	jr nz, UnknownRJump_0x3007D
@@ -16043,7 +16043,7 @@ UnknownJump_0x3005F:
 
 UnknownRJump_0x3007D:
 	call UnknownCall_0x3012E
-	ld a, [$A2C7]
+	ld a, [sCursorHopActive]
 	and a
 	jr nz, UnknownRJump_0x300E6
 	ldh a, [$FFC0]
@@ -16188,23 +16188,23 @@ UnknownRJump_0x3017C:
 	swap a
 	sub 4
 	ld b, a
-	ld a, [$A2D1]
+	ld a, [sCursorAnimY]
 	sub b
-	ld [$A2D1], a
+	ld [sCursorAnimY], a
 	ld a, [sMenuTimer]
 	cp $40
 	jr nc, UnknownRJump_0x301A6
-	ld a, [$A2D1]
+	ld a, [sCursorAnimY]
 	cp $7C
 	jr c, UnknownRJump_0x301A6
 	ld a, 124
-	ld [$A2D1], a
+	ld [sCursorAnimY], a
 	ld a, 16
 	ldh [$FFC6], a
 	jr UnknownRJump_0x30149
 
 UnknownRJump_0x301A6:
-	ld a, [$A2D1]
+	ld a, [sCursorAnimY]
 	ldh [$FFC4], a
 	ld a, [sMenuTimer]
 	and $18
@@ -16318,7 +16318,7 @@ UnknownRJump_0x30238:
 	xor a
 	ld [sFileClearMode], a
 	ld a, 144
-	ld [$A2D1], a
+	ld [sCursorAnimY], a
 	ld a, 5
 	ld [$A478], a
 	ret
@@ -16374,7 +16374,7 @@ UnknownRJump_0x302AD:
 
 UnknownRJump_0x302C2:
 	ld a, 255
-	ld [$A2C7], a
+	ld [sCursorHopActive], a
 	ret
 	ld a, 255
 	ld [sMarioDirection], a
@@ -16615,12 +16615,12 @@ UnknownData_0x3046F: ;rst $28 jump table for UnknownCall_0x3046B (indexed by $A2
 	ld a, [sFadeTimerLow]
 	and a
 	ret nz
-	ld a, [$A2CA]
-	ld [$A2C9], a
+	ld a, [sRowShiftCount]
+	ld [sRowShiftIndex], a
 	and a
 	jr z, UnknownRJump_0x30494
 	dec a
-	ld [$A2CA], a
+	ld [sRowShiftCount], a
 	ld a, 64
 	ld [sFadeTimerLow], a
 	ld a, 10
@@ -16673,7 +16673,7 @@ UnknownRJump_0x304DD:
 	ld a, 64
 	ld [sFadeTimerLow], a
 	ld a, 5
-	ld [$A2CA], a
+	ld [sRowShiftCount], a
 	jp UnknownJump_0x3045B
 
 UnknownData_0x304F1: ;per-level byte, indexed by sCurLevel (value is an offset into $A848)
@@ -17141,7 +17141,7 @@ UnknownRJump_0x30864:
 
 UnknownCall_0x30884:
 	xor a
-	ld [$A2D3], a
+	ld [sCoinIconDropY], a
 	ld a, [sFadeTimerHigh]
 	and a
 	jr nz, UnknownRJump_0x3089A
@@ -17149,7 +17149,7 @@ UnknownCall_0x30884:
 	cp $80
 	jr nc, UnknownRJump_0x3089A
 	sub 128
-	ld [$A2D3], a
+	ld [sCoinIconDropY], a
 
 UnknownRJump_0x3089A:
 	ld a, 1
@@ -17159,7 +17159,7 @@ UnknownRJump_0x3089A:
 	jr z, UnknownRJump_0x308C3
 	ld a, [$498A]
 	ldh [$FFC5], a
-	ld a, [$A2D3]
+	ld a, [sCoinIconDropY]
 	ld b, a
 	ld a, [$49A2]
 	add b
@@ -17180,7 +17180,7 @@ UnknownRJump_0x308C3:
 	jr z, UnknownRJump_0x308E8
 	ld a, [$498E]
 	ldh [$FFC5], a
-	ld a, [$A2D3]
+	ld a, [sCoinIconDropY]
 	ld b, a
 	ld a, [$49A6]
 	add b
@@ -17201,7 +17201,7 @@ UnknownRJump_0x308E8:
 	jr z, UnknownRJump_0x3090D
 	ld a, [$4992]
 	ldh [$FFC5], a
-	ld a, [$A2D3]
+	ld a, [sCoinIconDropY]
 	ld b, a
 	ld a, [$49AA]
 	add b
@@ -17222,7 +17222,7 @@ UnknownRJump_0x3090D:
 	jr z, UnknownRJump_0x30932
 	ld a, [$4995]
 	ldh [$FFC5], a
-	ld a, [$A2D3]
+	ld a, [sCoinIconDropY]
 	ld b, a
 	ld a, [$49AD]
 	add b
@@ -17243,7 +17243,7 @@ UnknownRJump_0x30932:
 	jr z, UnknownRJump_0x30957
 	ld a, [$4998]
 	ldh [$FFC5], a
-	ld a, [$A2D3]
+	ld a, [sCoinIconDropY]
 	ld b, a
 	ld a, [$49B0]
 	add b
@@ -17264,7 +17264,7 @@ UnknownRJump_0x30957:
 	ret z
 	ld a, [$499C]
 	ldh [$FFC5], a
-	ld a, [$A2D3]
+	ld a, [sCoinIconDropY]
 	ld b, a
 	ld a, [$49B4]
 	add b
@@ -17301,7 +17301,7 @@ UnknownData_0x309B5: ;per-level values for $FFC6, indexed by sCurLevel
 
 
 UnknownJump_0x309CD:
-	ld a, [$A2C9]
+	ld a, [sRowShiftIndex]
 	dec a
 	sla a
 	sla a
@@ -17355,7 +17355,7 @@ UnknownRJump_0x30A0D:
 	dec b
 	jr nz, UnknownRJump_0x30A0D
 	xor a
-	ld [$A2C9], a
+	ld [sRowShiftIndex], a
 	call $FFA0
 	ld a, [sCurROMBank] ;prepare bank switch
 	ld [$2100], a
@@ -39327,12 +39327,12 @@ UnknownRJump_0x680D0:
 	ldh_a_n $44
 	cp $8B
 	jr c, UnknownRJump_0x680D0
-	ld a, [$A2D6]
+	ld a, [sCreditsTextPhase]
 	and a
 	ret nz
 
 UnknownRJump_0x680FE:
-	ld a, [$A2D8]
+	ld a, [sCreditsTextDone]
 	and a
 	jr nz, UnknownRJump_0x6811D
 	ld a, [sFadeTimerHigh]
@@ -39341,7 +39341,7 @@ UnknownRJump_0x680FE:
 	or b
 	ret nz
 	ld a, 4
-	ld [$A2D6], a
+	ld [sCreditsTextPhase], a
 	ld a, 0
 	ld [sFadeTimerHigh], a
 	ld a, 255
@@ -39428,9 +39428,9 @@ UnknownRJump_0x6811D:
 	ld [$A274], a
 	xor a
 	ld [$A2D7], a
-	ld [$A2D8], a
+	ld [sCreditsTextDone], a
 	ld a, 4
-	ld [$A2D6], a
+	ld [sCreditsTextPhase], a
 	ld a, [sEndingState]
 	inc a
 	ld [sEndingState], a
@@ -39847,7 +39847,7 @@ UnknownJump_0x68528:
 	ld a, 0
 	ldh_n_a $43
 	ldh_n_a $43
-	ld a, [$A2D6]
+	ld a, [sCreditsTextPhase]
 	and a
 	jp nz, UnknownJump_0x68572
 	ld a, [$A2E2]
@@ -39880,7 +39880,7 @@ UnknownRJump_0x68562:
 	reti
 
 UnknownJump_0x68572:
-	ld a, [$A2D6]
+	ld a, [sCreditsTextPhase]
 	xor $FF
 	add 5
 	sla a
@@ -39934,12 +39934,12 @@ UnknownRJump_0x685AF:
 	cp $FE
 	jr nz, UnknownRJump_0x685C1
 	ld a, 255
-	ld [$A2D8], a
+	ld [sCreditsTextDone], a
 
 UnknownRJump_0x685C1:
-	ld a, [$A2D6]
+	ld a, [sCreditsTextPhase]
 	dec a
-	ld [$A2D6], a
+	ld [sCreditsTextPhase], a
 	and a
 	jr nz, UnknownRJump_0x685D5
 	ld a, 1

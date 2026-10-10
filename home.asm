@@ -124,7 +124,7 @@ VBlank: ;$0154
 	ld [sFadeTimerHigh], a
 
 UnknownRJump_0x018B:
-	ld a, [$A2C9]
+	ld a, [sRowShiftIndex]
 	and a
 	jp nz, UnknownJump_0x2A4D
 	ldh a, [$FF9B]
@@ -4129,7 +4129,7 @@ UnknownRJump_0x1FC9:
 
 ReadJoypad: ;$1FD2
 	ldh a, [hKeysHeld]
-	ld [$A2D0], a
+	ld [sPrevKeysHeld], a
 	ld a, 32
 	ldh [rP1], a
 	ldh a, [rP1]
@@ -7298,38 +7298,38 @@ UnknownRJump_0x3734:
 
 UnknownCall_0x3735:
 	ld a, 1
-	ld [$A2B6], a
+	ld [sMoonFxState], a
 	xor a
-	ld [$A2B7], a
+	ld [sMoonFxTimer], a
 	ldh a, [$FFC1]
-	ld [$A2B8], a
+	ld [sMoonFxYU], a
 	ldh a, [$FFC0]
-	ld [$A2B9], a
+	ld [sMoonFxY], a
 	ldh a, [$FFC3]
-	ld [$A2BA], a
+	ld [sMoonFxXU], a
 	ldh a, [$FFC2]
-	ld [$A2BB], a
+	ld [sMoonFxX], a
 	ret
 
 UnknownCall_0x3753:
 	ldh a, [$FF97]
 	and $7F
 	ret nz
-	ld a, [$A2B6]
+	ld a, [sMoonFxState]
 	and a
 	ret nz
 	ld a, 2
-	ld [$A2B6], a
+	ld [sMoonFxState], a
 	xor a
-	ld [$A2B7], a
+	ld [sMoonFxTimer], a
 	ldh a, [$FFC0]
-	ld [$A2B9], a
+	ld [sMoonFxY], a
 	ldh a, [$FFC1]
-	ld [$A2B8], a
+	ld [sMoonFxYU], a
 	ldh a, [$FFC3]
-	ld [$A2BA], a
+	ld [sMoonFxXU], a
 	ldh a, [$FFC2]
-	ld [$A2BB], a
+	ld [sMoonFxX], a
 	ret
 
 UnknownData_0x377B: ;per-level 8-byte records (copied to $A800), indexed by sCurLevel * 8
@@ -7437,7 +7437,7 @@ UnknownJump_0x38CE:
 UnknownRJump_0x38E5:
 	ld a, 5 ;prepare bank switch
 	ld [$2100], a
-	ld a, [$A2D0]
+	ld a, [sPrevKeysHeld]
 	ldh [hKeysHeld], a
 	ld h, 163
 	ld a, [$A2CF]
