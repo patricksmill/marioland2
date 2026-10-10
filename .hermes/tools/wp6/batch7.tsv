@@ -1,0 +1,9 @@
+$A273	sCreditsTextPtrLo
+$A274	sCreditsTextPtrHi
+$A2D7	sCreditsTextFlag
+$A2D9	sMapScrollLimit
+$A2DA	sEndingColClear
+$A2DB	sEndingColCopy
+$A2DE	sNoJumpCut
+$A2DF	sEndingRasterY
+$A2E2	sEndingTileFlag

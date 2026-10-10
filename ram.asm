@@ -90,6 +90,8 @@ DEF sSwimming EQU $A26D
 DEF sOAMWriteEnd EQU $A26E
 DEF sStarTimerHigh EQU $A271
 DEF sStarTimerLow EQU $A272
+DEF sCreditsTextPtrLo EQU $A273
+DEF sCreditsTextPtrHi EQU $A274
 DEF sMenuState EQU $A277
 DEF sMenuTimer EQU $A278
 DEF sStompChainCount EQU $A279
@@ -163,11 +165,18 @@ DEF sCoinIconDropY EQU $A2D3
 DEF sObjectBounce EQU $A2D4
 DEF sLoadFadeFlag EQU $A2D5
 DEF sCreditsTextPhase EQU $A2D6
+DEF sCreditsTextFlag EQU $A2D7
 DEF sCreditsTextDone EQU $A2D8
+DEF sMapScrollLimit EQU $A2D9
+DEF sEndingColClear EQU $A2DA
+DEF sEndingColCopy EQU $A2DB
 DEF sBossFightPhase EQU $A2DC
 DEF sEndingState EQU $A2DD
+DEF sNoJumpCut EQU $A2DE
+DEF sEndingRasterY EQU $A2DF
 DEF sBossDefeated EQU $A2E0
 DEF sCreditsScrollY EQU $A2E1
+DEF sEndingTileFlag EQU $A2E2
 DEF sBossClearFlag EQU $A2E3
 DEF sEasyMode EQU $A2E4
 

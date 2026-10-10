@@ -744,7 +744,7 @@ UnknownRJump_0x0598:
 	ld d, 0
 	add hl, de
 	ld a, [hl] ;level properties unknown
-	ld [$A2D9], a
+	ld [sMapScrollLimit], a
 	xor a
 	ld [sFadeTimerLow], a
 	ld [sFadeTimerHigh], a
@@ -1805,7 +1805,7 @@ UnknownRJump_0x0D3D:
 	jr UnknownRJump_0x0D97
 
 UnknownRJump_0x0D4F:
-	ld a, [$A2D9]
+	ld a, [sMapScrollLimit]
 	and a
 	jr z, UnknownRJump_0x0D5D
 	ldh a, [$FF99]
@@ -1830,7 +1830,7 @@ UnknownRJump_0x0D63:
 	jr UnknownRJump_0x0D97
 
 UnknownRJump_0x0D74:
-	ld a, [$A2D9]
+	ld a, [sMapScrollLimit]
 	and a
 	jr z, UnknownRJump_0x0D82
 	ldh a, [$FF99]
@@ -2560,7 +2560,7 @@ UnknownCall_0x129F:
 	cp $19
 	ret nc
 	xor a
-	ld [$A2DE], a
+	ld [sNoJumpCut], a
 	ld a, [sMarioOnObject]
 	and a
 	jp nz, UnknownJump_0x1378
@@ -2938,7 +2938,7 @@ UnknownRJump_0x150C:
 	ld a, [sVVelocityIndex]
 	cp $21
 	jr c, UnknownRJump_0x1533
-	ld a, [$A2DE]
+	ld a, [sNoJumpCut]
 	and a
 	jr nz, UnknownRJump_0x1533
 	ldh a, [hKeysHeld]
@@ -3758,7 +3758,7 @@ UnknownRJump_0x1D64:
 	ld [sVVelocityIndex], a
 	ld a, 255
 	ld [sMarioInAir], a
-	ld [$A2DE], a
+	ld [sNoJumpCut], a
 
 UnknownJump_0x1D71:
 UnknownRJump_0x1D71:
@@ -6178,7 +6178,7 @@ UnknownRJump_0x2E5C:
 	ld [sVVelocityIndex], a
 	ld a, 255
 	ld [sMarioInAir], a
-	ld [$A2DE], a
+	ld [sNoJumpCut], a
 	ret
 
 UnknownJump_0x2E6F:

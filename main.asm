@@ -39423,11 +39423,11 @@ UnknownRJump_0x6811D:
 	ret nz
 	ld hl, $56CE
 	ld a, l
-	ld [$A273], a
+	ld [sCreditsTextPtrLo], a
 	ld a, h
-	ld [$A274], a
+	ld [sCreditsTextPtrHi], a
 	xor a
-	ld [$A2D7], a
+	ld [sCreditsTextFlag], a
 	ld [sCreditsTextDone], a
 	ld a, 4
 	ld [sCreditsTextPhase], a
@@ -39483,7 +39483,7 @@ UnknownRJump_0x6811D:
 	inc a
 	ld [sEndingState], a
 	ld a, 255
-	ld [$A2E2], a
+	ld [sEndingTileFlag], a
 	ret
 	ld a, 44
 	ld [sCreditsScrollY], a
@@ -39570,7 +39570,7 @@ UnknownRJump_0x682C8:
 	inc a
 	ld [sEndingState], a
 	ld a, 13
-	ld [$A2DF], a
+	ld [sEndingRasterY], a
 	ret
 	call UnknownCall_0x6845F
 	call UnknownCall_0x2A96
@@ -39649,9 +39649,9 @@ UnknownRJump_0x6835F:
 	ldh_a_n $97
 	and $01
 	ld b, a
-	ld a, [$A2DF]
+	ld a, [sEndingRasterY]
 	sub b
-	ld [$A2DF], a
+	ld [sEndingRasterY], a
 	cp $0D
 	ret nz
 	ld a, 0
@@ -39666,9 +39666,9 @@ UnknownRJump_0x6835F:
 	ldh_a_n $97
 	and $01
 	ld b, a
-	ld a, [$A2DF]
+	ld a, [sEndingRasterY]
 	add b
-	ld [$A2DF], a
+	ld [sEndingRasterY], a
 	cp $8B
 	ret nz
 	ld a, 26
@@ -39723,7 +39723,7 @@ UnknownRJump_0x68416:
 	add hl, de
 	ld a, [hl]
 	ldh_n_a $43
-	ld a, [$A2DF]
+	ld a, [sEndingRasterY]
 	ld b, a
 	ldh_a_n $44
 	cp b
@@ -39850,7 +39850,7 @@ UnknownJump_0x68528:
 	ld a, [sCreditsTextPhase]
 	and a
 	jp nz, UnknownJump_0x68572
-	ld a, [$A2E2]
+	ld a, [sEndingTileFlag]
 	and a
 	jr z, UnknownRJump_0x68562
 	ld a, 137
@@ -39866,7 +39866,7 @@ UnknownJump_0x68528:
 	ld a, 155
 	ld [$996A], a
 	xor a
-	ld [$A2E2], a
+	ld [sEndingTileFlag], a
 
 UnknownRJump_0x68562:
 	ld a, [sCurROMBank] ;prepare bank switch
@@ -39891,9 +39891,9 @@ UnknownJump_0x68572:
 	add hl, de
 	ld e, l
 	ld d, h
-	ld a, [$A273]
+	ld a, [sCreditsTextPtrLo]
 	ld l, a
-	ld a, [$A274]
+	ld a, [sCreditsTextPtrHi]
 	ld h, a
 	ld a, [hl]
 	cp $FF
@@ -39927,9 +39927,9 @@ UnknownRJump_0x685A8:
 
 UnknownRJump_0x685AF:
 	ld a, l
-	ld [$A273], a
+	ld [sCreditsTextPtrLo], a
 	ld a, h
-	ld [$A274], a
+	ld [sCreditsTextPtrHi], a
 	ld a, [hl]
 	cp $FE
 	jr nz, UnknownRJump_0x685C1
@@ -39959,9 +39959,9 @@ UnknownRJump_0x685D5:
 	reti
 
 UnknownData_0x685E5: ;ending-sequence bank-restoring handlers (reti-terminated)
-	ld a, [$A2DB]
+	ld a, [sEndingColCopy]
 	dec a
-	ld [$A2DB], a
+	ld [sEndingColCopy], a
 	ld c, a
 	ld b, 144
 	ld de, $4656
@@ -39985,11 +39985,11 @@ UnknownRJump_0x685F8:
 	ld a, b
 	cp $93
 	jr c, UnknownRJump_0x685F8
-	ld a, [$A2DB]
+	ld a, [sEndingColCopy]
 	and a
 	jr nz, UnknownRJump_0x68616
 	ld a, 16
-	ld [$A2DA], a
+	ld [sEndingColClear], a
 
 UnknownRJump_0x68616:
 	ld a, [sCurROMBank]
@@ -40001,11 +40001,11 @@ UnknownRJump_0x68616:
 	pop bc
 	pop af
 	reti
-	ld a, [$A2DA]
+	ld a, [sEndingColClear]
 	dec a
 	ld l, a
 	ld h, 144
-	ld [$A2DA], a
+	ld [sEndingColClear], a
 	ld de, $0010
 
 UnknownRJump_0x68633:
@@ -40015,11 +40015,11 @@ UnknownRJump_0x68633:
 	ld a, h
 	cp $93
 	jr c, UnknownRJump_0x68633
-	ld a, [$A2DA]
+	ld a, [sEndingColClear]
 	and a
 	jr nz, UnknownRJump_0x68646
 	ld a, 32
-	ld [$A2DB], a
+	ld [sEndingColCopy], a
 
 UnknownRJump_0x68646:
 	ld a, [sCurROMBank]
