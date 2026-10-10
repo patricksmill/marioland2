@@ -47,6 +47,7 @@ DEF sTimerHigh EQU $A255
 DEF sLevelBank EQU $A258
 DEF sCoinLow EQU $A262
 DEF sCoinHigh EQU $A263
+DEF sVRAMTransferBank EQU $A265
 DEF sFadeTimerLow EQU $A266
 DEF sFadeTimerHigh EQU $A267
 DEF sSpinJump EQU $A268
@@ -61,10 +62,14 @@ DEF sBGPalette EQU $A27E
 DEF sOAMPalette1 EQU $A27F
 DEF sOAMPalette2 EQU $A280
 DEF sMoonPhysics EQU $A287
+DEF sSceneState EQU $A28B
+DEF sMoneyBagCount EQU $A28D
 DEF sMarioDucking EQU $A291
 DEF sLevelSong EQU $A292
 DEF sScrollY EQU $A2B0
 DEF sScrollX EQU $A2B1
+DEF sCameraPanTimer EQU $A2B3
+DEF sExitTileFlag EQU $A2B4
 DEF sAutoScroll EQU $A2C8
 DEF sMusicQueue EQU $A2CB
 DEF sSoundDisabled EQU $A2CE

@@ -608,7 +608,7 @@ UnknownRJump_0x0472:
 	ld [sLevelBank], a
 	ld a, [$A812]
 	and $F0
-	ld [$A28B], a
+	ld [sSceneState], a
 	xor a
 	ld [sScreenTransition], a
 	ld [$A2A7], a
@@ -627,7 +627,7 @@ UnknownRJump_0x049C:
 	ld [sTimerHigh], a
 	xor a
 	ld [sTimerLow], a
-	ld [$A2B4], a
+	ld [sExitTileFlag], a
 	ld a, 48
 	ld [$A24B], a
 	ld hl, LevelPropertiesScroll
@@ -828,7 +828,7 @@ UnknownRJump_0x0640:
 	ret
 
 UnknownCall_0x0652:
-	ld a, [$A28B]
+	ld a, [sSceneState]
 	and $F0
 	jr nz, UnknownRJump_0x0665
 	ld a, 2 ;prepare bank switch
@@ -998,12 +998,12 @@ UnknownCall_0x076B:
 	and $0F
 	add 128
 	ld [$9C09], a
-	ld a, [$A28D]
+	ld a, [sMoneyBagCount]
 	and $F0
 	swap a
 	add 128
 	ld [$9C0D], a
-	ld a, [$A28D]
+	ld a, [sMoneyBagCount]
 	and $0F
 	add 128
 	ld [$9C0E], a
@@ -1506,7 +1506,7 @@ ScrollLevelMap: ;$0AFB
 	ret
 
 UnknownCall_0x0B2A:
-	ld a, [$A28B]
+	ld a, [sSceneState]
 	and $F0
 	ret nz
 	ld a, [sBossDefeated]
@@ -1788,7 +1788,7 @@ UnknownJump_0x0D05:
 	ldh [$FFC0], a
 	ldh a, [$FFC9]
 	ldh [$FFC1], a
-	ld a, [$A28B]
+	ld a, [sSceneState]
 	and $F0
 	call z, UnknownCall_0x0F0B
 	jp UnknownJump_0x0D97
@@ -2010,11 +2010,11 @@ UnknownJump_0x0EB0:
 UnknownRJump_0x0EB0:
 	xor a
 	ld [sScreenTransition], a
-	ld a, [$A28B]
+	ld a, [sSceneState]
 	and $0F
 	jr z, UnknownRJump_0x0EE4
 	ld a, 240
-	ld [$A28B], a
+	ld [sSceneState], a
 	call DisableVBlank
 	call UnknownCall_0x3C94
 	ld a, 195
@@ -2269,7 +2269,7 @@ UnknownCall_0x1090:
 	ld a, [sGoalBell]
 	and a
 	ret nz
-	ld a, [$A2B3]
+	ld a, [sCameraPanTimer]
 	and a
 	ret nz
 	ld a, [sCurPowerup]
@@ -3071,7 +3071,7 @@ UnknownRJump_0x1609:
 	ret
 
 UnknownCall_0x160A:
-	ld a, [$A2B3]
+	ld a, [sCameraPanTimer]
 	and a
 	ret nz
 	ld a, [sMarioOnGround]
@@ -3220,7 +3220,7 @@ UnknownCall_0x1701:
 	ld a, [sGoalBell]
 	and a
 	jp nz, UnknownJump_0x17C5
-	ld a, [$A2B3]
+	ld a, [sCameraPanTimer]
 	and a
 	ret nz
 	ld a, [sMarioDucking]
@@ -3676,12 +3676,12 @@ UnknownRJump_0x1CBA:
 	xor a
 	ld [$A53F], a
 	xor a
-	ld [$A2B4], a
+	ld [sExitTileFlag], a
 	ld a, [sCollisionTile]
 	cp $4A
 	jr z, UnknownRJump_0x1CD7
 	ld a, 255
-	ld [$A2B4], a
+	ld [sExitTileFlag], a
 
 UnknownRJump_0x1CD7:
 	ld a, 3
@@ -4226,7 +4226,7 @@ UnknownRJump_0x205E:
 
 UnknownCall_0x2062:
 	ld b, 0
-	ld a, [$A2B3]
+	ld a, [sCameraPanTimer]
 	and a
 	jr z, UnknownRJump_0x206D
 	and $03
@@ -4312,7 +4312,7 @@ UnknownJump_0x20EB:
 	cp $20
 	jr nz, UnknownRJump_0x210E
 	ld a, 15
-	ld [$A28B], a
+	ld [sSceneState], a
 	ld a, 1
 	ld [sFadeTimerHigh], a
 	ld a, 96
@@ -4485,7 +4485,7 @@ UnknownCall_0x2202:
 	jr z, UnknownRJump_0x222E
 	ld a, [hli]
 	ld [sCurROMBank], a
-	ld [$A265], a
+	ld [sVRAMTransferBank], a
 	ld a, [hli]
 	ldh [$FFB1], a
 	ld a, [hli]
@@ -4503,7 +4503,7 @@ UnknownCall_0x2202:
 UnknownRJump_0x222E:
 	ld a, [hli]
 	ld [sCurROMBank], a
-	ld [$A265], a
+	ld [sVRAMTransferBank], a
 	ld a, [hli]
 	ldh [$FFB1], a
 	ld a, [hli]
@@ -4522,7 +4522,7 @@ UnknownRJump_0x222E:
 UnknownRJump_0x224E:
 	ld a, [hli]
 	ld [sCurROMBank], a
-	ld [$A265], a
+	ld [sVRAMTransferBank], a
 	ld a, [hli]
 	ldh [$FFB1], a
 	ld a, [hli]
@@ -4547,7 +4547,7 @@ UnknownCall_0x226D:
 	jr z, UnknownRJump_0x2297
 	ld a, [hli]
 	ld [sCurROMBank], a
-	ld [$A265], a
+	ld [sVRAMTransferBank], a
 	ld [$2100], a
 	ld a, [hli]
 	ldh [$FFB1], a
@@ -4566,7 +4566,7 @@ UnknownCall_0x226D:
 UnknownRJump_0x2297:
 	ld a, [hli]
 	ld [sCurROMBank], a
-	ld [$A265], a
+	ld [sVRAMTransferBank], a
 	ld [$2100], a
 	ld a, [hli]
 	ldh [$FFB1], a
@@ -4611,7 +4611,7 @@ UnknownRJump_0x22D5:
 UnknownCall_0x22DF:
 	ld a, [hli]
 	ld [sCurROMBank], a
-	ld [$A265], a
+	ld [sVRAMTransferBank], a
 	ld [$2100], a
 	ld a, [hli]
 	ldh [$FFB1], a
@@ -5105,7 +5105,7 @@ UnknownJump_0x26C3:
 	jr UnknownRJump_0x2712
 
 UnknownJump_0x26D7:
-	ld a, [$A265] ;prepare bank switch
+	ld a, [sVRAMTransferBank] ;prepare bank switch
 	ld [$2100], a
 	ldh a, [$FFB5]
 	ld c, a
@@ -5216,7 +5216,7 @@ UnknownRJump_0x2760:
 	xor a
 	ld [sAutoScroll], a
 	ld [$A299], a
-	ld [$A2B4], a
+	ld [sExitTileFlag], a
 	ld [sFastMusic], a
 	ld a, 20
 	ldh [$FF9B], a
@@ -5275,7 +5275,7 @@ UnknownRJump_0x27D2:
 	xor a
 	ld [sCoinLow], a
 	ld [sCoinHigh], a
-	ld [$A28D], a
+	ld [sMoneyBagCount], a
 	ld b, a
 	ld a, [$A84D]
 	and $80
@@ -5496,7 +5496,7 @@ UnknownRJump_0x294D:
 	ld [hli], a
 	add c
 	ld c, a
-	ld a, [$A28D]
+	ld a, [sMoneyBagCount]
 	ld [hli], a
 	add c
 	ld [hl], a
@@ -6171,7 +6171,7 @@ UnknownRJump_0x2E23:
 	ldh [$FFC1], a
 
 UnknownRJump_0x2E5C:
-	ld a, [$A28B]
+	ld a, [sSceneState]
 	and a
 	ret z
 	ld a, 49
@@ -6520,7 +6520,7 @@ UnknownRJump_0x307C:
 	ret
 
 UnknownCall_0x307D:
-	ld a, [$A28B]
+	ld a, [sSceneState]
 	and a
 	ret nz
 	ld a, [sMarioOnGround]
@@ -7202,7 +7202,7 @@ UnknownRJump_0x3558:
 	ld a, [$A27D]
 	bit 7, a
 	jr nz, UnknownRJump_0x356E
-	ld a, [$A2B4]
+	ld a, [sExitTileFlag]
 	and a
 	jr nz, UnknownRJump_0x356E
 	ld a, [$A2C5]

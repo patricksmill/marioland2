@@ -477,11 +477,11 @@ UnknownRJump_0x54C8:
 	ldh [$FFC7], a
 
 UnknownRJump_0x54E9:
-	ld a, [$A2B3]
+	ld a, [sCameraPanTimer]
 	and a
 	jr z, UnknownRJump_0x54FB
 	dec a
-	ld [$A2B3], a
+	ld [sCameraPanTimer], a
 	and $03
 	ld b, a
 	ldh a, [$FFC4]
@@ -6732,7 +6732,7 @@ UnknownData_0xA90E: ;dw values ($5CAC/$6920/$69BD/... in the $69xx-$6Axx domain)
 	ld a, 1
 	ld [sBossFightPhase], a
 	xor a
-	ld [$A28B], a
+	ld [sSceneState], a
 	ld hl, $AB00
 	ld a, 255
 	ld [hli], a
@@ -6787,7 +6787,7 @@ UnknownRJump_0xA9D4:
 	ld a, 9
 	ldh [$FFDF], a
 	ld a, 52
-	ld [$A2B3], a
+	ld [sCameraPanTimer], a
 	ld a, 1
 	ld [$AFCE], a
 	ld a, 24
@@ -6856,7 +6856,7 @@ UnknownRJump_0xAA4C:
 	ld a, 9
 	ldh [$FFDF], a
 	ld a, 56
-	ld [$A2B3], a
+	ld [sCameraPanTimer], a
 	ldh [$FFEC], a
 	ld a, 1
 	ld [$AFCE], a
@@ -7146,7 +7146,7 @@ UnknownData_0xAC04: ;dw values ($5CAC/$6920/... spanning $69xx-$6Dxx); no direct
 	ld a, 2
 	ld [sBossFightPhase], a
 	xor a
-	ld [$A28B], a
+	ld [sSceneState], a
 	ld a, 171
 	ld [$AF1E], a
 	ld a, 6
@@ -7272,7 +7272,7 @@ UnknownRJump_0xAD3A:
 	ld a, 9
 	ldh [$FFDF], a
 	ld a, 56
-	ld [$A2B3], a
+	ld [sCameraPanTimer], a
 	ld a, 48
 	ldh [$FFEC], a
 	ld a, 1
@@ -7474,7 +7474,7 @@ UnknownRJump_0xAEBF:
 	ld a, 3
 	ld [sBossFightPhase], a
 	xor a
-	ld [$A28B], a
+	ld [sSceneState], a
 	ret
 	xor a
 	ldh [$FFEA], a
@@ -16274,7 +16274,7 @@ UnknownRJump_0x3020A:
 	ld a, [hli]
 	ld [sLives], a
 	ld a, [hli]
-	ld [$A28D], a
+	ld [sMoneyBagCount], a
 	ret
 
 UnknownRJump_0x30227:
@@ -20338,7 +20338,7 @@ UnknownRJump_0x3D151:
 	ret
 
 UnknownCall_0x3D18E:
-	ld a, [$A2B4]
+	ld a, [sExitTileFlag]
 	or a
 	ret z
 	ld a, [sMarioDead]
@@ -20464,7 +20464,7 @@ UnknownRJump_0x3D25A:
 UnknownCall_0x3D29F:
 	xor a
 	ld [$A7BA], a
-	ld a, [$A2B4]
+	ld a, [sExitTileFlag]
 	or a
 	ret z
 	ld a, [sMarioDead]
@@ -20632,7 +20632,7 @@ UnknownCall_0x3D409:
 	ld a, [$A840]
 	cp $32
 	ret nz
-	ld a, [$A2B4]
+	ld a, [sExitTileFlag]
 	or a
 	ret z
 	ld a, [sMarioDead]
@@ -20776,7 +20776,7 @@ UnknownRJump_0x3D4D3:
 	ret
 
 UnknownCall_0x3D533:
-	ld a, [$A2B4]
+	ld a, [sExitTileFlag]
 	or a
 	ret z
 	ld a, [sMarioDead]
@@ -20938,7 +20938,7 @@ UnknownCall_0x3D61F:
 	ret
 
 UnknownCall_0x3D69C:
-	ld a, [$A2B4]
+	ld a, [sExitTileFlag]
 	or a
 	ret z
 	ld a, [sMarioDead]
@@ -24091,7 +24091,7 @@ UnknownCall_0x3EEF0:
 	ld a, [sMarioDead]
 	or a
 	jr nz, UnknownRJump_0x3EF19
-	ld a, [$A2B4]
+	ld a, [sExitTileFlag]
 	or a
 	jr nz, UnknownRJump_0x3EF25
 	set 7, [hl]
@@ -24139,7 +24139,7 @@ UnknownRJump_0x3EF4F:
 	ret
 
 UnknownRJump_0x3EF56:
-	ld a, [$A2B4]
+	ld a, [sExitTileFlag]
 	or a
 	jr z, UnknownRJump_0x3EFB2
 	ld a, [sMarioDead]
@@ -34497,10 +34497,10 @@ UnknownRJump_0x5B30F:
 	ret
 
 UnknownCall_0x5B31D:
-	ld a, [$A28D]
+	ld a, [sMoneyBagCount]
 	add 1
 	daa
-	ld [$A28D], a
+	ld [sMoneyBagCount], a
 	ret nz
 	ld a, 28
 	ld [$AF37], a
@@ -39260,7 +39260,7 @@ UnknownData_0x6801A: ;rst $28 jump table for UnknownCall_0x68016 (indexed by $A2
 	and a
 	ret nz
 	ld a, 26
-	ld [$A265], a
+	ld [sVRAMTransferBank], a
 	ld a, 86
 	ldh_n_a $B1
 	ld a, 70
@@ -39378,7 +39378,7 @@ UnknownRJump_0x6811D:
 	and a
 	ret nz
 	ld a, 16
-	ld [$A265], a
+	ld [sVRAMTransferBank], a
 	ld a, 0
 	ldh_n_a $B1
 	ld a, 96
@@ -39672,7 +39672,7 @@ UnknownRJump_0x6835F:
 	cp $8B
 	ret nz
 	ld a, 26
-	ld [$A265], a
+	ld [sVRAMTransferBank], a
 	ld a, 150
 	ldh_n_a $B1
 	ld a, 80
