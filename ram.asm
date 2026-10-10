@@ -183,6 +183,72 @@ DEF sEasyMode EQU $A2E4
 DEF sCurSong EQU $A469
 DEF sFastMusic EQU $A50D
 
+; Level header block ($A800-$A813): 20 bytes copied from levels/levelheaders.asm
+; by LoadLevelHeader ($5579, bank 1) at level load; secret route overlays
+; $A800-$A807 from UnknownData_0x377B (home.asm).
+DEF sLevelStartYLo EQU $A800      ; Mario start Y, lo -> $FFC0 (sPrevMarioY)
+DEF sLevelStartYHi EQU $A801      ; Mario start Y, hi -> $FFC1
+DEF sLevelStartXLo EQU $A802      ; Mario start X, lo -> $FFC2
+DEF sLevelStartXHi EQU $A803      ; Mario start X, hi -> $FFC3
+DEF sLevelCamYLo EQU $A804        ; starting camera Y, lo -> $FFC8 (intro pan target)
+DEF sLevelCamYHi EQU $A805        ; -> $FFC9
+DEF sLevelCamXLo EQU $A806        ; -> $FFCA
+DEF sLevelCamXHi EQU $A807        ; -> $FFCB
+DEF sVramTransferSrcLo EQU $A808  ; latch of $FFB1 by the $2297 VRAM-transfer op; WRITE-ONLY
+DEF sVramTransferSrcHi EQU $A809  ; latch of $FFB2; WRITE-ONLY
+DEF sTilesetMapPtrLo EQU $A80B    ; level mapping ptr (512 B -> $A600, $03F1/bank $08)
+DEF sTilesetMapPtrHi EQU $A80C
+DEF sLevelDataBank EQU $A80D      ; level's ROM bank -> sLevelBank
+DEF sLevelMusic EQU $A80E         ; level music id -> sLevelSong / $A468 queue
+DEF sLevelBGPalette EQU $A80F     ; -> sBGPalette/rBGP
+DEF sLevelOAMPalette1 EQU $A810   ; -> sOAMPalette1/rOBP0
+DEF sLevelOAMPalette2 EQU $A811   ; -> sOAMPalette2/rOBP1
+DEF sLevelLayoutIndex EQU $A812   ; lo nibble = layout index ($42F0 table, $0361);
+                                  ; hi nibble = initial sSceneState ($0472/$0609)
+DEF sLevelTimeLimit EQU $A813     ; -> sTimerHigh
+
+; Overworld map state ($A840-$A878). $A840-$A87F is the 64-byte save-record
+; image (save: UnknownCall_0x2934; load: file select), so every byte persists.
+DEF sMapNode EQU $A840            ; current map node: $4218 -> sCurLevel, $650E, $5EE6 (bank18)
+DEF sMapCursorX EQU $A842         ; cursor screen X; OAM entry at +4
+DEF sMapCursorY EQU $A843         ; cursor screen Y; OAM entry at +8
+DEF sMapCursorMove EQU $A844      ; pose/move cmd: bit0 R, bit1 L, bit2 U, bit3 D, bit5 bump
+DEF sLevelProgress EQU $A848      ; per-level flags (slot via $304F1/$3C364 offset tables):
+                                  ; bit7 = level cleared, bit3 = secret-route marker
+; Map path/element flags: bit set = element present; each group is copied into the
+; $A6C3/$A6C0/$A6CC map tile buffer by UnknownCall_0x3DB00 (tile $0E vs $FF).
+DEF sMapTreeAPath0 EQU $A849      ; Tree Zone scr A group ($A849-$A84D -> $A6C3)
+DEF sMapTreeAPath1 EQU $A84A
+DEF sGoldenCoin1 EQU $A84D        ; Tree Zone scr A golden coin (bit7 = collected)
+DEF sMapPumpkinPath0 EQU $A84E    ; Pumpkin Zone scr A group ($A84E-$A851 -> $A6C0)
+DEF sMapPumpkinPath1 EQU $A84F
+DEF sMapPumpkinPath2 EQU $A850
+DEF sGoldenCoin2 EQU $A851        ; Pumpkin Zone scr A golden coin
+DEF sMapMacroPath0 EQU $A853      ; Macro Zone group ($A853-$A856 -> $A6C3)
+DEF sMapMacroPath2 EQU $A855      ; read-only (no writer in ROM; census)
+DEF sGoldenCoin3 EQU $A856        ; Macro Zone golden coin
+DEF sMapSpacePath0 EQU $A858      ; Space Zone group ($A858-$A859 -> $A6C3)
+DEF sGoldenCoin4 EQU $A859        ; Space Zone golden coin
+DEF sMapTreeBPath0 EQU $A85D      ; Tree Zone scr B group ($A85D-$A85F -> $A6C3)
+DEF sMapTreeBPath1 EQU $A85E
+DEF sGoldenCoin5 EQU $A85F        ; Tree Zone scr B golden coin
+DEF sMapMarioPath0 EQU $A862      ; Mario Zone group ($A862-$A865 -> $A6CC)
+DEF sMapMarioPath1 EQU $A863
+DEF sMapMarioPath2 EQU $A864
+DEF sGoldenCoin6 EQU $A865        ; Mario Zone golden coin
+DEF sMapGateMacro EQU $A86B       ; set7 completing node $6A; gates Macro cursor moves
+DEF sMapGatePumpkinA EQU $A86C    ; read-only (no writer in ROM; census)
+DEF sMapGateMario EQU $A86D       ; set7 completing node $66
+DEF sMapGatePumpkinB EQU $A86E    ; set7 completing node $78
+DEF sMapGatePumpkinC EQU $A86F    ; set7 completing node $7A
+DEF sMapGateSpace EQU $A871       ; read-only (no writer in ROM; census)
+DEF sMapCursorAnim EQU $A878      ; walk anim pattern ($92 while walking, rrca per frame)
+
+; Fireball slots ($A880/$A890), $10 bytes each (scanner steps $10 until l==$A0):
+; +0 active, +1/+2 Y (lo/hi), +3/+4 X (lo/hi), +5 direction, +6 sFireballPhase
+DEF sFireball1Active EQU $A880
+DEF sFireball2Active EQU $A890
+
 ; Object/actor table ($AD00-$AEFF), 16 slots x $20
 DEF sObjectTable EQU $AD00
 DEF sObject0Def EQU $AD05

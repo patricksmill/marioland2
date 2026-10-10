@@ -1,0 +1,12 @@
+$A800	sLevelStartYLo
+$A840	sMapNode
+$A848	sLevelProgress
+$A849	sMapTreeAPath0
+$A84E	sMapPumpkinPath0
+$A853	sMapMacroPath0
+$A858	sMapSpacePath0
+$A85D	sMapTreeBPath0
+$A862	sMapMarioPath0
+$A86B	sMapGateMacro
+$A871	sMapGateSpace
+$A880	sFireball1Active

@@ -583,7 +583,7 @@ UnknownRJump_0x5589:
 	ld h, a
 	ld a, e
 	ld l, a
-	ld de, $A800
+	ld de, sLevelStartYLo
 	ld b, 20
 
 UnknownRJump_0x559F:
@@ -603,7 +603,7 @@ UnknownRJump_0x559F:
 	ld e, a
 	ld d, 0
 	add hl, de
-	ld de, $A800
+	ld de, sLevelStartYLo
 	ld b, 8
 
 UnknownRJump_0x55C0:
@@ -1613,11 +1613,11 @@ UnknownCall_0x6442: ;palette fade step (called via UnknownCall_0x6442)
 	ld [sPaletteFadeStep], a
 	cp $0E
 	ret nc
-	ld a, [$A80F]
+	ld a, [sLevelBGPalette]
 	ld [sBGPalette], a
-	ld a, [$A810]
+	ld a, [sLevelOAMPalette1]
 	ld [sOAMPalette1], a
-	ld a, [$A811]
+	ld a, [sLevelOAMPalette2]
 	ld [sOAMPalette2], a
 	xor a
 	ld [sPaletteFadeStep], a
@@ -16254,7 +16254,7 @@ UnknownData_0x301C2: ;indexed from ($A278 & $18); value written to $FFC6 (reader
 	swap a
 	ld e, a
 	ld d, 160
-	ld hl, $A840
+	ld hl, sMapNode
 	ld b, 64
 
 UnknownRJump_0x3020A:
@@ -16655,7 +16655,7 @@ UnknownRJump_0x30494:
 	ld a, [hl]
 	ld e, a
 	ld d, 0
-	ld hl, $A848
+	ld hl, sLevelProgress
 	add hl, de
 	ld a, 128
 	ld [hl], a
@@ -16786,22 +16786,22 @@ UnknownRJump_0x305CB:
 	jr nz, UnknownRJump_0x305CB
 	xor a
 	ld [sCastleCoinDone], a
-	ld a, [$A84D]
+	ld a, [sGoldenCoin1]
 	bit 7, a
 	jr z, UnknownRJump_0x30629
-	ld a, [$A851]
+	ld a, [sGoldenCoin2]
 	bit 7, a
 	jr z, UnknownRJump_0x30629
-	ld a, [$A865]
+	ld a, [sGoldenCoin6]
 	bit 7, a
 	jr z, UnknownRJump_0x30629
-	ld a, [$A85F]
+	ld a, [sGoldenCoin5]
 	bit 7, a
 	jr z, UnknownRJump_0x30629
-	ld a, [$A859]
+	ld a, [sGoldenCoin4]
 	bit 7, a
 	jr z, UnknownRJump_0x30629
-	ld a, [$A856]
+	ld a, [sGoldenCoin3]
 	bit 7, a
 	jr z, UnknownRJump_0x30629
 	ld a, 116
@@ -17049,7 +17049,7 @@ UnknownCall_0x307BC:
 	ld [sMusicQueue], a
 	ld a, 1
 	ldh [$FFBB], a
-	ld a, [$A84D]
+	ld a, [sGoldenCoin1]
 	bit 7, a
 	jr z, UnknownRJump_0x307E4
 	ld a, [$498A]
@@ -17064,7 +17064,7 @@ UnknownCall_0x307BC:
 	ld [sMusicQueue], a
 
 UnknownRJump_0x307E4:
-	ld a, [$A851]
+	ld a, [sGoldenCoin2]
 	bit 7, a
 	jr z, UnknownRJump_0x30804
 	ld a, [$498E]
@@ -17079,7 +17079,7 @@ UnknownRJump_0x307E4:
 	ld [sMusicQueue], a
 
 UnknownRJump_0x30804:
-	ld a, [$A865]
+	ld a, [sGoldenCoin6]
 	bit 7, a
 	jr z, UnknownRJump_0x30824
 	ld a, [$4992]
@@ -17094,7 +17094,7 @@ UnknownRJump_0x30804:
 	ld [sMusicQueue], a
 
 UnknownRJump_0x30824:
-	ld a, [$A85F]
+	ld a, [sGoldenCoin5]
 	bit 7, a
 	jr z, UnknownRJump_0x30844
 	ld a, [$4995]
@@ -17109,7 +17109,7 @@ UnknownRJump_0x30824:
 	ld [sMusicQueue], a
 
 UnknownRJump_0x30844:
-	ld a, [$A859]
+	ld a, [sGoldenCoin4]
 	bit 7, a
 	jr z, UnknownRJump_0x30864
 	ld a, [$4998]
@@ -17124,7 +17124,7 @@ UnknownRJump_0x30844:
 	ld [sMusicQueue], a
 
 UnknownRJump_0x30864:
-	ld a, [$A856]
+	ld a, [sGoldenCoin3]
 	bit 7, a
 	ret z
 	ld a, [$499C]
@@ -18505,14 +18505,14 @@ UnknownJump_0x3C169:
 	ld a, [$A7A0]
 	or a
 	ret nz
-	ld a, [$A840]
+	ld a, [sMapNode]
 	ld hl, $650E
 	ld d, 0
 	ld e, a
 	add hl, de
 	ld a, [hl]
 	ld e, a
-	ld hl, $A848
+	ld hl, sLevelProgress
 	add hl, de
 	ld c, [hl]
 	bit 7, c
@@ -18534,7 +18534,7 @@ UnknownJump_0x3C169:
 UnknownRJump_0x3C1A2:
 	xor a
 	ld [sLevelProgressFlags], a
-	ld a, [$A840]
+	ld a, [sMapNode]
 	ld hl, $4218
 	ld d, 0
 	ld e, a
@@ -18589,7 +18589,7 @@ UnknownRJump_0x3C201:
 	ret z
 	ld a, 16
 	ld [$A7B8], a
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $6E
 	ret c
 	ld a, 2
@@ -18637,11 +18637,11 @@ UnknownCall_0x3C2B8:
 	ldh_a_n $81
 	bit 4, a
 	jr z, UnknownRJump_0x3C2D0
-	ld a, [$A855]
+	ld a, [sMapMacroPath2]
 	bit 7, a
 	ret z
 	ld a, 54
-	ld [$A840], a
+	ld [sMapNode], a
 	ld a, 16
 	ldh_n_a $81
 	ret
@@ -18650,11 +18650,11 @@ UnknownRJump_0x3C2D0:
 	ldh_a_n $81
 	bit 5, a
 	ret z
-	ld a, [$A86B]
+	ld a, [sMapGateMacro]
 	bit 7, a
 	ret z
 	ld a, 55
-	ld [$A840], a
+	ld [sMapNode], a
 	ld a, 32
 	ldh_n_a $81
 	ret
@@ -18663,11 +18663,11 @@ UnknownCall_0x3C2E7:
 	ldh_a_n $81
 	bit 6, a
 	ret z
-	ld a, [$A853]
+	ld a, [sMapMacroPath0]
 	bit 0, a
 	ret z
 	ld a, 57
-	ld [$A840], a
+	ld [sMapNode], a
 	ld a, 64
 	ldh_n_a $81
 	ret
@@ -18676,11 +18676,11 @@ UnknownCall_0x3C2FE:
 	ldh_a_n $81
 	bit 4, a
 	ret z
-	ld a, [$A86B]
+	ld a, [sMapGateMacro]
 	bit 7, a
 	ret z
 	ld a, 108
-	ld [$A840], a
+	ld [sMapNode], a
 	ld a, 16
 	ldh_n_a $81
 	ret
@@ -18692,12 +18692,12 @@ UnknownJump_0x3C316:
 	ld a, [$A690]
 	or a
 	jp nz, UnknownJump_0x3C4CC
-	ld a, [$A848]
+	ld a, [sLevelProgress]
 	bit 7, a
 	jp z, UnknownJump_0x3C4CC
 
 	ld a, 20
-	ld [$A840], a
+	ld [sMapNode], a
 	jp UnknownJump_0x3C4D3
 
 
@@ -18710,7 +18710,7 @@ UnknownCall_0x3C32D:
 	ret nz
 	ld a, 255
 	ld [sMarioDead], a
-	ld a, [$A840]
+	ld a, [sMapNode]
 	ld hl, $650E
 	ld d, 0
 	ld e, a
@@ -18724,7 +18724,7 @@ UnknownCall_0x3C32D:
 	add hl, de
 	ld a, [hl]
 	ld e, a
-	ld hl, $A848
+	ld hl, sLevelProgress
 	add hl, de
 	ld a, [hl]
 	bit 7, a
@@ -18744,124 +18744,124 @@ UnknownData_0x3C364: ;data block; no direct reader found
 
 UnknownCall_0x3C38C:
 	ei
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $14
 	call z, UnknownCall_0x3C2AC
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $35
 	call z, UnknownCall_0x3C2B8
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $32
 	call z, UnknownCall_0x3C2E7
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $6A
 	call z, UnknownCall_0x3C2FE
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $17
 	call z, UnknownCall_0x3C2A0
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $4B
 	call z, UnknownCall_0x3C2A6
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $2C
 	call z, UnknownCall_0x3C2A6
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $4A
 	call z, UnknownCall_0x3C2AC
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $2F
 	call z, UnknownCall_0x3C2AC
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $31
 	call z, UnknownCall_0x3C2A6
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $38
 	call z, UnknownCall_0x3C2A6
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $2E
 	call z, UnknownCall_0x3C2AC
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $6B
 	call z, UnknownCall_0x3C2AC
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $47
 	call z, UnknownCall_0x3C2AC
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $65
 	call z, UnknownCall_0x3C2A0
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $45
 	call z, UnknownCall_0x3C2A0
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $27
 	call z, UnknownCall_0x3C2A0
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $67
 	call z, UnknownCall_0x3C2B2
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $5B
 	call z, UnknownCall_0x3C2B2
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $5A
 	call z, UnknownCall_0x3C2AC
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $68
 	call z, UnknownCall_0x3C29A
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $25
 	call z, UnknownCall_0x3C29A
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $6C
 	call z, UnknownCall_0x3C29A
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $43
 	call z, UnknownCall_0x3C29A
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $79
 	call z, UnknownCall_0x3C29A
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $69
 	call z, UnknownCall_0x3C2A6
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $73
 	call z, UnknownCall_0x3C2A0
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $72
 	call z, UnknownCall_0x3C29A
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $3F
 	call z, UnknownCall_0x3C29A
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $74
 	call z, UnknownCall_0x3C2A0
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $75
 	call z, UnknownCall_0x3C29A
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $11
 	call z, UnknownCall_0x3C2B2
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $02
 	call z, UnknownCall_0x3C2B2
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $0C
 	call z, UnknownCall_0x3C2B2
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $0B
 	call z, UnknownCall_0x3C2B2
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $09
 	call z, UnknownCall_0x3C2B2
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $06
 	call z, UnknownCall_0x3C2B2
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $64
 	call z, UnknownCall_0x3C29A
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $1E
 	call nc, UnknownCall_0x3C32D
-	ld a, [$A840]
+	ld a, [sMapNode]
 	or a
 	jp z, UnknownJump_0x3C316
 
@@ -18873,7 +18873,7 @@ UnknownJump_0x3C4D3:
 	call UnknownCall_0x3E1D7
 	or a
 	jp z, UnknownJump_0x3C5DA
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $0C
 	jr z, UnknownRJump_0x3C4E7
 	cp $1E
@@ -18904,8 +18904,8 @@ UnknownRJump_0x3C505:
 	ld a, [$A7A0]
 	or a
 	jr z, UnknownRJump_0x3C52B
-	ld a, [$A840]
-	ld [$A840], a
+	ld a, [sMapNode]
+	ld [sMapNode], a
 	call UnknownCall_0x3EEA4
 	call UnknownCall_0x3ED4C
 	call UnknownCall_0x3F156
@@ -18921,7 +18921,7 @@ UnknownRJump_0x3C52B:
 	and $F0
 	swap a
 	ld d, a
-	ld a, [$A840]
+	ld a, [sMapNode]
 	ld hl, $563A
 	ld b, 0
 	sla a
@@ -18977,7 +18977,7 @@ UnknownJump_0x3C588:
 	call UnknownCall_0x3E8F
 	ei
 	ld d, a
-	ld [$A844], a
+	ld [sMapCursorMove], a
 	ld a, 255
 	ld [$A690], a
 	ld a, 9
@@ -19009,10 +19009,10 @@ UnknownJump_0x3C5B2:
 
 UnknownJump_0x3C5DA:
 UnknownRJump_0x3C5DA:
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $15
 	call z, UnknownCall_0x3C2B2
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $0D
 	jr nz, UnknownRJump_0x3C5F4
 	call UnknownCall_0x3C2B2
@@ -19034,7 +19034,7 @@ UnknownRJump_0x3C5F4:
 
 UnknownJump_0x3C60B:
 UnknownRJump_0x3C60B:
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $02
 	jp z, UnknownJump_0x3D0D7
 	cp $19
@@ -19079,7 +19079,7 @@ UnknownRJump_0x3C66C:
 	ld a, [$A68B]
 	or a
 	jp z, UnknownJump_0x3C7D9
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $23
 	jp z, UnknownJump_0x3C6B0
 	cp $28
@@ -19115,7 +19115,7 @@ UnknownJump_0x3C6BD:
 	ld a, 25
 	call UnknownCall_0x3C7CA
 	ld a, 8
-	ld [$A844], a
+	ld [sMapCursorMove], a
 	jp UnknownJump_0x3C7BD
 
 UnknownJump_0x3C6CA:
@@ -19129,7 +19129,7 @@ UnknownJump_0x3C6D7:
 	ld a, 28
 	call UnknownCall_0x3C7CA
 	ld a, 8
-	ld [$A844], a
+	ld [sMapCursorMove], a
 	jp UnknownJump_0x3C7BD
 
 UnknownJump_0x3C6E4:
@@ -19138,7 +19138,7 @@ UnknownJump_0x3C6E4:
 	ld a, 121
 	call UnknownCall_0x3C7CA
 	ld a, 8
-	ld [$A844], a
+	ld [sMapCursorMove], a
 	jp UnknownJump_0x3C7BD
 
 UnknownJump_0x3C6F6:
@@ -19147,7 +19147,7 @@ UnknownJump_0x3C6F6:
 	ld a, 122
 	call UnknownCall_0x3C7CA
 	ld a, 8
-	ld [$A844], a
+	ld [sMapCursorMove], a
 	jp UnknownJump_0x3C7BD
 
 UnknownJump_0x3C708:
@@ -19155,7 +19155,7 @@ UnknownJump_0x3C708:
 	cp $20
 	jp nz, UnknownJump_0x3C7D9
 	ld a, 34
-	ld [$A844], a
+	ld [sMapCursorMove], a
 	ld a, 255
 	ld [$A690], a
 	ld a, 2
@@ -19167,7 +19167,7 @@ UnknownJump_0x3C724:
 	ld a, 27
 	call UnknownCall_0x3C7CA
 	ld a, 34
-	ld [$A844], a
+	ld [sMapCursorMove], a
 	jp UnknownJump_0x3C7BD
 
 UnknownJump_0x3C731:
@@ -19178,7 +19178,7 @@ UnknownJump_0x3C736:
 	ld a, 26
 	call UnknownCall_0x3C7CA
 	ld a, 2
-	ld [$A844], a
+	ld [sMapCursorMove], a
 	jp UnknownJump_0x3C7BD
 
 UnknownJump_0x3C743:
@@ -19192,7 +19192,7 @@ UnknownJump_0x3C750:
 	ld a, 30
 	call UnknownCall_0x3C7CA
 	ld a, 4
-	ld [$A844], a
+	ld [sMapCursorMove], a
 	jp UnknownJump_0x3C7BD
 
 UnknownJump_0x3C75D:
@@ -19201,7 +19201,7 @@ UnknownJump_0x3C75D:
 	ld a, 101
 	call UnknownCall_0x3C7CA
 	ld a, 4
-	ld [$A844], a
+	ld [sMapCursorMove], a
 	jp UnknownJump_0x3C7BD
 
 UnknownJump_0x3C76F:
@@ -19215,7 +19215,7 @@ UnknownJump_0x3C77C:
 	ld a, 29
 	call UnknownCall_0x3C7CA
 	ld a, 2
-	ld [$A844], a
+	ld [sMapCursorMove], a
 	jp UnknownJump_0x3C7BD
 
 UnknownJump_0x3C789:
@@ -19227,7 +19227,7 @@ UnknownJump_0x3C789:
 	ld a, 100
 	call UnknownCall_0x3C7CA
 	ld a, 1
-	ld [$A844], a
+	ld [sMapCursorMove], a
 	jp UnknownJump_0x3C7BD
 
 UnknownJump_0x3C7A3:
@@ -19239,7 +19239,7 @@ UnknownJump_0x3C7A3:
 	ld a, 23
 	call UnknownCall_0x3C7CA
 	ld a, 2
-	ld [$A844], a
+	ld [sMapCursorMove], a
 	jp UnknownJump_0x3C7BD
 
 UnknownJump_0x3C7BD:
@@ -19251,7 +19251,7 @@ UnknownJump_0x3C7BD:
 	ret
 
 UnknownCall_0x3C7CA:
-	ld [$A840], a
+	ld [sMapNode], a
 	call UnknownCall_0x3EEA4
 	call UnknownCall_0x3ED4C
 	ld a, 0
@@ -19269,9 +19269,9 @@ UnknownJump_0x3C7D9:
 	jp UnknownJump_0x3C8F4
 
 UnknownJump_0x3C7EC:
-	ld a, [$A878]
+	ld a, [sMapCursorAnim]
 	rrca
-	ld [$A878], a
+	ld [sMapCursorAnim], a
 	jr nc, UnknownRJump_0x3C7F8
 	jp UnknownJump_0x3C901
 
@@ -19301,13 +19301,13 @@ UnknownRJump_0x3C7F8:
 	ld a, 24
 	call UnknownCall_0x3E8F
 	ei
-	ld [$A840], a
-	ld [$A840], a
+	ld [sMapNode], a
+	ld [sMapNode], a
 	jp UnknownJump_0x3C901
 
 UnknownRJump_0x3C82D:
-	ld [$A844], a
-	ld a, [$A844]
+	ld [sMapCursorMove], a
+	ld a, [sMapCursorMove]
 	bit 4, a
 	jr z, UnknownRJump_0x3C83C
 	ld a, 4
@@ -19317,10 +19317,10 @@ UnknownRJump_0x3C83C:
 	ld a, [$A68C]
 	inc a
 	ld [$A68C], a
-	ld a, [$A844]
+	ld a, [sMapCursorMove]
 	and $0F
 	jp z, UnknownJump_0x3C8F4
-	ld a, [$A844]
+	ld a, [sMapCursorMove]
 	bit 2, a
 	jr z, UnknownRJump_0x3C872
 	ld a, [$A68C]
@@ -19329,11 +19329,11 @@ UnknownRJump_0x3C83C:
 	rrca
 	add 8
 	ld [$A695], a
-	ld a, [$A843]
+	ld a, [sMapCursorY]
 	cp $08
 	ccf
 	sbc 0
-	ld [$A843], a
+	ld [sMapCursorY], a
 	ld a, [$A68B]
 	or a
 	call z, UnknownCall_0x3CA84
@@ -19348,16 +19348,16 @@ UnknownRJump_0x3C872:
 	rrca
 	add 12
 	ld [$A695], a
-	ld a, [$A843]
+	ld a, [sMapCursorY]
 	cp $8A
 	adc 0
-	ld [$A843], a
+	ld [sMapCursorY], a
 	ld a, [$A68B]
 	or a
 	call z, UnknownCall_0x3CAAB
 
 UnknownRJump_0x3C893:
-	ld a, [$A844]
+	ld a, [sMapCursorMove]
 	bit 0, a
 	jr z, UnknownRJump_0x3C8C1
 	ld a, [$A68C]
@@ -19372,10 +19372,10 @@ UnknownRJump_0x3C8A7:
 	rrca
 	add 4
 	ld [$A695], a
-	ld a, [$A842]
+	ld a, [sMapCursorX]
 	cp $94
 	adc 0
-	ld [$A842], a
+	ld [sMapCursorX], a
 	ld a, [$A68B]
 	or a
 	call z, UnknownCall_0x3CA31
@@ -19395,18 +19395,18 @@ UnknownRJump_0x3C8D2:
 	rrca
 	rrca
 	ld [$A695], a
-	ld a, [$A842]
+	ld a, [sMapCursorX]
 	cp $08
 	ccf
 	sbc 0
-	ld [$A842], a
+	ld [sMapCursorX], a
 	ld a, [$A68B]
 	or a
 	call z, UnknownCall_0x3CA5D
 	jr UnknownRJump_0x3C901
 
 UnknownRJump_0x3C8EB:
-	ld a, [$A844]
+	ld a, [sMapCursorMove]
 	and $0F
 	jr nz, UnknownRJump_0x3C901
 
@@ -19435,7 +19435,7 @@ UnknownCall_0x3C901:
 	ld e, [hl]
 	inc hl
 	ld d, [hl]
-	ld a, [$A844]
+	ld a, [sMapCursorMove]
 	and $F0
 	swap a
 	cp $08
@@ -19464,7 +19464,7 @@ UnknownRJump_0x3C933:
 	ld a, [$A690]
 	or a
 	jr z, UnknownRJump_0x3C971
-	ld a, [$A844]
+	ld a, [sMapCursorMove]
 	bit 1, a
 	jr z, UnknownRJump_0x3C959
 	ld de, $4B8F
@@ -19479,7 +19479,7 @@ UnknownRJump_0x3C933:
 	jr UnknownRJump_0x3C990
 
 UnknownRJump_0x3C959:
-	ld a, [$A844]
+	ld a, [sMapCursorMove]
 	bit 0, a
 	jr z, UnknownRJump_0x3C971
 	ld de, $4BAF
@@ -19550,20 +19550,20 @@ UnknownRJump_0x3C990:
 
 UnknownCall_0x3C9B5:
 	ld bc, $0000
-	ld a, [$A844]
+	ld a, [sMapCursorMove]
 	and $0F
 	jr z, UnknownRJump_0x3C9CA
-	ld a, [$A844]
+	ld a, [sMapCursorMove]
 	bit 5, a
 	jr z, UnknownRJump_0x3C9CA
 	ld b, 4
 	ld c, 8
 
 UnknownRJump_0x3C9CA:
-	ld a, [$A842]
+	ld a, [sMapCursorX]
 	add b
 	ld d, a
-	ld a, [$A843]
+	ld a, [sMapCursorY]
 	add c
 	ld e, a
 	ld hl, $A100
@@ -19619,7 +19619,7 @@ UnknownData_0x3CA11: ;data block, read at line 19585
 
 
 UnknownCall_0x3CA31:
-	ld a, [$A842]
+	ld a, [sMapCursorX]
 	cp $4C
 	ret nz
 
@@ -19646,13 +19646,13 @@ UnknownRJump_0x3CA45:
 	ld a, [$A7A0]
 	or a
 	ret nz
-	ld a, [$A842]
+	ld a, [sMapCursorX]
 	dec a
-	ld [$A842], a
+	ld [sMapCursorX], a
 	ret
 
 UnknownCall_0x3CA5D:
-	ld a, [$A842]
+	ld a, [sMapCursorX]
 	cp $4A
 	ret nz
 
@@ -19674,13 +19674,13 @@ UnknownCall_0x3CA63:
 	ld a, [$A7A0]
 	or a
 	ret nz
-	ld a, [$A842]
+	ld a, [sMapCursorX]
 	inc a
-	ld [$A842], a
+	ld [sMapCursorX], a
 	ret
 
 UnknownCall_0x3CA84:
-	ld a, [$A843]
+	ld a, [sMapCursorY]
 	cp $4B
 	ret nz
 
@@ -19702,13 +19702,13 @@ UnknownCall_0x3CA8A:
 	ld a, [$A7A0]
 	or a
 	ret nz
-	ld a, [$A843]
+	ld a, [sMapCursorY]
 	inc a
-	ld [$A843], a
+	ld [sMapCursorY], a
 	ret
 
 UnknownCall_0x3CAAB:
-	ld a, [$A843]
+	ld a, [sMapCursorY]
 	cp $4D
 	ret nz
 
@@ -19735,9 +19735,9 @@ UnknownRJump_0x3CABF:
 	ld a, [$A7A0]
 	or a
 	ret nz
-	ld a, [$A843]
+	ld a, [sMapCursorY]
 	dec a
-	ld [$A843], a
+	ld [sMapCursorY], a
 	ret
 
 UnknownData_0x3CAD7: ;data block, read at line 19420
@@ -20264,11 +20264,11 @@ UnknownRJump_0x3D0D4:
 
 UnknownJump_0x3D0D7:
 	ld a, 48
-	ld [$A842], a
+	ld [sMapCursorX], a
 	ld a, 158
-	ld [$A843], a
+	ld [sMapCursorY], a
 	ld a, 35
-	ld [$A840], a
+	ld [sMapNode], a
 	ld a, 255
 	ld [sMarioDead], a
 	call UnknownCall_0x3E9FB
@@ -20306,14 +20306,14 @@ UnknownCall_0x3D0FF:
 	call UnknownCall_0x3E46
 	ld de, $65BA
 	call UnknownCall_0x3E2A2
-	ld a, [$A84D]
+	ld a, [sGoldenCoin1]
 	bit 7, a
 	jr z, UnknownRJump_0x3D151
 	ld a, 255
 	ld [$A6B7], a
 
 UnknownRJump_0x3D151:
-	ld hl, $A849
+	ld hl, sMapTreeAPath0
 	ld de, $A6C3
 	ld b, 5
 	call UnknownCall_0x3DB00
@@ -20344,7 +20344,7 @@ UnknownCall_0x3D18E:
 	ld a, [sMarioDead]
 	or a
 	ret nz
-	ld a, [$A84A]
+	ld a, [sMapTreeAPath1]
 	and $01
 	jr nz, UnknownRJump_0x3D1A4
 	ld a, 106
@@ -20352,31 +20352,31 @@ UnknownCall_0x3D18E:
 
 UnknownRJump_0x3D1A4:
 	ld a, 37
-	ld [$A840], a
+	ld [sMapNode], a
 	call UnknownCall_0x3EEA4
-	ld a, [$A84A]
+	ld a, [sMapTreeAPath1]
 	set 0, a
-	ld [$A84A], a
+	ld [sMapTreeAPath1], a
 	ret
 
 UnknownCall_0x3D1B5:
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $26
 	ret nz
 	ld a, 39
-	ld [$A840], a
+	ld [sMapNode], a
 	call UnknownCall_0x3EEA4
 	ld a, 255
 	ld [sMarioDead], a
 	ret
 
 UnknownCall_0x3D1C9:
-	ld a, [$A84A]
+	ld a, [sMapTreeAPath1]
 	and $01
 	ret z
 	ld a, 109
 	ld [$A6D2], a
-	ld a, [$A86C]
+	ld a, [sMapGatePumpkinA]
 	bit 7, a
 	ret z
 	ld a, 124
@@ -20385,11 +20385,11 @@ UnknownCall_0x3D1C9:
 
 UnknownJump_0x3D1E0:
 	ld a, 83
-	ld [$A842], a
+	ld [sMapCursorX], a
 	ld a, 137
-	ld [$A843], a
+	ld [sMapCursorY], a
 	ld a, 40
-	ld [$A840], a
+	ld [sMapNode], a
 	ld a, 255
 	ld [sMarioDead], a
 	ld a, 255
@@ -20427,7 +20427,7 @@ UnknownCall_0x3D208:
 	call UnknownCall_0x3E46
 	ld de, $65DE
 	call UnknownCall_0x3E2A2
-	ld a, [$A851]
+	ld a, [sGoldenCoin2]
 	bit 7, a
 	jr z, UnknownRJump_0x3D25A
 	ld a, 255
@@ -20437,7 +20437,7 @@ UnknownRJump_0x3D25A:
 	call UnknownCall_0x3D2FC
 	call UnknownCall_0x3D324
 	call UnknownCall_0x3D29F
-	ld hl, $A84E
+	ld hl, sMapPumpkinPath0
 	ld de, $A6C0
 	ld b, 4
 	call UnknownCall_0x3DB00
@@ -20470,45 +20470,45 @@ UnknownCall_0x3D29F:
 	ld a, [sMarioDead]
 	or a
 	ret nz
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $2C
 	jr nz, UnknownRJump_0x3D2D5
 	ld a, 31
 	ld [$A7D2], a
 	call UnknownCall_0x3F8E
 	ld a, 44
-	ld [$A840], a
+	ld [sMapNode], a
 	call UnknownCall_0x3EEA4
-	ld a, [$A84F]
+	ld a, [sMapPumpkinPath1]
 	bit 0, a
 	ret nz
 	set 0, a
-	ld [$A84F], a
+	ld [sMapPumpkinPath1], a
 	ld a, 255
 	ld [$A7BA], a
 	ret
 
 UnknownRJump_0x3D2D5:
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $2F
 	ret nz
 	ld a, 39
 	ld [$A7D5], a
 	call UnknownCall_0x3F8E
 	ld a, 47
-	ld [$A840], a
+	ld [sMapNode], a
 	call UnknownCall_0x3EEA4
-	ld a, [$A850]
+	ld a, [sMapPumpkinPath2]
 	bit 0, a
 	ret nz
 	set 0, a
-	ld [$A850], a
+	ld [sMapPumpkinPath2], a
 	ld a, 255
 	ld [$A7BA], a
 	ret
 
 UnknownCall_0x3D2FC:
-	ld a, [$A84F]
+	ld a, [sMapPumpkinPath1]
 	and $01
 	ret z
 	ld a, 31
@@ -20521,7 +20521,7 @@ UnknownRJump_0x3D304:
 	inc a
 	cp $27
 	jr nz, UnknownRJump_0x3D304
-	ld a, [$A86E]
+	ld a, [sMapGatePumpkinB]
 	bit 7, a
 	ret z
 	ld hl, $4500
@@ -20531,7 +20531,7 @@ UnknownRJump_0x3D304:
 	ret
 
 UnknownCall_0x3D324:
-	ld a, [$A850]
+	ld a, [sMapPumpkinPath2]
 	and $01
 	ret z
 	ld a, 39
@@ -20548,13 +20548,13 @@ UnknownRJump_0x3D32C:
 
 UnknownJump_0x3D33A:
 	ld a, 226
-	ld [$A842], a
+	ld [sMapCursorX], a
 	ld a, 118
-	ld [$A843], a
+	ld [sMapCursorY], a
 	ld a, 33
-	ld [$A844], a
+	ld [sMapCursorMove], a
 	ld a, 50
-	ld [$A840], a
+	ld [sMapNode], a
 	ld a, 255
 	ld [sMarioDead], a
 	call UnknownCall_0x3E9FB
@@ -20592,7 +20592,7 @@ UnknownCall_0x3D371:
 	ld [sScrollY], a
 	ld [$A690], a
 	ld a, 33
-	ld [$A844], a
+	ld [sMapCursorMove], a
 	ld a, 3
 	ld [$A68B], a
 	call UnknownCall_0x3E46
@@ -20601,16 +20601,16 @@ UnknownCall_0x3D371:
 	call UnknownCall_0x3D45D
 	call UnknownCall_0x3D409
 	call UnknownCall_0x3D43D
-	ld a, [$A844]
+	ld a, [sMapCursorMove]
 	or $20
-	ld [$A844], a
+	ld [sMapCursorMove], a
 	ld a, 0
 	ld [$A690], a
-	ld hl, $A853
+	ld hl, sMapMacroPath0
 	ld de, $A6C3
 	ld b, 4
 	call UnknownCall_0x3DB00
-	ld hl, $A86B
+	ld hl, sMapGateMacro
 	ld de, $A6B7
 	ld b, 1
 	call UnknownCall_0x3DB00
@@ -20629,7 +20629,7 @@ UnknownCall_0x3D371:
 	ret
 
 UnknownCall_0x3D409:
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $32
 	ret nz
 	ld a, [sExitTileFlag]
@@ -20641,9 +20641,9 @@ UnknownCall_0x3D409:
 	ld a, 16
 	ld [$A7D2], a
 	ld a, 107
-	ld [$A840], a
+	ld [sMapNode], a
 	call UnknownCall_0x3EEA4
-	ld a, [$A853]
+	ld a, [sMapMacroPath0]
 	bit 0, a
 	jr z, UnknownRJump_0x3D432
 
@@ -20654,22 +20654,22 @@ UnknownCall_0x3D409:
 
 UnknownRJump_0x3D432:
 	set 0, a
-	ld [$A853], a
+	ld [sMapMacroPath0], a
 	ld a, 255
 	ld [$A7BA], a
 	ret
 
 UnknownCall_0x3D43D:
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $6A
 	ret nz
 	ld a, [sMarioDead]
 	or a
 	jr nz, UnknownRJump_0x3D45C
 	ld a, 108
-	ld [$A840], a
+	ld [sMapNode], a
 	call UnknownCall_0x3EEA4
-	ld hl, $A86B
+	ld hl, sMapGateMacro
 	set 7, [hl]
 	ld a, 255
 	ld [sMarioDead], a
@@ -20681,7 +20681,7 @@ UnknownRJump_0x3D45C:
 UnknownCall_0x3D45D:
 	xor a
 	ld [$A7BA], a
-	ld a, [$A853]
+	ld a, [sMapMacroPath0]
 	and $01
 	ret z
 	ld a, 16
@@ -20698,11 +20698,11 @@ UnknownRJump_0x3D469:
 
 UnknownJump_0x3D477:
 	ld a, 16
-	ld [$A842], a
+	ld [sMapCursorX], a
 	ld a, 100
-	ld [$A843], a
+	ld [sMapCursorY], a
 	ld a, 60
-	ld [$A840], a
+	ld [sMapNode], a
 	ld a, 255
 	ld [sMarioDead], a
 	call UnknownCall_0x3E9FB
@@ -20752,11 +20752,11 @@ UnknownRJump_0x3D4D3:
 	call UnknownCall_0x3D58D
 	call UnknownCall_0x3D533
 	call UnknownCall_0x3D56B
-	ld hl, $A858
+	ld hl, sMapSpacePath0
 	ld de, $A6C3
 	ld b, 2
 	call UnknownCall_0x3DB00
-	ld hl, $A871
+	ld hl, sMapGateSpace
 	ld de, $A6D5
 	ld b, 1
 	call UnknownCall_0x3DB00
@@ -20785,9 +20785,9 @@ UnknownCall_0x3D533:
 	ld a, 47
 	ld [$A7D2], a
 	ld a, 67
-	ld [$A840], a
+	ld [sMapNode], a
 	call UnknownCall_0x3EEA4
-	ld a, [$A858]
+	ld a, [sMapSpacePath0]
 	bit 0, a
 	jr nz, UnknownRJump_0x3D562
 	ld e, a
@@ -20801,20 +20801,20 @@ UnknownCall_0x3D533:
 
 UnknownRJump_0x3D562:
 	set 0, a
-	ld [$A858], a
+	ld [sMapSpacePath0], a
 	call UnknownCall_0x3F8E
 	ret
 
 UnknownCall_0x3D56B:
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $44
 	ret nz
 	ld a, 69
-	ld [$A840], a
+	ld [sMapNode], a
 	call UnknownCall_0x3EEA4
 	ld a, 255
 	ld [sMarioDead], a
-	ld a, [$A871]
+	ld a, [sMapGateSpace]
 	bit 7, a
 	ret z
 	ld a, 57
@@ -20825,7 +20825,7 @@ UnknownCall_0x3D56B:
 UnknownCall_0x3D58D:
 	ld a, 0
 	ld [$A7BB], a
-	ld a, [$A858]
+	ld a, [sMapSpacePath0]
 	and $01
 	ret z
 	ld a, 56
@@ -20844,7 +20844,7 @@ UnknownCall_0x3D58D:
 	ld [$A7BC], a
 	ld a, 123
 	ld [$A6D2], a
-	ld a, [$A871]
+	ld a, [sMapGateSpace]
 	bit 7, a
 	ret z
 	ld a, 57
@@ -20853,29 +20853,29 @@ UnknownCall_0x3D58D:
 	ret
 
 UnknownJump_0x3D5D0:
-	ld a, [$A844]
+	ld a, [sMapCursorMove]
 	and $0F
-	ld [$A844], a
+	ld [sMapCursorMove], a
 	ld a, 146
-	ld [$A842], a
+	ld [sMapCursorX], a
 	ld a, 234
-	ld [$A843], a
+	ld [sMapCursorY], a
 	ld a, 75
-	ld [$A840], a
-	ld [$A840], a
+	ld [sMapNode], a
+	ld [sMapNode], a
 	jr UnknownRJump_0x3D606
 
 UnknownJump_0x3D5EC:
-	ld a, [$A844]
+	ld a, [sMapCursorMove]
 	and $0F
-	ld [$A844], a
+	ld [sMapCursorMove], a
 	ld a, 75
-	ld [$A842], a
+	ld [sMapCursorX], a
 	ld a, 242
-	ld [$A843], a
+	ld [sMapCursorY], a
 	ld a, 70
-	ld [$A840], a
-	ld [$A840], a
+	ld [sMapNode], a
+	ld [sMapNode], a
 
 UnknownRJump_0x3D606:
 	ld a, 255
@@ -20917,7 +20917,7 @@ UnknownCall_0x3D61F:
 	call UnknownCall_0x3E2A2
 	call UnknownCall_0x3D6B7
 	call UnknownCall_0x3D69C
-	ld hl, $A85D
+	ld hl, sMapTreeBPath0
 	ld de, $A6C3
 	ld b, 3
 	call UnknownCall_0x3DB00
@@ -20944,17 +20944,17 @@ UnknownCall_0x3D69C:
 	ld a, [sMarioDead]
 	or a
 	ret nz
-	ld a, [$A85E]
+	ld a, [sMapTreeBPath1]
 	bit 0, a
 	ret nz
 	set 0, a
-	ld [$A85E], a
+	ld [sMapTreeBPath1], a
 	ld a, 125
 	ld [$A6D5], a
 	ret
 
 UnknownCall_0x3D6B7:
-	ld a, [$A85E]
+	ld a, [sMapTreeBPath1]
 	and $01
 	ret z
 	ld a, 129
@@ -20963,11 +20963,11 @@ UnknownCall_0x3D6B7:
 
 UnknownJump_0x3D6C3:
 	ld a, 129
-	ld [$A842], a
+	ld [sMapCursorX], a
 	ld a, 137
-	ld [$A843], a
+	ld [sMapCursorY], a
 	ld a, 90
-	ld [$A840], a
+	ld [sMapNode], a
 	ld a, 255
 	ld [sMarioDead], a
 	ld a, 255
@@ -21027,12 +21027,12 @@ UnknownCall_0x3D6EB:
 
 UnknownJump_0x3D760:
 	ld a, 12
-	ld [$A842], a
+	ld [sMapCursorX], a
 	ld a, 112
-	ld [$A843], a
+	ld [sMapCursorY], a
 	ld a, 80
-	ld [$A840], a
-	ld [$A840], a
+	ld [sMapNode], a
+	ld [sMapNode], a
 	ld a, 255
 	ld [sMarioDead], a
 	call UnknownCall_0x3E9FB
@@ -21040,7 +21040,7 @@ UnknownJump_0x3D760:
 	ld [$A468], a
 	call UnknownCall_0x2AAA
 	call UnknownCall_0x3D79A
-	ld a, [$A862]
+	ld a, [sMapMarioPath0]
 	and $80
 	swap a
 	ld b, a
@@ -21080,13 +21080,13 @@ UnknownCall_0x3D79A:
 	call UnknownCall_0x3E2A2
 	ld a, 74
 	ld [$A6C4], a
-	ld a, [$A865]
+	ld a, [sGoldenCoin6]
 	and $80
 	swap a
 	sla a
 	add 76
 	ld [$A6BB], a
-	ld a, [$A865]
+	ld a, [sGoldenCoin6]
 	and $80
 	rlca
 	ld b, a
@@ -21094,20 +21094,20 @@ UnknownCall_0x3D79A:
 	or b
 	add 16
 	ld [$A6BC], a
-	ld a, [$A863]
+	ld a, [sMapMarioPath1]
 	and $80
 	rlca
 	rlca
 	add 6
 	ld [$A7D8], a
-	ld a, [$A864]
+	ld a, [sMapMarioPath2]
 	and $80
 	rlca
 	rlca
 	add 9
 	ld [$A7DB], a
 	call UnknownCall_0x3F8E
-	ld hl, $A862
+	ld hl, sMapMarioPath0
 	ld de, $A6CC
 	ld b, 4
 	call UnknownCall_0x3DB00
@@ -21131,16 +21131,16 @@ UnknownJump_0x3D848:
 	call UnknownCall_0x2AAA
 	call UnknownCall_0x3E9FB
 	call UnknownCall_0x3D880
-	ld a, [$A844]
+	ld a, [sMapCursorMove]
 	and $0F
-	ld [$A844], a
+	ld [sMapCursorMove], a
 	ld a, 212
-	ld [$A842], a
+	ld [sMapCursorX], a
 	ld a, 131
-	ld [$A843], a
+	ld [sMapCursorY], a
 	ld a, 114
-	ld [$A840], a
-	ld [$A840], a
+	ld [sMapNode], a
+	ld [sMapNode], a
 	ld a, 255
 	ld [sMarioDead], a
 	ld a, 0
@@ -21305,7 +21305,7 @@ UnknownRJump_0x3D96F:
 UnknownRJump_0x3D98D:
 	ld a, e
 	ld [$A6BD], a
-	ld a, [$A851]
+	ld a, [sGoldenCoin2]
 	bit 7, a
 	jr z, UnknownRJump_0x3D99D
 	ld a, 255
@@ -21318,10 +21318,10 @@ UnknownRJump_0x3D99D:
 	ld a, [$A7BA]
 	or a
 	jr z, UnknownRJump_0x3DA12
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $2C
 	jr nz, UnknownRJump_0x3D9DE
-	ld a, [$A86E]
+	ld a, [sMapGatePumpkinB]
 	bit 7, a
 	jr nz, UnknownRJump_0x3D9DE
 	ld a, [$A7D2]
@@ -21344,10 +21344,10 @@ UnknownRJump_0x3D9D3:
 	ld [$A460], a
 
 UnknownRJump_0x3D9DE:
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $2F
 	jr nz, UnknownRJump_0x3DA12
-	ld a, [$A86F]
+	ld a, [sMapGatePumpkinC]
 	bit 7, a
 	jr nz, UnknownRJump_0x3DA12
 	ld a, [$A7D5]
@@ -21475,7 +21475,7 @@ UnknownRJump_0x3DAB7:
 	and $30
 	swap a
 	ld [$A6B7], a
-	ld a, [$A84D]
+	ld a, [sGoldenCoin1]
 	bit 7, a
 	jr z, UnknownRJump_0x3DACD
 	ld a, 255
@@ -21483,7 +21483,7 @@ UnknownRJump_0x3DAB7:
 
 UnknownRJump_0x3DACD:
 	call UnknownCall_0x3DADF
-	ld hl, $A849
+	ld hl, sMapTreeAPath0
 	ld de, $A6C3
 	ld b, 5
 	call UnknownCall_0x3DB00
@@ -21930,7 +21930,7 @@ UnknownCall_0x3DDD3:
 	ld a, 64
 	sub c
 	ld [$A6CB], a
-	ld a, [$A86D]
+	ld a, [sMapGateMario]
 	bit 7, a
 	jr nz, UnknownRJump_0x3DE25
 	ld a, [$A69A]
@@ -22036,10 +22036,10 @@ UnknownCall_0x3DEC7:
 	ld a, [$A69A]
 	and $03
 	jr nz, UnknownRJump_0x3DEF2
-	ld a, [$A865]
+	ld a, [sGoldenCoin6]
 	bit 7, a
 	jr nz, UnknownRJump_0x3DEF2
-	ld a, [$A864]
+	ld a, [sMapMarioPath2]
 	bit 7, a
 	jr z, UnknownRJump_0x3DEF2
 	ld a, [$A6BB]
@@ -22057,7 +22057,7 @@ UnknownRJump_0x3DEF2:
 	ld a, [$A69A]
 	and $01
 	jr nz, UnknownRJump_0x3DF0B
-	ld a, [$A842]
+	ld a, [sMapCursorX]
 	cp $2E
 	jr c, UnknownRJump_0x3DF0B
 	ld a, [$A6C4]
@@ -22116,10 +22116,10 @@ UnknownRJump_0x3DF0B:
 	add hl, de
 	ld a, [hl]
 	ld [$A7D5], a
-	ld a, [$A863]
+	ld a, [sMapMarioPath1]
 	bit 7, a
 	jr nz, UnknownRJump_0x3DF83
-	ld a, [$A862]
+	ld a, [sMapMarioPath0]
 	bit 7, a
 	jr z, UnknownRJump_0x3DF83
 	ld a, [$A7D8]
@@ -22129,10 +22129,10 @@ UnknownRJump_0x3DF0B:
 	ld [$A7D8], a
 
 UnknownRJump_0x3DF83:
-	ld a, [$A864]
+	ld a, [sMapMarioPath2]
 	bit 7, a
 	jr nz, UnknownRJump_0x3DF9C
-	ld a, [$A863]
+	ld a, [sMapMarioPath1]
 	bit 7, a
 	jr z, UnknownRJump_0x3DF9C
 	ld a, [$A7DB]
@@ -22445,7 +22445,7 @@ UnknownCall_0x3E1D7:
 	and $F0
 	ld e, a
 	ld hl, $4218
-	ld a, [$A840]
+	ld a, [sMapNode]
 	ld b, 0
 	ld c, a
 	add hl, bc
@@ -22462,7 +22462,7 @@ UnknownCall_0x3E1D7:
 	ld a, [hl]
 	and e
 	jr z, UnknownRJump_0x3E210
-	ld hl, $A848
+	ld hl, sLevelProgress
 	add hl, bc
 	ld a, [hl]
 	bit 7, a
@@ -22719,7 +22719,7 @@ UnknownCall_0x3E3BA:
 	ld a, 1
 	ld [$A79D], a
 	ld a, 146
-	ld [$A878], a
+	ld [sMapCursorAnim], a
 	ld d, 228
 	ld a, [$A68B]
 	cp $07
@@ -22799,9 +22799,9 @@ UnknownRJump_0x3E43A:
 	rrca
 	add 8
 	ld [$A695], a
-	ld a, [$A843]
+	ld a, [sMapCursorY]
 	dec a
-	ld [$A843], a
+	ld [sMapCursorY], a
 	call UnknownCall_0x3C901
 	pop hl
 	pop de
@@ -22821,9 +22821,9 @@ UnknownRJump_0x3E45D:
 	rrca
 	add 12
 	ld [$A695], a
-	ld a, [$A843]
+	ld a, [sMapCursorY]
 	inc a
-	ld [$A843], a
+	ld [sMapCursorY], a
 	call UnknownCall_0x3C901
 	pop hl
 	pop de
@@ -22842,9 +22842,9 @@ UnknownRJump_0x3E47F:
 	and $06
 	rrca
 	ld [$A695], a
-	ld a, [$A842]
+	ld a, [sMapCursorX]
 	dec a
-	ld [$A842], a
+	ld [sMapCursorX], a
 	call UnknownCall_0x3C901
 	pop hl
 	pop de
@@ -22864,9 +22864,9 @@ UnknownRJump_0x3E49F:
 	rrca
 	add 4
 	ld [$A695], a
-	ld a, [$A842]
+	ld a, [sMapCursorX]
 	inc a
-	ld [$A842], a
+	ld [sMapCursorX], a
 	call UnknownCall_0x3C901
 	pop hl
 	pop de
@@ -23422,7 +23422,7 @@ UnknownCall_0x3EA9A:
 	ld a, 6
 	ld [$A468], a
 	ld a, 0
-	ld [$A878], a
+	ld [sMapCursorAnim], a
 	ld d, 228
 	ld e, 1
 
@@ -23636,7 +23636,7 @@ UnknownCall_0x3EBC8:
 	ret
 
 UnknownCall_0x3EBD5:
-	ld a, [$A840]
+	ld a, [sMapNode]
 	sub 110
 	ld d, a
 	add a
@@ -23738,7 +23738,7 @@ UnknownData_0x3EC75: ;data block, read at line 23500
 
 
 UnknownCall_0x3EC7D:
-	ld a, [$A86F]
+	ld a, [sMapGatePumpkinC]
 	bit 7, a
 	ret z
 	ld a, [$A7BE]
@@ -23779,7 +23779,7 @@ UnknownData_0x3ECB5: ;data block; no direct reader found
 
 
 UnknownCall_0x3ECF5:
-	ld a, [$A86C]
+	ld a, [sMapGatePumpkinA]
 	bit 7, a
 	ret z
 	ld a, [$A7BE]
@@ -24039,7 +24039,7 @@ UnknownCall_0x3EE8C:
 	ret
 
 UnknownCall_0x3EEA4:
-	ld a, [$A840]
+	ld a, [sMapNode]
 	ld hl, $5EE6
 	ld d, 0
 	sla a
@@ -24069,14 +24069,14 @@ UnknownCall_0x3EEA4:
 	ld a, 24
 	call UnknownCall_0x3E7B
 	inc hl
-	ld [$A842], a
+	ld [sMapCursorX], a
 	ld a, 24
 	call UnknownCall_0x3E7B
-	ld [$A843], a
+	ld [sMapCursorY], a
 	ret
 
 UnknownCall_0x3EEF0:
-	ld a, [$A840]
+	ld a, [sMapNode]
 	ld d, 0
 	ld e, a
 	ld hl, $650E
@@ -24086,7 +24086,7 @@ UnknownCall_0x3EEF0:
 	ret nc
 	ld d, 0
 	ld e, a
-	ld hl, $A848
+	ld hl, sLevelProgress
 	add hl, de
 	ld a, [sMarioDead]
 	or a
@@ -24123,7 +24123,7 @@ UnknownCall_0x3EF2B:
 	ld a, [sGoalBell]
 	or a
 	jr z, UnknownRJump_0x3EF56
-	ld a, [$A840]
+	ld a, [sMapNode]
 	bit 0, a
 	jr nz, UnknownRJump_0x3EF4C
 	call UnknownCall_0x3F4B1
@@ -24145,15 +24145,15 @@ UnknownRJump_0x3EF56:
 	ld a, [sMarioDead]
 	or a
 	jr nz, UnknownRJump_0x3EFB2
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $48
 	jr nz, UnknownRJump_0x3EF70
 	ld a, 71
-	ld [$A840], a
+	ld [sMapNode], a
 	jr UnknownRJump_0x3EFB2
 
 UnknownRJump_0x3EF70:
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $1A
 	jr z, UnknownRJump_0x3EF81
 	cp $05
@@ -24164,31 +24164,31 @@ UnknownRJump_0x3EF70:
 
 UnknownRJump_0x3EF81:
 	ld a, 105
-	ld [$A840], a
+	ld [sMapNode], a
 	jr UnknownRJump_0x3EFB2
 
 UnknownRJump_0x3EF88:
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $29
 	jr nz, UnknownRJump_0x3EF96
 	ld a, 44
-	ld [$A840], a
+	ld [sMapNode], a
 	jr UnknownRJump_0x3EFB2
 
 UnknownRJump_0x3EF96:
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $2A
 	jr nz, UnknownRJump_0x3EFA4
 	ld a, 47
-	ld [$A840], a
+	ld [sMapNode], a
 	jr UnknownRJump_0x3EFB2
 
 UnknownRJump_0x3EFA4:
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $3C
 	jr nz, UnknownRJump_0x3EFB2
 	ld a, 64
-	ld [$A840], a
+	ld [sMapNode], a
 	jr UnknownRJump_0x3EFB2
 
 UnknownRJump_0x3EFB2:
@@ -24201,13 +24201,13 @@ UnknownRJump_0x3EFB2:
 	call FarCopyMem
 	call UnknownCall_0x3EEA4
 	ld a, 8
-	ld [$A844], a
+	ld [sMapCursorMove], a
 	xor a
 	ld [$A68B], a
 	ld a, [sMarioDead]
 	or a
 	jr nz, UnknownRJump_0x3F003
-	ld a, [$A840]
+	ld a, [sMapNode]
 	ld hl, $650E
 	ld d, 0
 	ld e, a
@@ -24229,7 +24229,7 @@ UnknownRJump_0x3EFB2:
 	jp z, UnknownJump_0x3C77C
 
 UnknownRJump_0x3F003:
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $1E
 	jr nc, UnknownRJump_0x3F04D
 	cp $05
@@ -24243,7 +24243,7 @@ UnknownRJump_0x3F014:
 	or a
 	jr nz, UnknownRJump_0x3F03D
 	ld a, 63
-	ld [$A840], a
+	ld [sMapNode], a
 	call UnknownCall_0x3EEA4
 	jr UnknownRJump_0x3F07E
 
@@ -24253,11 +24253,11 @@ UnknownRJump_0x3F024:
 	ld a, [sMarioDead]
 	or a
 	jr nz, UnknownRJump_0x3F03D
-	ld a, [$A848]
+	ld a, [sLevelProgress]
 	set 7, a
-	ld [$A848], a
+	ld [sLevelProgress], a
 	ld a, 20
-	ld [$A840], a
+	ld [sMapNode], a
 	call UnknownCall_0x3EEA4
 
 UnknownJump_0x3F03D:
@@ -24330,7 +24330,7 @@ UnknownRJump_0x3F0A7:
 	cp $5B
 	jr nz, UnknownRJump_0x3F0B7
 	ld a, 92
-	ld [$A840], a
+	ld [sMapNode], a
 	call UnknownCall_0x3EEA4
 
 UnknownRJump_0x3F0B7:
@@ -24345,14 +24345,14 @@ UnknownRJump_0x3F0C2:
 	cp $66
 	jr nz, UnknownRJump_0x3F0E4
 	ld a, 104
-	ld [$A840], a
+	ld [sMapNode], a
 	call UnknownCall_0x3EEA4
 	ld a, [sMarioDead]
 	or a
 	jp nz, UnknownJump_0x3F03D
-	ld a, [$A86D]
+	ld a, [sMapGateMario]
 	set 7, a
-	ld [$A86D], a
+	ld [sMapGateMario], a
 	jp UnknownJump_0x3F03D
 
 UnknownRJump_0x3F0E4:
@@ -24376,28 +24376,28 @@ UnknownRJump_0x3F104:
 	cp $78
 	jp nz, UnknownJump_0x3F123
 	ld a, 46
-	ld [$A840], a
+	ld [sMapNode], a
 	call UnknownCall_0x3EEA4
 	ld a, [sMarioDead]
 	or a
 	jp nz, UnknownJump_0x3F060
-	ld a, [$A86E]
+	ld a, [sMapGatePumpkinB]
 	set 7, a
-	ld [$A86E], a
+	ld [sMapGatePumpkinB], a
 	jp UnknownJump_0x3F060
 
 UnknownJump_0x3F123:
 	cp $7A
 	jp nz, UnknownJump_0x3F142
 	ld a, 49
-	ld [$A840], a
+	ld [sMapNode], a
 	call UnknownCall_0x3EEA4
 	ld a, [sMarioDead]
 	or a
 	jp nz, UnknownJump_0x3F060
-	ld a, [$A86F]
+	ld a, [sMapGatePumpkinC]
 	set 7, a
-	ld [$A86F], a
+	ld [sMapGatePumpkinC], a
 	jp UnknownJump_0x3F060
 
 UnknownJump_0x3F142:
@@ -24408,7 +24408,7 @@ UnknownJump_0x3F142:
 UnknownJump_0x3F147:
 UnknownRJump_0x3F147:
 	ld a, 146
-	ld [$A878], a
+	ld [sMapCursorAnim], a
 UnknownRJump_0x3F14C:
 	ei
 	call UnknownCall_0x2934
@@ -24451,7 +24451,7 @@ UnknownCall_0x3F156:
 	call UnknownCall_0x3EAE5
 	call UnknownCall_0x3ED4C
 	call UnknownCall_0x3E46
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $17
 	jr z, UnknownRJump_0x3F1C2
 	cp $18
@@ -24481,7 +24481,7 @@ UnknownRJump_0x3F1C2:
 	ld [$A7A0], a
 	ld [$A7A9], a
 	ld a, 0
-	ld [$A878], a
+	ld [sMapCursorAnim], a
 	ld a, 6
 	ld [$A468], a
 	ei
@@ -37286,7 +37286,7 @@ UnknownRJump_0x60D49:
 	ld hl, $4F7E
 	add hl, de
 	ld c, [hl]
-	ld a, [$A840]
+	ld a, [sMapNode]
 	sub 110
 	add a
 	ld d, 0
@@ -37509,7 +37509,7 @@ UnknownCall_0x60EB5:
 	rrca
 	ld e, a
 	ld d, 0
-	ld a, [$A840]
+	ld a, [sMapNode]
 	cp $6E
 	jr z, UnknownRJump_0x60EDD
 	cp $6F

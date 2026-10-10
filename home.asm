@@ -425,7 +425,7 @@ UnknownRJump_0x0350:
 
 UnknownCall_0x0361:
 	ld hl, $42F0
-	ld a, [$A812]
+	ld a, [sLevelLayoutIndex]
 	and $0F
 	sla a
 	ld e, a
@@ -523,9 +523,9 @@ UnknownJump_0x03F1:
 	ld a, 8 ;prepare bank switch
 	ld [sCurROMBank], a
 	ld [$2100], a
-	ld a, [$A80B]
+	ld a, [sTilesetMapPtrLo]
 	ld l, a
-	ld a, [$A80C]
+	ld a, [sTilesetMapPtrHi]
 	ld h, a
 	ld de, $A600
 
@@ -536,7 +536,7 @@ UnknownRJump_0x040A:
 	ld a, d
 	cp $A8
 	jr nz, UnknownRJump_0x040A
-	ld a, [$A80D] ;prepare bank switch
+	ld a, [sLevelDataBank] ;prepare bank switch
 	ld [sCurROMBank], a
 	ld [$2100], a
 	ld hl, $4000
@@ -546,7 +546,7 @@ UnknownRJump_0x040A:
 	ld h, a
 	ld a, b
 	ld l, a
-	ld a, [$A812]
+	ld a, [sLevelLayoutIndex]
 	and $0F
 	ld b, a
 	sla a
@@ -569,7 +569,7 @@ UnknownRJump_0x043F:
 	inc de
 	dec b
 	jr nz, UnknownRJump_0x043F
-	ld a, [$A80D] ;prepare bank switch
+	ld a, [sLevelDataBank] ;prepare bank switch
 	ld [sCurROMBank], a
 	ld [$2100], a
 	ld hl, $4002
@@ -579,7 +579,7 @@ UnknownRJump_0x043F:
 	ld h, a
 	ld a, b
 	ld l, a
-	ld a, [$A812]
+	ld a, [sLevelLayoutIndex]
 	and $0F
 	ld b, a
 	sla a
@@ -602,11 +602,11 @@ UnknownRJump_0x0472:
 	inc de
 	dec b
 	jr nz, UnknownRJump_0x0472
-	ld a, [$A80E]
+	ld a, [sLevelMusic]
 	ld [sLevelSong], a
-	ld a, [$A80D]
+	ld a, [sLevelDataBank]
 	ld [sLevelBank], a
-	ld a, [$A812]
+	ld a, [sLevelLayoutIndex]
 	and $F0
 	ld [sSceneState], a
 	xor a
@@ -623,7 +623,7 @@ UnknownRJump_0x049C:
 	add 16
 	ld l, a
 	jr nz, UnknownRJump_0x049C
-	ld a, [$A813]
+	ld a, [sLevelTimeLimit]
 	ld [sTimerHigh], a
 	xor a
 	ld [sTimerLow], a
@@ -671,22 +671,22 @@ UnknownJump_0x04F1:
 	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x0361
-	ld a, [$A80F]
+	ld a, [sLevelBGPalette]
 	ld [sBGPalette], a
 	ldh [rBGP], a
-	ld a, [$A810]
+	ld a, [sLevelOAMPalette1]
 	ld [sOAMPalette1], a
 	ldh [rOBP0], a
-	ld a, [$A811]
+	ld a, [sLevelOAMPalette2]
 	ld [sOAMPalette2], a
 	ldh [rOBP1], a
-	ld a, [$A804]
+	ld a, [sLevelCamYLo]
 	ldh [$FFC8], a
-	ld a, [$A805]
+	ld a, [sLevelCamYHi]
 	ldh [$FFC9], a
-	ld a, [$A806]
+	ld a, [sLevelCamXLo]
 	ldh [$FFCA], a
-	ld a, [$A807]
+	ld a, [sLevelCamXHi]
 	ldh [$FFCB], a
 
 UnknownRJump_0x052F:
@@ -705,16 +705,16 @@ UnknownRJump_0x052F:
 	ldh [$FFC9], a
 	ldh a, [$FFC8]
 	ld b, a
-	ld a, [$A804]
+	ld a, [sLevelCamYLo]
 	cp b
 	jr nz, UnknownRJump_0x052F
-	ld a, [$A804]
+	ld a, [sLevelCamYLo]
 	ldh [$FFC8], a
-	ld a, [$A805]
+	ld a, [sLevelCamYHi]
 	ldh [$FFC9], a
-	ld a, [$A806]
+	ld a, [sLevelCamXLo]
 	ldh [$FFCA], a
-	ld a, [$A807]
+	ld a, [sLevelCamXHi]
 	ldh [$FFCB], a
 	ldh a, [$FFC8]
 	sub 120
@@ -734,7 +734,7 @@ UnknownRJump_0x052F:
 	ld a, [sSoundDisabled]
 	and a
 	jr nz, UnknownRJump_0x0598
-	ld a, [$A80E]
+	ld a, [sLevelMusic]
 	ld [$A468], a
 
 UnknownRJump_0x0598:
@@ -749,8 +749,8 @@ UnknownRJump_0x0598:
 	ld [sFadeTimerLow], a
 	ld [sFadeTimerHigh], a
 	ld [sInvincibilityTimer], a
-	ld [$A880], a
-	ld [$A890], a
+	ld [sFireball1Active], a
+	ld [sFireball2Active], a
 	ld [sBossDefeated], a
 	ld [sBossClearFlag], a
 	ldh a, [$FF9B]
@@ -2041,11 +2041,11 @@ UnknownRJump_0x0EE4:
 UnknownRJump_0x0EF3:
 	ld a, 5
 	ld [$A460], a
-	ld a, [$A80F]
+	ld a, [sLevelBGPalette]
 	ld [sBGPalette], a
-	ld a, [$A810]
+	ld a, [sLevelOAMPalette1]
 	ld [sOAMPalette1], a
-	ld a, [$A811]
+	ld a, [sLevelOAMPalette2]
 	ld [sOAMPalette2], a
 	ret
 
@@ -2069,14 +2069,14 @@ UnknownCall_0x0F0B:
 	ret
 
 UnknownCall_0x0F2A:
-	ld a, [$A802]
+	ld a, [sLevelStartXLo]
 	ldh [$FFC2], a
-	ld a, [$A800]
+	ld a, [sLevelStartYLo]
 	ldh [$FFC0], a
 	ld [sPrevMarioY], a
-	ld a, [$A803]
+	ld a, [sLevelStartXHi]
 	ldh [$FFC3], a
-	ld a, [$A801]
+	ld a, [sLevelStartYHi]
 	ldh [$FFC1], a
 	ld a, 128
 	ld [sHVelocityIndex], a
@@ -2423,8 +2423,8 @@ UnknownCall_0x1189:
 	ld [$A460], a
 	xor a
 	ld [sMarioDucking], a
-	ld [$A880], a
-	ld [$A890], a
+	ld [sFireball1Active], a
+	ld [sFireball2Active], a
 	ld a, [sPipeTravelDirection]
 	ld a, 128
 	ld [sHVelocityIndex], a
@@ -2455,8 +2455,8 @@ UnknownRJump_0x11C0:
 	ld [$A460], a
 	xor a
 	ld [sMarioDucking], a
-	ld [$A880], a
-	ld [$A890], a
+	ld [sFireball1Active], a
+	ld [sFireball2Active], a
 	ld a, [sPipeTravelDirection]
 	ld a, 128
 	ld [sHVelocityIndex], a
@@ -2491,8 +2491,8 @@ UnknownRJump_0x1225:
 	ld [sPipeTravelDirection], a
 	xor a
 	ld [sMarioDucking], a
-	ld [$A880], a
-	ld [$A890], a
+	ld [sFireball1Active], a
+	ld [sFireball2Active], a
 	ld a, 128
 	ld [sHVelocityIndex], a
 	ld a, [sBossFightPhase]
@@ -2520,8 +2520,8 @@ UnknownRJump_0x1255:
 	ld [$A460], a
 	xor a
 	ld [sMarioDucking], a
-	ld [$A880], a
-	ld [$A890], a
+	ld [sFireball1Active], a
+	ld [sFireball2Active], a
 	ld a, 128
 	ld [sHVelocityIndex], a
 	ret
@@ -4412,7 +4412,7 @@ UnknownRJump_0x218C:
 
 	inc hl
 	ld a, [hli]
-	ld [$A80F], a
+	ld [sLevelBGPalette], a
 	jp UnknownJump_0x21E8
 
 
@@ -4570,10 +4570,10 @@ UnknownRJump_0x2297:
 	ld [$2100], a
 	ld a, [hli]
 	ldh [$FFB1], a
-	ld [$A808], a
+	ld [sVramTransferSrcLo], a
 	ld a, [hli]
 	ldh [$FFB2], a
-	ld [$A809], a
+	ld [sVramTransferSrcHi], a
 	ld a, [hli]
 	ldh [$FFB3], a
 	ld a, [hli]
@@ -4960,7 +4960,7 @@ UnknownCall_0x25AF:
 	ld [sLevelBank], a
 	ld [$2100], a
 	ld a, 3
-	ld [$A812], a
+	ld [sLevelLayoutIndex], a
 	call UnknownCall_0x0361
 	ld a, 7 ;prepare bank switch
 	ld [sCurROMBank], a
@@ -5226,11 +5226,11 @@ UnknownRJump_0x278E:
 	ldh a, [hKeysPressed]
 	bit 3, a
 	ret z
-	ld a, [$A80F]
+	ld a, [sLevelBGPalette]
 	ld [sBGPalette], a
-	ld a, [$A810]
+	ld a, [sLevelOAMPalette1]
 	ld [sOAMPalette1], a
-	ld a, [$A811]
+	ld a, [sLevelOAMPalette2]
 	ld [sOAMPalette2], a
 	ld a, 4
 	ldh [$FF9B], a
@@ -5277,27 +5277,27 @@ UnknownRJump_0x27D2:
 	ld [sCoinHigh], a
 	ld [sMoneyBagCount], a
 	ld b, a
-	ld a, [$A84D]
+	ld a, [sGoldenCoin1]
 	and $80
 	sla a
 	rl b
-	ld a, [$A851]
+	ld a, [sGoldenCoin2]
 	and $80
 	sla a
 	rl b
-	ld a, [$A865]
+	ld a, [sGoldenCoin6]
 	and $80
 	sla a
 	rl b
-	ld a, [$A85F]
+	ld a, [sGoldenCoin5]
 	and $80
 	sla a
 	rl b
-	ld a, [$A859]
+	ld a, [sGoldenCoin4]
 	and $80
 	sla a
 	rl b
-	ld a, [$A856]
+	ld a, [sGoldenCoin3]
 	and $80
 	sla a
 	rl b
@@ -5319,12 +5319,12 @@ UnknownRJump_0x2844:
 	daa
 	ld [sLevelTally], a
 	xor a
-	ld [$A84D], a
-	ld [$A851], a
-	ld [$A865], a
-	ld [$A85F], a
-	ld [$A859], a
-	ld [$A856], a
+	ld [sGoldenCoin1], a
+	ld [sGoldenCoin2], a
+	ld [sGoldenCoin6], a
+	ld [sGoldenCoin5], a
+	ld [sGoldenCoin4], a
+	ld [sGoldenCoin3], a
 	call UnknownCall_0x2934
 	ld a, 255
 	ld [sFadeTimerLow], a
@@ -5469,7 +5469,7 @@ UnknownCall_0x2934:
 	ld d, 0
 	add hl, de
 	ld c, 0
-	ld de, $A840
+	ld de, sMapNode
 	ld b, 64
 
 UnknownRJump_0x294D:
@@ -6744,7 +6744,7 @@ MarioSpeedTableDead: ;$31EF
 	db $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
 
 UnknownCall_0x324F:
-	ld hl, $A880
+	ld hl, sFireball1Active
 
 UnknownRJump_0x3252:
 	ld a, [hl]
@@ -6829,7 +6829,7 @@ UnknownCall_0x32C1:
 	ld a, [sGoalBell]
 	and a
 	ret nz
-	ld hl, $A880
+	ld hl, sFireball1Active
 
 UnknownRJump_0x32D9:
 	ld a, [hl]
@@ -6878,7 +6878,7 @@ UnknownRJump_0x330E:
 	ret
 
 UnknownCall_0x331C:
-	ld hl, $A880
+	ld hl, sFireball1Active
 
 UnknownRJump_0x331F:
 	ld a, [hl]
