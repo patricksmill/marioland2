@@ -629,7 +629,7 @@ UnknownRJump_0x049C:
 	ld [sTimerLow], a
 	ld [sExitTileFlag], a
 	ld a, 48
-	ld [$A24B], a
+	ld [sTimerTickCounter], a
 	ld hl, LevelPropertiesScroll
 	ld a, [sCurLevel]
 	ld e, a
@@ -812,7 +812,7 @@ UnknownRJump_0x060F:
 	call nz, UnknownCall_0x3753
 	call UnknownCall_0x2A58
 	ldh a, [$FF8D]
-	ld [$A264], a
+	ld [sSavedOAMIndex], a
 	call UnknownCall_0x0652
 	call UnknownCall_0x2CFF
 	call UnknownCall_0x273E
@@ -821,7 +821,7 @@ UnknownRJump_0x060F:
 UnknownRJump_0x0640:
 	call UnknownCall_0x315C
 	ldh a, [$FF8D]
-	ld [$A264], a
+	ld [sSavedOAMIndex], a
 	call UnknownCall_0x0652
 	call UnknownCall_0x2CFF
 	call UnknownCall_0x273E
@@ -1039,31 +1039,31 @@ UnknownData_0x07EA: ;window/HUD tile row, 20 tiles copied to $9C00 by UnknownCal
 
 UnknownCall_0x07FE:
 	ldh a, [rLY]
-	ld [$A239], a
+	ld [sScanlineStamp], a
 	ret
 
 UnknownCall_0x0804:
-	ld a, [$A239]
+	ld a, [sScanlineStamp]
 	ld b, a
 	ldh a, [rLY]
 	sub b
 	ld b, a
-	ld a, [$A21F]
+	ld a, [sScanlineDeltaMax]
 	cp b
 	ret nc
 	ld a, b
-	ld [$A21F], a
+	ld [sScanlineDeltaMax], a
 	ret
 
 UnknownCall_0x0816:
 	call DisableVBlank
-	ld a, [$A2C0]
+	ld a, [sRedrawScrollY]
 	ldh [$FFC8], a
-	ld a, [$A2C1]
+	ld a, [sRedrawScrollYU]
 	ldh [$FFC9], a
-	ld a, [$A2C2]
+	ld a, [sRedrawScrollX]
 	ldh [$FFCA], a
-	ld a, [$A2C3]
+	ld a, [sRedrawScrollXU]
 	ldh [$FFCB], a
 
 UnknownRJump_0x082D:
@@ -1082,16 +1082,16 @@ UnknownRJump_0x082D:
 	ldh [$FFC9], a
 	ldh a, [$FFC8]
 	ld b, a
-	ld a, [$A2C0]
+	ld a, [sRedrawScrollY]
 	cp b
 	jr nz, UnknownRJump_0x082D
-	ld a, [$A2C0]
+	ld a, [sRedrawScrollY]
 	ldh [$FFC8], a
-	ld a, [$A2C1]
+	ld a, [sRedrawScrollYU]
 	ldh [$FFC9], a
-	ld a, [$A2C2]
+	ld a, [sRedrawScrollX]
 	ldh [$FFCA], a
-	ld a, [$A2C3]
+	ld a, [sRedrawScrollXU]
 	ldh [$FFCB], a
 	ldh a, [$FFC8]
 	sub 120
@@ -1566,11 +1566,11 @@ UnknownRJump_0x0B90:
 	ld a, [sScrollDeltaRight]
 	and a
 	jr z, UnknownRJump_0x0BE5
-	ld a, [$A232]
+	ld a, [sScrollRightEnabled]
 	and a
 	jr z, UnknownRJump_0x0BE5
 	xor a
-	ld [$A233], a
+	ld [sScrollLeftEnabled], a
 	ld a, [sScrollDeltaRight]
 	ld b, a
 	ldh a, [$FFCA]
@@ -1646,11 +1646,11 @@ UnknownRJump_0x0C21:
 	ld a, [sScrollDeltaLeft]
 	and a
 	jr z, UnknownRJump_0x0C76
-	ld a, [$A233]
+	ld a, [sScrollLeftEnabled]
 	and a
 	jr z, UnknownRJump_0x0C76
 	xor a
-	ld [$A232], a
+	ld [sScrollRightEnabled], a
 	ld a, [sScrollDeltaLeft]
 	ld b, a
 	ldh a, [$FFCA]
@@ -1702,7 +1702,7 @@ UnknownJump_0x0C7D:
 	sub b
 	add 96
 	ldh [$FF99], a
-	ld a, [$A20C]
+	ld a, [sPrevMarioY]
 	ld b, a
 	ldh a, [$FFC0]
 	sub b
@@ -1859,7 +1859,7 @@ UnknownRJump_0x0D97:
 	ld [sScrollDeltaDown], a
 	ld [sScrollDeltaUp], a
 	ldh a, [$FFC0]
-	ld [$A20C], a
+	ld [sPrevMarioY], a
 	ret
 
 UnknownData_0x0DA4:
@@ -1886,7 +1886,7 @@ UnknownRJump_0x0DCA:
 	and $01
 	ret nz
 	xor a
-	ld [$A233], a
+	ld [sScrollLeftEnabled], a
 	ld a, 1
 	ld b, a
 	ldh a, [$FFCA]
@@ -2073,7 +2073,7 @@ UnknownCall_0x0F2A:
 	ldh [$FFC2], a
 	ld a, [$A800]
 	ldh [$FFC0], a
-	ld [$A20C], a
+	ld [sPrevMarioY], a
 	ld a, [$A803]
 	ldh [$FFC3], a
 	ld a, [$A801]
@@ -2207,11 +2207,11 @@ UnknownRJump_0x1029:
 	ldh a, [hKeysHeld]
 	bit 0, a
 	jr z, UnknownRJump_0x1050
-	ld a, [$A2B2]
+	ld a, [sMoonFloatTimer]
 	and a
 	ret z
 	dec a
-	ld [$A2B2], a
+	ld [sMoonFloatTimer], a
 	ld a, [sVVelocityIndex]
 	cp $4A
 	ret nc
@@ -2221,12 +2221,12 @@ UnknownRJump_0x1029:
 
 UnknownRJump_0x104A:
 	ld a, 50
-	ld [$A2B2], a
+	ld [sMoonFloatTimer], a
 	ret
 
 UnknownRJump_0x1050:
 	xor a
-	ld [$A2B2], a
+	ld [sMoonFloatTimer], a
 	ret
 
 UnknownRJump_0x1055:
@@ -2235,11 +2235,11 @@ UnknownRJump_0x1055:
 	ret z
 	ld a, 52
 	ld [sVVelocityIndex], a
-	ld a, [$A285]
+	ld a, [sMoonJumpPoseTimer]
 	and a
 	ret nz
 	ld a, 8
-	ld [$A285], a
+	ld [sMoonJumpPoseTimer], a
 	ld a, 3
 	ld [$A460], a
 	ret
@@ -2308,7 +2308,7 @@ UnknownRJump_0x10D7:
 
 UnknownRJump_0x10DC:
 	ld a, 8
-	ld [$A24D], a
+	ld [sFlutterTimer], a
 	ld a, 24
 	ld [sVVelocityIndex], a
 	ld a, 6
@@ -2473,7 +2473,7 @@ UnknownRJump_0x11FE:
 	jr c, UnknownRJump_0x1244
 
 UnknownRJump_0x120E:
-	ld a, [$A28A]
+	ld a, [sSidePushDir]
 	cp $01
 	jr z, UnknownRJump_0x1225
 	ldh a, [hKeysHeld]
@@ -2503,7 +2503,7 @@ UnknownRJump_0x1225:
 	ret
 
 UnknownRJump_0x1244:
-	ld a, [$A28A]
+	ld a, [sSidePushDir]
 	cp $FF
 	jr z, UnknownRJump_0x1255
 	ldh a, [hKeysHeld]
@@ -2598,7 +2598,7 @@ UnknownRJump_0x12CE:
 	adc 0
 	ldh [$FFC3], a
 	ld a, 1
-	ld [$A28A], a
+	ld [sSidePushDir], a
 	ld a, [sHVelocityIndex]
 	cp $80
 	jr c, UnknownRJump_0x1327
@@ -2618,7 +2618,7 @@ UnknownRJump_0x1302:
 	sbc 0
 	ldh [$FFC3], a
 	ld a, 255
-	ld [$A28A], a
+	ld [sSidePushDir], a
 	ld a, [sHVelocityIndex]
 	cp $81
 	jr nc, UnknownRJump_0x1327
@@ -2631,7 +2631,7 @@ UnknownRJump_0x1327:
 	and a
 	jr z, UnknownRJump_0x134F
 	call UnknownCall_0x1993
-	ld a, [$A220]
+	ld a, [sSpinJumpBounce]
 	and a
 	jr z, UnknownRJump_0x134F
 	ld a, 255
@@ -2758,7 +2758,7 @@ UnknownRJump_0x13EA:
 UnknownCall_0x13FE:
 	xor a
 	ld [sMarioXSub], a
-	ld [$A218], a
+	ld [sMarioXPushed], a
 	ld [$A283], a
 	ld a, [sPipeTravelDirection]
 	cp $10
@@ -2815,7 +2815,7 @@ UnknownRJump_0x144B:
 	inc a
 	ld [sMarioXSub], a
 	ld a, 255
-	ld [$A218], a
+	ld [sMarioXPushed], a
 	ret
 
 UnknownRJump_0x1464:
@@ -2853,7 +2853,7 @@ UnknownRJump_0x148D:
 	dec a
 	ld [sMarioXSub], a
 	ld a, 255
-	ld [$A218], a
+	ld [sMarioXPushed], a
 	ret
 
 UnknownCall_0x14A6:
@@ -2920,11 +2920,11 @@ UnknownCall_0x14FA:
 	ld a, [sMoonPhysics]
 	bit 1, a
 	jr nz, UnknownRJump_0x150C
-	ld a, [$A24D]
+	ld a, [sFlutterTimer]
 	and a
 	jr z, UnknownRJump_0x150C
 	dec a
-	ld [$A24D], a
+	ld [sFlutterTimer], a
 	ret
 
 UnknownRJump_0x150C:
@@ -3044,7 +3044,7 @@ UnknownRJump_0x15CF:
 	ld a, [sMarioYU]
 	ldh [$FFC1], a
 	xor a
-	ld [$A2B2], a
+	ld [sMoonFloatTimer], a
 	ld a, 24
 	ld [sVVelocityIndex], a
 	ld a, [sMoonPhysics]
@@ -3226,7 +3226,7 @@ UnknownCall_0x1701:
 	ld a, [sMarioDucking]
 	and a
 	jp nz, UnknownJump_0x17C4
-	ld a, [$A218]
+	ld a, [sMarioXPushed]
 	and a
 	jp nz, UnknownJump_0x17C4
 	ldh a, [hKeysHeld]
@@ -3402,7 +3402,7 @@ UnknownRJump_0x1845:
 	ld a, [hl]
 	ld b, a
 	ld a, [sMarioXSub]
-	ld [$A219], a
+	ld [sMarioXSubSaved], a
 	add b
 	ld [sMarioXSub], a
 	add 16
@@ -3435,7 +3435,7 @@ UnknownRJump_0x188B:
 	ldh [$FFC2], a
 	ld a, [sMarioXU]
 	ldh [$FFC3], a
-	ld a, [$A219]
+	ld a, [sMarioXSubSaved]
 	ld [sMarioXSub], a
 	ld a, 128
 	ld [sHVelocityIndex], a
@@ -3472,7 +3472,7 @@ MarioSpeedTableVWater: ;$1947 Also used for outer space and hippo bubble
 
 UnknownCall_0x1993:
 	xor a
-	ld [$A220], a
+	ld [sSpinJumpBounce], a
 	ld a, [sCollisionTile]
 	cp $7E
 	jr z, UnknownRJump_0x19AC
@@ -3511,7 +3511,7 @@ UnknownRJump_0x19C1:
 
 UnknownRJump_0x19D2:
 	ld a, 255
-	ld [$A220], a
+	ld [sSpinJumpBounce], a
 	ld a, 2
 	ld [$A460], a
 	ld b, 3
@@ -3530,7 +3530,7 @@ UnknownRJump_0x19F1:
 	ld [$A460], a
 	call UnknownCall_0x2C6C
 	ld a, 255
-	ld [$A220], a
+	ld [sSpinJumpBounce], a
 	ret
 
 MarioSpeedTableH: ;$19FF
@@ -4104,7 +4104,7 @@ LevelPropertiesSpace: ;$1F91 1 byte per level (Space Physics)
 
 UnknownCall_0x1FB1:
 	call UnknownCall_0x200C
-	ld a, [$A207]
+	ld a, [sSavedLCDC]
 	and $08
 	jr z, UnknownRJump_0x1FC2
 	ld a, 4
@@ -4275,7 +4275,7 @@ UnknownCall_0x20A4:
 	ld a, [$A28F]
 	or b
 	jp z, UnknownJump_0x21EE
-	ld a, [$A264]
+	ld a, [sSavedOAMIndex]
 	ldh [$FF8D], a
 	call UnknownCall_0x2CFF
 	call UnknownCall_0x2728
@@ -4953,7 +4953,7 @@ UnknownJump_0x2524:
 UnknownCall_0x25AF:
 	ld a, [hli]
 	and $0F
-	ld [$A22D], a
+	ld [sLevelGfxIndex], a
 	push hl
 	call DisableVBlank
 	ld a, 19 ;prepare bank switch
@@ -4970,7 +4970,7 @@ UnknownCall_0x25AF:
 	ld de, $8E80
 	call CopyMem
 	ld hl, UnknownData_0x268B
-	ld a, [$A22D]
+	ld a, [sLevelGfxIndex]
 	sla a
 	ld e, a
 	ld d, 0
@@ -4978,7 +4978,7 @@ UnknownCall_0x25AF:
 	ld a, [hli] ;prepare bank switch
 	ld [$2100], a
 	ld hl, UnknownData_0x2699
-	ld a, [$A22D]
+	ld a, [sLevelGfxIndex]
 	sla a
 	sla a
 	ld e, a
@@ -5001,7 +5001,7 @@ UnknownCall_0x25AF:
 UnknownRJump_0x2614:
 	call CopyMem
 	ld hl, UnknownData_0x268B
-	ld a, [$A22D]
+	ld a, [sLevelGfxIndex]
 	sla a
 	inc a
 	ld e, a
@@ -5010,7 +5010,7 @@ UnknownRJump_0x2614:
 	ld a, [hli] ;prepare bank switch
 	ld [$2100], a
 	ld hl, UnknownData_0x2699 + 2
-	ld a, [$A22D]
+	ld a, [sLevelGfxIndex]
 	sla a
 	sla a
 	ld e, a
@@ -5036,7 +5036,7 @@ UnknownRJump_0x264F:
 	ld [sCurROMBank], a
 	ld [$2100], a
 	ld hl, UnknownData_0x26B5
-	ld a, [$A22D]
+	ld a, [sLevelGfxIndex]
 	sla a
 	ld e, a
 	ld d, 0
@@ -5268,7 +5268,7 @@ UnknownRJump_0x27D2:
 	ld a, 228
 	ld [sBGPalette], a
 	ld a, 195
-	ld [$A207], a
+	ld [sSavedLCDC], a
 	ldh [rLCDC], a
 	ld a, 5
 	ld [sLives], a
@@ -6095,7 +6095,7 @@ UnknownCall_0x2DC6:
 	bit 7, a
 	jr z, UnknownRJump_0x2DE1
 	and $7F
-	ld [$A26C], a
+	ld [sPendingItemId], a
 	ret
 
 UnknownRJump_0x2DE1:
@@ -6103,7 +6103,7 @@ UnknownRJump_0x2DE1:
 	ld b, a
 	cp $0C
 	jp nc, UnknownJump_0x2E6F
-	ld a, [$A24D]
+	ld a, [sFlutterTimer]
 	and a
 	jr nz, UnknownRJump_0x2DF7
 	ld a, [sVVelocityIndex]
@@ -6767,7 +6767,7 @@ UnknownCall_0x3261:
 	ld [sFireballX], a
 	inc hl
 	ld a, [hl]
-	ld [$A212], a
+	ld [sFireballDirection], a
 	ldh a, [$FFCA]
 	ld b, a
 	ld a, [sFireballX]
@@ -6787,7 +6787,7 @@ UnknownCall_0x3261:
 	cp $C0
 	jr z, UnknownRJump_0x32BD
 	ld b, 176
-	ld a, [$A212]
+	ld a, [sFireballDirection]
 	cp $FF
 	jr z, UnknownRJump_0x329E
 	ld b, 180
@@ -6906,7 +6906,7 @@ UnknownCall_0x332E:
 	ld a, [hli]
 	ld [sFireballXU], a
 	ld a, [hli]
-	ld [$A212], a
+	ld [sFireballDirection], a
 	sla a
 	ld b, a
 	ld a, [hl]
@@ -7032,7 +7032,7 @@ UnknownRJump_0x341C:
 	ld [$A460], a
 	call UnknownCall_0x2C6C
 	ld a, 255
-	ld [$A220], a
+	ld [sSpinJumpBounce], a
 
 UnknownRJump_0x3430:
 	pop hl
@@ -7048,7 +7048,7 @@ UnknownData_0x3439: ;indexed by sFireballPhase
 
 
 UnknownCall_0x3451:
-	ld a, [$A26C]
+	ld a, [sPendingItemId]
 	and a
 	ret z
 	cp $01
@@ -7175,7 +7175,7 @@ UnknownJump_0x3534:
 UnknownJump_0x3539:
 UnknownRJump_0x3539:
 	xor a
-	ld [$A26C], a
+	ld [sPendingItemId], a
 	ret
 
 UnknownJump_0x353E:
@@ -7440,7 +7440,7 @@ UnknownRJump_0x38E5:
 	ld a, [sPrevKeysHeld]
 	ldh [hKeysHeld], a
 	ld h, 163
-	ld a, [$A2CF]
+	ld a, [sDemoInputPos]
 	ld l, a
 
 UnknownRJump_0x38F5:
@@ -7460,12 +7460,12 @@ UnknownRJump_0x38F5:
 	ld a, b
 	ldh [hKeysHeld], a
 	ld a, l
-	ld [$A2CF], a
+	ld [sDemoInputPos], a
 	ret
 
 UnknownRJump_0x3911:
 	ld h, 163
-	ld a, [$A2CF]
+	ld a, [sDemoInputPos]
 	ld l, a
 	ld a, [hl]
 	cp $FF
@@ -7504,7 +7504,7 @@ UnknownRJump_0x393F:
 
 UnknownRJump_0x3942:
 	ld a, l
-	ld [$A2CF], a
+	ld [sDemoInputPos], a
 	ret
 
 UnknownData_0x3947:

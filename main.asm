@@ -255,11 +255,11 @@ UnknownRJump_0x534C:
 	jr nz, UnknownRJump_0x5377
 	ld a, 18
 	ldh [$FFC6], a
-	ld a, [$A285]
+	ld a, [sMoonJumpPoseTimer]
 	and a
 	jp z, UnknownJump_0x5447
 	dec a
-	ld [$A285], a
+	ld [sMoonJumpPoseTimer], a
 	ld a, 19
 	ldh [$FFC6], a
 	jp UnknownJump_0x5447
@@ -322,11 +322,11 @@ UnknownJump_0x53CF:
 	jr nz, UnknownRJump_0x53F2
 	ld a, 20
 	ldh [$FFC6], a
-	ld a, [$A285]
+	ld a, [sMoonJumpPoseTimer]
 	and a
 	jp z, UnknownJump_0x5447
 	dec a
-	ld [$A285], a
+	ld [sMoonJumpPoseTimer], a
 	ld a, 21
 	ldh [$FFC6], a
 	jp UnknownJump_0x5447
@@ -410,7 +410,7 @@ UnknownRJump_0x546B:
 	ldh a, [$FFC6]
 	add 69
 	ldh [$FFC6], a
-	ld a, [$A24D]
+	ld a, [sFlutterTimer]
 	and a
 	jr z, UnknownRJump_0x54A7
 	bit 2, a
@@ -447,14 +447,14 @@ UnknownRJump_0x54A7:
 	cp $60
 	jr c, UnknownRJump_0x54BF
 	ld a, 255
-	ld [$A232], a
+	ld [sScrollRightEnabled], a
 	jr UnknownRJump_0x54C8
 
 UnknownRJump_0x54BF:
 	cp $60
 	jr nc, UnknownRJump_0x54C8
 	ld a, 255
-	ld [$A233], a
+	ld [sScrollLeftEnabled], a
 
 UnknownJump_0x54C8:
 UnknownRJump_0x54C8:
@@ -1271,7 +1271,7 @@ UnknownJump_0x5D25:
 	xor a
 	ld [sScrollDeltaDown], a
 	ld [sScrollDeltaUp], a
-	ld [$A28A], a
+	ld [sSidePushDir], a
 	ldh a, [rLCDC]
 	bit 5, a
 	jr nz, UnknownRJump_0x5D39
@@ -1310,12 +1310,12 @@ UnknownRJump_0x5D6A:
 	or b
 	or c
 	jp nz, UnknownJump_0x5E12
-	ld a, [$A24B]
+	ld a, [sTimerTickCounter]
 	dec a
-	ld [$A24B], a
+	ld [sTimerTickCounter], a
 	jp nz, UnknownJump_0x5E12
 	ld a, 48
-	ld [$A24B], a
+	ld [sTimerTickCounter], a
 	ld a, [sTimerLow]
 	sub 1
 	daa
@@ -13178,7 +13178,7 @@ UnknownRJump_0x140A8:
 	ld a, 240
 	ld [sSoundDisabled], a
 	xor a
-	ld [$A2CF], a
+	ld [sDemoInputPos], a
 	ldh_n_a $97
 	ld hl, $4121
 	ld a, [$A0F0]
@@ -13212,7 +13212,7 @@ UnknownRJump_0x140E5:
 	ld a, 15
 	ld [sSoundDisabled], a
 	xor a
-	ld [$A2CF], a
+	ld [sDemoInputPos], a
 	ldh_n_a $97
 	ld hl, $4121
 	ld a, [$A0F0]
