@@ -965,7 +965,7 @@ UnknownRJump_0x06C0:
 	add hl, de
 	ld a, [hl]
 	inc a
-	ld [$A299], a
+	ld [sTileAnimConfig], a
 	ret
 
 UnknownData_0x0763: ;GFX source pointers, indexed by ($A2D2 >> 4) * 2
@@ -3697,7 +3697,7 @@ UnknownRJump_0x1CD7:
 	xor a
 	ld [sFadeTimerHigh], a
 	ld [$A2A0], a
-	ld [$A299], a
+	ld [sTileAnimConfig], a
 	jr UnknownRJump_0x1D71
 
 UnknownRJump_0x1CFB:
@@ -4318,7 +4318,7 @@ UnknownJump_0x20EB:
 	ld a, 96
 	ld [sFadeTimerLow], a
 	xor a
-	ld [$A299], a
+	ld [sTileAnimConfig], a
 	ld [sStarTimerHigh], a
 	ld [sStarTimerLow], a
 	inc hl
@@ -5215,7 +5215,7 @@ UnknownRJump_0x2760:
 	ld [sMarioDead], a
 	xor a
 	ld [sAutoScroll], a
-	ld [$A299], a
+	ld [sTileAnimConfig], a
 	ld [sExitTileFlag], a
 	ld [sFastMusic], a
 	ld a, 20
@@ -5314,10 +5314,10 @@ UnknownRJump_0x283F:
 UnknownRJump_0x2844:
 	dec b
 	jr nz, UnknownRJump_0x283F
-	ld a, [$A2C5]
+	ld a, [sLevelTally]
 	sub c
 	daa
-	ld [$A2C5], a
+	ld [sLevelTally], a
 	xor a
 	ld [$A84D], a
 	ld [$A851], a
@@ -5488,7 +5488,7 @@ UnknownRJump_0x294D:
 	ld [hli], a
 	add c
 	ld c, a
-	ld a, [$A2C5]
+	ld a, [sLevelTally]
 	ld [hli], a
 	add c
 	ld c, a
@@ -6623,7 +6623,7 @@ UnknownRJump_0x3120:
 
 UnknownRJump_0x3127:
 	xor a
-	ld [$A299], a
+	ld [sTileAnimConfig], a
 	ld [sBossFightPhase], a
 	ld a, 20
 	ldh [$FF9B], a
@@ -6761,16 +6761,16 @@ UnknownCall_0x3261:
 	push hl
 	inc hl
 	ld a, [hli]
-	ld [$A25D], a
+	ld [sFireballY], a
 	inc hl
 	ld a, [hli]
-	ld [$A25F], a
+	ld [sFireballX], a
 	inc hl
 	ld a, [hl]
 	ld [$A212], a
 	ldh a, [$FFCA]
 	ld b, a
-	ld a, [$A25F]
+	ld a, [sFireballX]
 	sub b
 	add 80
 	ldh [$FFC5], a
@@ -6779,7 +6779,7 @@ UnknownCall_0x3261:
 	jr z, UnknownRJump_0x32BD
 	ldh a, [$FFC8]
 	ld b, a
-	ld a, [$A25D]
+	ld a, [sFireballY]
 	sub b
 	add 70
 	ldh [$FFC4], a
@@ -6896,33 +6896,33 @@ UnknownCall_0x332E:
 	push hl
 	inc hl
 	ld a, [hli]
-	ld [$A25D], a
+	ld [sFireballY], a
 	ldh [$FFB7], a
 	ld a, [hli]
-	ld [$A25E], a
+	ld [sFireballYU], a
 	ldh [$FFB8], a
 	ld a, [hli]
-	ld [$A25F], a
+	ld [sFireballX], a
 	ld a, [hli]
-	ld [$A260], a
+	ld [sFireballXU], a
 	ld a, [hli]
 	ld [$A212], a
 	sla a
 	ld b, a
 	ld a, [hl]
-	ld [$A259], a
+	ld [sFireballPhase], a
 	ld c, a
 	ld a, b
 	cp $80
 	jr nc, UnknownRJump_0x336E
 	inc b
-	ld a, [$A25F]
+	ld a, [sFireballX]
 	add b
-	ld [$A25F], a
+	ld [sFireballX], a
 	ldh [$FFB9], a
-	ld a, [$A260]
+	ld a, [sFireballXU]
 	adc 0
-	ld [$A260], a
+	ld [sFireballXU], a
 	ldh [$FFBA], a
 	jr UnknownRJump_0x3386
 
@@ -6932,20 +6932,20 @@ UnknownRJump_0x336E:
 	cpl
 	inc a
 	ld b, a
-	ld a, [$A25F]
+	ld a, [sFireballX]
 	sub b
-	ld [$A25F], a
+	ld [sFireballX], a
 	ldh [$FFB9], a
-	ld a, [$A260]
+	ld a, [sFireballXU]
 	sbc 0
-	ld [$A260], a
+	ld [sFireballXU], a
 	ldh [$FFBA], a
 
 UnknownRJump_0x3386:
 	call UnknownCall_0x1EFA
 	cp $38
 	jp c, UnknownJump_0x3415
-	ld a, [$A259]
+	ld a, [sFireballPhase]
 	ld c, a
 	ld hl, UnknownData_0x3439
 	ld b, 0
@@ -6955,66 +6955,66 @@ UnknownRJump_0x3386:
 	ld a, c
 	cp $0C
 	jr c, UnknownRJump_0x33B4
-	ld a, [$A25D]
+	ld a, [sFireballY]
 	sub b
-	ld [$A25D], a
+	ld [sFireballY], a
 	ldh [$FFB7], a
-	ld a, [$A25E]
+	ld a, [sFireballYU]
 	sbc 0
-	ld [$A25E], a
+	ld [sFireballYU], a
 	ldh [$FFB8], a
 	jr UnknownRJump_0x33C7
 
 UnknownRJump_0x33B4:
-	ld a, [$A25D]
+	ld a, [sFireballY]
 	add b
-	ld [$A25D], a
+	ld [sFireballY], a
 	ldh [$FFB7], a
-	ld a, [$A25E]
+	ld a, [sFireballYU]
 	adc 0
-	ld [$A25E], a
+	ld [sFireballYU], a
 	ldh [$FFB8], a
 
 UnknownRJump_0x33C7:
 	call UnknownCall_0x1EFA
 	cp $48
 	jr nc, UnknownRJump_0x33F1
-	ld a, [$A259]
+	ld a, [sFireballPhase]
 	cp $0C
 	jr nc, UnknownRJump_0x33F1
 	ld a, [sCollisionTile]
 	cp $06
 	jr z, UnknownRJump_0x341C
 	ld a, 24
-	ld [$A259], a
-	ld a, [$A25D]
+	ld [sFireballPhase], a
+	ld a, [sFireballY]
 	sub 3
-	ld [$A25D], a
-	ld a, [$A25E]
+	ld [sFireballY], a
+	ld a, [sFireballYU]
 	sbc 0
-	ld [$A25E], a
+	ld [sFireballYU], a
 
 UnknownRJump_0x33F1:
-	ld a, [$A259]
+	ld a, [sFireballPhase]
 	and a
 	jr z, UnknownRJump_0x33FB
 	dec a
-	ld [$A259], a
+	ld [sFireballPhase], a
 
 UnknownRJump_0x33FB:
 	pop hl
 	push hl
 	inc hl
-	ld a, [$A25D]
+	ld a, [sFireballY]
 	ld [hli], a
-	ld a, [$A25E]
+	ld a, [sFireballYU]
 	ld [hli], a
-	ld a, [$A25F]
+	ld a, [sFireballX]
 	ld [hli], a
-	ld a, [$A260]
+	ld a, [sFireballXU]
 	ld [hli], a
 	inc hl
-	ld a, [$A259]
+	ld a, [sFireballPhase]
 	ld [hl], a
 	pop hl
 	ret
@@ -7205,10 +7205,10 @@ UnknownRJump_0x3558:
 	ld a, [sExitTileFlag]
 	and a
 	jr nz, UnknownRJump_0x356E
-	ld a, [$A2C5]
+	ld a, [sLevelTally]
 	add 1
 	daa
-	ld [$A2C5], a
+	ld [sLevelTally], a
 
 UnknownRJump_0x356E:
 	ld a, 20
@@ -7367,13 +7367,13 @@ UnknownData_0x377B: ;per-level 8-byte records (copied to $A800), indexed by sCur
 
 
 UnknownCall_0x3873:
-	ld a, [$A299]
+	ld a, [sTileAnimConfig]
 	and a
 	ret z
 	dec a
 	and $0F
 	ld d, a
-	ld a, [$A299]
+	ld a, [sTileAnimConfig]
 	and $F0
 	swap a
 	sla a

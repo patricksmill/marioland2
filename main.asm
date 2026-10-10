@@ -16011,7 +16011,7 @@ UnknownRJump_0x3000C:
 	ld [sMenuState], a
 	ld [sScrollY], a
 	ld [sScrollX], a
-	ld [$A2C6], a
+	ld [sFileClearMode], a
 	ld a, 131
 	ldh_n_a $40
 	ld a, 5
@@ -16058,7 +16058,7 @@ UnknownRJump_0x3007D:
 	ldh [$FFC6], a
 
 UnknownRJump_0x3009B:
-	ld a, [$A2C6]
+	ld a, [sFileClearMode]
 	and a
 	jr z, UnknownRJump_0x300E1
 	ld a, [sMenuState]
@@ -16159,7 +16159,7 @@ UnknownRJump_0x30149:
 	ld a, 1
 	ld [sMenuState], a
 	xor a
-	ld [$A2C6], a
+	ld [sFileClearMode], a
 	ldh [$FFBB], a
 	ret
 
@@ -16241,7 +16241,7 @@ UnknownData_0x301C2: ;indexed from ($A278 & $18); value written to $FFC6 (reader
 	swap a
 	dec a
 	ld [$A2A3], a
-	ld a, [$A2C6]
+	ld a, [sFileClearMode]
 	and a
 	jr nz, UnknownRJump_0x30227
 	ld a, 21
@@ -16270,7 +16270,7 @@ UnknownRJump_0x3020A:
 	ld a, [hli]
 	ld [sCoinHigh], a
 	ld a, [hli]
-	ld [$A2C5], a
+	ld [sLevelTally], a
 	ld a, [hli]
 	ld [sLives], a
 	ld a, [hli]
@@ -16316,7 +16316,7 @@ UnknownRJump_0x30238:
 	ld a, 6
 	ld [sMenuState], a
 	xor a
-	ld [$A2C6], a
+	ld [sFileClearMode], a
 	ld a, 144
 	ld [$A2D1], a
 	ld a, 5
@@ -16344,14 +16344,14 @@ UnknownRJump_0x3028A:
 	ret
 
 UnknownCall_0x30291:
-	ld a, [$A2C6]
+	ld a, [sFileClearMode]
 	xor $FF
-	ld [$A2C6], a
+	ld [sFileClearMode], a
 	ld a, 255
 	ld [sMarioDirection], a
 	ld a, 8
 	ld [$A460], a
-	ld a, [$A2C6]
+	ld a, [sFileClearMode]
 	and a
 	ret z
 	xor a
@@ -16467,7 +16467,7 @@ UnknownRJump_0x30367:
 	ret
 
 UnknownJump_0x3037D:
-	ld a, [$A2C6]
+	ld a, [sFileClearMode]
 	and a
 	ret nz
 	ld a, [sEasyMode]
@@ -16561,14 +16561,14 @@ UnknownJump_0x3041D:
 	ld a, [$A27D]
 	bit 7, a
 	jr nz, UnknownRJump_0x3042D
-	ld a, [$A2C5]
+	ld a, [sLevelTally]
 	add 1
 	daa
-	ld [$A2C5], a
+	ld [sLevelTally], a
 
 UnknownRJump_0x3042D:
 	xor a
-	ld [$A299], a
+	ld [sTileAnimConfig], a
 	ld a, 192
 	ldh [$FFC0], a
 	ld hl, $4985

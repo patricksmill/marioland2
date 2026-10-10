@@ -45,6 +45,11 @@ DEF sGoalBell EQU $A24F
 DEF sTimerLow EQU $A254
 DEF sTimerHigh EQU $A255
 DEF sLevelBank EQU $A258
+DEF sFireballPhase EQU $A259
+DEF sFireballY EQU $A25D
+DEF sFireballYU EQU $A25E
+DEF sFireballX EQU $A25F
+DEF sFireballXU EQU $A260
 DEF sCoinLow EQU $A262
 DEF sCoinHigh EQU $A263
 DEF sVRAMTransferBank EQU $A265
@@ -66,10 +71,13 @@ DEF sSceneState EQU $A28B
 DEF sMoneyBagCount EQU $A28D
 DEF sMarioDucking EQU $A291
 DEF sLevelSong EQU $A292
+DEF sTileAnimConfig EQU $A299
 DEF sScrollY EQU $A2B0
 DEF sScrollX EQU $A2B1
 DEF sCameraPanTimer EQU $A2B3
 DEF sExitTileFlag EQU $A2B4
+DEF sLevelTally EQU $A2C5
+DEF sFileClearMode EQU $A2C6
 DEF sAutoScroll EQU $A2C8
 DEF sMusicQueue EQU $A2CB
 DEF sSoundDisabled EQU $A2CE
