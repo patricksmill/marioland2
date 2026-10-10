@@ -1,0 +1,12 @@
+$AD00	sObjectTable
+$AD05	sObject0Def
+$AD08	sObject0State
+$AD09	sObject0Y
+$AD0A	sObject0X
+$AD12	sObject0Type
+$AD25	sObject1Def
+$AD29	sObject1Y
+$AD2B	sObject1Sprite
+$AD2F	sObject1Busy
+$AD49	sObject2Y
+$AD4F	sObject2Busy

@@ -49,7 +49,13 @@ DEF sBlockAnimYLow EQU $A240
 DEF sBlockAnimYHigh EQU $A241
 DEF sBlockAnimXLow EQU $A242
 DEF sBlockAnimXHigh EQU $A243
+DEF sMarioObjectYDelta EQU $A244
+DEF sMarioObjectXDelta EQU $A245
+DEF sObjectHitResult EQU $A246
+DEF sObjectBumpHit EQU $A247
 DEF sVRAMTransferActive EQU $A248
+DEF sSceneTransitionLatch EQU $A249
+DEF sSceneTransitionFlag EQU $A24A
 DEF sTimerTickCounter EQU $A24B
 DEF sWaterCurrentState EQU $A24C
 DEF sFlutterTimer EQU $A24D
@@ -57,9 +63,12 @@ DEF sCurROMBank EQU $A24E
 DEF sGoalBell EQU $A24F
 DEF sTimerLow EQU $A254
 DEF sTimerHigh EQU $A255
+DEF sObjectBumpSpecial EQU $A256
+DEF sStarCarryover EQU $A257
 DEF sLevelBank EQU $A258
 DEF sFireballPhase EQU $A259
 DEF sMarioThrowTimer EQU $A25A
+DEF sFireballActive EQU $A25B
 DEF sFireballY EQU $A25D
 DEF sFireballYU EQU $A25E
 DEF sFireballX EQU $A25F
@@ -72,8 +81,10 @@ DEF sFadeTimerLow EQU $A266
 DEF sFadeTimerHigh EQU $A267
 DEF sSpinJump EQU $A268
 DEF sCurLevel EQU $A269
+DEF sMarioOnObject EQU $A26B
 DEF sPendingItemId EQU $A26C
 DEF sSwimming EQU $A26D
+DEF sOAMWriteEnd EQU $A26E
 DEF sStarTimerHigh EQU $A271
 DEF sStarTimerLow EQU $A272
 DEF sMenuState EQU $A277
@@ -93,6 +104,13 @@ DEF sLevelSong EQU $A292
 DEF sTileAnimTimer EQU $A298
 DEF sTileAnimConfig EQU $A299
 DEF sSaveFileIndex EQU $A2A3
+DEF sObjectType EQU $A2A9
+DEF sObjectBoxTop EQU $A2AA
+DEF sObjectBoxBottom EQU $A2AB
+DEF sObjectBoxLeft EQU $A2AC
+DEF sObjectBoxRight EQU $A2AD
+DEF sObjectY EQU $A2AE
+DEF sObjectX EQU $A2AF
 DEF sScrollY EQU $A2B0
 DEF sScrollX EQU $A2B1
 DEF sMoonFloatTimer EQU $A2B2
@@ -123,6 +141,7 @@ DEF sPrevKeysHeld EQU $A2D0
 DEF sCursorAnimY EQU $A2D1
 DEF sLevelGfxConfig EQU $A2D2
 DEF sCoinIconDropY EQU $A2D3
+DEF sObjectBounce EQU $A2D4
 DEF sCreditsTextPhase EQU $A2D6
 DEF sCreditsTextDone EQU $A2D8
 DEF sBossFightPhase EQU $A2DC
@@ -134,6 +153,21 @@ DEF sEasyMode EQU $A2E4
 
 DEF sCurSong EQU $A469
 DEF sFastMusic EQU $A50D
+
+; Object/actor table ($AD00-$AEFF), 16 slots x $20
+DEF sObjectTable EQU $AD00
+DEF sObject0Def EQU $AD05
+DEF sObject0State EQU $AD08
+DEF sObject0Y EQU $AD09
+DEF sObject0X EQU $AD0A
+DEF sObject0Type EQU $AD12
+DEF sObject1Def EQU $AD25
+DEF sObject1Y EQU $AD29
+DEF sObject1Sprite EQU $AD2B
+DEF sObject1Busy EQU $AD2F
+DEF sObject2Y EQU $AD49
+DEF sObject2Busy EQU $AD4F
+
 ; HRAM Variables
 DEF hKeysHeld EQU $FF80
 DEF hKeysPressed EQU $FF81

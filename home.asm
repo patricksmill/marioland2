@@ -613,7 +613,7 @@ UnknownRJump_0x0472:
 	ld [sScreenTransition], a
 	ld [$A2A7], a
 	ld [sVRAMTransferActive], a
-	ld [$A26E], a
+	ld [sOAMWriteEnd], a
 	ld hl, $AA80
 
 UnknownRJump_0x049C:
@@ -637,7 +637,7 @@ UnknownRJump_0x049C:
 	add hl, de
 	ld a, [hl] ;check level autoscroll properties
 	ld [sAutoScroll], a
-	ld a, [$A257]
+	ld a, [sStarCarryover]
 	and a
 	jr z, UnknownRJump_0x04DD
 
@@ -648,7 +648,7 @@ UnknownRJump_0x049C:
 	ld a, 4
 	ld [$A468], a
 	xor a
-	ld [$A257], a
+	ld [sStarCarryover], a
 
 
 UnknownRJump_0x04DD:
@@ -2561,7 +2561,7 @@ UnknownCall_0x129F:
 	ret nc
 	xor a
 	ld [$A2DE], a
-	ld a, [$A26B]
+	ld a, [sMarioOnObject]
 	and a
 	jp nz, UnknownJump_0x1378
 	call UnknownCall_0x1E3B
@@ -3516,7 +3516,7 @@ UnknownRJump_0x19D2:
 	ld [$A460], a
 	ld b, 3
 	call UnknownCall_0x2C6C
-	ld a, [$A256]
+	ld a, [sObjectBumpSpecial]
 	and a
 	ret nz
 	ld b, 4
@@ -4421,7 +4421,7 @@ UnknownRJump_0x2198:
 	jr nz, UnknownRJump_0x21A7
 	call UnknownCall_0x2323
 	ld a, 1
-	ld [$A24A], a
+	ld [sSceneTransitionFlag], a
 	jp UnknownJump_0x21E8
 
 UnknownRJump_0x21A7:
@@ -4466,12 +4466,12 @@ UnknownJump_0x21E8:
 	jp UnknownJump_0x20D9
 
 UnknownJump_0x21EE:
-	ld a, [$A24A]
-	ld [$A249], a
+	ld a, [sSceneTransitionFlag]
+	ld [sSceneTransitionLatch], a
 	xor a
 	ld [$A28E], a
 	ld [$A28F], a
-	ld [$A24A], a
+	ld [sSceneTransitionFlag], a
 	ld [$A2A8], a
 	ret
 
@@ -6039,12 +6039,12 @@ UnknownCall_0x2D4C:
 
 UnknownCall_0x2D7D:
 	xor a
-	ld [$A26B], a
-	ld [$A2D4], a
+	ld [sMarioOnObject], a
+	ld [sObjectBounce], a
 	ld a, [sMarioDead]
 	and a
 	ret nz
-	ld hl, $AD00
+	ld hl, sObjectTable
 
 UnknownRJump_0x2D8C:
 	push hl
@@ -6055,7 +6055,7 @@ UnknownRJump_0x2D8C:
 	and $F7
 	jr nz, UnknownRJump_0x2DA2
 	call UnknownCall_0x2EDD
-	ld a, [$A246]
+	ld a, [sObjectHitResult]
 	and a
 	jr z, UnknownRJump_0x2DA2
 	call UnknownCall_0x2DC6
@@ -6067,7 +6067,7 @@ UnknownRJump_0x2DA2:
 	ld a, h
 	cp $AF
 	jr nz, UnknownRJump_0x2D8C
-	ld a, [$A2D4]
+	ld a, [sObjectBounce]
 	and a
 	ret z
 	ld a, 255
@@ -6091,7 +6091,7 @@ UnknownCall_0x2DC6:
 	ld a, [hl]
 	set 4, a
 	ld [hl], a
-	ld a, [$A2A9]
+	ld a, [sObjectType]
 	bit 7, a
 	jr z, UnknownRJump_0x2DE1
 	and $7F
@@ -6099,7 +6099,7 @@ UnknownCall_0x2DC6:
 	ret
 
 UnknownRJump_0x2DE1:
-	ld a, [$A244]
+	ld a, [sMarioObjectYDelta]
 	ld b, a
 	cp $0C
 	jp nc, UnknownJump_0x2E6F
@@ -6111,20 +6111,20 @@ UnknownRJump_0x2DE1:
 	jr nc, UnknownRJump_0x2E6F
 
 UnknownRJump_0x2DF7:
-	ld a, [$A2A9]
+	ld a, [sObjectType]
 	and $23
 	jr z, UnknownRJump_0x2E6F
 	bit 5, a
 	jr z, UnknownRJump_0x2E23
 	ld a, 255
-	ld [$A26B], a
+	ld [sMarioOnObject], a
 	ld a, l
 	and $E0
 	add 23
 	ld l, a
 	ld a, 8
 	ld [hl], a
-	ld a, [$A244]
+	ld a, [sMarioObjectYDelta]
 	cp $03
 	ret c
 	ldh a, [$FFC0]
@@ -6160,7 +6160,7 @@ UnknownRJump_0x2E23:
 	sbc 0
 	ldh [$FFC1], a
 	ld a, 255
-	ld [$A2D4], a
+	ld [sObjectBounce], a
 	call UnknownCall_0x1DFE
 	jr nc, UnknownRJump_0x2E5C
 	ldh a, [$FFC0]
@@ -6186,7 +6186,7 @@ UnknownRJump_0x2E6F:
 	ld a, [sStarTimerHigh]
 	and a
 	jp nz, UnknownJump_0x2EAA
-	ld a, [$A2A9]
+	ld a, [sObjectType]
 	bit 6, a
 	ret z
 	ld a, [sMoonPhysics]
@@ -6214,7 +6214,7 @@ UnknownRJump_0x2E8E:
 	ret
 
 UnknownJump_0x2EAA:
-	ld a, [$A2A9]
+	ld a, [sObjectType]
 	bit 5, a
 	ret nz
 	ld a, l
@@ -6246,7 +6246,7 @@ UnknownJump_0x2EAA:
 
 UnknownCall_0x2EDD:
 	xor a
-	ld [$A246], a
+	ld [sObjectHitResult], a
 	ld a, l
 	sub 5
 	ld l, a
@@ -6263,15 +6263,15 @@ UnknownRJump_0x2EF1:
 
 UnknownRJump_0x2EF5:
 	ld a, [hli]
-	ld [$A2A9], a
+	ld [sObjectType], a
 	ld a, [hli]
-	ld [$A2AA], a
+	ld [sObjectBoxTop], a
 	ld a, [hli]
-	ld [$A2AB], a
+	ld [sObjectBoxBottom], a
 	ld a, [hli]
-	ld [$A2AC], a
+	ld [sObjectBoxLeft], a
 	ld a, [hli]
-	ld [$A2AD], a
+	ld [sObjectBoxRight], a
 	ld a, [hl]
 	and $F7
 	ret nz
@@ -6279,12 +6279,12 @@ UnknownRJump_0x2EF5:
 	sub 14
 	ld l, a
 	ld a, [hli]
-	ld [$A2AE], a
+	ld [sObjectY], a
 	ld b, a
 	ld a, [hl]
-	ld [$A2AF], a
+	ld [sObjectX], a
 	ld c, a
-	ld a, [$A2AA]
+	ld a, [sObjectBoxTop]
 	add b
 	sub 20
 	ld d, a
@@ -6306,22 +6306,22 @@ UnknownRJump_0x2F34:
 	ld e, 0
 
 UnknownRJump_0x2F3E:
-	ld a, [$A2AB]
+	ld a, [sObjectBoxBottom]
 	add b
 	add e
 	sub d
 	ld e, a
 	ld a, [sMarioScreenY]
 	sub d
-	ld [$A244], a
+	ld [sMarioObjectYDelta], a
 	cp e
 	jr nc, UnknownRJump_0x2F71
-	ld a, [$A2AC]
+	ld a, [sObjectBoxLeft]
 	add c
 	add 11
 	sub 16
 	ld d, a
-	ld a, [$A2AD]
+	ld a, [sObjectBoxRight]
 	add c
 	add 20
 	sub 16
@@ -6329,11 +6329,11 @@ UnknownRJump_0x2F3E:
 	ld e, a
 	ld a, [sMarioScreenX]
 	sub d
-	ld [$A245], a
+	ld [sMarioObjectXDelta], a
 	cp e
 	jr nc, UnknownRJump_0x2F71
 	ld a, 255
-	ld [$A246], a
+	ld [sObjectHitResult], a
 
 UnknownJump_0x2F71:
 UnknownRJump_0x2F71:
@@ -6341,7 +6341,7 @@ UnknownRJump_0x2F71:
 
 UnknownCall_0x2F72:
 	xor a
-	ld [$A256], a
+	ld [sObjectBumpSpecial], a
 	ld a, [sScrollY]
 	ld b, a
 	ldh a, [$FFB7]
@@ -6358,7 +6358,7 @@ UnknownCall_0x2F72:
 	sub b
 	sub 8
 	ldh [$FFB9], a
-	ld hl, $AD00
+	ld hl, sObjectTable
 
 UnknownRJump_0x2F97:
 	push hl
@@ -6381,12 +6381,12 @@ UnknownRJump_0x2FA3:
 
 UnknownCall_0x2FAE:
 	xor a
-	ld [$A247], a
+	ld [sObjectBumpHit], a
 	ld a, l
 	sub 5
 	ld l, a
 	ld a, [hli]
-	ld [$A2A9], a
+	ld [sObjectType], a
 	and a
 	jr z, UnknownRJump_0x2FEC
 	ld a, l
@@ -6405,24 +6405,24 @@ UnknownCall_0x2FAE:
 	cp $14
 	jr nc, UnknownRJump_0x2FEC
 	ld a, 255
-	ld [$A247], a
+	ld [sObjectBumpHit], a
 	ld a, l
 	add 13
 	ld l, a
 	ld a, [hl]
 	set 5, a
 	ld [hl], a
-	ld a, [$A2A9]
+	ld a, [sObjectType]
 	cp $80
 	jr nz, UnknownRJump_0x2FEC
 	ld a, 255
-	ld [$A256], a
+	ld [sObjectBumpSpecial], a
 
 UnknownRJump_0x2FEC:
 	ret
 
 UnknownCall_0x2FED:
-	ld hl, $AD00
+	ld hl, sObjectTable
 
 UnknownRJump_0x2FF0:
 	push hl
@@ -6454,29 +6454,29 @@ UnknownCall_0x3007:
 	and a
 	ret z
 	ld a, [hli]
-	ld [$A2A9], a
+	ld [sObjectType], a
 	ld a, [hli]
-	ld [$A2AA], a
+	ld [sObjectBoxTop], a
 	ld a, [hli]
-	ld [$A2AB], a
+	ld [sObjectBoxBottom], a
 	ld a, [hli]
-	ld [$A2AC], a
+	ld [sObjectBoxLeft], a
 	ld a, [hli]
-	ld [$A2AD], a
+	ld [sObjectBoxRight], a
 	ld a, l
 	sub 14
 	ld l, a
 	ld a, [hli]
-	ld [$A2AE], a
+	ld [sObjectY], a
 	ld b, a
 	ld a, [hl]
-	ld [$A2AF], a
+	ld [sObjectX], a
 	ld c, a
-	ld a, [$A2AA]
+	ld a, [sObjectBoxTop]
 	sub 6
 	add b
 	ld d, a
-	ld a, [$A2AB]
+	ld a, [sObjectBoxBottom]
 	add 6
 	add b
 	sub d
@@ -6485,11 +6485,11 @@ UnknownCall_0x3007:
 	sub d
 	cp e
 	jp nc, UnknownJump_0x307C
-	ld a, [$A2AC]
+	ld a, [sObjectBoxLeft]
 	sub 6
 	add c
 	ld d, a
-	ld a, [$A2AD]
+	ld a, [sObjectBoxRight]
 	add 6
 	add c
 	sub d
@@ -6503,7 +6503,7 @@ UnknownCall_0x3007:
 	jr nz, UnknownRJump_0x3071
 	ld a, 2
 	ld [$A460], a
-	ld [$A246], a
+	ld [sObjectHitResult], a
 	jr UnknownRJump_0x307C
 
 UnknownRJump_0x3071:
@@ -6513,7 +6513,7 @@ UnknownRJump_0x3071:
 	ld a, [hl]
 	set 1, a
 	ld [hl], a
-	ld [$A246], a
+	ld [sObjectHitResult], a
 
 UnknownJump_0x307C:
 UnknownRJump_0x307C:
@@ -6525,7 +6525,7 @@ UnknownCall_0x307D:
 	ret nz
 	ld a, [sMarioOnGround]
 	ld b, a
-	ld a, [$A26B]
+	ld a, [sMarioOnObject]
 	or b
 	ret z
 	ldh a, [hKeysHeld]
@@ -6802,9 +6802,9 @@ UnknownRJump_0x329E:
 	ldh [$FFBB], a
 	call UnknownCall_0x2CF4
 	xor a
-	ld [$A246], a
+	ld [sObjectHitResult], a
 	call UnknownCall_0x2FED
-	ld a, [$A246]
+	ld a, [sObjectHitResult]
 	and a
 	jr nz, UnknownRJump_0x32BD
 	pop hl
@@ -6892,7 +6892,7 @@ UnknownRJump_0x331F:
 	ret
 
 UnknownCall_0x332E:
-	ld [$A25B], a
+	ld [sFireballActive], a
 	push hl
 	inc hl
 	ld a, [hli]

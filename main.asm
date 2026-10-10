@@ -175,7 +175,7 @@ UnknownJump_0x52E7:
 UnknownCall_0x52E7:
 	ldh a, [$FF8D]
 	ld b, a
-	ld a, [$A26E]
+	ld a, [sOAMWriteEnd]
 	ld c, a
 	cp b
 	jr c, UnknownRJump_0x52FC
@@ -192,7 +192,7 @@ UnknownRJump_0x52F6:
 
 UnknownRJump_0x52FC:
 	ldh a, [$FF8D]
-	ld [$A26E], a
+	ld [sOAMWriteEnd], a
 	ret
 
 UnknownJump_0x5302:
@@ -275,7 +275,7 @@ UnknownRJump_0x5377:
 UnknownRJump_0x5384:
 	ld a, [sMarioOnGround]
 	ld b, a
-	ld a, [$A26B]
+	ld a, [sMarioOnObject]
 	or b
 	jr z, UnknownRJump_0x53BD
 	ld a, [sHVelocityIndex]
@@ -342,7 +342,7 @@ UnknownRJump_0x53F2:
 UnknownRJump_0x53FE:
 	ld a, [sMarioOnGround]
 	ld b, a
-	ld a, [$A26B]
+	ld a, [sMarioOnObject]
 	or b
 	jr z, UnknownRJump_0x5436
 	ld a, [sHVelocityIndex]
@@ -2313,7 +2313,7 @@ UnknownRJump_0x80F7:
 	inc [hl]
 
 UnknownRJump_0x812E:
-	ld hl, $AD08
+	ld hl, sObject0State
 
 UnknownRJump_0x8131:
 	xor a
@@ -3651,7 +3651,7 @@ UnknownData_0x8E3F: ;pointer table indexed by [$AFC0] * 2 (UnknownCall_0x904E, l
 UnknownCall_0x8E6C:
 	ld hl, $4E9A
 	call UnknownCall_0x904E
-	ld de, $AD05
+	ld de, sObject0Def
 	ld b, 18
 	call UnknownCall_0x3CAA
 	ld hl, $4EAC
@@ -3660,7 +3660,7 @@ UnknownCall_0x8E6C:
 	and a
 	ret z
 	ld c, a
-	ld de, $AD25
+	ld de, sObject1Def
 
 UnknownRJump_0x8E89:
 	ld b, 18
@@ -5450,17 +5450,17 @@ UnknownRJump_0x9FF2:
 	ld a, [$AFCB]
 	and a
 	jr z, UnknownRJump_0xA004
-	ld a, [$AD4F]
+	ld a, [sObject2Busy]
 	and a
 	jp nz, UnknownJump_0x9F7C
-	ld hl, $AD49
+	ld hl, sObject2Y
 	jr UnknownRJump_0xA00E
 
 UnknownRJump_0xA004:
-	ld a, [$AD2F]
+	ld a, [sObject1Busy]
 	and a
 	jp nz, UnknownJump_0x9F7C
-	ld hl, $AD29
+	ld hl, sObject1Y
 
 UnknownRJump_0xA00E:
 	ldh a, [$FFD9]
@@ -5633,10 +5633,10 @@ UnknownData_0xA105: ;dw values in the $5Cxx-$62xx domain ($5CAC first); no direc
 	dec a
 	ldh [$FFEC], a
 	ret nz
-	ld a, [$AD2F]
+	ld a, [sObject1Busy]
 	and a
 	jr nz, UnknownRJump_0xA159
-	ld hl, $AD29
+	ld hl, sObject1Y
 	ldh a, [$FFD9]
 	ld [hli], a
 	ldh a, [$FFDA]
@@ -5649,10 +5649,10 @@ UnknownData_0xA105: ;dw values in the $5Cxx-$62xx domain ($5CAC first); no direc
 	ld [hl], a
 
 UnknownRJump_0xA159:
-	ld a, [$AD4F]
+	ld a, [sObject2Busy]
 	and a
 	jr nz, UnknownRJump_0xA171
-	ld hl, $AD49
+	ld hl, sObject2Y
 	ldh a, [$FFD9]
 	add 16
 	ld [hli], a
@@ -5689,10 +5689,10 @@ UnknownRJump_0xA17D:
 	dec a
 	ldh [$FFEC], a
 	ret nz
-	ld a, [$AD2F]
+	ld a, [sObject1Busy]
 	and a
 	jr nz, UnknownRJump_0xA159
-	ld hl, $AD29
+	ld hl, sObject1Y
 	ldh a, [$FFD9]
 	ld [hli], a
 	ldh a, [$FFDA]
@@ -6990,7 +6990,7 @@ UnknownData_0xAB33: ;two dw values ($6B37/$6B4D); no direct reader found
 
 	ld a, 112
 	ldh [$FFDB], a
-	ld a, [$AD0A]
+	ld a, [sObject0X]
 	ldh [$FFDA], a
 	ld a, 16
 	ldh [$FFD9], a
@@ -7004,7 +7004,7 @@ UnknownData_0xAB33: ;two dw values ($6B37/$6B4D); no direct reader found
 	ret nz
 	ld b, 1
 	call UnknownCall_0xB276
-	ld a, [$AD09]
+	ld a, [sObject0Y]
 	and $F0
 	ld c, a
 	ldh a, [$FFD9]
@@ -7024,7 +7024,7 @@ UnknownData_0xAB71: ;two dw values ($6B75/$6B4D); no direct reader found
 
 	ld a, 113
 	ldh [$FFDB], a
-	ld a, [$AD0A]
+	ld a, [sObject0X]
 	ldh [$FFDA], a
 	ld a, 16
 	ldh [$FFD9], a
@@ -7548,7 +7548,7 @@ UnknownRJump_0xAF4E:
 	ld a, [sTimerLow]
 	and $03
 	ret nz
-	ld a, [$AD2B]
+	ld a, [sObject1Sprite]
 	cp $0E
 	ret nc
 	ld a, 3
@@ -7624,7 +7624,7 @@ UnknownRJump_0xAFBA:
 	ldh [$FFDB], a
 	xor a
 	ldh [$FFEA], a
-	ld a, [$AD2B]
+	ld a, [sObject1Sprite]
 	cp $0E
 	ret nc
 	ld a, 3
@@ -7913,7 +7913,7 @@ UnknownCall_0xB224:
 	inc a
 	cp $10
 	jr z, UnknownRJump_0xB259
-	ld hl, $AD05
+	ld hl, sObject0Def
 	ld de, $0020
 
 UnknownRJump_0xB232:
@@ -9009,7 +9009,7 @@ UnknownRJump_0xEC2C:
 	ret
 
 UnknownCall_0xEC31:
-	ld hl, $AD00
+	ld hl, sObjectTable
 	ld bc, $0200
 	xor a
 
@@ -16847,7 +16847,7 @@ UnknownRJump_0x30629:
 	ldh_n_a $42
 	ld [sScrollX], a
 	ldh_n_a $43
-	ld [$A26E], a
+	ld [sOAMWriteEnd], a
 	ld a, 64
 	ld [sMenuTimer], a
 	xor a
@@ -35134,7 +35134,7 @@ UnknownRJump_0x5B690:
 	ret
 
 UnknownCall_0x5B697:
-	ld hl, $AD12
+	ld hl, sObject0Type
 
 UnknownRJump_0x5B69A:
 	ld a, [hl]
