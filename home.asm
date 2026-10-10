@@ -349,9 +349,9 @@ UnknownRJump_0x0300:
 	ldh a, [$FF97]
 	inc a
 	ldh [$FF97], a
-	ld a, [$A298]
+	ld a, [sTileAnimTimer]
 	inc a
-	ld [$A298], a
+	ld [sTileAnimTimer], a
 	xor a
 	ldh [$FF82], a
 	ld a, 192
@@ -848,7 +848,7 @@ LoadMarioGFX: ;$0669
 	ld d, 0
 	add hl, de
 	ld a, [hl]
-	ld [$A2D2], a
+	ld [sLevelGfxConfig], a
 	and $0F
 	and a
 	jr nz, .MarioDark
@@ -886,7 +886,7 @@ UnknownRJump_0x06C0:
 	ld a, 7 ;prepare bank switch
 	ld [sCurROMBank], a
 	ld [$2100], a
-	ld a, [$A2D2]
+	ld a, [sLevelGfxConfig]
 	and $F0
 	swap a
 	sla a
@@ -905,7 +905,7 @@ UnknownRJump_0x06C0:
 	ld a, 27 ;prepare bank switch
 	ld [sCurROMBank], a
 	ld [$2100], a
-	ld a, [$A2D2]
+	ld a, [sLevelGfxConfig]
 	and $F0
 	swap a
 	ld b, a
@@ -968,7 +968,7 @@ UnknownRJump_0x06C0:
 	ld [sTileAnimConfig], a
 	ret
 
-UnknownData_0x0763: ;GFX source pointers, indexed by ($A2D2 >> 4) * 2
+UnknownData_0x0763: ;GFX source pointers, indexed by (sLevelGfxConfig >> 4) * 2
 	dw $6A00, $6D80, $7100, $7480
 
 
@@ -5207,7 +5207,7 @@ UnknownRJump_0x2760:
 	ldh a, [hKeysPressed]
 	cp $04
 	jr nz, UnknownRJump_0x278E
-	ld a, [$A27D]
+	ld a, [sLevelProgressFlags]
 	bit 7, a
 	jr z, UnknownRJump_0x278E
 	ld a, 2
@@ -5302,7 +5302,7 @@ UnknownRJump_0x27D2:
 	sla a
 	rl b
 	ld a, b
-	ld [$A2B5], a
+	ld [sGoldenCoinFlags], a
 	ld b, 6
 	ld c, 0
 
@@ -5459,7 +5459,7 @@ UnknownRJump_0x2917:
 
 UnknownCall_0x2934:
 	ld hl, $A000
-	ld a, [$A2A3]
+	ld a, [sSaveFileIndex]
 	ld b, a
 	sla a
 	sla a
@@ -6872,7 +6872,7 @@ UnknownRJump_0x330E:
 	xor a
 	ld [hl], a
 	ld a, 8
-	ld [$A25A], a
+	ld [sMarioThrowTimer], a
 	ld a, 11
 	ld [$A460], a
 	ret
@@ -7042,7 +7042,7 @@ UnknownRJump_0x3430:
 	ld [$A460], a
 	ret
 
-UnknownData_0x3439: ;indexed by $A259
+UnknownData_0x3439: ;indexed by sFireballPhase
 	db $03, $03, $03, $03, $02, $03, $02, $02, $01, $02, $01, $00
 	db $00, $01, $02, $01, $02, $02, $03, $02, $03, $03, $03, $03
 
@@ -7199,7 +7199,7 @@ UnknownRJump_0x3551:
 	ret
 
 UnknownRJump_0x3558:
-	ld a, [$A27D]
+	ld a, [sLevelProgressFlags]
 	bit 7, a
 	jr nz, UnknownRJump_0x356E
 	ld a, [sExitTileFlag]
@@ -7281,7 +7281,7 @@ UnknownData_0x35EA: ;per-level byte, indexed by sCurLevel
 	db $4D, $FF, $82, $FF, $FF, $FF, $FE, $8C, $F3, $4B, $44, $45, $46, $FF, $48, $49
 	db $4A, $48, $FF, $41, $47, $68, $4B, $4F, $80, $4D, $FF, $FF, $41, $FF, $FF, $FF
 
-UnknownData_0x360A: ;per-level byte, indexed by sCurLevel (stored to $A2D2)
+UnknownData_0x360A: ;per-level byte, indexed by sCurLevel (stored to sLevelGfxConfig)
 	db $00, $00, $31, $10, $10, $00, $10, $31, $31, $31, $00, $00, $00, $00, $00, $10
 	db $31, $00, $35, $35, $00, $00, $00, $10, $00, $00, $00, $00, $35, $00, $00, $00
 INCLUDE "levels/enemysets.asm"
@@ -7380,18 +7380,18 @@ UnknownCall_0x3873:
 	ld b, a
 	ld a, 29 ;prepare bank switch
 	ld [$2100], a
-	ld a, [$A298]
+	ld a, [sTileAnimTimer]
 	cp b
 	ret c
 	xor a
-	ld [$A298], a
+	ld [sTileAnimTimer], a
 	ld e, 0
 	ld hl, $6680
 	add hl, de
-	ld a, [$A2CD]
+	ld a, [sTileAnimPhase]
 	inc a
 	and $03
-	ld [$A2CD], a
+	ld [sTileAnimPhase], a
 	sla a
 	sla a
 	swap a

@@ -427,11 +427,11 @@ UnknownRJump_0x548A:
 	ldh a, [$FFC6]
 	add 112
 	ldh [$FFC6], a
-	ld a, [$A25A]
+	ld a, [sMarioThrowTimer]
 	and a
 	jr z, UnknownRJump_0x54A7
 	dec a
-	ld [$A25A], a
+	ld [sMarioThrowTimer], a
 	ldh a, [$FFC6]
 	add 32
 	ldh [$FFC6], a
@@ -564,7 +564,7 @@ UnknownJump_0x5550:
 UnknownJump_0x5579:
 	xor a
 	ld [$A2A0], a
-	ld a, [$A27D]
+	ld a, [sLevelProgressFlags]
 	bit 3, a
 	jr z, UnknownRJump_0x5589
 	ld a, 255
@@ -16240,13 +16240,13 @@ UnknownData_0x301C2: ;indexed from ($A278 & $18); value written to $FFC6 (reader
 	srl a
 	swap a
 	dec a
-	ld [$A2A3], a
+	ld [sSaveFileIndex], a
 	ld a, [sFileClearMode]
 	and a
 	jr nz, UnknownRJump_0x30227
 	ld a, 21
 	ldh_n_a $9B
-	ld a, [$A2A3]
+	ld a, [sSaveFileIndex]
 	ld b, a
 	sla a
 	sla a
@@ -16278,7 +16278,7 @@ UnknownRJump_0x3020A:
 	ret
 
 UnknownRJump_0x30227:
-	ld a, [$A2A3]
+	ld a, [sSaveFileIndex]
 	ld b, a
 	sla a
 	sla a
@@ -16558,7 +16558,7 @@ UnknownCall_0x3040D:
 	ret
 
 UnknownJump_0x3041D:
-	ld a, [$A27D]
+	ld a, [sLevelProgressFlags]
 	bit 7, a
 	jr nz, UnknownRJump_0x3042D
 	ld a, [sLevelTally]
@@ -17154,7 +17154,7 @@ UnknownCall_0x30884:
 UnknownRJump_0x3089A:
 	ld a, 1
 	ldh [$FFBB], a
-	ld a, [$A2B5]
+	ld a, [sGoldenCoinFlags]
 	bit 5, a
 	jr z, UnknownRJump_0x308C3
 	ld a, [$498A]
@@ -17175,7 +17175,7 @@ UnknownRJump_0x308C0:
 	call UnknownCall_0x2B13
 
 UnknownRJump_0x308C3:
-	ld a, [$A2B5]
+	ld a, [sGoldenCoinFlags]
 	bit 4, a
 	jr z, UnknownRJump_0x308E8
 	ld a, [$498E]
@@ -17196,7 +17196,7 @@ UnknownRJump_0x308E5:
 	call UnknownCall_0x2B13
 
 UnknownRJump_0x308E8:
-	ld a, [$A2B5]
+	ld a, [sGoldenCoinFlags]
 	bit 3, a
 	jr z, UnknownRJump_0x3090D
 	ld a, [$4992]
@@ -17217,7 +17217,7 @@ UnknownRJump_0x3090A:
 	call UnknownCall_0x2B13
 
 UnknownRJump_0x3090D:
-	ld a, [$A2B5]
+	ld a, [sGoldenCoinFlags]
 	bit 2, a
 	jr z, UnknownRJump_0x30932
 	ld a, [$4995]
@@ -17238,7 +17238,7 @@ UnknownRJump_0x3092F:
 	call UnknownCall_0x2B13
 
 UnknownRJump_0x30932:
-	ld a, [$A2B5]
+	ld a, [sGoldenCoinFlags]
 	bit 1, a
 	jr z, UnknownRJump_0x30957
 	ld a, [$4998]
@@ -17259,7 +17259,7 @@ UnknownRJump_0x30954:
 	call UnknownCall_0x2B13
 
 UnknownRJump_0x30957:
-	ld a, [$A2B5]
+	ld a, [sGoldenCoinFlags]
 	bit 0, a
 	ret z
 	ld a, [$499C]
@@ -18533,7 +18533,7 @@ UnknownJump_0x3C169:
 
 UnknownRJump_0x3C1A2:
 	xor a
-	ld [$A27D], a
+	ld [sLevelProgressFlags], a
 	ld a, [$A840]
 	ld hl, $4218
 	ld d, 0
@@ -18544,7 +18544,7 @@ UnknownRJump_0x3C1A2:
 	jr z, UnknownRJump_0x3C201
 	ld [sCurLevel], a
 	ld a, c
-	ld [$A27D], a
+	ld [sLevelProgressFlags], a
 	ld a, 255
 	ld [$A468], a
 	call UnknownCall_0x2AAA
