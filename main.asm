@@ -2158,69 +2158,69 @@ UnknownCall_0x8000:
 	ldh_a_n $CA
 	ld l, a
 	sub e
-	ld [$AF0D], a
+	ld [sObjectActXMinLo], a
 	ldh_a_n $CB
 	ld h, a
 	sbc d
-	ld [$AF0C], a
+	ld [sObjectActXMinHi], a
 	jr nc, UnknownRJump_0x801C
 	xor a
-	ld [$AF0D], a
-	ld [$AF0C], a
+	ld [sObjectActXMinLo], a
+	ld [sObjectActXMinHi], a
 
 UnknownRJump_0x801C:
 	add hl, de
 	ld a, h
-	ld [$AF0A], a
+	ld [sObjectActXMaxHi], a
 	ld a, l
-	ld [$AF0B], a
+	ld [sObjectActXMaxLo], a
 	ld e, 112
 	ldh_a_n $CA
 	ld l, a
 	sub e
-	ld [$AF15], a
+	ld [sObjectScanXMinLo], a
 	ldh_a_n $CB
 	ld h, a
 	sbc d
-	ld [$AF14], a
+	ld [sObjectScanXMinHi], a
 	jr nc, UnknownRJump_0x8040
 	xor a
-	ld [$AF15], a
-	ld [$AF14], a
+	ld [sObjectScanXMinLo], a
+	ld [sObjectScanXMinHi], a
 
 UnknownRJump_0x8040:
 	add hl, de
 	ld a, h
-	ld [$AF12], a
+	ld [sObjectScanXMaxHi], a
 	ld a, l
-	ld [$AF13], a
+	ld [sObjectScanXMaxLo], a
 	ld e, 160
 	ldh_a_n $CA
 	ld l, a
 	sub e
-	ld [$AF1D], a
+	ld [sObjectAliveXMinLo], a
 	ldh_a_n $CB
 	ld h, a
 	sbc d
-	ld [$AF1C], a
+	ld [sObjectAliveXMinHi], a
 	jr nc, UnknownRJump_0x8064
 	xor a
-	ld [$AF1D], a
-	ld [$AF1C], a
+	ld [sObjectAliveXMinLo], a
+	ld [sObjectAliveXMinHi], a
 
 UnknownRJump_0x8064:
 	add hl, de
 	ld a, h
-	ld [$AF1A], a
+	ld [sObjectAliveXMaxHi], a
 	ld a, l
-	ld [$AF1B], a
-	ld a, [$AF24]
+	ld [sObjectAliveXMaxLo], a
+	ld a, [sObjectPrevCamXHi]
 	ld b, a
 	ldh_a_n $CB
 	cp b
 	jr c, UnknownRJump_0x80A4
 	jr nz, UnknownRJump_0x8085
-	ld a, [$AF25]
+	ld a, [sObjectPrevCamXLo]
 	ld b, a
 	ldh_a_n $CA
 	cp b
@@ -2229,85 +2229,85 @@ UnknownRJump_0x8064:
 
 UnknownRJump_0x8085:
 	ld a, 1
-	ld [$AF22], a
-	ld a, [$AF12]
-	ld [$AF00], a
-	ld a, [$AF13]
+	ld [sObjectScanDir], a
+	ld a, [sObjectScanXMaxHi]
+	ld [sObjectSpawnXHi], a
+	ld a, [sObjectScanXMaxLo]
 	and $F8
-	ld [$AF01], a
+	ld [sObjectSpawnXLo], a
 	jr UnknownRJump_0x80B7
 
 UnknownRJump_0x809A:
-	ld [$AF22], a
+	ld [sObjectScanDir], a
 	ld a, 255
-	ld [$AF00], a
+	ld [sObjectSpawnXHi], a
 	jr UnknownRJump_0x80B7
 
 UnknownRJump_0x80A4:
 	ld a, 255
-	ld [$AF22], a
-	ld a, [$AF14]
-	ld [$AF00], a
-	ld a, [$AF15]
+	ld [sObjectScanDir], a
+	ld a, [sObjectScanXMinHi]
+	ld [sObjectSpawnXHi], a
+	ld a, [sObjectScanXMinLo]
 	and $F8
-	ld [$AF01], a
+	ld [sObjectSpawnXLo], a
 
 UnknownRJump_0x80B7:
 	ld de, $0060
 	ldh_a_n $C8
 	ld l, a
 	sub e
-	ld [$AF11], a
+	ld [sObjectActYMinLo], a
 	ldh_a_n $C9
 	ld h, a
 	sbc d
-	ld [$AF10], a
+	ld [sObjectActYMinHi], a
 	jr nc, UnknownRJump_0x80D3
 	xor a
-	ld [$AF11], a
-	ld [$AF10], a
+	ld [sObjectActYMinLo], a
+	ld [sObjectActYMinHi], a
 
 UnknownRJump_0x80D3:
 	add hl, de
 	ld a, h
-	ld [$AF0E], a
+	ld [sObjectActYMaxHi], a
 	ld a, l
-	ld [$AF0F], a
+	ld [sObjectActYMaxLo], a
 	ld e, 160
 	ldh_a_n $C8
 	ld l, a
 	sub e
-	ld [$AF19], a
+	ld [sObjectAliveYMinLo], a
 	ldh_a_n $C9
 	ld h, a
 	sbc d
-	ld [$AF18], a
+	ld [sObjectAliveYMinHi], a
 	jr nc, UnknownRJump_0x80F7
 	xor a
-	ld [$AF19], a
-	ld [$AF18], a
+	ld [sObjectAliveYMinLo], a
+	ld [sObjectAliveYMinHi], a
 
 UnknownRJump_0x80F7:
 	add hl, de
 	ld a, h
-	ld [$AF16], a
+	ld [sObjectAliveYMaxHi], a
 	ld a, l
-	ld [$AF17], a
+	ld [sObjectAliveYMaxLo], a
 	ldh_a_n $C2
 	add 8
-	ld [$AF30], a
+	ld [sMarioRefXLo], a
 	ldh_a_n $C3
 	adc 0
-	ld [$AF31], a
+	ld [sMarioRefXHi], a
 	ldh_a_n $C0
 	add 32
-	ld [$AF32], a
+	ld [sMarioRefYLo], a
 	ldh_a_n $C1
 	adc 0
-	ld [$AF33], a
-	ld a, [$AF08]
+	ld [sMarioRefYHi], a
+	ld a, [sObjectUpdatePhase]
 	xor $01
-	ld [$AF08], a
+	ld [sObjectUpdatePhase], a
 	jr z, UnknownRJump_0x812E
 	ld hl, $FFF0
 	inc [hl]
@@ -2317,23 +2317,23 @@ UnknownRJump_0x812E:
 
 UnknownRJump_0x8131:
 	xor a
-	ld [$AF3E], a
-	ld [$AF2E], a
+	ld [sObjectDone], a
+	ld [sObjectHitFlag], a
 	ld a, h
-	ld [$AF28], a
+	ld [sObjectSlotPtrHi], a
 	ld a, l
-	ld [$AF29], a
+	ld [sObjectSlotPtrLo], a
 	ld a, [hl]
 	and a
 	jr z, UnknownRJump_0x816A
 	dec a
 	jr z, UnknownRJump_0x815E
 	call UnknownCall_0x826D
-	ld a, [$AF3E]
+	ld a, [sObjectDone]
 	and a
 	jr nz, UnknownRJump_0x816A
 	call UnknownCall_0x828F
-	ld a, [$AF3E]
+	ld a, [sObjectDone]
 	and a
 	jr nz, UnknownRJump_0x816A
 	call UnknownCall_0x818D
@@ -2341,15 +2341,15 @@ UnknownRJump_0x8131:
 
 UnknownRJump_0x815E:
 	call UnknownCall_0x826D
-	ld a, [$AF3E]
+	ld a, [sObjectDone]
 	and a
 	jr nz, UnknownRJump_0x816A
 	call UnknownCall_0x81F7
 
 UnknownRJump_0x816A:
-	ld a, [$AF28]
+	ld a, [sObjectSlotPtrHi]
 	ld h, a
-	ld a, [$AF29]
+	ld a, [sObjectSlotPtrLo]
 	ld l, a
 	ld de, $0020
 	add hl, de
@@ -2361,16 +2361,16 @@ UnknownRJump_0x816A:
 UnknownRJump_0x817D:
 	call UnknownCall_0x8C31
 	ldh_a_n $CB
-	ld [$AF24], a
+	ld [sObjectPrevCamXHi], a
 	ldh_a_n $CA
-	ld [$AF25], a
+	ld [sObjectPrevCamXLo], a
 	ret
 
 UnknownCall_0x818D:
 	call UnknownCall_0x81A7
 	call UnknownCall_0x3A50
 	call UnknownCall_0x3C80
-	ld a, [$AF09]
+	ld a, [sClearStageFlags]
 	and a
 	jr z, UnknownRJump_0x819F
 	xor a
@@ -2378,12 +2378,12 @@ UnknownCall_0x818D:
 
 UnknownRJump_0x819F:
 	xor a
-	ld [$AF09], a
+	ld [sClearStageFlags], a
 	call UnknownCall_0x81BA
 	ret
 
 UnknownCall_0x81A7:
-	ld hl, $AF28
+	ld hl, sObjectSlotPtrHi
 	ld a, [hli]
 	ld b, a
 	ld a, [hl]
@@ -2399,7 +2399,7 @@ UnknownCall_0x81BA:
 	call UnknownCall_0x81CF
 
 UnknownCall_0x81BD:
-	ld hl, $AF28
+	ld hl, sObjectSlotPtrHi
 	ld a, [hli]
 	ld d, a
 	ld a, [hl]
@@ -2412,7 +2412,7 @@ UnknownCall_0x81BD:
 
 UnknownCall_0x81CF:
 	ld hl, $4935
-	ld a, [$AF06]
+	ld a, [sSpriteMapIndex]
 	and a
 	jr nz, UnknownRJump_0x81DB
 	ld hl, $4737
@@ -2447,25 +2447,25 @@ UnknownCall_0x81F7:
 	ldh a, [$FFF0]
 	and $01
 	ret nz
-	ld hl, $AF0A
-	ld de, $AF02
+	ld hl, sObjectActXMaxHi
+	ld de, sObjectStagedMaxHi
 	ld b, 4
 	call UnknownCall_0x3CAA
 	call UnknownCall_0x82D5
-	ld a, [$AF2A]
+	ld a, [sObjectWindowHit]
 	and a
 	ret z
-	ld hl, $AF0E
-	ld de, $AF02
+	ld hl, sObjectActYMaxHi
+	ld de, sObjectStagedMaxHi
 	ld b, 4
 	call UnknownCall_0x3CAA
 	call UnknownCall_0x8306
-	ld a, [$AF2A]
+	ld a, [sObjectWindowHit]
 	and a
 	ret z
-	ld a, [$AF28]
+	ld a, [sObjectSlotPtrHi]
 	ld h, a
-	ld a, [$AF29]
+	ld a, [sObjectSlotPtrLo]
 	ld l, a
 	ld [hl], 2
 	ld a, l
@@ -2473,12 +2473,12 @@ UnknownCall_0x81F7:
 	ld l, a
 	ld a, [hli]
 	ld [hl], a
-	ld hl, $AF40
+	ld hl, sStandbyObjectCount
 	dec [hl]
-	ld hl, $AF41
+	ld hl, sActiveObjectCount
 	inc [hl]
 	ld a, 1
-	ld [$AF3E], a
+	ld [sObjectDone], a
 	ret
 
 UnknownCall_0x8240:
@@ -2489,7 +2489,7 @@ UnknownCall_0x8240:
 	ld e, a
 	ld d, 0
 	ld hl, $4BC1
-	ld a, [$AF06]
+	ld a, [sSpriteMapIndex]
 	and a
 	jr nz, UnknownRJump_0x8256
 	ld hl, $4B61
@@ -2500,7 +2500,7 @@ UnknownRJump_0x8256:
 	ld hl, $FFDB
 	ld [hli], a
 	inc l
-	ld a, [$AF38]
+	ld a, [sObjectSpawnAttr]
 	ld [hli], a
 	ld b, 17
 	xor a
@@ -2510,19 +2510,19 @@ UnknownRJump_0x8264:
 	dec b
 	jr nz, UnknownRJump_0x8264
 	xor a
-	ld [$AF38], a
+	ld [sObjectSpawnAttr], a
 	ret
 
 UnknownCall_0x826D:
 	ldh a, [$FFF0]
 	and $01
 	ret z
-	ld hl, $AF1A
-	ld de, $AF02
+	ld hl, sObjectAliveXMaxHi
+	ld de, sObjectStagedMaxHi
 	ld b, 4
 	call UnknownCall_0x3CAA
 	call UnknownCall_0x82D5
-	ld a, [$AF2A]
+	ld a, [sObjectWindowHit]
 	and a
 	ret nz
 
@@ -2536,20 +2536,20 @@ UnknownCall_0x828F:
 	ldh a, [$FFF0]
 	and $01
 	ret nz
-	ld hl, $AF16
-	ld de, $AF02
+	ld hl, sObjectAliveYMaxHi
+	ld de, sObjectStagedMaxHi
 	ld b, 4
 	call UnknownCall_0x3CAA
 	call UnknownCall_0x8306
-	ld a, [$AF2A]
+	ld a, [sObjectWindowHit]
 	and a
 	ret nz
 	ldh a, [$FFD5]
 	cp $10
 	jr z, UnknownRJump_0x8285
-	ld a, [$AF28]
+	ld a, [sObjectSlotPtrHi]
 	ld h, a
-	ld a, [$AF29]
+	ld a, [sObjectSlotPtrLo]
 	sub 2
 	ld l, a
 	ld a, [hli]
@@ -2564,19 +2564,19 @@ UnknownCall_0x828F:
 	ld [hli], a
 	ld [hl], 0
 	ld a, 3
-	ld [$AF3E], a
-	ld hl, $AF41
+	ld [sObjectDone], a
+	ld hl, sActiveObjectCount
 	dec [hl]
-	ld hl, $AF40
+	ld hl, sStandbyObjectCount
 	inc [hl]
 	ret
 
 UnknownCall_0x82D5:
 	xor a
-	ld [$AF2A], a
-	ld a, [$AF28]
+	ld [sObjectWindowHit], a
+	ld a, [sObjectSlotPtrHi]
 	ld h, a
-	ld a, [$AF29]
+	ld a, [sObjectSlotPtrLo]
 	and $F0
 	ld l, a
 
@@ -2584,35 +2584,35 @@ UnknownRJump_0x82E3:
 	ld a, [hli]
 	ld b, a
 	ld c, [hl]
-	ld a, [$AF02]
+	ld a, [sObjectStagedMaxHi]
 	cp b
 	ret c
 	jr nz, UnknownRJump_0x82F2
-	ld a, [$AF03]
+	ld a, [sObjectStagedMaxLo]
 	cp c
 	ret c
 
 UnknownRJump_0x82F2:
-	ld a, [$AF04]
+	ld a, [sObjectStagedMinHi]
 	cp b
 	jr c, UnknownRJump_0x8300
 	ret nz
-	ld a, [$AF05]
+	ld a, [sObjectStagedMinLo]
 	cp c
 	jr z, UnknownRJump_0x8300
 	ret nc
 
 UnknownRJump_0x8300:
 	ld a, 1
-	ld [$AF2A], a
+	ld [sObjectWindowHit], a
 	ret
 
 UnknownCall_0x8306:
 	xor a
-	ld [$AF2A], a
-	ld a, [$AF28]
+	ld [sObjectWindowHit], a
+	ld a, [sObjectSlotPtrHi]
 	ld h, a
-	ld a, [$AF29]
+	ld a, [sObjectSlotPtrLo]
 	and $F0
 	add 3
 	ld l, a
@@ -2620,7 +2620,7 @@ UnknownCall_0x8306:
 
 UnknownCall_0x8318:
 	ld a, 136
-	ld [$AF2F], a
+	ld [sMoveFlags], a
 	ldh a, [$FFD4]
 	ldh_n_a $B7
 	and $0C
@@ -2636,7 +2636,7 @@ UnknownCall_0x8318:
 
 UnknownCall_0x8338:
 	ld a, 136
-	ld [$AF2F], a
+	ld [sMoveFlags], a
 	ldh a, [$FFD4]
 	ldh_n_a $B7
 	and $0C
@@ -2652,7 +2652,7 @@ UnknownCall_0x8338:
 
 UnknownCall_0x8358:
 	ld a, 136
-	ld [$AF2F], a
+	ld [sMoveFlags], a
 	ldh a, [$FFD4]
 	ldh_n_a $B7
 	and $0C
@@ -2670,13 +2670,13 @@ UnknownRJump_0x836B:
 	ret c
 
 UnknownRJump_0x837B:
-	ld hl, $AF2F
+	ld hl, sMoveFlags
 	res 3, [hl]
 	ret
 
 UnknownCall_0x8381:
 	ld a, 136
-	ld [$AF2F], a
+	ld [sMoveFlags], a
 	ld b, 16
 	call UnknownCall_0x8576
 	ldh_a_n $B7
@@ -2686,7 +2686,7 @@ UnknownCall_0x8381:
 
 UnknownCall_0x8394:
 	ld a, 68
-	ld [$AF2F], a
+	ld [sMoveFlags], a
 	ld b, 8
 	call UnknownCall_0x8583
 	ldh a, [$FFD1]
@@ -2700,7 +2700,7 @@ UnknownCall_0x8394:
 
 UnknownCall_0x83B0:
 	ld a, 68
-	ld [$AF2F], a
+	ld [sMoveFlags], a
 	ld b, 18
 	call UnknownCall_0x8583
 	ldh a, [$FFD1]
@@ -2712,13 +2712,13 @@ UnknownCall_0x83B0:
 	ret c
 
 UnknownRJump_0x83CA:
-	ld hl, $AF2F
+	ld hl, sMoveFlags
 	res 2, [hl]
 	ret
 
 UnknownCall_0x83D0:
 	ld a, 68
-	ld [$AF2F], a
+	ld [sMoveFlags], a
 	ld b, 32
 	call UnknownCall_0x8583
 	ldh a, [$FFD1]
@@ -2732,7 +2732,7 @@ UnknownCall_0x83D0:
 
 UnknownCall_0x83EC:
 	ld a, 68
-	ld [$AF2F], a
+	ld [sMoveFlags], a
 	ld b, 18
 	call UnknownCall_0x8583
 	ld b, 16
@@ -2744,7 +2744,7 @@ UnknownCall_0x83EC:
 
 UnknownCall_0x8403:
 	ld a, 68
-	ld [$AF2F], a
+	ld [sMoveFlags], a
 	ld b, 18
 	call UnknownCall_0x8583
 	ld b, 16
@@ -2756,7 +2756,7 @@ UnknownCall_0x8403:
 
 UnknownCall_0x841A:
 	ld a, 17
-	ld [$AF2F], a
+	ld [sMoveFlags], a
 	ld b, 8
 	call UnknownCall_0x8583
 	ld b, 7
@@ -2773,7 +2773,7 @@ UnknownCall_0x841A:
 
 UnknownCall_0x843C:
 	ld a, 17
-	ld [$AF2F], a
+	ld [sMoveFlags], a
 	ld b, 11
 	call UnknownCall_0x8583
 	ld b, 7
@@ -2788,13 +2788,13 @@ UnknownCall_0x843C:
 	ret c
 
 UnknownRJump_0x845C:
-	ld hl, $AF2F
+	ld hl, sMoveFlags
 	res 0, [hl]
 	ret
 
 UnknownCall_0x8462:
 	ld a, 17
-	ld [$AF2F], a
+	ld [sMoveFlags], a
 	ld b, 11
 	call UnknownCall_0x8583
 	ld b, 11
@@ -2811,7 +2811,7 @@ UnknownCall_0x8462:
 
 UnknownCall_0x8484:
 	ld a, 17
-	ld [$AF2F], a
+	ld [sMoveFlags], a
 	ld b, 11
 	call UnknownCall_0x8583
 	ld b, 19
@@ -2828,7 +2828,7 @@ UnknownCall_0x8484:
 
 UnknownCall_0x84A6:
 	ld a, 17
-	ld [$AF2F], a
+	ld [sMoveFlags], a
 	ld b, 19
 	call UnknownCall_0x8583
 	ld b, 11
@@ -2845,7 +2845,7 @@ UnknownCall_0x84A6:
 
 UnknownCall_0x84C8:
 	ld a, 34
-	ld [$AF2F], a
+	ld [sMoveFlags], a
 	ld b, 8
 	call UnknownCall_0x8583
 	ld b, 7
@@ -2862,7 +2862,7 @@ UnknownCall_0x84C8:
 
 UnknownCall_0x84EA:
 	ld a, 34
-	ld [$AF2F], a
+	ld [sMoveFlags], a
 	ld b, 11
 	call UnknownCall_0x8583
 	ld b, 7
@@ -2877,13 +2877,13 @@ UnknownCall_0x84EA:
 	ret c
 
 UnknownRJump_0x850A:
-	ld hl, $AF2F
+	ld hl, sMoveFlags
 	res 1, [hl]
 	ret
 
 UnknownCall_0x8510:
 	ld a, 34
-	ld [$AF2F], a
+	ld [sMoveFlags], a
 	ld b, 11
 	call UnknownCall_0x8583
 	ld b, 11
@@ -2900,7 +2900,7 @@ UnknownCall_0x8510:
 
 UnknownCall_0x8532:
 	ld a, 34
-	ld [$AF2F], a
+	ld [sMoveFlags], a
 	ld b, 11
 	call UnknownCall_0x8583
 	ld b, 19
@@ -2917,7 +2917,7 @@ UnknownCall_0x8532:
 
 UnknownCall_0x8554:
 	ld a, 34
-	ld [$AF2F], a
+	ld [sMoveFlags], a
 	ld b, 19
 	call UnknownCall_0x8583
 	ld b, 11
@@ -3034,8 +3034,8 @@ UnknownCall_0x85FC:
 	ldh [$FFDC], a
 	ldh [$FFE2], a
 	ld a, 1
-	ld [$AF3E], a
-	ld [$AF09], a
+	ld [sObjectDone], a
+	ld [sClearStageFlags], a
 	ret
 
 UnknownRJump_0x8611:
@@ -3047,11 +3047,11 @@ UnknownRJump_0x8611:
 	ldh_a_n $80
 	bit 1, a
 	jr z, UnknownRJump_0x864A
-	ld a, [$AF3A]
+	ld a, [sActionLatch]
 	and a
 	ret nz
 	ld a, 1
-	ld [$AF3A], a
+	ld [sActionLatch], a
 	ldh a, [$FFD5]
 	add 2
 	ldh [$FFD5], a
@@ -3068,10 +3068,10 @@ UnknownJump_0x863C:
 UnknownRJump_0x863C:
 UnknownCall_0x863C:
 	ldh a, [$FFDD]
-	ld [$AF38], a
+	ld [sObjectSpawnAttr], a
 	call UnknownCall_0x8240
 	ld a, 1
-	ld [$AF3E], a
+	ld [sObjectDone], a
 	ret
 
 UnknownRJump_0x864A:
@@ -3082,7 +3082,7 @@ UnknownRJump_0x864A:
 	jr z, UnknownRJump_0x8670
 	call UnknownCall_0x3D22
 	call UnknownCall_0x84C8
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 1, a
 	ret z
 	ld b, 16
@@ -3096,7 +3096,7 @@ UnknownRJump_0x864A:
 UnknownRJump_0x8670:
 	call UnknownCall_0x3D32
 	call UnknownCall_0x841A
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 0, a
 	ret z
 
@@ -3127,7 +3127,7 @@ UnknownRJump_0x8695:
 
 UnknownJump_0x86A0:
 	ld a, 1
-	ld [$AF09], a
+	ld [sClearStageFlags], a
 	ldh a, [$FFE2]
 	bit 7, a
 	jr nz, UnknownRJump_0x86E4
@@ -3208,17 +3208,17 @@ UnknownRJump_0x8708:
 
 UnknownRJump_0x8721:
 	ldh a, [$FFE2]
-	ld [$AFCC], a
+	ld [sSavedObjectType], a
 	call UnknownCall_0x863C
-	ld a, [$AFCC]
+	ld a, [sSavedObjectType]
 	ldh [$FFE2], a
 	xor a
-	ld [$AFCC], a
+	ld [sSavedObjectType], a
 	ld a, 2
 	ldh [$FFEB], a
 	ret
 
-UnknownData_0x8737: ;data blob: base of the [$FFDB]-indexed record copy (UnknownCall_0x81CF -> UnknownJump_0x81DB writes to $FFE3; base $4737 when [$AF06] == 0, else $4935); 2-byte records in the $4Axx-$4Bxx domain
+UnknownData_0x8737: ;data blob: base of the [$FFDB]-indexed record copy (UnknownCall_0x81CF -> UnknownJump_0x81DB writes to $FFE3; base $4737 when [sSpriteMapIndex] == 0, else $4935); 2-byte records in the $4Axx-$4Bxx domain
 	db $1D, $4B, $1D, $4B, $FD, $4A, $FD, $4A, $1D, $4B, $1D, $4B, $1D, $4B, $1D, $4B
 	db $1D, $4B, $1D, $4B, $39, $4B, $39, $4B, $09, $4B, $1D, $4B, $1D, $4B, $FD, $4A
 	db $1D, $4B, $1D, $4B, $39, $4B, $39, $4B, $39, $4B, $39, $4B, $01, $4B, $01, $4B
@@ -3302,7 +3302,7 @@ UnknownData_0x8737: ;data blob: base of the [$FFDB]-indexed record copy (Unknown
 
 
 UnknownCall_0x8C31:
-	ld a, [$AF22]
+	ld a, [sObjectScanDir]
 	and a
 	ret z
 	dec a
@@ -3310,13 +3310,13 @@ UnknownCall_0x8C31:
 	jp UnknownJump_0x8CEB
 
 UnknownRJump_0x8C3C:
-	ld a, [$AF00]
+	ld a, [sObjectSpawnXHi]
 	cp $FF
 	ret z
 	ld c, a
-	ld a, [$AF1E]
+	ld a, [sObjectStreamPtrHi]
 	ld h, a
-	ld a, [$AF1F]
+	ld a, [sObjectStreamPtrLo]
 	ld l, a
 	ld a, [hl]
 	cp $FF
@@ -3330,24 +3330,24 @@ UnknownRJump_0x8C52:
 
 UnknownJump_0x8C56:
 UnknownRJump_0x8C56:
-	ld a, [$AF1E]
+	ld a, [sObjectStreamPtrHi]
 	ld h, a
-	ld a, [$AF1F]
+	ld a, [sObjectStreamPtrLo]
 	ld l, a
 	add hl, de
 	ld a, [hl]
 	cp $FF
 	ret z
 	ld a, h
-	ld [$AF1E], a
+	ld [sObjectStreamPtrHi], a
 	ld a, l
-	ld [$AF1F], a
+	ld [sObjectStreamPtrLo], a
 	ld a, [hl]
 	jr UnknownRJump_0x8C52
 
 UnknownRJump_0x8C6E:
 	inc hl
-	ld a, [$AF01]
+	ld a, [sObjectSpawnXLo]
 	ld b, a
 	ld a, [hl]
 	cp b
@@ -3384,9 +3384,9 @@ UnknownRJump_0x8C93:
 	ld a, l
 	and $F0
 	ld l, a
-	ld a, [$AF1E]
+	ld a, [sObjectStreamPtrHi]
 	ld d, a
-	ld a, [$AF1F]
+	ld a, [sObjectStreamPtrLo]
 	ld e, a
 
 UnknownRJump_0x8CA8:
@@ -3395,15 +3395,15 @@ UnknownRJump_0x8CA8:
 	inc de
 	dec b
 	jr nz, UnknownRJump_0x8CA8
-	ld a, [$AF1E]
+	ld a, [sObjectStreamPtrHi]
 	ld [hli], a
-	ld a, [$AF1F]
+	ld a, [sObjectStreamPtrLo]
 	add 2
 	ld [hli], a
 	ld a, h
-	ld [$AF28], a
+	ld [sObjectSlotPtrHi], a
 	ld a, l
-	ld [$AF29], a
+	ld [sObjectSlotPtrLo], a
 	ld a, 1
 	ld [hli], a
 	ld b, 23
@@ -3413,9 +3413,9 @@ UnknownRJump_0x8CC6:
 	ld [hli], a
 	dec b
 	jr nz, UnknownRJump_0x8CC6
-	ld a, [$AF1E]
+	ld a, [sObjectStreamPtrHi]
 	ld h, a
-	ld a, [$AF1F]
+	ld a, [sObjectStreamPtrLo]
 	add 2
 	ld l, a
 	ld [hl], 2
@@ -3424,19 +3424,19 @@ UnknownRJump_0x8CC6:
 	call UnknownCall_0x8240
 	call UnknownCall_0x81BA
 	pop bc
-	ld hl, $AF40
+	ld hl, sStandbyObjectCount
 	inc [hl]
 	ld de, $0006
 	jp UnknownJump_0x8C56
 
 UnknownJump_0x8CEB:
-	ld a, [$AF00]
+	ld a, [sObjectSpawnXHi]
 	cp $FF
 	ret z
 	ld c, a
-	ld a, [$AF1E]
+	ld a, [sObjectStreamPtrHi]
 	ld h, a
-	ld a, [$AF1F]
+	ld a, [sObjectStreamPtrLo]
 	ld l, a
 	ld a, [hl]
 	cp $FF
@@ -3450,24 +3450,24 @@ UnknownRJump_0x8D01:
 
 UnknownJump_0x8D05:
 UnknownRJump_0x8D05:
-	ld a, [$AF1E]
+	ld a, [sObjectStreamPtrHi]
 	ld h, a
-	ld a, [$AF1F]
+	ld a, [sObjectStreamPtrLo]
 	ld l, a
 	add hl, de
 	ld a, [hl]
 	cp $FF
 	ret z
 	ld a, h
-	ld [$AF1E], a
+	ld [sObjectStreamPtrHi], a
 	ld a, l
-	ld [$AF1F], a
+	ld [sObjectStreamPtrLo], a
 	ld a, [hl]
 	jr UnknownRJump_0x8D01
 
 UnknownRJump_0x8D1D:
 	inc hl
-	ld a, [$AF01]
+	ld a, [sObjectSpawnXLo]
 	ld b, a
 	ld a, [hl]
 	cp b
@@ -3504,9 +3504,9 @@ UnknownRJump_0x8D44:
 	ld a, l
 	and $F0
 	ld l, a
-	ld a, [$AF1E]
+	ld a, [sObjectStreamPtrHi]
 	ld d, a
-	ld a, [$AF1F]
+	ld a, [sObjectStreamPtrLo]
 	ld e, a
 
 UnknownRJump_0x8D59:
@@ -3515,15 +3515,15 @@ UnknownRJump_0x8D59:
 	inc de
 	dec b
 	jr nz, UnknownRJump_0x8D59
-	ld a, [$AF1E]
+	ld a, [sObjectStreamPtrHi]
 	ld [hli], a
-	ld a, [$AF1F]
+	ld a, [sObjectStreamPtrLo]
 	add 2
 	ld [hli], a
 	ld a, h
-	ld [$AF28], a
+	ld [sObjectSlotPtrHi], a
 	ld a, l
-	ld [$AF29], a
+	ld [sObjectSlotPtrLo], a
 	ld a, 1
 	ld [hli], a
 	ld b, 23
@@ -3533,9 +3533,9 @@ UnknownRJump_0x8D77:
 	ld [hli], a
 	dec b
 	jr nz, UnknownRJump_0x8D77
-	ld a, [$AF1E]
+	ld a, [sObjectStreamPtrHi]
 	ld h, a
-	ld a, [$AF1F]
+	ld a, [sObjectStreamPtrLo]
 	add 2
 	ld l, a
 	ld [hl], 2
@@ -3544,7 +3544,7 @@ UnknownRJump_0x8D77:
 	call UnknownCall_0x8240
 	call UnknownCall_0x81BA
 	pop bc
-	ld hl, $AF40
+	ld hl, sStandbyObjectCount
 	inc [hl]
 	ld de, $FFFA
 	jp UnknownJump_0x8D05
@@ -3557,20 +3557,20 @@ UnknownJump_0x8D9C:
 	ret
 
 UnknownJump_0x8DA9:
-	ld a, [$AFC1]
+	ld a, [sObjectDefCount]
 	inc a
-	ld [$AFC2], a
+	ld [sObjectSlotCount], a
 	ld a, 173
-	ld [$AF28], a
+	ld [sObjectSlotPtrHi], a
 	ld a, 0
-	ld [$AF29], a
+	ld [sObjectSlotPtrLo], a
 	ld hl, $FFF0
 	inc [hl]
 
 UnknownRJump_0x8DBE:
 	xor a
-	ld [$AF3E], a
-	ld [$AFC3], a
+	ld [sObjectDone], a
+	ld [sBossHitLatch], a
 	ld [$5290], a
 	call UnknownCall_0x81A7
 	ldh a, [$FFD5]
@@ -3584,20 +3584,20 @@ UnknownRJump_0x8DBE:
 	call UnknownCall_0x81BD
 
 UnknownRJump_0x8DDF:
-	ld a, [$AFC2]
+	ld a, [sObjectSlotCount]
 	dec a
 	ret z
-	ld [$AFC2], a
-	ld a, [$AF28]
+	ld [sObjectSlotCount], a
+	ld a, [sObjectSlotPtrHi]
 	ld h, a
-	ld a, [$AF29]
+	ld a, [sObjectSlotPtrLo]
 	ld l, a
 	ld de, $0020
 	add hl, de
 	ld a, h
-	ld [$AF28], a
+	ld [sObjectSlotPtrHi], a
 	ld a, l
-	ld [$AF29], a
+	ld [sObjectSlotPtrLo], a
 	jr UnknownRJump_0x8DBE
 
 UnknownCall_0x8DFD:
@@ -3625,20 +3625,20 @@ UnknownCall_0x8DFD:
 UnknownRJump_0x8E20:
 	ld a, [sBossFightPhase]
 	add b
-	ld [$AFC0], a
+	ld [sObjectDefIndex], a
 	ld a, 80
-	ld [$AFCD], a
+	ld [sTimerReload], a
 	ld hl, $4E3F
 	call UnknownCall_0x904E
 	ld a, [hli]
-	ld [$AFC1], a
+	ld [sObjectDefCount], a
 	ld a, [hli]
-	ld [$AFC5], a
+	ld [sBossHits], a
 	ld a, [hl]
-	ld [$AFCA], a
+	ld [sObjectDefSprite], a
 	ret
 
-UnknownData_0x8E3F: ;pointer table indexed by [$AFC0] * 2 (UnknownCall_0x904E, line 3539)
+UnknownData_0x8E3F: ;pointer table indexed by [sObjectDefIndex] * 2 (UnknownCall_0x904E, line 3539)
 	dw $4E51, $4E54, $4E57, $4E5A
 	dw $4E5D, $4E60, $4E63, $4E66
 	dw $4E69
@@ -3656,7 +3656,7 @@ UnknownCall_0x8E6C:
 	call UnknownCall_0x3CAA
 	ld hl, $4EAC
 	call UnknownCall_0x904E
-	ld a, [$AFC1]
+	ld a, [sObjectDefCount]
 	and a
 	ret z
 	ld c, a
@@ -3674,7 +3674,7 @@ UnknownRJump_0x8E89:
 	jr nz, UnknownRJump_0x8E89
 	ret
 
-UnknownData_0x8E9A: ;pointer table indexed by [$AFC0] * 2 (UnknownCall_0x904E, line 3554)
+UnknownData_0x8E9A: ;pointer table indexed by [sObjectDefIndex] * 2 (UnknownCall_0x904E, line 3554)
 	dw $4EBC, $4ECE, $4EE0, $4EF2
 	dw $4F04, $4F16, $4F28, $4F3A
 	dw $4F4C
@@ -3716,7 +3716,7 @@ UnknownCall_0x9048:
 	jp UnknownJump_0x81DB
 
 UnknownCall_0x904E:
-	ld a, [$AFC0]
+	ld a, [sObjectDefIndex]
 	add a
 	ld e, a
 	ld d, 0
@@ -3809,40 +3809,40 @@ UnknownCall_0x9285:
 
 UnknownRJump_0x9290:
 	ld a, 1
-	ld [$AF3E], a
-	ld a, [$AF29]
+	ld [sObjectDone], a
+	ld a, [sObjectSlotPtrLo]
 	and a
 	ret nz
 
 	ld a, 9
 	ld [$A470], a
-	ld a, [$AFC5]
+	ld a, [sBossHits]
 	dec a
 	jr UnknownRJump_0x92BC
 
 
 UnknownRJump_0x92A5:
 	ld a, 1
-	ld [$AF3E], a
-	ld [$AFC3], a
-	ld a, [$AF29]
+	ld [sObjectDone], a
+	ld [sBossHitLatch], a
+	ld a, [sObjectSlotPtrLo]
 	and a
 	ret nz
 	ld a, 19
 	ld [$A460], a
-	ld a, [$AFC5]
+	ld a, [sBossHits]
 	sub 2
 
 UnknownRJump_0x92BC:
-	ld [$AFC5], a
+	ld [sBossHits], a
 	jr z, UnknownRJump_0x92C4
 	jr c, UnknownRJump_0x92C4
 	ret
 
 UnknownRJump_0x92C4:
 	ld a, 1
-	ld [$AF26], a
-	ld a, [$AFC0]
+	ld [sObjectRemoveMode], a
+	ld a, [sObjectDefIndex]
 	cp $06
 	ret nc
 	ld a, 2
@@ -3887,7 +3887,7 @@ UnknownData_0x92E8: ;dw values in the $53xx-$70xx domain (ascending, likely sub-
 	ldh [$FFDF], a
 	ld a, 13
 	ld [$A460], a
-	ld a, [$AF29]
+	ld a, [sObjectSlotPtrLo]
 	and a
 	ret z
 	ld a, 23
@@ -3916,7 +3916,7 @@ UnknownData_0x934E: ;three ascending dw values ($5354-$5385); no direct reader f
 	ldh a, [$FFD9]
 	cp $D0
 	ret c
-	ld a, [$AF29]
+	ld a, [sObjectSlotPtrLo]
 	and a
 	jr nz, UnknownRJump_0x9399
 	ld a, 3
@@ -3932,34 +3932,34 @@ UnknownData_0x934E: ;three ascending dw values ($5354-$5385); no direct reader f
 	ret nz
 	call UnknownCall_0xB15B
 	ld a, 1
-	ld [$AF3E], a
+	ld [sObjectDone], a
 	ld a, 2
-	ld [$AF26], a
+	ld [sObjectRemoveMode], a
 	ret
 
 UnknownRJump_0x9399:
 	call UnknownCall_0xB157
 	ld a, 1
-	ld [$AF3E], a
+	ld [sObjectDone], a
 	ld a, 2
-	ld [$AF26], a
+	ld [sObjectRemoveMode], a
 	ret
 	call UnknownCall_0x9285
-	ld a, [$AF3E]
+	ld a, [sObjectDone]
 	and a
 	jr z, UnknownRJump_0x93D5
 	ldh a, [$FFDB]
-	ld [$AF37], a
+	ld [sObjectSpawnSprite], a
 	ldh a, [$FFDF]
-	ld [$AFC4], a
+	ld [sSavedFrameState], a
 	ldh a, [$FFE2]
-	ld [$AFCC], a
-	ld a, [$AFC3]
+	ld [sSavedObjectType], a
+	ld a, [sBossHitLatch]
 	and a
 	jr z, UnknownRJump_0x93CD
 	xor a
 	ldh [$FFDB], a
-	ld a, [$AFCD]
+	ld a, [sTimerReload]
 	ldh [$FFEC], a
 
 UnknownRJump_0x93CD:
@@ -4003,7 +4003,7 @@ UnknownData_0x93F0: ;seven ascending dw values ($53FE-$5543); no direct reader f
 	ret nz
 
 UnknownRJump_0x940F:
-	ld a, [$AF26]
+	ld a, [sObjectRemoveMode]
 	and a
 	jr nz, UnknownRJump_0x9435
 	ld a, 4
@@ -4016,9 +4016,9 @@ UnknownRJump_0x940F:
 	xor a
 	ldh [$FFEA], a
 	ldh [$FFDE], a
-	ld a, [$AF37]
+	ld a, [sObjectSpawnSprite]
 	ldh [$FFDB], a
-	ld a, [$AFC4]
+	ld a, [sSavedFrameState]
 	ldh [$FFDF], a
 	ld a, 69
 	ldh [$FFE2], a
@@ -4030,7 +4030,7 @@ UnknownRJump_0x9435:
 	ldh [$FFDF], a
 	ld a, 32
 	ldh [$FFEC], a
-	ld a, [$AFCA]
+	ld a, [sObjectDefSprite]
 	ldh [$FFDB], a
 	ret
 
@@ -4048,7 +4048,7 @@ UnknownCall_0x9443:
 	xor a
 	ldh [$FFEA], a
 	ldh [$FFDE], a
-	ld a, [$AF29]
+	ld a, [sObjectSlotPtrLo]
 	and a
 	ret nz
 	ld a, 255
@@ -4088,12 +4088,12 @@ UnknownRJump_0x9489:
 	ldh [$FFDF], a
 	ld a, 80
 	ldh [$FFEC], a
-	ld a, [$AFC5]
+	ld a, [sBossHits]
 	cp $03
 	ret nc
 
 	ld a, 1
-	ld [$AFC6], a
+	ld [sBossAltPhase], a
 	ld a, 92
 	ldh [$FFE0], a
 	ret
@@ -4113,7 +4113,7 @@ UnknownRJump_0x9489:
 
 UnknownRJump_0x94CD:
 	call UnknownCall_0xB309
-	ld a, [$AFC6]
+	ld a, [sBossAltPhase]
 	and a
 	jr nz, UnknownRJump_0x94DC
 	ldh a, [$FFE0]
@@ -4166,11 +4166,11 @@ UnknownRJump_0x9516:
 	ldh [$FFDF], a
 	ld a, 80
 	ldh [$FFEC], a
-	ld a, [$AFC5]
+	ld a, [sBossHits]
 	cp $03
 	ret nc
 	ld a, 1
-	ld [$AFC6], a
+	ld [sBossAltPhase], a
 	ld a, 92
 	ldh [$FFE0], a
 	ret
@@ -4189,7 +4189,7 @@ UnknownRJump_0x9516:
 
 UnknownRJump_0x955A:
 	call UnknownCall_0xB309
-	ld a, [$AFC6]
+	ld a, [sBossAltPhase]
 	and a
 	jr nz, UnknownRJump_0x9569
 
@@ -4236,7 +4236,7 @@ UnknownData_0x9595: ;byte table read via UnknownCall_0xB16B at $5595 (8 call sit
 	ldh a, [$FFDF]
 	and a
 	ret nz
-	ld a, [$AF26]
+	ld a, [sObjectRemoveMode]
 	cp $02
 	ret nz
 	xor a
@@ -4244,9 +4244,9 @@ UnknownData_0x9595: ;byte table read via UnknownCall_0xB16B at $5595 (8 call sit
 	ld a, 1
 	ldh [$FFDF], a
 	ld a, 4
-	ld [$AF36], a
+	ld [sObjectSpawnAnim], a
 	ld a, 9
-	ld [$AF37], a
+	ld [sObjectSpawnSprite], a
 	call UnknownCall_0xB224
 	ld a, 7
 	ldh [$FFDB], a
@@ -4273,11 +4273,11 @@ UnknownData_0x9595: ;byte table read via UnknownCall_0xB16B at $5595 (8 call sit
 	ld a, 1
 	ldh [$FFDF], a
 	ld a, 5
-	ld [$AF36], a
+	ld [sObjectSpawnAnim], a
 	ld a, 12
-	ld [$AF37], a
+	ld [sObjectSpawnSprite], a
 	ldh a, [$FFDD]
-	ld [$AF38], a
+	ld [sObjectSpawnAttr], a
 	call UnknownCall_0xB224
 	ret
 
@@ -4373,21 +4373,21 @@ UnknownData_0x96BE: ;three dw values ($56C4/$56E1/$5688); no direct reader found
 	call UnknownCall_0xB276
 	ret
 	call UnknownCall_0x9285
-	ld a, [$AF3E]
+	ld a, [sObjectDone]
 	and a
 	jr z, UnknownRJump_0x972D
 	ldh a, [$FFDB]
-	ld [$AF37], a
+	ld [sObjectSpawnSprite], a
 	ldh a, [$FFDF]
-	ld [$AFC4], a
+	ld [sSavedFrameState], a
 	ldh a, [$FFE2]
-	ld [$AFCC], a
-	ld a, [$AFC3]
+	ld [sSavedObjectType], a
+	ld a, [sBossHitLatch]
 	and a
 	jr z, UnknownRJump_0x9725
 	ld a, 17
 	ldh [$FFDB], a
-	ld a, [$AFCD]
+	ld a, [sTimerReload]
 	ldh [$FFEC], a
 
 UnknownJump_0x9725:
@@ -4438,7 +4438,7 @@ UnknownData_0x9754: ;dw values in the $54xx-$57xx domain; no direct reader found
 	ret nz
 
 UnknownRJump_0x9770:
-	ld a, [$AF26]
+	ld a, [sObjectRemoveMode]
 	and a
 	jp nz, UnknownJump_0x9435
 	xor a
@@ -4464,13 +4464,13 @@ UnknownRJump_0x9770:
 	ldh [$FFEC], a
 	ldh_a_n $04
 	and $03
-	ld [$AFC7], a
+	ld [sDoorPhase], a
 	ld a, 9
-	ld [$AF36], a
+	ld [sObjectSpawnAnim], a
 	ld a, 26
-	ld [$AF37], a
+	ld [sObjectSpawnSprite], a
 	ldh a, [$FFDD]
-	ld [$AF38], a
+	ld [sObjectSpawnAttr], a
 	call UnknownCall_0xB224
 	ld a, 6
 	ld [$A478], a
@@ -4519,12 +4519,12 @@ UnknownCall_0x97FA:
 	ldh_a_n $04
 	and $03
 	jr z, UnknownRJump_0x980D
-	ld a, [$AFC9]
+	ld a, [sDoorParity]
 	xor $01
-	ld [$AFC9], a
+	ld [sDoorParity], a
 
 UnknownRJump_0x980D:
-	ld a, [$AFC9]
+	ld a, [sDoorParity]
 	and a
 	jr nz, UnknownRJump_0x981B
 	ld a, 152
@@ -4542,31 +4542,31 @@ UnknownRJump_0x981B:
 	ldh a, [$FFDF]
 	and a
 	jr nz, UnknownRJump_0x9862
-	ld a, [$AFC8]
+	ld a, [sDoorSequenceActive]
 	and a
 	ret z
-	ld a, [$AFC7]
+	ld a, [sDoorPhase]
 	bit 0, a
 	ret z
 	dec a
 	jr z, UnknownRJump_0x9845
-	ld a, [$AFC9]
+	ld a, [sDoorParity]
 	and a
 	jr nz, UnknownRJump_0x984B
 
 UnknownRJump_0x983D:
-	ld a, [$AF29]
+	ld a, [sObjectSlotPtrLo]
 	cp $60
 	ret nz
 	jr UnknownRJump_0x9851
 
 UnknownRJump_0x9845:
-	ld a, [$AFC9]
+	ld a, [sDoorParity]
 	and a
 	jr nz, UnknownRJump_0x983D
 
 UnknownRJump_0x984B:
-	ld a, [$AF29]
+	ld a, [sObjectSlotPtrLo]
 	cp $20
 	ret nz
 
@@ -4600,7 +4600,7 @@ UnknownData_0x9864: ;dw values in the $58xx-$59xx domain; no direct reader found
 	ld a, 5
 	ld [$A478], a
 	ret
-	ld a, [$AF26]
+	ld a, [sObjectRemoveMode]
 	and a
 	jr nz, UnknownRJump_0x98A0
 	ld b, 2
@@ -4625,7 +4625,7 @@ UnknownRJump_0x98A0:
 	ldh [$FFEC], a
 	ret nz
 	xor a
-	ld [$AFC8], a
+	ld [sDoorSequenceActive], a
 	ld a, 4
 	ldh [$FFDF], a
 	ret
@@ -4642,16 +4642,16 @@ UnknownRJump_0x98C0:
 	xor a
 	ldh [$FFDF], a
 	ret
-	ld a, [$AF26]
+	ld a, [sObjectRemoveMode]
 	cp $02
 	jr z, UnknownRJump_0x98F0
 	ldh a, [$FFDF]
 	and a
 	jr nz, UnknownRJump_0x9908
-	ld a, [$AFC8]
+	ld a, [sDoorSequenceActive]
 	and a
 	ret z
-	ld a, [$AFC7]
+	ld a, [sDoorPhase]
 	cp $02
 	ret nz
 	ld a, 1
@@ -4753,7 +4753,7 @@ UnknownRJump_0x996E:
 	ret
 
 UnknownCall_0x997D:
-	ld a, [$AFC7]
+	ld a, [sDoorPhase]
 	dec a
 	jr z, UnknownRJump_0x998E
 	dec a
@@ -4781,7 +4781,7 @@ UnknownRJump_0x999B:
 	ret
 
 UnknownCall_0x99A2:
-	ld a, [$AFC7]
+	ld a, [sDoorPhase]
 	dec a
 	jr z, UnknownRJump_0x99AF
 	dec a
@@ -4809,15 +4809,15 @@ UnknownRJump_0x99BC:
 	dec a
 	ldh [$FFEC], a
 	ret nz
-	ld a, [$AFC7]
+	ld a, [sDoorPhase]
 	and a
 	jr z, UnknownRJump_0x99DE
 	ld a, 1
-	ld [$AFC8], a
+	ld [sDoorSequenceActive], a
 	ld a, 4
 	ldh [$FFDF], a
 	ret
-	ld a, [$AFC8]
+	ld a, [sDoorSequenceActive]
 	and a
 	ret nz
 
@@ -4825,7 +4825,7 @@ UnknownRJump_0x99DE:
 	call UnknownCall_0xB157
 	ret
 
-UnknownData_0x99E2: ;four byte blobs read via UnknownCall_0xB16B, selected by [$AFC7] at $997D ($59E2/$5A63/$5AB4/$5AF1)
+UnknownData_0x99E2: ;four byte blobs read via UnknownCall_0xB16B, selected by [sDoorPhase] at $997D ($59E2/$5A63/$5AB4/$5AF1)
 	db $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01
 	db $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01
 	db $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01
@@ -4894,19 +4894,19 @@ UnknownRJump_0x9C2B:
 	ldh [$FFDB], a
 	ret
 	call UnknownCall_0x9285
-	ld a, [$AF3E]
+	ld a, [sObjectDone]
 	and a
 	jr z, UnknownRJump_0x9C7F
 
 UnknownJump_0x9C3F:
 	ldh a, [$FFDB]
-	ld [$AF37], a
+	ld [sObjectSpawnSprite], a
 	ldh a, [$FFDF]
-	ld [$AFC4], a
+	ld [sSavedFrameState], a
 	ldh a, [$FFE2]
-	ld [$AFCC], a
+	ld [sSavedObjectType], a
 	ld b, 1
-	ld a, [$AFC3]
+	ld a, [sBossHitLatch]
 	and a
 	jr z, UnknownRJump_0x9C67
 	ld a, 19
@@ -4914,7 +4914,7 @@ UnknownJump_0x9C3F:
 	inc b
 	ld a, 31
 	ldh [$FFDB], a
-	ld a, [$AFCD]
+	ld a, [sTimerReload]
 	ldh [$FFEC], a
 	jr UnknownRJump_0x9C6C
 
@@ -4974,16 +4974,16 @@ UnknownData_0x9CA2: ;five ascending dw values ($5CAC/$5CD4/...); no direct reade
 	ret nz
 
 UnknownRJump_0x9CBA:
-	ld a, [$AF26]
+	ld a, [sObjectRemoveMode]
 	and a
 	jp nz, UnknownJump_0x9435
 	xor a
 	ldh [$FFDE], a
-	ld a, [$AF37]
+	ld a, [sObjectSpawnSprite]
 	ldh [$FFDB], a
-	ld a, [$AFC4]
+	ld a, [sSavedFrameState]
 	ldh [$FFDF], a
-	ld a, [$AFCC]
+	ld a, [sSavedObjectType]
 	ldh [$FFE2], a
 	ret
 	call UnknownCall_0xB2F6
@@ -5058,7 +5058,7 @@ UnknownRJump_0x9D3D:
 	ld [$A470], a
 	ret
 	call UnknownCall_0x9285
-	ld a, [$AF3E]
+	ld a, [sObjectDone]
 	and a
 	jr z, UnknownRJump_0x9D5B
 	jp UnknownJump_0x9C3F
@@ -5068,11 +5068,11 @@ UnknownRJump_0x9D5B:
 	and a
 	jr nz, UnknownRJump_0x9D77
 	call UnknownCall_0xB402
-	ld a, [$AFC1]
+	ld a, [sObjectDefCount]
 	dec a
 	ret nz
 	xor a
-	ld [$AF26], a
+	ld [sObjectRemoveMode], a
 	ldh a, [$FFEC]
 	inc a
 	ldh [$FFEC], a
@@ -5170,21 +5170,21 @@ UnknownRJump_0x9DF2:
 	jp nc, UnknownJump_0x9D3D
 	jr UnknownRJump_0x9DB4
 	call UnknownCall_0x9285
-	ld a, [$AF3E]
+	ld a, [sObjectDone]
 	and a
 	jr z, UnknownRJump_0x9E32
 	ldh a, [$FFDB]
-	ld [$AF37], a
+	ld [sObjectSpawnSprite], a
 	ldh a, [$FFDF]
-	ld [$AFC4], a
+	ld [sSavedFrameState], a
 	ldh a, [$FFE2]
-	ld [$AFCC], a
-	ld a, [$AFC3]
+	ld [sSavedObjectType], a
+	ld a, [sBossHitLatch]
 	and a
 	jp z, UnknownJump_0x9725
 	ld a, 31
 	ldh [$FFDB], a
-	ld a, [$AFCD]
+	ld a, [sTimerReload]
 	ldh [$FFEC], a
 	jp UnknownJump_0x9725
 
@@ -5193,20 +5193,20 @@ UnknownRJump_0x9E32:
 	and a
 	jr nz, UnknownRJump_0x9E5B
 	call UnknownCall_0xB402
-	ld a, [$AFC1]
+	ld a, [sObjectDefCount]
 	and a
 	ret nz
 	xor a
-	ld [$AF26], a
+	ld [sObjectRemoveMode], a
 	ldh a, [$FFEC]
 	inc a
 	ldh [$FFEC], a
 	cp $30
 	ret nz
 	ld a, 13
-	ld [$AF36], a
+	ld [sObjectSpawnAnim], a
 	ld a, 14
-	ld [$AF37], a
+	ld [sObjectSpawnSprite], a
 	call UnknownCall_0xB224
 	jp UnknownJump_0x9C8B
 
@@ -5237,7 +5237,7 @@ UnknownRJump_0x9E81:
 	ldh a, [$FFF0]
 	and $01
 	ret nz
-	ld a, [$AFC5]
+	ld a, [sBossHits]
 	srl a
 	ld b, a
 	ld a, 4
@@ -5280,7 +5280,7 @@ UnknownRJump_0x9EC8:
 	ldh a, [$FFF0]
 	and $01
 	ret nz
-	ld a, [$AFC5]
+	ld a, [sBossHits]
 	srl a
 	ld b, a
 	ld a, 4
@@ -5291,7 +5291,7 @@ UnknownRJump_0x9EC8:
 	cp $A0
 	jp nc, UnknownJump_0x9D3D
 	jr UnknownRJump_0x9E9A
-	ld a, [$AF26]
+	ld a, [sObjectRemoveMode]
 	cp $02
 	ret nz
 	ld a, 144
@@ -5300,16 +5300,16 @@ UnknownRJump_0x9EC8:
 	ldh [$FFDA], a
 	jp UnknownJump_0x98F8
 	call UnknownCall_0x9285
-	ld a, [$AF3E]
+	ld a, [sObjectDone]
 	and a
 	jr z, UnknownRJump_0x9F1E
 	ldh a, [$FFDB]
-	ld [$AF37], a
+	ld [sObjectSpawnSprite], a
 	ldh a, [$FFDF]
-	ld [$AFC4], a
+	ld [sSavedFrameState], a
 	ldh a, [$FFE2]
-	ld [$AFCC], a
-	ld a, [$AFC3]
+	ld [sSavedObjectType], a
+	ld a, [sBossHitLatch]
 	and a
 	jp z, UnknownJump_0x9725
 	ld a, 48
@@ -5447,7 +5447,7 @@ UnknownRJump_0x9FDF:
 	ret
 
 UnknownRJump_0x9FF2:
-	ld a, [$AFCB]
+	ld a, [sSceneSlotParity]
 	and a
 	jr z, UnknownRJump_0xA004
 	ld a, [sObject2Busy]
@@ -5469,18 +5469,18 @@ UnknownRJump_0xA00E:
 	ld [hli], a
 	ld a, 49
 	ld [hl], a
-	ld a, [$AFCB]
+	ld a, [sSceneSlotParity]
 	xor $01
-	ld [$AFCB], a
+	ld [sSceneSlotParity], a
 	ld a, 47
 	ldh [$FFDB], a
 	ld a, 48
 	ldh [$FFEC], a
 	jr UnknownRJump_0x9FDF
-	ld a, [$AF26]
+	ld a, [sObjectRemoveMode]
 	cp $02
 	jr nz, UnknownRJump_0xA041
-	ld a, [$AF29]
+	ld a, [sObjectSlotPtrLo]
 	cp $40
 	ret nz
 	ld a, 112
@@ -5491,7 +5491,7 @@ UnknownRJump_0xA00E:
 
 UnknownRJump_0xA041:
 	call UnknownCall_0x9285
-	ld a, [$AF3E]
+	ld a, [sObjectDone]
 	and a
 	ret nz
 	ldh a, [$FFDF]
@@ -5565,16 +5565,16 @@ UnknownRJump_0xA0B1:
 	ldh [$FFDF], a
 	ret
 	call UnknownCall_0x9285
-	ld a, [$AF3E]
+	ld a, [sObjectDone]
 	and a
 	jr z, UnknownRJump_0xA0E8
 	ldh a, [$FFDB]
-	ld [$AF37], a
+	ld [sObjectSpawnSprite], a
 	ldh a, [$FFDF]
-	ld [$AFC4], a
+	ld [sSavedFrameState], a
 	ldh a, [$FFE2]
-	ld [$AFCC], a
-	ld a, [$AFC3]
+	ld [sSavedObjectType], a
+	ld a, [sBossHitLatch]
 	and a
 	jp z, UnknownJump_0x9725
 	ld a, 53
@@ -5598,7 +5598,7 @@ UnknownRJump_0xA0E8:
 	ld a, 69
 	ldh [$FFE2], a
 	ld a, 4
-	ld [$AFC7], a
+	ld [sDoorPhase], a
 	ld a, 1
 	ldh [$FFEC], a
 	ret
@@ -5620,12 +5620,12 @@ UnknownData_0xA105: ;dw values in the $5Cxx-$62xx domain ($5CAC first); no direc
 	ld [$A470], a
 	ld a, 1
 	ldh [$FFDF], a
-	ld a, [$AFCD]
+	ld a, [sTimerReload]
 	ldh [$FFEC], a
 	ret
 	call UnknownCall_0xB3C0
 	jp UnknownJump_0x9443
-	ld a, [$AFC7]
+	ld a, [sDoorPhase]
 	and a
 	jr z, UnknownRJump_0xA17D
 	call UnknownCall_0xA1B3
@@ -5665,9 +5665,9 @@ UnknownRJump_0xA159:
 	ld [hl], a
 
 UnknownRJump_0xA171:
-	ld a, [$AFC7]
+	ld a, [sDoorPhase]
 	dec a
-	ld [$AFC7], a
+	ld [sDoorPhase], a
 	ld a, 96
 	ldh [$FFEC], a
 	ret
@@ -5681,7 +5681,7 @@ UnknownRJump_0xA17D:
 	ld a, 92
 	ldh [$FFE0], a
 	ret
-	ld a, [$AFC7]
+	ld a, [sDoorPhase]
 	and a
 	jr z, UnknownRJump_0xA17D
 	call UnknownCall_0xA1B3
@@ -5766,7 +5766,7 @@ UnknownRJump_0xA1C6:
 	ldh [$FFEC], a
 	ldh_a_n $04
 	and $03
-	ld [$AFC7], a
+	ld [sDoorPhase], a
 	ret
 	ld b, 1
 	call UnknownCall_0xB276
@@ -5807,7 +5807,7 @@ UnknownRJump_0xA1C6:
 	ldh [$FFDA], a
 	ldh_a_n $04
 	and $03
-	ld [$AFC7], a
+	ld [sDoorPhase], a
 	ret
 	ldh a, [$FFDF]
 	and a
@@ -5850,7 +5850,7 @@ UnknownRJump_0xA2B1:
 	xor a
 	ldh [$FFDF], a
 	ret
-	ld a, [$AF26]
+	ld a, [sObjectRemoveMode]
 	cp $02
 	jr nz, UnknownRJump_0xA2D0
 	ld a, 128
@@ -5955,16 +5955,16 @@ UnknownRJump_0xA362:
 	ldh [$FFDB], a
 	ret
 	call UnknownCall_0x9285
-	ld a, [$AF3E]
+	ld a, [sObjectDone]
 	and a
 	jr z, UnknownRJump_0xA39C
 	ldh a, [$FFDB]
-	ld [$AF37], a
+	ld [sObjectSpawnSprite], a
 	ldh a, [$FFDF]
-	ld [$AFC4], a
+	ld [sSavedFrameState], a
 	ldh a, [$FFE2]
-	ld [$AFCC], a
-	ld a, [$AFC3]
+	ld [sSavedObjectType], a
+	ld a, [sBossHitLatch]
 	and a
 	jp z, UnknownJump_0x9725
 	ld a, 74
@@ -6621,21 +6621,21 @@ UnknownRJump_0xA857:
 	ldh [$FFEC], a
 	ret
 	call UnknownCall_0x9285
-	ld a, [$AF3E]
+	ld a, [sObjectDone]
 	and a
 	jr z, UnknownRJump_0xA8D6
 	ldh a, [$FFDB]
-	ld [$AF37], a
+	ld [sObjectSpawnSprite], a
 	ldh a, [$FFDF]
-	ld [$AFC4], a
+	ld [sSavedFrameState], a
 	ldh a, [$FFE2]
-	ld [$AFCC], a
-	ld a, [$AFC3]
+	ld [sSavedObjectType], a
+	ld a, [sBossHitLatch]
 	and a
 	jp z, UnknownJump_0x9725
 	ld a, 82
 	ldh [$FFDB], a
-	ld a, [$AFCD]
+	ld a, [sTimerReload]
 	ldh [$FFEC], a
 	jp UnknownJump_0x9725
 
@@ -6646,13 +6646,13 @@ UnknownRJump_0xA8D6:
 	ld a, [sFadeTimerLow]
 	cp $61
 	call z, UnknownCall_0xA8FF
-	ld a, [$AFCF]
+	ld a, [sEndingDoorActive]
 	and a
 	call nz, UnknownCall_0xB2EF
 	call UnknownCall_0xB14E
 	ret nz
 	xor a
-	ld [$AFCF], a
+	ld [sEndingDoorActive], a
 	ld a, 3
 	ldh [$FFDF], a
 	ld a, 65
@@ -6665,7 +6665,7 @@ UnknownCall_0xA8FF:
 	ld a, 15
 	ld [$A470], a
 	ld a, 1
-	ld [$AFCF], a
+	ld [sEndingDoorActive], a
 	ret
 
 UnknownRJump_0xA90A:
@@ -6704,7 +6704,7 @@ UnknownData_0xA90E: ;dw values ($5CAC/$6920/$69BD/... in the $69xx-$6Axx domain)
 	ld a, 32
 	ldh [$FFDD], a
 	ret
-	ld a, [$AFD0]
+	ld a, [sBossDelay]
 	and a
 	ret z
 	call UnknownCall_0xB321
@@ -6717,7 +6717,7 @@ UnknownData_0xA90E: ;dw values ($5CAC/$6920/$69BD/... in the $69xx-$6Axx domain)
 	ld a, 114
 	ldh [$FFDB], a
 	xor a
-	ld [$AFD0], a
+	ld [sBossDelay], a
 	ret
 	ld a, 5
 	ld [sFadeTimerLow], a
@@ -6755,11 +6755,11 @@ UnknownData_0xA90E: ;dw values ($5CAC/$6920/$69BD/... in the $69xx-$6Axx domain)
 	ld [hli], a
 	ld [hl], 255
 	ld a, 171
-	ld [$AF1E], a
+	ld [sObjectStreamPtrHi], a
 	ld a, 6
-	ld [$AF1F], a
+	ld [sObjectStreamPtrLo], a
 	ld a, 1
-	ld [$AF06], a
+	ld [sSpriteMapIndex], a
 	ret
 	ldh a, [$FFE8]
 	and a
@@ -6789,7 +6789,7 @@ UnknownRJump_0xA9D4:
 	ld a, 52
 	ld [sCameraPanTimer], a
 	ld a, 1
-	ld [$AFCE], a
+	ld [sBossTransition], a
 	ld a, 24
 	ld [$A460], a
 	ld a, 48
@@ -6859,7 +6859,7 @@ UnknownRJump_0xAA4C:
 	ld [sCameraPanTimer], a
 	ldh [$FFEC], a
 	ld a, 1
-	ld [$AFCE], a
+	ld [sBossTransition], a
 	ld a, 24
 	ld [$A460], a
 	ret
@@ -6908,11 +6908,11 @@ UnknownData_0xAAA8: ;four ascending dw values ($6AB0-$6B01); no direct reader fo
 	ldh [$FFDF], a
 	ret
 	call UnknownCall_0xAACA
-	ld a, [$AFCE]
+	ld a, [sBossTransition]
 	and a
 	ret z
 	xor a
-	ld [$AFCE], a
+	ld [sBossTransition], a
 	ld a, 2
 	ldh [$FFDF], a
 	ld a, 64
@@ -7013,7 +7013,7 @@ UnknownData_0xAB33: ;two dw values ($6B37/$6B4D); no direct reader found
 	cp c
 	ret nz
 	ld a, 1
-	ld [$AFD0], a
+	ld [sBossDelay], a
 	call UnknownCall_0xB157
 	ret
 	ldh a, [$FFDF]
@@ -7034,21 +7034,21 @@ UnknownData_0xAB71: ;two dw values ($6B75/$6B4D); no direct reader found
 	ldh [$FFDE], a
 	ret
 	call UnknownCall_0x9285
-	ld a, [$AF3E]
+	ld a, [sObjectDone]
 	and a
 	jr z, UnknownRJump_0xABB6
 	ldh a, [$FFDB]
-	ld [$AF37], a
+	ld [sObjectSpawnSprite], a
 	ldh a, [$FFDF]
-	ld [$AFC4], a
+	ld [sSavedFrameState], a
 	ldh a, [$FFE2]
-	ld [$AFCC], a
-	ld a, [$AFC3]
+	ld [sSavedObjectType], a
+	ld a, [sBossHitLatch]
 	and a
 	jp z, UnknownJump_0x9725
 	ld a, 82
 	ldh [$FFDB], a
-	ld a, [$AFCD]
+	ld a, [sTimerReload]
 	ldh [$FFEC], a
 	jp UnknownJump_0x9725
 
@@ -7061,21 +7061,21 @@ UnknownRJump_0xABB6:
 	ld a, 32
 	ldh [$FFEC], a
 	ld a, 22
-	ld [$AF36], a
+	ld [sObjectSpawnAnim], a
 	ld a, 14
-	ld [$AF37], a
+	ld [sObjectSpawnSprite], a
 	call UnknownCall_0xB224
 	ret
 	ld a, [sFadeTimerLow]
 	cp $61
 	call z, UnknownCall_0xABF5
-	ld a, [$AFCF]
+	ld a, [sEndingDoorActive]
 	and a
 	call nz, UnknownCall_0xB2EF
 	call UnknownCall_0xB14E
 	ret nz
 	xor a
-	ld [$AFCF], a
+	ld [sEndingDoorActive], a
 	ld a, 3
 	ldh [$FFDF], a
 	ld a, 65
@@ -7088,7 +7088,7 @@ UnknownCall_0xABF5:
 	ld a, 1
 	ld [$A470], a
 	ld a, 1
-	ld [$AFCF], a
+	ld [sEndingDoorActive], a
 	ret
 
 UnknownRJump_0xAC00:
@@ -7118,7 +7118,7 @@ UnknownData_0xAC04: ;dw values ($5CAC/$6920/... spanning $69xx-$6Dxx); no direct
 	ld a, 32
 	ldh [$FFDD], a
 	ret
-	ld a, [$AFD0]
+	ld a, [sBossDelay]
 	and a
 	ret z
 	call UnknownCall_0xB315
@@ -7131,7 +7131,7 @@ UnknownData_0xAC04: ;dw values ($5CAC/$6920/... spanning $69xx-$6Dxx); no direct
 	ld a, 116
 	ldh [$FFDB], a
 	xor a
-	ld [$AFD0], a
+	ld [sBossDelay], a
 	ret
 	ld a, 5
 	ld [sFadeTimerLow], a
@@ -7148,11 +7148,11 @@ UnknownData_0xAC04: ;dw values ($5CAC/$6920/... spanning $69xx-$6Dxx); no direct
 	xor a
 	ld [sSceneState], a
 	ld a, 171
-	ld [$AF1E], a
+	ld [sObjectStreamPtrHi], a
 	ld a, 6
-	ld [$AF1F], a
+	ld [sObjectStreamPtrLo], a
 	ld a, 1
-	ld [$AF06], a
+	ld [sSpriteMapIndex], a
 	ld hl, $AB00
 	ld a, 255
 	ld [hli], a
@@ -7276,7 +7276,7 @@ UnknownRJump_0xAD3A:
 	ld a, 48
 	ldh [$FFEC], a
 	ld a, 1
-	ld [$AFCE], a
+	ld [sBossTransition], a
 	ld a, 24
 	ld [$A460], a
 	ret
@@ -7314,21 +7314,21 @@ UnknownRJump_0xAD7C:
 	ret nz
 	jp UnknownJump_0xAD28
 	call UnknownCall_0x9285
-	ld a, [$AF3E]
+	ld a, [sObjectDone]
 	and a
 	jr z, UnknownRJump_0xADBE
 	ldh a, [$FFDB]
-	ld [$AF37], a
+	ld [sObjectSpawnSprite], a
 	ldh a, [$FFDF]
-	ld [$AFC4], a
+	ld [sSavedFrameState], a
 	ldh a, [$FFE2]
-	ld [$AFCC], a
-	ld a, [$AFC3]
+	ld [sSavedObjectType], a
+	ld a, [sBossHitLatch]
 	and a
 	jp z, UnknownJump_0x9725
 	ld a, 82
 	ldh [$FFDB], a
-	ld a, [$AFCD]
+	ld a, [sTimerReload]
 	ldh [$FFEC], a
 	jp UnknownJump_0x9725
 
@@ -7341,21 +7341,21 @@ UnknownRJump_0xADBE:
 	ld a, 32
 	ldh [$FFEC], a
 	ld a, 25
-	ld [$AF36], a
+	ld [sObjectSpawnAnim], a
 	ld a, 14
-	ld [$AF37], a
+	ld [sObjectSpawnSprite], a
 	call UnknownCall_0xB224
 	ret
 	ld a, [sFadeTimerLow]
 	cp $61
 	call z, UnknownCall_0xABF5
-	ld a, [$AFCF]
+	ld a, [sEndingDoorActive]
 	and a
 	call nz, UnknownCall_0xB2EF
 	call UnknownCall_0xB14E
 	ret nz
 	xor a
-	ld [$AFCF], a
+	ld [sEndingDoorActive], a
 	ld a, 3
 	ldh [$FFDF], a
 	ld a, 65
@@ -7428,11 +7428,11 @@ UnknownRJump_0xAE6F:
 	ld a, 99
 	ldh [$FFDB], a
 	ld a, 28
-	ld [$AF36], a
+	ld [sObjectSpawnAnim], a
 	ld a, 108
-	ld [$AF37], a
+	ld [sObjectSpawnSprite], a
 	ldh a, [$FFDD]
-	ld [$AF38], a
+	ld [sObjectSpawnAttr], a
 	call UnknownCall_0xB224
 	ret
 	ld a, 5
@@ -7485,11 +7485,11 @@ UnknownRJump_0xAEBF:
 	add 3
 	ldh [$FFDF], a
 	ld a, 27
-	ld [$AF36], a
+	ld [sObjectSpawnAnim], a
 	ld a, 14
-	ld [$AF37], a
+	ld [sObjectSpawnSprite], a
 	ldh a, [$FFDD]
-	ld [$AF38], a
+	ld [sObjectSpawnAttr], a
 	call UnknownCall_0xB224
 	ld a, 8
 	ld [$A478], a
@@ -7563,7 +7563,7 @@ UnknownRJump_0xAF66:
 	ldh [$FFDB], a
 	ld a, [sCurPowerup]
 	sub 2
-	ld [$AFD1], a
+	ld [sSavedPowerState], a
 	ret
 	ld b, 1
 	call UnknownCall_0xB264
@@ -7581,7 +7581,7 @@ UnknownRJump_0xAF91:
 	ldh a, [$FFE8]
 	and a
 	jr nz, UnknownRJump_0xAFA9
-	ld a, [$AFD1]
+	ld a, [sSavedPowerState]
 	and a
 	jr z, UnknownRJump_0xAFA1
 	call UnknownCall_0xB1EB
@@ -7595,7 +7595,7 @@ UnknownRJump_0xAFA4:
 	jr UnknownRJump_0xAFBA
 
 UnknownRJump_0xAFA9:
-	ld a, [$AFD1]
+	ld a, [sSavedPowerState]
 	and a
 	jr z, UnknownRJump_0xAFB4
 	call UnknownCall_0xB187
@@ -7785,7 +7785,7 @@ UnknownCall_0xB14E:
 
 UnknownJump_0xB157:
 UnknownCall_0xB157:
-	ld hl, $AFC1
+	ld hl, sObjectDefCount
 	dec [hl]
 
 UnknownCall_0xB15B:
@@ -7798,7 +7798,7 @@ UnknownRJump_0xB161:
 	dec b
 	jr nz, UnknownRJump_0xB161
 	ld a, 1
-	ld [$AF3E], a
+	ld [sObjectDone], a
 	ret
 
 UnknownCall_0xB16B:
@@ -7909,7 +7909,7 @@ UnknownData_0xB1FF: ;37-entry byte table with sub-tables at $B208/$B20E/$B211/$B
 
 
 UnknownCall_0xB224:
-	ld a, [$AFC1]
+	ld a, [sObjectDefCount]
 	inc a
 	cp $10
 	jr z, UnknownRJump_0xB259
@@ -7922,7 +7922,7 @@ UnknownRJump_0xB232:
 	jr nz, UnknownRJump_0xB232
 	ld d, h
 	ld e, l
-	ld a, [$AF36]
+	ld a, [sObjectSpawnAnim]
 	ld [de], a
 	inc e
 	ld hl, $FFD6
@@ -7930,23 +7930,23 @@ UnknownRJump_0xB232:
 	call UnknownCall_0x3CAA
 	ld h, d
 	ld l, e
-	ld a, [$AF37]
+	ld a, [sObjectSpawnSprite]
 	ld [hli], a
 	inc l
-	ld a, [$AF38]
+	ld a, [sObjectSpawnAttr]
 	ld [hl], a
 	ld a, l
 	add 6
 	ld e, a
 	ld d, h
-	ld hl, $AFC1
+	ld hl, sObjectDefCount
 	inc [hl]
 
 UnknownRJump_0xB259:
 	xor a
-	ld [$AF36], a
-	ld [$AF37], a
-	ld [$AF38], a
+	ld [sObjectSpawnAnim], a
+	ld [sObjectSpawnSprite], a
+	ld [sObjectSpawnAttr], a
 	ret
 
 UnknownCall_0xB264:
@@ -7975,7 +7975,7 @@ UnknownCall_0xB276:
 
 UnknownCall_0xB27C:
 	call UnknownCall_0xB296
-	ld a, [$AF2C]
+	ld a, [sObjectFacing]
 	dec a
 	jr z, UnknownRJump_0xB28D
 	ld a, 1
@@ -7993,23 +7993,23 @@ UnknownRJump_0xB28D:
 
 UnknownCall_0xB296:
 	xor a
-	ld [$AF2C], a
+	ld [sObjectFacing], a
 	ldh a, [$FFDA]
 	ld b, a
 	ld a, [sMarioScreenX]
 	cp b
 	jr c, UnknownRJump_0xB2A9
 	ld a, 1
-	ld [$AF2C], a
+	ld [sObjectFacing], a
 	ret
 
 UnknownRJump_0xB2A9:
 	ld a, 255
-	ld [$AF2C], a
+	ld [sObjectFacing], a
 	ret
 
 	call UnknownCall_0xB2C2
-	ld a, [$AF2C]
+	ld a, [sObjectFacing]
 	dec a
 	jr z, UnknownRJump_0xB2BD
 	ld a, 1
@@ -8024,19 +8024,19 @@ UnknownRJump_0xB2BD:
 
 UnknownCall_0xB2C2:
 	xor a
-	ld [$AF2C], a
+	ld [sObjectFacing], a
 	ldh a, [$FFD9]
 	ld b, a
 	ld a, [sMarioScreenY]
 	cp b
 	jr c, UnknownRJump_0xB2D5
 	ld a, 1
-	ld [$AF2C], a
+	ld [sObjectFacing], a
 	ret
 
 UnknownRJump_0xB2D5:
 	ld a, 255
-	ld [$AF2C], a
+	ld [sObjectFacing], a
 	ret
 
 UnknownCall_0xB2DB:
@@ -8491,13 +8491,13 @@ UnknownCall_0xC000:
 	ret nz
 	call UnknownCall_0xC090
 	ld hl, $4F11
-	ld a, [$AF06]
+	ld a, [sSpriteMapIndex]
 	and a
 	jr nz, UnknownRJump_0xC014
 	ld hl, $40B1
 
 UnknownRJump_0xC014:
-	ld a, [$AF3E]
+	ld a, [sObjectDone]
 	and a
 	ret nz
 	ldh a, [$FFE2]
@@ -8531,7 +8531,7 @@ UnknownRJump_0xC042:
 	ld a, [de]
 	cp $80
 	ret z
-	ld a, [$AF2B]
+	ld a, [sSpriteFlipFlags]
 	bit 6, a
 	jr z, UnknownRJump_0xC053
 	ld a, [de]
@@ -8548,7 +8548,7 @@ UnknownRJump_0xC054:
 	jr nc, UnknownRJump_0xC068
 	ld [hli], a
 	inc de
-	ld a, [$AF2B]
+	ld a, [sSpriteFlipFlags]
 	bit 5, a
 	jr z, UnknownRJump_0xC076
 	ld a, [de]
@@ -8584,7 +8584,7 @@ UnknownRJump_0xC077:
 	ld [hli], a
 	inc de
 	push hl
-	ld hl, $AF2B
+	ld hl, sSpriteFlipFlags
 	ld a, [de]
 	xor [hl]
 	pop hl
@@ -8612,10 +8612,10 @@ UnknownCall_0xC090:
 	xor [hl]
 	inc l
 	xor [hl]
-	ld [$AF2B], a
+	ld [sSpriteFlipFlags], a
 	ret
 
-UnknownData_0xC0B1: ;sprite-mapping pointer table, selected when [$AF06] == 0 (else $CF11) by UnknownCall_0xC000 (lines 8493/8497); 168 entries pointing into the gfx/spritemappings2/3 regions ($C202+)
+UnknownData_0xC0B1: ;sprite-mapping pointer table, selected when [sSpriteMapIndex] == 0 (else $CF11) by UnknownCall_0xC000 (lines 8493/8497); 168 entries pointing into the gfx/spritemappings2/3 regions ($C202+)
 	dw $4202, $4213, $4201, $4224
 	dw $422D, $4242, $4257, $426C
 	dw $427D, $428E, $42B0, $42C9
@@ -8661,7 +8661,7 @@ UnknownData_0xC0B1: ;sprite-mapping pointer table, selected when [$AF06] == 0 (e
 
 INCLUDE "gfx/spritemappings2.asm"
 
-UnknownData_0xCF11: ;sprite-mapping pointer table, selected when [$AF06] != 0; 228 entries pointing into the gfx/spritemappings regions
+UnknownData_0xCF11: ;sprite-mapping pointer table, selected when [sSpriteMapIndex] != 0; 228 entries pointing into the gfx/spritemappings regions
 	dw $4202, $4213, $4201, $4224
 	dw $422D, $4242, $4257, $426C
 	dw $427D, $428E, $42B0, $42C9
@@ -9022,7 +9022,7 @@ UnknownRJump_0xEC38:
 	ret
 
 UnknownCall_0xEC40:
-	ld hl, $AF00
+	ld hl, sObjectSpawnXHi
 	ld b, 0
 	xor a
 
@@ -9034,14 +9034,14 @@ UnknownRJump_0xEC46:
 
 UnknownCall_0xEC4B:
 	ld a, 171
-	ld [$AF1E], a
+	ld [sObjectStreamPtrHi], a
 	ld a, 6
-	ld [$AF1F], a
+	ld [sObjectStreamPtrLo], a
 	ld a, [sCurLevel]
 	cp $0A
 	ret c
 	ld a, 1
-	ld [$AF06], a
+	ld [sSpriteMapIndex], a
 	ret
 
 UnknownData_0xEC61: ;packed data ($AA-heavy; same family as the bank tails); no direct reader found
@@ -27106,15 +27106,15 @@ UnknownCall_0x58000:
 
 UnknownRJump_0x5800F:
 	call UnknownCall_0x3A8C
-	ld a, [$AF3E]
+	ld a, [sObjectDone]
 	and a
 	ret nz
 	ldh a, [$FFDF]
 	and a
 	jr z, UnknownRJump_0x5802B
-	ld a, [$AF08]
+	ld a, [sObjectUpdatePhase]
 	ld b, a
-	ld a, [$AF29]
+	ld a, [sObjectSlotPtrLo]
 	swap a
 	and $03
 	srl a
@@ -27123,11 +27123,11 @@ UnknownRJump_0x5800F:
 
 UnknownRJump_0x5802B:
 	ld a, 1
-	ld [$AF09], a
+	ld [sClearStageFlags], a
 	ldh a, [$FFEB]
 	and a
 	jp nz, UnknownJump_0x58101
-	ld a, [$AF06]
+	ld a, [sSpriteMapIndex]
 	and a
 	jp nz, UnknownJump_0x59C04
 	ldh a, [$FFD5]
@@ -27169,7 +27169,7 @@ UnknownData_0x58112: ;data block; no direct reader found
 	ld b, 1
 	call UnknownCall_0x3D32
 	call UnknownCall_0x3BB8
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 0, a
 	jr z, UnknownRJump_0x5812E
 	ldh a, [$FFDF]
@@ -27191,7 +27191,7 @@ UnknownRJump_0x5812E:
 	ld b, 1
 	call UnknownCall_0x3D22
 	call UnknownCall_0x3C1C
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 1, a
 	jr z, UnknownRJump_0x5812E
 	ldh a, [$FFDF]
@@ -27201,7 +27201,7 @@ UnknownRJump_0x5812E:
 	ld b, 1
 	call UnknownCall_0x3D32
 	call UnknownCall_0x3BB8
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 0, a
 	jr z, UnknownRJump_0x5816C
 	ldh a, [$FFDF]
@@ -27212,7 +27212,7 @@ UnknownRJump_0x5816C:
 	call UnknownCall_0x5B451
 	call UnknownCall_0x3D3D
 	call UnknownCall_0x3B40
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 3, a
 	ret z
 	ldh a, [$FFEB]
@@ -27223,7 +27223,7 @@ UnknownRJump_0x5816C:
 	ld b, 1
 	call UnknownCall_0x3D22
 	call UnknownCall_0x3C1C
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 1, a
 	jr z, UnknownRJump_0x5816C
 	ldh a, [$FFDF]
@@ -27233,9 +27233,9 @@ UnknownRJump_0x5816C:
 
 UnknownRJump_0x5819B:
 	ldh a, [$FFE2]
-	ld [$AFCC], a
+	ld [sSavedObjectType], a
 	call UnknownCall_0x3AA0
-	ld a, [$AFCC]
+	ld a, [sSavedObjectType]
 	ldh [$FFE2], a
 	call UnknownCall_0x3CB1
 	ldh a, [$FFDF]
@@ -27282,7 +27282,7 @@ UnknownRJump_0x581E2:
 	cp $A0
 	ret c
 	ld a, 2
-	ld [$AF26], a
+	ld [sObjectRemoveMode], a
 	call UnknownCall_0x5B2D7
 	ld a, [sBossDefeated]
 	and a
@@ -27316,7 +27316,7 @@ UnknownData_0x5821E: ;data block; no direct reader found
 
 UnknownJump_0x58226:
 	call UnknownCall_0x3C1C
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 1, a
 	jr nz, UnknownRJump_0x58237
 	ld b, 1
@@ -27334,7 +27334,7 @@ UnknownRJump_0x58237:
 
 UnknownRJump_0x58243:
 	call UnknownCall_0x3B40
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 3, a
 	ret nz
 	ldh a, [$FFDF]
@@ -27344,7 +27344,7 @@ UnknownRJump_0x58243:
 
 UnknownJump_0x58253:
 	call UnknownCall_0x3BB8
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 0, a
 	jr nz, UnknownRJump_0x58264
 	ld b, 1
@@ -27362,7 +27362,7 @@ UnknownRJump_0x58264:
 
 UnknownJump_0x58271:
 	call UnknownCall_0x3C1C
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 1, a
 	jr nz, UnknownRJump_0x58237
 	ld b, 1
@@ -27371,7 +27371,7 @@ UnknownJump_0x58271:
 
 UnknownJump_0x58282:
 	call UnknownCall_0x3BB8
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 0, a
 	jr nz, UnknownRJump_0x58264
 	ld b, 1
@@ -27382,7 +27382,7 @@ UnknownRJump_0x58293:
 	call UnknownCall_0x5B451
 	call UnknownCall_0x3D3D
 	call UnknownCall_0x3B40
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 3, a
 	ret z
 	ldh a, [$FFDF]
@@ -27409,7 +27409,7 @@ UnknownRJump_0x582C3:
 	dec [hl]
 	ret nz
 	ld a, 1
-	ld [$AF26], a
+	ld [sObjectRemoveMode], a
 	call UnknownCall_0x5B2D7
 	ret
 	call UnknownCall_0x5B585
@@ -27421,7 +27421,7 @@ UnknownRJump_0x582C3:
 
 UnknownJump_0x582DD:
 	call UnknownCall_0x3B40
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 3, a
 	jr nz, UnknownRJump_0x582EE
 
@@ -27453,7 +27453,7 @@ UnknownCall_0x582FB:
 	ld b, 1
 	call UnknownCall_0x3D22
 	call UnknownCall_0x3C1C
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 1, a
 	ret z
 	ld a, 2
@@ -27471,7 +27471,7 @@ UnknownCall_0x5831A:
 	ld b, 1
 	call UnknownCall_0x3D32
 	call UnknownCall_0x3BB8
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 0, a
 	ret z
 	ld a, 1
@@ -27483,7 +27483,7 @@ UnknownCall_0x5831A:
 
 UnknownRJump_0x58339:
 	call UnknownCall_0x3B40
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 3, a
 	ret nz
 	ldh a, [$FFDF]
@@ -27512,7 +27512,7 @@ UnknownRJump_0x58364:
 	ldh [$FFEC], a
 	jr z, UnknownRJump_0x5837B
 	call UnknownCall_0x3B40
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 3, a
 	ret nz
 	call UnknownCall_0x5B451
@@ -27560,7 +27560,7 @@ UnknownData_0x583B4: ;data block; no direct reader found
 	db $BC, $43, $E6, $43, $02, $44, $33, $44
 
 	call UnknownCall_0x3BA4
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 0, a
 	jr nz, UnknownRJump_0x583DB
 	ld b, 3
@@ -27568,7 +27568,7 @@ UnknownData_0x583B4: ;data block; no direct reader found
 
 UnknownRJump_0x583CB:
 	call UnknownCall_0x3B40
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 3, a
 	ret nz
 	ldh a, [$FFDF]
@@ -27584,7 +27584,7 @@ UnknownRJump_0x583DB:
 	ld [$A460], a
 	ret
 	call UnknownCall_0x3C08
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 1, a
 	jr nz, UnknownRJump_0x583F7
 	ld b, 3
@@ -27599,7 +27599,7 @@ UnknownRJump_0x583F7:
 	ld [$A460], a
 	ret
 	call UnknownCall_0x3BA4
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 0, a
 	jr nz, UnknownRJump_0x583DB
 	ld b, 3
@@ -27607,7 +27607,7 @@ UnknownRJump_0x583F7:
 
 UnknownRJump_0x58411:
 	call UnknownCall_0x3B40
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 3, a
 	jr nz, UnknownRJump_0x58423
 	call UnknownCall_0x5B451
@@ -27626,7 +27626,7 @@ UnknownRJump_0x58423:
 	ldh [$FFD4], a
 	ret
 	call UnknownCall_0x3C08
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 1, a
 	jr nz, UnknownRJump_0x583F7
 	ld b, 3
@@ -27636,7 +27636,7 @@ UnknownRJump_0x58423:
 	and $F0
 	jr z, UnknownRJump_0x58452
 	xor a
-	ld [$AF3A], a
+	ld [sActionLatch], a
 	jp UnknownJump_0x5B2D7
 
 UnknownRJump_0x58452:
@@ -27658,18 +27658,18 @@ UnknownData_0x58461: ;data block; no direct reader found
 
 	call UnknownCall_0x5B4C1
 	call UnknownCall_0x5B697
-	ld a, [$AF2E]
+	ld a, [sObjectHitFlag]
 	and a
 	jr nz, UnknownRJump_0x584C3
 	call UnknownCall_0x3B68
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 2, a
 	jr nz, UnknownRJump_0x584C3
 	ldh_a_n $80
 	bit 1, a
 	ret nz
 	xor a
-	ld [$AF3A], a
+	ld [sActionLatch], a
 	call UnknownCall_0x3AB4
 	ld b, 16
 	ld a, [sMarioDirection]
@@ -27677,7 +27677,7 @@ UnknownData_0x58461: ;data block; no direct reader found
 	jr z, UnknownRJump_0x584A9
 	call UnknownCall_0x3D22
 	call UnknownCall_0x3C08
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 1, a
 	ret z
 	ld b, 16
@@ -27691,7 +27691,7 @@ UnknownData_0x58461: ;data block; no direct reader found
 UnknownRJump_0x584A9:
 	call UnknownCall_0x3D32
 	call UnknownCall_0x3BA4
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 0, a
 	ret z
 	ld b, 16
@@ -27704,7 +27704,7 @@ UnknownRJump_0x584A9:
 
 UnknownRJump_0x584C3:
 	xor a
-	ld [$AF3A], a
+	ld [sActionLatch], a
 	call UnknownCall_0x3ADC
 	ret
 	ld a, [sPipeTravelDirection]
@@ -27814,17 +27814,17 @@ UnknownData_0x5855E: ;data block; no direct reader found
 	inc a
 	ldh [$FFDB], a
 	ld a, 14
-	ld [$AF36], a
+	ld [sObjectSpawnAnim], a
 	ld a, 22
-	ld [$AF37], a
+	ld [sObjectSpawnSprite], a
 	ldh a, [$FFDD]
-	ld [$AF38], a
+	ld [sObjectSpawnAttr], a
 	ldh a, [$FFDB]
 	cp $13
 	jr z, UnknownRJump_0x58596
-	ld a, [$AF38]
+	ld a, [sObjectSpawnAttr]
 	set 6, a
-	ld [$AF38], a
+	ld [sObjectSpawnAttr], a
 
 UnknownRJump_0x58596:
 	call UnknownCall_0x5B36D
@@ -27869,7 +27869,7 @@ UnknownRJump_0x58596:
 
 UnknownCall_0x585DA:
 	call UnknownCall_0x5B41A
-	ld a, [$AF2C]
+	ld a, [sObjectFacing]
 	dec a
 	jr z, UnknownRJump_0x585E8
 	ld a, 18
@@ -27948,7 +27948,7 @@ UnknownData_0x58646: ;data block; no direct reader found
 	ld b, 1
 	call UnknownCall_0x3D22
 	call UnknownCall_0x3C1C
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 1, a
 	ret z
 	ld a, 2
@@ -27963,7 +27963,7 @@ UnknownData_0x58646: ;data block; no direct reader found
 	ld b, 1
 	call UnknownCall_0x3D32
 	call UnknownCall_0x3BB8
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 0, a
 	ret z
 	ld a, 1
@@ -27983,7 +27983,7 @@ UnknownRJump_0x5868C:
 	jr z, UnknownRJump_0x586A5
 	call UnknownCall_0x3D2D
 	call UnknownCall_0x3B7C
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 2, a
 	ret z
 
@@ -27998,7 +27998,7 @@ UnknownRJump_0x586AD:
 	call UnknownCall_0x5B451
 	call UnknownCall_0x3D3D
 	call UnknownCall_0x3B40
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 3, a
 	ret z
 	xor a
@@ -28049,7 +28049,7 @@ UnknownData_0x586EB: ;data block; no direct reader found
 	cp $20
 	ret nz
 	ld a, 2
-	ld [$AF26], a
+	ld [sObjectRemoveMode], a
 	call UnknownCall_0x5B2D7
 	ret
 	ldh a, [$FFDF]
@@ -28070,7 +28070,7 @@ UnknownData_0x586EB: ;data block; no direct reader found
 	ld a, 128
 	ldh [$FFDC], a
 	ld a, 1
-	ld [$AF3E], a
+	ld [sObjectDone], a
 	ret
 
 UnknownRJump_0x58734:
@@ -28112,7 +28112,7 @@ UnknownRJump_0x58752:
 	ld a, 128
 	ldh [$FFDC], a
 	ld a, 1
-	ld [$AF3E], a
+	ld [sObjectDone], a
 	ld a, 2
 	ldh [$FFDF], a
 	ret
@@ -28202,7 +28202,7 @@ UnknownRJump_0x587EE:
 
 UnknownRJump_0x587FB:
 	ld a, 2
-	ld [$AF26], a
+	ld [sObjectRemoveMode], a
 	call UnknownCall_0x5B2D7
 	ret
 	ldh a, [$FFDF]
@@ -28273,7 +28273,7 @@ UnknownData_0x5885D: ;data block; no direct reader found
 
 UnknownRJump_0x58872:
 	call UnknownCall_0x3C1C
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 1, a
 	jr nz, UnknownRJump_0x588E2
 	ld b, 1
@@ -28290,7 +28290,7 @@ UnknownRJump_0x58872:
 
 UnknownRJump_0x58890:
 	call UnknownCall_0x3BB8
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 0, a
 	jr nz, UnknownRJump_0x588E2
 	ld b, 1
@@ -28315,7 +28315,7 @@ UnknownRJump_0x5889F:
 
 UnknownRJump_0x588B9:
 	call UnknownCall_0x3B40
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 3, a
 	jr nz, UnknownRJump_0x588CA
 	call UnknownCall_0x5B445
@@ -28496,7 +28496,7 @@ UnknownRJump_0x589D3:
 	ld b, 1
 	call UnknownCall_0x3D22
 	call UnknownCall_0x3C30
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 1, a
 	ret z
 
@@ -28507,7 +28507,7 @@ UnknownRJump_0x589D3:
 
 UnknownRJump_0x589E7:
 	call UnknownCall_0x3B40
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 3, a
 	ret nz
 
@@ -28524,7 +28524,7 @@ UnknownRJump_0x58A00:
 	ld b, 1
 	call UnknownCall_0x3D32
 	call UnknownCall_0x3BCC
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 0, a
 	ret z
 
@@ -28537,7 +28537,7 @@ UnknownRJump_0x58A00:
 
 UnknownRJump_0x58A1A:
 	call UnknownCall_0x3B40
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 3, a
 	jr nz, UnknownRJump_0x58A2B
 	call UnknownCall_0x5B451
@@ -28620,7 +28620,7 @@ UnknownRJump_0x58A96:
 	ld b, 1
 	call UnknownCall_0x3D22
 	call UnknownCall_0x3C1C
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 1, a
 	ret z
 	ld a, 2
@@ -28667,7 +28667,7 @@ UnknownRJump_0x58AE7:
 	ld b, 1
 	call UnknownCall_0x3D32
 	call UnknownCall_0x3BB8
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 0, a
 	ret z
 	ld a, 1
@@ -29125,7 +29125,7 @@ UnknownRJump_0x58DEE:
 	call UnknownCall_0x3D3D
 	call UnknownCall_0x3CDF
 	call UnknownCall_0x3B40
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 3, a
 	ret z
 	call UnknownCall_0x5B2D7
@@ -29364,7 +29364,7 @@ UnknownData_0x58F5F: ;data block; no direct reader found
 	ld b, 1
 	call UnknownCall_0x3D22
 	call UnknownCall_0x3C1C
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 1, a
 	ret z
 
@@ -29384,7 +29384,7 @@ UnknownRJump_0x58F80:
 	ld b, 1
 	call UnknownCall_0x3D32
 	call UnknownCall_0x3BB8
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 0, a
 	ret z
 	jr UnknownRJump_0x58F80
@@ -29392,7 +29392,7 @@ UnknownRJump_0x58F80:
 
 UnknownRJump_0x58FA5:
 	call UnknownCall_0x3B40
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 3, a
 	ret nz
 	jr UnknownRJump_0x58F80
@@ -29427,7 +29427,7 @@ UnknownRJump_0x58FDD:
 	and $01
 	jr nz, UnknownRJump_0x58FF3
 	call UnknownCall_0x3C58
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 1, a
 	jr nz, UnknownRJump_0x59003
 	ld b, 2
@@ -29436,7 +29436,7 @@ UnknownRJump_0x58FDD:
 
 UnknownRJump_0x58FF3:
 	call UnknownCall_0x3B40
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 3, a
 	jr nz, UnknownRJump_0x59003
 	ld b, 1
@@ -29461,7 +29461,7 @@ UnknownRJump_0x59017:
 	and $01
 	jr nz, UnknownRJump_0x58FF3
 	call UnknownCall_0x3BF4
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 0, a
 	jr nz, UnknownRJump_0x59003
 	ld b, 2
@@ -29479,7 +29479,7 @@ UnknownJump_0x59032:
 	ld a, 16
 	ldh [$FFDE], a
 	call UnknownCall_0x59136
-	ld a, [$AF3E]
+	ld a, [sObjectDone]
 	and a
 	ret nz
 	ld d, 0
@@ -29578,7 +29578,7 @@ UnknownData_0x5907A: ;data block; no direct reader found
 UnknownCall_0x590E9:
 	call UnknownCall_0x5B41A
 	ld hl, $FFE8
-	ld a, [$AF2C]
+	ld a, [sObjectFacing]
 	inc a
 	jr z, UnknownRJump_0x59100
 	ld hl, $FFE8
@@ -29626,13 +29626,13 @@ UnknownData_0x59125: ;data block, read at line 29129
 
 
 UnknownCall_0x59136:
-	ld hl, $AF4E
+	ld hl, sBitScanCount
 	xor a
 	ld [hl], a
 	ldh_a_n $04
 	and $07
 	ld e, a
-	ld [$AF4F], a
+	ld [sBitScanStart], a
 	ld d, a
 	inc d
 	ld a, 8
@@ -29658,7 +29658,7 @@ UnknownRJump_0x59155:
 	dec b
 	jr nz, UnknownRJump_0x59155
 	ld a, 2
-	ld [$AF26], a
+	ld [sObjectRemoveMode], a
 	call UnknownCall_0x5B2D7
 	ret
 
@@ -30012,7 +30012,7 @@ UnknownData_0x5938E: ;data block; no direct reader found
 	db $94, $53, $AE, $53, $BC, $53
 
 	call UnknownCall_0x3B40
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 3, a
 	jr nz, UnknownRJump_0x593A5
 	call UnknownCall_0x5B451
@@ -30072,7 +30072,7 @@ UnknownData_0x593F4: ;data block; no direct reader found
 
 UnknownJump_0x593FB:
 	call UnknownCall_0x3B40
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 3, a
 	jr nz, UnknownRJump_0x5940D
 	call UnknownCall_0x5B451
@@ -30090,7 +30090,7 @@ UnknownRJump_0x5940D:
 	ret
 	call UnknownCall_0x5B51A
 	call UnknownCall_0x3B7C
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 2, a
 	jr nz, UnknownRJump_0x5942D
 	ld b, 1
@@ -30108,7 +30108,7 @@ UnknownRJump_0x5942D:
 	dec a
 	jp z, UnknownJump_0x5831A
 	call UnknownCall_0x3B40
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 3, a
 	jr nz, UnknownRJump_0x5944F
 
@@ -30133,7 +30133,7 @@ UnknownRJump_0x5944F:
 	ld a, 16
 	ldh [$FFDE], a
 	call UnknownCall_0x3B40
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 3, a
 	jr nz, UnknownRJump_0x5947C
 
@@ -30263,7 +30263,7 @@ UnknownData_0x5950E: ;data block; no direct reader found
 	cp $84
 	ret nz
 	ld a, 1
-	ld [$AF26], a
+	ld [sObjectRemoveMode], a
 	call UnknownCall_0x5B2D7
 	ret
 	ldh a, [$FFF0]
@@ -30271,7 +30271,7 @@ UnknownData_0x5950E: ;data block; no direct reader found
 	ret nz
 	call UnknownCall_0x5B3E0
 	ld hl, $A22B
-	ld a, [$AF2C]
+	ld a, [sObjectFacing]
 	cp [hl]
 	jr nz, UnknownRJump_0x5957F
 	ldh a, [$FFDF]
@@ -30283,7 +30283,7 @@ UnknownData_0x5950E: ;data block; no direct reader found
 	ldh [$FFDB], a
 	ld a, 32
 	ldh [$FFDD], a
-	ld a, [$AF2C]
+	ld a, [sObjectFacing]
 	cp $01
 	jr z, UnknownRJump_0x59572
 	xor a
@@ -30548,11 +30548,11 @@ UnknownRJump_0x596F7:
 	ld a, 43
 	ldh [$FFDB], a
 	ld a, 44
-	ld [$AF37], a
+	ld [sObjectSpawnSprite], a
 	ldh a, [$FFDD]
-	ld [$AF38], a
+	ld [sObjectSpawnAttr], a
 	ld a, 82
-	ld [$AF36], a
+	ld [sObjectSpawnAnim], a
 	call UnknownCall_0x5B36D
 	ld a, 16
 	ldh [$FFEC], a
@@ -30634,7 +30634,7 @@ UnknownRJump_0x59788:
 UnknownRJump_0x59795:
 	call UnknownCall_0x5B585
 	call UnknownCall_0x3C58
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 1, a
 	jp nz, UnknownJump_0x59D2D
 	ld b, 2
@@ -30644,7 +30644,7 @@ UnknownRJump_0x59795:
 UnknownRJump_0x597A9:
 	call UnknownCall_0x5B585
 	call UnknownCall_0x3BF4
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 0, a
 	jp nz, UnknownJump_0x59D2D
 	ld b, 2
@@ -31000,7 +31000,7 @@ UnknownRJump_0x599FF:
 
 UnknownRJump_0x59A1D:
 	call UnknownCall_0x3B40
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 3, a
 	jr nz, UnknownRJump_0x599FF
 	ld hl, $5A8D
@@ -31156,7 +31156,7 @@ UnknownData_0x59B31: ;data block; no direct reader found
 	ld b, 2
 	call UnknownCall_0x3D22
 	call UnknownCall_0x3C1C
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 1, a
 	ret z
 
@@ -31173,7 +31173,7 @@ UnknownData_0x59B31: ;data block; no direct reader found
 	ld b, 2
 	call UnknownCall_0x3D32
 	call UnknownCall_0x3BB8
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 0, a
 	ret z
 
@@ -31195,7 +31195,7 @@ UnknownRJump_0x59B73:
 	jr z, UnknownRJump_0x59B8C
 	call UnknownCall_0x3D2D
 	call UnknownCall_0x3B7C
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 2, a
 	ret z
 
@@ -31210,7 +31210,7 @@ UnknownRJump_0x59B94:
 	call UnknownCall_0x5B451
 	call UnknownCall_0x3D3D
 	call UnknownCall_0x3B40
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 3, a
 	ret z
 	xor a
@@ -31269,7 +31269,7 @@ UnknownData_0x59BE4: ;data block; no direct reader found
 	ldh [$FFEC], a
 	ret nz
 	ld a, 1
-	ld [$AF26], a
+	ld [sObjectRemoveMode], a
 	call UnknownCall_0x5B2D7
 	ret
 
@@ -31314,7 +31314,7 @@ UnknownData_0x59D01: ;data block; no direct reader found
 	db $05, $5D, $41, $5D
 
 	call UnknownCall_0x3C1C
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 1, a
 	jr nz, UnknownRJump_0x59D2D
 	ldh a, [$FFEC]
@@ -31357,7 +31357,7 @@ UnknownJump_0x59D3A:
 	call UnknownCall_0x3D32
 	jr UnknownRJump_0x59D22
 	call UnknownCall_0x3BB8
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 0, a
 	jr nz, UnknownRJump_0x59D2D
 	ldh a, [$FFEC]
@@ -31389,14 +31389,14 @@ UnknownData_0x59D72: ;data block; no direct reader found
 	db $7A, $5D, $8B, $5D, $A8, $5D, $C7, $5D
 
 	call UnknownCall_0x3C44
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 1, a
 	jr nz, UnknownRJump_0x59D2D
 	ld b, 1
 	call UnknownCall_0x3D22
 	jr UnknownRJump_0x59D9B
 	call UnknownCall_0x3BE0
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 0, a
 	jp nz, UnknownJump_0x59D2D
 	ld b, 1
@@ -31411,7 +31411,7 @@ UnknownRJump_0x59D9B:
 	ldh [$FFDF], a
 	ret
 	call UnknownCall_0x3C44
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 1, a
 	jr nz, UnknownRJump_0x59DF9
 	ldh a, [$FFE9]
@@ -31426,7 +31426,7 @@ UnknownRJump_0x59DBF:
 	call UnknownCall_0x3D22
 	jr UnknownRJump_0x59DE4
 	call UnknownCall_0x3BE0
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 0, a
 	jr nz, UnknownRJump_0x59DF9
 	ldh a, [$FFE9]
@@ -31541,7 +31541,7 @@ UnknownData_0x59E72: ;data block; no direct reader found
 
 	call UnknownCall_0x5B51A
 	call UnknownCall_0x3C1C
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 1, a
 	jp nz, UnknownJump_0x59D2D
 	ld b, 1
@@ -31561,7 +31561,7 @@ UnknownRJump_0x59E8D:
 	ret
 	call UnknownCall_0x5B51A
 	call UnknownCall_0x3BB8
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 0, a
 	jp nz, UnknownJump_0x59D2D
 	ld b, 1
@@ -31579,7 +31579,7 @@ UnknownRJump_0x59E8D:
 
 UnknownRJump_0x59EC4:
 	call UnknownCall_0x3B7C
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 2, a
 	jr nz, UnknownRJump_0x59EDB
 	ld b, 1
@@ -31779,11 +31779,11 @@ UnknownData_0x59FF2: ;data block; no direct reader found
 
 UnknownRJump_0x5A001:
 	ld a, 62
-	ld [$AF37], a
+	ld [sObjectSpawnSprite], a
 	ldh a, [$FFDD]
-	ld [$AF38], a
+	ld [sObjectSpawnAttr], a
 	ld a, 36
-	ld [$AF36], a
+	ld [sObjectSpawnAnim], a
 	call UnknownCall_0x5B36D
 	ld a, 16
 	ldh [$FFEC], a
@@ -31828,7 +31828,7 @@ UnknownData_0x5A051: ;data block; no direct reader found
 	db $55, $60, $6F, $60
 
 	call UnknownCall_0x3C1C
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 1, a
 	jr nz, UnknownRJump_0x5A066
 	ld b, 1
@@ -31837,12 +31837,12 @@ UnknownData_0x5A051: ;data block; no direct reader found
 
 UnknownRJump_0x5A066:
 	ld a, 2
-	ld [$AF26], a
+	ld [sObjectRemoveMode], a
 	call UnknownCall_0x5B2D7
 	ret
 
 	call UnknownCall_0x3BB8
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 0, a
 	jr nz, UnknownRJump_0x5A066
 	ld b, 1
@@ -31862,7 +31862,7 @@ UnknownRJump_0x5A07E:
 
 UnknownRJump_0x5A08F:
 	call UnknownCall_0x3B40
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 3, a
 	jr nz, UnknownRJump_0x5A0A0
 	call UnknownCall_0x5B441
@@ -31906,11 +31906,11 @@ UnknownRJump_0x5A0D5:
 	ld a, 66
 	ldh [$FFDB], a
 	ld a, 69
-	ld [$AF37], a
+	ld [sObjectSpawnSprite], a
 	ldh a, [$FFDD]
-	ld [$AF38], a
+	ld [sObjectSpawnAttr], a
 	ld a, 38
-	ld [$AF36], a
+	ld [sObjectSpawnAnim], a
 	call UnknownCall_0x5B36D
 	ld a, 16
 	ldh [$FFEC], a
@@ -32395,7 +32395,7 @@ UnknownRJump_0x5A3ED:
 UnknownCall_0x5A3F7:
 	call UnknownCall_0x5A413
 	call UnknownCall_0x5A41E
-	ld a, [$AF27]
+	ld a, [sObjectWalkBusy]
 	and a
 	ret nz
 	ld [hl], 1
@@ -32404,7 +32404,7 @@ UnknownCall_0x5A3F7:
 UnknownCall_0x5A405:
 	call UnknownCall_0x5A413
 	call UnknownCall_0x5A41E
-	ld a, [$AF27]
+	ld a, [sObjectWalkBusy]
 	and a
 	ret nz
 	ld [hl], 20
@@ -32421,7 +32421,7 @@ UnknownCall_0x5A413:
 
 UnknownCall_0x5A41E:
 	xor a
-	ld [$AF27], a
+	ld [sObjectWalkBusy], a
 	ld hl, $FFE8
 	inc [hl]
 	ld a, [hl]
@@ -32434,12 +32434,12 @@ UnknownCall_0x5A41E:
 
 UnknownRJump_0x5A432:
 	ld a, 1
-	ld [$AF27], a
+	ld [sObjectWalkBusy], a
 	ret
 
 UnknownCall_0x5A438:
 	xor a
-	ld [$AF27], a
+	ld [sObjectWalkBusy], a
 	ld hl, $FFE8
 	dec [hl]
 	jr nz, UnknownRJump_0x5A432
@@ -32455,7 +32455,7 @@ UnknownRJump_0x5A44C:
 
 UnknownCall_0x5A44F:
 	xor a
-	ld [$AF27], a
+	ld [sObjectWalkBusy], a
 	ld hl, $FFE9
 	dec [hl]
 	jr nz, UnknownRJump_0x5A432
@@ -32469,7 +32469,7 @@ UnknownCall_0x5A44F:
 
 UnknownCall_0x5A465:
 	xor a
-	ld [$AF27], a
+	ld [sObjectWalkBusy], a
 	ld hl, $FFE9
 	inc [hl]
 	ld a, [hl]
@@ -32483,7 +32483,7 @@ UnknownCall_0x5A465:
 UnknownCall_0x5A478:
 	call UnknownCall_0x5A494
 	call UnknownCall_0x5A438
-	ld a, [$AF27]
+	ld a, [sObjectWalkBusy]
 	and a
 	ret nz
 	ld [hl], 1
@@ -32492,7 +32492,7 @@ UnknownCall_0x5A478:
 UnknownCall_0x5A486:
 	call UnknownCall_0x5A494
 	call UnknownCall_0x5A438
-	ld a, [$AF27]
+	ld a, [sObjectWalkBusy]
 	and a
 	ret nz
 	ld [hl], 20
@@ -32510,7 +32510,7 @@ UnknownCall_0x5A494:
 UnknownCall_0x5A49F:
 	call UnknownCall_0x5A4AD
 	call UnknownCall_0x5A44F
-	ld a, [$AF27]
+	ld a, [sObjectWalkBusy]
 	and a
 	ret nz
 	ld [hl], 1
@@ -32528,7 +32528,7 @@ UnknownCall_0x5A4AD:
 UnknownCall_0x5A4B8:
 	call UnknownCall_0x5A4E2
 	call UnknownCall_0x5A465
-	ld a, [$AF27]
+	ld a, [sObjectWalkBusy]
 	and a
 	ret nz
 	ld [hl], 1
@@ -32537,7 +32537,7 @@ UnknownCall_0x5A4B8:
 UnknownCall_0x5A4C6:
 	call UnknownCall_0x5A4E2
 	call UnknownCall_0x5A465
-	ld a, [$AF27]
+	ld a, [sObjectWalkBusy]
 	and a
 	ret nz
 	ld [hl], 20
@@ -32546,7 +32546,7 @@ UnknownCall_0x5A4C6:
 UnknownCall_0x5A4D4:
 	call UnknownCall_0x5A4AD
 	call UnknownCall_0x5A44F
-	ld a, [$AF27]
+	ld a, [sObjectWalkBusy]
 	and a
 	ret nz
 	ld [hl], 20
@@ -32578,11 +32578,11 @@ UnknownData_0x5A4ED: ;data block; no direct reader found
 	ldh [$FFDE], a
 	call UnknownCall_0x5B3C6
 	ld a, 168
-	ld [$AF37], a
+	ld [sObjectSpawnSprite], a
 	ldh a, [$FFDD]
-	ld [$AF38], a
+	ld [sObjectSpawnAttr], a
 	ld a, 69
-	ld [$AF36], a
+	ld [sObjectSpawnAnim], a
 	call UnknownCall_0x5B36D
 	ret
 
@@ -32599,7 +32599,7 @@ UnknownData_0x5A574: ;data block; no direct reader found
 	db $78, $65, $8D, $65
 
 	call UnknownCall_0x3C58
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 1, a
 	jp nz, UnknownJump_0x59D2D
 	ld b, 1
@@ -32607,7 +32607,7 @@ UnknownData_0x5A574: ;data block; no direct reader found
 	call UnknownCall_0x3CF1
 	jr UnknownRJump_0x5A5A0
 	call UnknownCall_0x3BF4
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 0, a
 	jp nz, UnknownJump_0x59D2D
 	ld b, 1
@@ -32831,14 +32831,14 @@ UnknownData_0x5A6FB: ;data block; no direct reader found
 	ld b, 1
 	call UnknownCall_0x3D22
 	call UnknownCall_0x3AF0
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 2, a
 	jp z, UnknownJump_0x59D2D
 	ret
 	ld b, 1
 	call UnknownCall_0x3D32
 	call UnknownCall_0x3B04
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 2, a
 	jp z, UnknownJump_0x59D2D
 	ret
@@ -32874,14 +32874,14 @@ UnknownData_0x5A74D: ;data block; no direct reader found
 	ld b, 1
 	call UnknownCall_0x3D22
 	call UnknownCall_0x3B18
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 3, a
 	jp z, UnknownJump_0x59D2D
 	ret
 	ld b, 1
 	call UnknownCall_0x3D32
 	call UnknownCall_0x3B2C
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 3, a
 	jp z, UnknownJump_0x59D2D
 	ret
@@ -32925,7 +32925,7 @@ UnknownRJump_0x5A7A5:
 	ld a, 16
 	ldh [$FFEC], a
 	call UnknownCall_0x5B41A
-	ld a, [$AF2C]
+	ld a, [sObjectFacing]
 	cp $FF
 	jr z, UnknownRJump_0x5A7C6
 	ld a, 147
@@ -32945,19 +32945,19 @@ UnknownRJump_0x5A7C6:
 
 UnknownRJump_0x5A7D4:
 	ld a, 145
-	ld [$AF37], a
+	ld [sObjectSpawnSprite], a
 	ldh a, [$FFDD]
-	ld [$AF38], a
+	ld [sObjectSpawnAttr], a
 	ldh a, [$FFDB]
 	cp $94
 	jr nz, UnknownRJump_0x5A7EB
-	ld a, [$AF38]
+	ld a, [sObjectSpawnAttr]
 	inc a
-	ld [$AF38], a
+	ld [sObjectSpawnAttr], a
 
 UnknownRJump_0x5A7EB:
 	ld a, 78
-	ld [$AF36], a
+	ld [sObjectSpawnAnim], a
 	call UnknownCall_0x5B36D
 	ld a, 4
 	ldh [$FFDF], a
@@ -33090,7 +33090,7 @@ UnknownRJump_0x5A86F:
 	jp UnknownJump_0x5A663
 
 	ld a, 1
-	ld [$AF3E], a
+	ld [sObjectDone], a
 	ldh a, [$FFDF]
 	and a
 	ret nz
@@ -33109,11 +33109,11 @@ UnknownRJump_0x5A86F:
 	ld a, 133
 	ldh [$FFE2], a
 	ld a, 90
-	ld [$AF37], a
+	ld [sObjectSpawnSprite], a
 	ldh a, [$FFDD]
-	ld [$AF38], a
+	ld [sObjectSpawnAttr], a
 	ld a, 55
-	ld [$AF36], a
+	ld [sObjectSpawnAnim], a
 	call UnknownCall_0x5B36D
 	ld b, 16
 	call UnknownCall_0x3D2D
@@ -33131,7 +33131,7 @@ UnknownData_0x5A915: ;data block; no direct reader found
 
 UnknownRJump_0x5A91D:
 	call UnknownCall_0x3B54
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 3, a
 	ret nz
 	ldh a, [$FFDF]
@@ -33167,7 +33167,7 @@ UnknownRJump_0x5A953:
 	call UnknownCall_0x5B451
 	call UnknownCall_0x3D3D
 	call UnknownCall_0x3B54
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 3, a
 	ret z
 	ldh a, [$FFDF]
@@ -33193,11 +33193,11 @@ UnknownData_0x5A977: ;data block; no direct reader found
 	call UnknownCall_0x5B4F5
 	ld b, 20
 	call UnknownCall_0x3D3D
-	ld a, [$AF07]
+	ld a, [sObjectSourceGone]
 	and a
 	ret z
 	ld a, 2
-	ld [$AF26], a
+	ld [sObjectRemoveMode], a
 	call UnknownCall_0x5B2D7
 	ret
 	call UnknownCall_0x5B521
@@ -33504,7 +33504,7 @@ UnknownData_0x5AB7F: ;data block; no direct reader found
 
 UnknownCall_0x5AB95:
 	call UnknownCall_0x3B40
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 3, a
 	jr nz, UnknownRJump_0x5ABA5
 	ld b, 2
@@ -33527,7 +33527,7 @@ UnknownRJump_0x5ABA9:
 
 UnknownRJump_0x5ABBB:
 	call UnknownCall_0x3C1C
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 1, a
 	jr nz, UnknownRJump_0x5ABCB
 	ld b, 2
@@ -33542,7 +33542,7 @@ UnknownRJump_0x5ABCB:
 
 UnknownRJump_0x5ABD3:
 	call UnknownCall_0x3BB8
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 0, a
 	jr nz, UnknownRJump_0x5ABE3
 	ld b, 2
@@ -33556,7 +33556,7 @@ UnknownRJump_0x5ABE3:
 
 UnknownCall_0x5ABE8:
 	call UnknownCall_0x3B7C
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 2, a
 	jr nz, UnknownRJump_0x5ABF8
 	ld b, 2
@@ -33598,7 +33598,7 @@ UnknownData_0x5AC04: ;data block; no direct reader found
 
 UnknownRJump_0x5AC2A:
 	ld a, 2
-	ld [$AF26], a
+	ld [sObjectRemoveMode], a
 	call UnknownCall_0x5B2D7
 	ld a, [sBossDefeated]
 	and a
@@ -33629,7 +33629,7 @@ UnknownData_0x5AC3F: ;data block; no direct reader found
 	jp UnknownJump_0x593FB
 	call UnknownCall_0x5B5B6
 	call UnknownCall_0x3B90
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 2, a
 	jr nz, UnknownRJump_0x5AC78
 	ld b, 1
@@ -33734,7 +33734,7 @@ UnknownCall_0x5AD11:
 	and $06
 	ret z
 	ld a, 1
-	ld [$AF3E], a
+	ld [sObjectDone], a
 	ret
 	call UnknownCall_0x5B5AD
 	ld b, 2
@@ -34056,9 +34056,9 @@ UnknownRJump_0x5B018:
 	ld a, 108
 	ldh [$FFDB], a
 	ld a, 112
-	ld [$AF37], a
+	ld [sObjectSpawnSprite], a
 	ld a, 89
-	ld [$AF36], a
+	ld [sObjectSpawnAnim], a
 	call UnknownCall_0x5B36D
 	ld a, 4
 	ldh [$FFDF], a
@@ -34111,7 +34111,7 @@ UnknownRJump_0x5B091:
 
 UnknownRJump_0x5B0A8:
 	call UnknownCall_0x3B40
-	ld a, [$AF2F]
+	ld a, [sMoveFlags]
 	bit 3, a
 	jr nz, UnknownRJump_0x5B0B9
 	call UnknownCall_0x5B451
@@ -34131,7 +34131,7 @@ UnknownRJump_0x5B0B9:
 	ldh [$FFEC], a
 	ret nz
 	ld a, 2
-	ld [$AF26], a
+	ld [sObjectRemoveMode], a
 	call UnknownCall_0x5B2D7
 	ret
 	call UnknownCall_0x5B521
@@ -34447,7 +34447,7 @@ UnknownCall_0x5B2BF:
 
 UnknownJump_0x5B2D7:
 UnknownCall_0x5B2D7:
-	ld a, [$AF26]
+	ld a, [sObjectRemoveMode]
 	and a
 	jr nz, UnknownRJump_0x5B2F0
 	ld hl, $FFD6
@@ -34469,16 +34469,16 @@ UnknownRJump_0x5B2F0:
 	ldh a, [$FFD8]
 	dec a
 	jr z, UnknownRJump_0x5B305
-	ld hl, $AF41
+	ld hl, sActiveObjectCount
 	dec [hl]
-	ld a, [$AF26]
+	ld a, [sObjectRemoveMode]
 	cp $01
 	jr nz, UnknownRJump_0x5B309
 	call UnknownCall_0x5B31D
 	jr UnknownRJump_0x5B309
 
 UnknownRJump_0x5B305:
-	ld hl, $AF40
+	ld hl, sStandbyObjectCount
 	dec [hl]
 
 UnknownRJump_0x5B309:
@@ -34491,9 +34491,9 @@ UnknownRJump_0x5B30F:
 	dec b
 	jr nz, UnknownRJump_0x5B30F
 	ld a, 2
-	ld [$AF3E], a
+	ld [sObjectDone], a
 	xor a
-	ld [$AF26], a
+	ld [sObjectRemoveMode], a
 	ret
 
 UnknownCall_0x5B31D:
@@ -34503,9 +34503,9 @@ UnknownCall_0x5B31D:
 	ld [sMoneyBagCount], a
 	ret nz
 	ld a, 28
-	ld [$AF37], a
+	ld [sObjectSpawnSprite], a
 	ld a, 26
-	ld [$AF36], a
+	ld [sObjectSpawnAnim], a
 	call UnknownCall_0x5B346
 	ld a, 8
 	ld [$A460], a
@@ -34574,11 +34574,11 @@ UnknownRJump_0x5B373:
 	ld l, e
 
 UnknownRJump_0x5B38C:
-	ld a, [$AF36]
+	ld a, [sObjectSpawnAnim]
 	ld [hli], a
-	ld a, [$AF28]
+	ld a, [sObjectSlotPtrHi]
 	ld [hli], a
-	ld a, [$AF29]
+	ld a, [sObjectSlotPtrLo]
 	and $F0
 	ld [hli], a
 	ld a, 1
@@ -34586,31 +34586,31 @@ UnknownRJump_0x5B38C:
 	ld a, l
 	add 3
 	ld l, a
-	ld a, [$AF37]
+	ld a, [sObjectSpawnSprite]
 	ld [hli], a
 	inc l
-	ld a, [$AF38]
+	ld a, [sObjectSpawnAttr]
 	ld [hl], a
-	ld hl, $AF40
+	ld hl, sStandbyObjectCount
 	inc [hl]
 
 UnknownRJump_0x5B3AE:
 	xor a
-	ld [$AF36], a
-	ld [$AF37], a
-	ld [$AF38], a
+	ld [sObjectSpawnAnim], a
+	ld [sObjectSpawnSprite], a
+	ld [sObjectSpawnAttr], a
 	ret
 
-	ld a, [$AF30]
-	ld [$AF34], a
-	ld a, [$AF32]
-	ld [$AF35], a
+	ld a, [sMarioRefXLo]
+	ld [sMarioRefXSave], a
+	ld a, [sMarioRefYLo]
+	ld [sMarioRefYSave], a
 	ret
 
 
 UnknownCall_0x5B3C6:
 	call UnknownCall_0x5B3E0
-	ld a, [$AF2C]
+	ld a, [sObjectFacing]
 	dec a
 	jr z, UnknownRJump_0x5B3D7
 	ld a, 1
@@ -34628,28 +34628,28 @@ UnknownRJump_0x5B3D7:
 
 UnknownCall_0x5B3E0:
 	xor a
-	ld [$AF2C], a
+	ld [sObjectFacing], a
 	ld hl, $FFD0
 	ld a, [hli]
 	ld b, a
 	ld c, [hl]
-	ld a, [$AF31]
+	ld a, [sMarioRefXHi]
 	cp b
 	jr c, UnknownRJump_0x5B3F8
 	jr z, UnknownRJump_0x5B3FE
 
 UnknownRJump_0x5B3F2:
 	ld a, 1
-	ld [$AF2C], a
+	ld [sObjectFacing], a
 	ret
 
 UnknownRJump_0x5B3F8:
 	ld a, 255
-	ld [$AF2C], a
+	ld [sObjectFacing], a
 	ret
 
 UnknownRJump_0x5B3FE:
-	ld a, [$AF30]
+	ld a, [sMarioRefXLo]
 	cp c
 	ret z
 	jr c, UnknownRJump_0x5B3F8
@@ -34657,7 +34657,7 @@ UnknownRJump_0x5B3FE:
 
 UnknownCall_0x5B407:
 	call UnknownCall_0x5B41A
-	ld a, [$AF2C]
+	ld a, [sObjectFacing]
 	dec a
 	jr z, UnknownRJump_0x5B415
 	ld a, 1
@@ -34671,28 +34671,28 @@ UnknownRJump_0x5B415:
 
 UnknownCall_0x5B41A:
 	xor a
-	ld [$AF2C], a
+	ld [sObjectFacing], a
 	ld hl, $FFD3
 	ld a, [hli]
 	ld b, a
 	ld c, [hl]
-	ld a, [$AF33]
+	ld a, [sMarioRefYHi]
 	cp b
 	jr c, UnknownRJump_0x5B432
 	jr z, UnknownRJump_0x5B438
 
 UnknownRJump_0x5B42C:
 	ld a, 1
-	ld [$AF2C], a
+	ld [sObjectFacing], a
 	ret
 
 UnknownRJump_0x5B432:
 	ld a, 255
-	ld [$AF2C], a
+	ld [sObjectFacing], a
 	ret
 
 UnknownRJump_0x5B438:
-	ld a, [$AF32]
+	ld a, [sMarioRefYLo]
 	cp c
 	ret z
 	jr c, UnknownRJump_0x5B432
@@ -34766,7 +34766,7 @@ UnknownData_0x5B488: ;data block, read at line 33841
 
 UnknownCall_0x5B4B4:
 	ld hl, $FFD1
-	ld a, [$AF30]
+	ld a, [sMarioRefXLo]
 	sub [hl]
 	bit 7, a
 	ret z
@@ -34826,7 +34826,7 @@ UnknownCall_0x5B4F5:
 	ld a, 1
 
 UnknownRJump_0x5B50D:
-	ld [$AF07], a
+	ld [sObjectSourceGone], a
 	ret
 
 UnknownCall_0x5B511:
@@ -35155,29 +35155,29 @@ UnknownCall_0x5B6A9:
 	ret nz
 	push hl
 	ld a, [hli]
-	ld [$AF47], a
+	ld [sHitTestType], a
 	ld a, [hli]
-	ld [$AF48], a
+	ld [sHitTestBoxTop], a
 	ld a, [hli]
-	ld [$AF49], a
+	ld [sHitTestBoxBottom], a
 	ld a, [hli]
-	ld [$AF4A], a
+	ld [sHitTestBoxLeft], a
 	ld a, [hli]
-	ld [$AF4B], a
+	ld [sHitTestBoxRight], a
 	ld a, l
 	sub 14
 	ld l, a
 	ld a, [hli]
-	ld [$AF4C], a
+	ld [sHitTestY], a
 	ld b, a
 	ld a, [hl]
-	ld [$AF4D], a
+	ld [sHitTestX], a
 	ld c, a
-	ld a, [$AF48]
+	ld a, [sHitTestBoxTop]
 	add 3
 	add b
 	ld d, a
-	ld a, [$AF49]
+	ld a, [sHitTestBoxBottom]
 	add 10
 	add b
 	sub d
@@ -35186,11 +35186,11 @@ UnknownCall_0x5B6A9:
 	sub d
 	cp e
 	jr nc, UnknownRJump_0x5B708
-	ld a, [$AF4A]
+	ld a, [sHitTestBoxLeft]
 	sub 5
 	add c
 	ld d, a
-	ld a, [$AF4B]
+	ld a, [sHitTestBoxRight]
 	add 5
 	add c
 	sub d
@@ -35204,7 +35204,7 @@ UnknownCall_0x5B6A9:
 	ld l, a
 	set 1, [hl]
 	ld a, 1
-	ld [$AF2E], a
+	ld [sObjectHitFlag], a
 
 UnknownRJump_0x5B708:
 	pop hl
@@ -38555,7 +38555,7 @@ INCBIN "gfx/coingame.2bpp"
 INCBIN "gfx/bonusgame.2bpp"
 
 UnknownCall_0x66000:
-	ld a, [$AF3E]
+	ld a, [sObjectDone]
 	and a
 	ret nz
 	call UnknownCall_0x66087
@@ -38580,7 +38580,7 @@ UnknownCall_0x66000:
 	ld a, [de]
 	cp $88
 	jr nz, UnknownRJump_0x66039
-	ld a, [$AF2B]
+	ld a, [sSpriteFlipFlags]
 	bit 6, a
 	jr z, UnknownRJump_0x66037
 	inc de
@@ -38599,7 +38599,7 @@ UnknownRJump_0x66039:
 	ld a, [de]
 	cp $80
 	ret z
-	ld a, [$AF2B]
+	ld a, [sSpriteFlipFlags]
 	bit 6, a
 	jr z, UnknownRJump_0x6604A
 	ld a, [de]
@@ -38616,7 +38616,7 @@ UnknownRJump_0x6604B:
 	jr nc, UnknownRJump_0x6605F
 	ld [hli], a
 	inc de
-	ld a, [$AF2B]
+	ld a, [sSpriteFlipFlags]
 	bit 5, a
 	jr z, UnknownRJump_0x6606D
 	ld a, [de]
@@ -38652,7 +38652,7 @@ UnknownRJump_0x6606E:
 	ld [hli], a
 	inc de
 	push hl
-	ld hl, $AF2B
+	ld hl, sSpriteFlipFlags
 	ld a, [de]
 	xor [hl]
 	pop hl
@@ -38668,7 +38668,7 @@ UnknownCall_0x66087:
 	xor [hl]
 	inc l
 	xor [hl]
-	ld [$AF2B], a
+	ld [sSpriteFlipFlags], a
 	ret
 
 UnknownData_0x66092: ;sprite lists: pointer table + records; loader UnknownCall_0x66000 (table base $6092, indexed by [$FFDB] * 2)

@@ -1,0 +1,13 @@
+$AF00	sObjectSpawnXHi
+$AF02	sObjectStagedMaxHi
+$AF0A	sObjectActXMaxHi
+$AF0E	sObjectActYMaxHi
+$AF16	sObjectAliveYMaxHi
+$AF1A	sObjectAliveXMaxHi
+$AF28	sObjectSlotPtrHi
+$AF2B	sSpriteFlipFlags
+$AF2F	sMoveFlags
+$AF40	sStandbyObjectCount
+$AF41	sActiveObjectCount
+$AF4E	sBitScanCount
+$AFC1	sObjectDefCount
