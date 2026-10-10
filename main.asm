@@ -508,11 +508,11 @@ UnknownRJump_0x54FB:
 	ldh [$FFBB], a
 
 UnknownRJump_0x551E:
-	ld a, [$A27A]
+	ld a, [sStompBounceTimer]
 	and a
 	ret z
 	dec a
-	ld [$A27A], a
+	ld [sStompBounceTimer], a
 	srl a
 	ld b, a
 	ldh a, [$FFC4]
@@ -563,12 +563,12 @@ UnknownJump_0x5550:
 
 UnknownJump_0x5579:
 	xor a
-	ld [$A2A0], a
+	ld [sSecretRouteFlag], a
 	ld a, [sLevelProgressFlags]
 	bit 3, a
 	jr z, UnknownRJump_0x5589
 	ld a, 255
-	ld [$A2A0], a
+	ld [sSecretRouteFlag], a
 
 UnknownRJump_0x5589:
 	ld hl, Level_Header_Pointers
@@ -592,7 +592,7 @@ UnknownRJump_0x559F:
 	inc de
 	dec b
 	jr nz, UnknownRJump_0x559F
-	ld a, [$A2A0]
+	ld a, [sSecretRouteFlag]
 	and a
 	jr z, UnknownRJump_0x55C6
 	ld hl, UnknownData_0x377B
@@ -1281,7 +1281,7 @@ UnknownJump_0x5D25:
 UnknownRJump_0x5D39:
 	ld a, 136
 	ldh [rWY], a
-	ld a, [$A29B]
+	ld a, [sPaletteFadeStep]
 	and a
 	call nz, UnknownCall_0x6442
 	ld a, [sStarTimerHigh]
@@ -1595,7 +1595,7 @@ UnknownRJump_0x5E94:
 
 
 UnknownCall_0x6442: ;palette fade step (called via UnknownCall_0x6442)
-	ld a, [$A29B]
+	ld a, [sPaletteFadeStep]
 	and $F0
 	swap a
 	ld e, a
@@ -1608,9 +1608,9 @@ UnknownCall_0x6442: ;palette fade step (called via UnknownCall_0x6442)
 	add hl, de
 	ld a, [hl]
 	ld [sOAMPalette1], a
-	ld a, [$A29B]
+	ld a, [sPaletteFadeStep]
 	dec a
-	ld [$A29B], a
+	ld [sPaletteFadeStep], a
 	cp $0E
 	ret nc
 	ld a, [$A80F]
@@ -1620,10 +1620,10 @@ UnknownCall_0x6442: ;palette fade step (called via UnknownCall_0x6442)
 	ld a, [$A811]
 	ld [sOAMPalette2], a
 	xor a
-	ld [$A29B], a
+	ld [sPaletteFadeStep], a
 	ret
 
-;palette rows read at +idx from $647D/$6481 (idx = [$A29B] >> 4)
+;palette rows read at +idx from $647D/$6481 (idx = [sPaletteFadeStep] >> 4)
 	db $E4, $A4, $50, $00, $D0, $90, $40, $00
 
 
@@ -16785,7 +16785,7 @@ UnknownRJump_0x305CB:
 	cp $9B
 	jr nz, UnknownRJump_0x305CB
 	xor a
-	ld [$A2CC], a
+	ld [sCastleCoinDone], a
 	ld a, [$A84D]
 	bit 7, a
 	jr z, UnknownRJump_0x30629
@@ -16830,7 +16830,7 @@ UnknownRJump_0x305CB:
 	ld [hli], a
 	ld [hli], a
 	ld [hl], a
-	ld [$A2CC], a
+	ld [sCastleCoinDone], a
 
 UnknownRJump_0x30629:
 	ld a, 228
@@ -24100,7 +24100,7 @@ UnknownCall_0x3EEF0:
 	ret
 
 UnknownRJump_0x3EF19:
-	ld a, [$A2A0]
+	ld a, [sSecretRouteFlag]
 	cp $FF
 	ret nz
 	set 3, [hl]
@@ -28181,7 +28181,7 @@ UnknownRJump_0x587D3:
 	jr z, UnknownRJump_0x587D3
 	dec a
 	jr z, UnknownRJump_0x587EE
-	ld a, [$A2A0]
+	ld a, [sSecretRouteFlag]
 	and a
 	jr nz, UnknownRJump_0x587FB
 	ld a, 135

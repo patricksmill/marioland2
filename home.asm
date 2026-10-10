@@ -136,7 +136,7 @@ UnknownRJump_0x018B:
 	ldh a, [$FF9B]
 	cp $13
 	jp z, UnknownJump_0x2CA3
-	ld a, [$A28E]
+	ld a, [sSceneId]
 	and a
 	jp nz, UnknownJump_0x26C3
 	ld a, [$AA01]
@@ -611,7 +611,7 @@ UnknownRJump_0x0472:
 	ld [sSceneState], a
 	xor a
 	ld [sScreenTransition], a
-	ld [$A2A7], a
+	ld [sLevelLoadFlag], a
 	ld [sVRAMTransferActive], a
 	ld [sOAMWriteEnd], a
 	ld hl, $AA80
@@ -730,7 +730,7 @@ UnknownRJump_0x052F:
 	ld a, 227
 	ldh [rLCDC], a
 	xor a
-	ld [$A211], a
+	ld [sLevelInitDone], a
 	ld a, [sSoundDisabled]
 	and a
 	jr nz, UnknownRJump_0x0598
@@ -756,7 +756,7 @@ UnknownRJump_0x0598:
 	ldh a, [$FF9B]
 	inc a
 	ldh [$FF9B], a
-	ld a, [$A2D5]
+	ld a, [sLoadFadeFlag]
 	and a
 	ret z
 
@@ -795,7 +795,7 @@ UnknownRJump_0x05E4:
 	and a
 	jr nz, UnknownRJump_0x060F
 	xor a
-	ld [$A25C], a
+	ld [sInLevelFlag], a
 	call UnknownCall_0x0F71
 
 UnknownRJump_0x060F:
@@ -2051,7 +2051,7 @@ UnknownRJump_0x0EF3:
 
 UnknownCall_0x0F0B:
 	ld a, 255
-	ld [$A29E], a
+	ld [sMapEventFlag], a
 	ldh a, [$FFC1]
 	swap a
 	ld e, a
@@ -2063,9 +2063,9 @@ UnknownCall_0x0F0B:
 	ld hl, $A900
 	add hl, de
 	ld a, [hl]
-	ld [$A28E], a
+	ld [sSceneId], a
 	xor a
-	ld [$A29B], a
+	ld [sPaletteFadeStep], a
 	ret
 
 UnknownCall_0x0F2A:
@@ -2087,7 +2087,7 @@ UnknownCall_0x0F2A:
 	xor a
 	ld [sStarTimerHigh], a
 	ld [sStompChainCount], a
-	ld [$A23D], a
+	ld [sPauseState], a
 	ld [sGoalBell], a
 	ld [sMarioDead], a
 	ld a, 64
@@ -2284,7 +2284,7 @@ UnknownCall_0x1090:
 	ldh a, [hKeysPressed]
 	bit 0, a
 	jr nz, UnknownRJump_0x10D7
-	ld a, [$A284]
+	ld a, [sFlutterArmed]
 	and a
 	jr z, UnknownRJump_0x10EB
 	ld a, [sMarioOnGround]
@@ -2293,18 +2293,18 @@ UnknownCall_0x1090:
 	ldh a, [hKeysHeld]
 	bit 0, a
 	jr z, UnknownRJump_0x10EB
-	ld a, [$A27C]
+	ld a, [sFlutterCharge]
 	inc a
-	ld [$A27C], a
+	ld [sFlutterCharge], a
 	cp $0C
 	jr c, UnknownRJump_0x10EB
 	xor a
-	ld [$A27C], a
+	ld [sFlutterCharge], a
 	jr UnknownRJump_0x10DC
 
 UnknownRJump_0x10D7:
 	ld a, 255
-	ld [$A284], a
+	ld [sFlutterArmed], a
 
 UnknownRJump_0x10DC:
 	ld a, 8
@@ -2660,7 +2660,7 @@ UnknownRJump_0x134F:
 	ld [sPipeTravelDirection], a
 
 UnknownRJump_0x1366:
-	ld a, [$A283]
+	ld a, [sPipeAlignTarget]
 	ld b, a
 	ldh a, [$FFC0]
 	sub 4
@@ -2759,7 +2759,7 @@ UnknownCall_0x13FE:
 	xor a
 	ld [sMarioXSub], a
 	ld [sMarioXPushed], a
-	ld [$A283], a
+	ld [sPipeAlignTarget], a
 	ld a, [sPipeTravelDirection]
 	cp $10
 	ret nc
@@ -3105,7 +3105,7 @@ UnknownRJump_0x1637:
 	and a
 	jr nz, UnknownRJump_0x16AE
 	ld a, 1
-	ld [$A286], a
+	ld [sJumpFlag], a
 	ld a, 1
 	ld [$A460], a
 	ld a, [sMoonPhysics]
@@ -3141,7 +3141,7 @@ UnknownRJump_0x1675:
 	ld [sMarioInAir], a
 	xor a
 	ld [sMarioOnGround], a
-	ld [$A284], a
+	ld [sFlutterArmed], a
 	ld a, 75
 	ld [sVVelocityIndex], a
 	ld a, [sCurPowerup]
@@ -3574,7 +3574,7 @@ UnknownCall_0x1BFF:
 	push de
 	push bc
 	ld a, [sSwimming]
-	ld [$A27B], a
+	ld [sPrevSwimming], a
 	xor a
 	ld [sSwimming], a
 	ldh a, [$FFC2]
@@ -3643,7 +3643,7 @@ UnknownRJump_0x1C82:
 	and $FC
 	cp $4C
 	jr nz, UnknownRJump_0x1CBA
-	ld a, [$A27B]
+	ld a, [sPrevSwimming]
 	and a
 	jr nz, UnknownRJump_0x1C9F
 	ld a, [sVVelocityIndex]
@@ -3696,7 +3696,7 @@ UnknownRJump_0x1CD7:
 	ld [sFadeTimerLow], a
 	xor a
 	ld [sFadeTimerHigh], a
-	ld [$A2A0], a
+	ld [sSecretRouteFlag], a
 	ld [sTileAnimConfig], a
 	jr UnknownRJump_0x1D71
 
@@ -3716,7 +3716,7 @@ UnknownRJump_0x1CFB:
 	set 1, a
 	ld [sMoonPhysics], a
 	xor a
-	ld [$A284], a
+	ld [sFlutterArmed], a
 	ld a, [sMoonPhysics]
 	res 2, a
 	ld [sMoonPhysics], a
@@ -4270,9 +4270,9 @@ UnknownCall_0x2098:
 
 
 UnknownCall_0x20A4:
-	ld a, [$A28E]
+	ld a, [sSceneId]
 	ld b, a
-	ld a, [$A28F]
+	ld a, [sSceneIdHi]
 	or b
 	jp z, UnknownJump_0x21EE
 	ld a, [sSavedOAMIndex]
@@ -4283,7 +4283,7 @@ UnknownCall_0x20A4:
 	ld a, 5 ;prepare bank switch
 	ld [sCurROMBank], a
 	ld [$2100], a
-	ld a, [$A28E]
+	ld a, [sSceneId]
 	ld e, a
 	ld d, 0
 	sla e
@@ -4390,7 +4390,7 @@ UnknownRJump_0x216C:
 	cp $B0
 	jr nz, UnknownRJump_0x217E
 	xor a
-	ld [$A288], a
+	ld [sSceneVramFlag], a
 	ld a, 136
 	ldh [rWY], a
 	call UnknownCall_0x2202
@@ -4469,10 +4469,10 @@ UnknownJump_0x21EE:
 	ld a, [sSceneTransitionFlag]
 	ld [sSceneTransitionLatch], a
 	xor a
-	ld [$A28E], a
-	ld [$A28F], a
+	ld [sSceneId], a
+	ld [sSceneIdHi], a
 	ld [sSceneTransitionFlag], a
-	ld [$A2A8], a
+	ld [sSceneDoneFlag], a
 	ret
 
 UnknownCall_0x2202:
@@ -4589,7 +4589,7 @@ UnknownJump_0x22B9:
 	ld [sVRAMTransferActive], a
 
 UnknownRJump_0x22BE:
-	ld a, [$A28C]
+	ld a, [sVramPumpFlag]
 	and a
 	jr z, UnknownRJump_0x22D5
 
@@ -4642,7 +4642,7 @@ UnknownRJump_0x2300:
 	cp $85
 	jr c, UnknownRJump_0x2300
 	xor a
-	ld [$A28C], a
+	ld [sVramPumpFlag], a
 	ret
 
 
@@ -5186,7 +5186,7 @@ UnknownCall_0x273E:
 	and a
 	ret nz
 	xor a
-	ld [$A23D], a
+	ld [sPauseState], a
 	ld a, 8
 	ldh [$FF9B], a
 	ld a, 1
@@ -6137,7 +6137,7 @@ UnknownRJump_0x2DF7:
 
 UnknownRJump_0x2E23:
 	xor a
-	ld [$A284], a
+	ld [sFlutterArmed], a
 	ld a, [sStarTimerHigh]
 	and a
 	jr nz, UnknownRJump_0x2E6F
@@ -6224,7 +6224,7 @@ UnknownJump_0x2EAA:
 	ld a, 4
 	ld [hl], a
 	ld a, 32
-	ld [$A27A], a
+	ld [sStompBounceTimer], a
 	ld a, [sStompChainCount]
 	inc a
 	daa
@@ -7120,7 +7120,7 @@ UnknownRJump_0x34C9:
 	ld a, 21
 	ld [$A460], a
 	ld a, 255
-	ld [$A2A0], a
+	ld [sSecretRouteFlag], a
 	jr UnknownRJump_0x3539
 
 UnknownRJump_0x34D9:
