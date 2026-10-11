@@ -273,7 +273,70 @@ DEF sSoundSaveArea EQU $A490       ; sound-state save area of the unreachable
                                    ; $A490-$A4FF region is touched only by it)
 DEF sSavedSongId EQU $A49F         ; set to 5 by the dead save; the dead restore
                                    ; copies it into sCurSong
-DEF sFastMusic EQU $A50D
+
+; Sfx slot state + music-channel scratch ($A500-$A53F). Each sfx slot has a
+; frame countdown (decremented by "wait" commands, $111B3) and a step counter
+; (incremented by "next" commands, $111B7); slot 0 = pulse 1, slot 1 = wave
+; channel, slot 2 = noise. $A501/$A505 are the pause jingle's timer/note index.
+DEF sSfx0Timer EQU $A500
+DEF sPauseBeepTimer EQU $A501
+DEF sSfx1Timer EQU $A502
+DEF sSfx2Timer EQU $A503
+DEF sSfx0Step EQU $A504
+DEF sPauseBeepIndex EQU $A505
+DEF sSfx1Step EQU $A506
+DEF sSfx2Step EQU $A508
+DEF sFastMusic EQU $A50D           ; 1 = hurry-up music speed (set at StartMusic
+                                   ; for ids 02/03/09/0C/0F/18; sMusicTranspose +4)
+DEF sMusicDrumMode EQU $A50E       ; wave-channel drum: 0 = off, 1 = active
+                                   ; (stream commands $99/$9A), 2 = ended
+DEF sMusicCh1LastFreqLo EQU $A514  ; last frequency written to the APU (lo at
+                                   ; $A514, hi at $A515; ch2 $A516/$A517, ch3
+                                   ; $A518/$A519); base for the slide/vibrato
+                                   ; relative writes ($11A60/$11A7A)
+DEF sMusicCh1SlideState EQU $A51A  ; portamento (stream commands $95/$96): state
+DEF sMusicCh1SlideStep EQU $A51B   ; 0/1/2 + step counter 0-5
+DEF sMusicCh2SlideState EQU $A51C
+DEF sMusicCh2SlideStep EQU $A51D
+DEF sMusicCh3SlideState EQU $A51E
+DEF sMusicCh3SlideStep EQU $A51F   ; also the wave-drum ducking counter (the
+                                   ; rAUD3LEVEL pattern) while sMusicDrumMode is
+                                   ; active - the two features share the byte
+DEF sMusicCh1VibratoTimer EQU $A520 ; vibrato counter 1-$2D (armed via the
+DEF sMusicCh1VibratoFlag EQU $A521  ; instrument low nibble; offsets from the
+                                    ; $5ACC table, applied via $A514)
+DEF sMusicCh2VibratoTimer EQU $A522
+DEF sMusicCh2VibratoFlag EQU $A523
+DEF sMusicCh1BendFlag EQU $A526     ; pitch bend (stream commands $97/$98):
+DEF sMusicCh1BendStarted EQU $A527  ; flag + "bend started" counter
+DEF sMusicCh2BendFlag EQU $A528
+DEF sMusicCh2BendStarted EQU $A529
+DEF sMusicCh3BendFlag EQU $A52A
+DEF sMusicCh3BendStarted EQU $A52B
+DEF sMusicUnused1 EQU $A52C        ; cleared by the sound reset; never used
+DEF sSfx0Duration EQU $A52D        ; slot 0 frame duration (decremented by
+                                   ; $111DC; 0 -> slot stop)
+DEF sSfx0Unused1 EQU $A52E         ; decremented only by the unreachable $111DF
+                                   ; stub; never read
+DEF sSfx1Duration EQU $A52F        ; slot 1 frame duration ($111E8)
+DEF sSfx2Duration EQU $A530        ; written by slot 2's commands; its countdown
+                                   ; stub ($111EB) is unreachable; never read
+DEF sSfx0FreqLo EQU $A531          ; slot 0 frequency cache (lo/hi) for the slide
+DEF sSfx0FreqHi EQU $A532          ; helpers $11214/$11228
+DEF sSfx1FreqLo EQU $A533
+DEF sSfx1FreqHi EQU $A534
+DEF sSfx0Phase EQU $A535           ; slot 0's 1-3 phase counter for its
+                                   ; multi-stage sfx variant ($102FF/$10321)
+DEF sSfx0Busy EQU $A536            ; 1 while a slot 0 sfx plays; new requests
+                                   ; are dropped ($10685 sets, $106A8 clears)
+DEF sSfxUnused1 EQU $A537          ; cleared by the sound reset; never used
+DEF sSfx1Busy EQU $A538            ; slot 1 busy gate ($10DF3 sets, $10E1D clears)
+DEF sSfx2Busy EQU $A539            ; slot 2 busy gate ($1115E sets, $11181 clears)
+DEF sSfx1Variant EQU $A53E         ; toggles 0/1: alternates the two variants of
+                                   ; slot 1's sfx id 6 ($49E1/$49ED tables)
+DEF sLowTimeFlag EQU $A53F         ; set when the low-time warning plays (time <
+                                   ; $11): _UpdateSound halves rAUDVOL (51 vs
+                                   ; 119); cleared on death/level end/goal bell
 
 ; Map tile-window descriptors ($A600-$A67F) + the in-level metatile map overlay.
 ; Map screen: four 32-byte VRAM update buffers, rebuilt every frame by $3ED4C

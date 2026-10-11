@@ -2830,7 +2830,7 @@ UnknownRJump_0x1464:
 	ld a, 15
 	ld [sSfxRequest0], a
 	xor a
-	ld [$A53F], a
+	ld [sLowTimeFlag], a
 
 UnknownRJump_0x147F:
 	ld a, [sCollisionTile]
@@ -3674,7 +3674,7 @@ UnknownRJump_0x1CBA:
 	cp $4A
 	jr nz, UnknownRJump_0x1CFB
 	xor a
-	ld [$A53F], a
+	ld [sLowTimeFlag], a
 	xor a
 	ld [sExitTileFlag], a
 	ld a, [sCollisionTile]
@@ -7140,7 +7140,7 @@ UnknownRJump_0x34EC:
 	ld [sSfxRequest0], a
 	ld [sGoalBell], a
 	xor a
-	ld [$A53F], a
+	ld [sLowTimeFlag], a
 	ld a, [sVVelocityIndex]
 	cp $18
 	jr nc, UnknownRJump_0x3539

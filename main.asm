@@ -1333,7 +1333,7 @@ UnknownRJump_0x5D6A:
 	ld a, 15
 	ld [sSfxRequest0], a
 	xor a
-	ld [$A53F], a
+	ld [sLowTimeFlag], a
 	jr UnknownRJump_0x5E12
 
 UnknownRJump_0x5DB4:
@@ -1346,7 +1346,7 @@ UnknownRJump_0x5DB4:
 	ld a, 14
 	ld [sSfxRequest1], a
 	ld a, 1
-	ld [$A53F], a
+	ld [sLowTimeFlag], a
 
 UnknownRJump_0x5DCB:
 	ld a, [sGoalBell]
@@ -9376,7 +9376,7 @@ UnknownRJump_0x10003:
 	ld [hl], 0
 	inc l
 	jr nz, UnknownRJump_0x10003
-	ld hl, $A500
+	ld hl, sSfx0Timer
 
 UnknownRJump_0x1000B:
 	ld [hl], 0
@@ -9412,7 +9412,7 @@ UnknownJump_0x10044:
 	ld a, [hli]
 	and a
 	jr nz, UnknownRJump_0x10078
-	ld a, [$A53F]
+	ld a, [sLowTimeFlag]
 	and a
 	jr z, UnknownRJump_0x10057
 	ld a, 51
@@ -9475,10 +9475,10 @@ UnknownCall_0x100DE:
 	jr z, UnknownRJump_0x10110
 	cp $17
 	jr z, UnknownRJump_0x10110
-	ld a, [$A520]
+	ld a, [sMusicCh1VibratoTimer]
 	and a
 	jr nz, UnknownRJump_0x10110
-	ld a, [$A536]
+	ld a, [sSfx0Busy]
 	and a
 	ret nz
 
@@ -9496,8 +9496,8 @@ UnknownRJump_0x10116:
 
 UnknownRJump_0x1011D:
 	call UnknownCall_0x111A6
-	ld de, $A500
-	ld bc, $A504
+	ld de, sSfx0Timer
+	ld bc, sSfx0Step
 	jp hl
 	ld hl, $4134
 	jp UnknownJump_0x1068A
@@ -9538,7 +9538,7 @@ UnknownData_0x1017C: ;sound data block, read via `ld hl, $417C` in the surroundi
 	db $27, $A0, $39, $D6, $C6, $06, $27, $A0, $39, $16, $C7, $12
 
 	ld a, 5
-	ld [$A52D], a
+	ld [sSfx0Duration], a
 	ld hl, $41A3
 	jp UnknownJump_0x1068A
 	call UnknownCall_0x111B3
@@ -9552,7 +9552,7 @@ UnknownData_0x101A3: ;sound data block, read via `ld hl, $41A3` in the surroundi
 	db $17, $BC, $64, $44, $C7, $02
 
 	ld a, 2
-	ld [$A52D], a
+	ld [sSfx0Duration], a
 	ld hl, $46C6
 	jp UnknownJump_0x10685
 	call UnknownCall_0x111B3
@@ -9619,7 +9619,7 @@ UnknownData_0x10253: ;sound data block, read via `ld hl, $4253` in the surroundi
 	db $C5, $08, $25, $9F, $C0, $72, $C5, $08, $25, $9F, $E0, $8A, $C5, $08
 
 	ld a, 3
-	ld [$A52D], a
+	ld [sSfx0Duration], a
 	ld hl, $42AA
 	call UnknownCall_0x111F9
 	jp UnknownJump_0x10685
@@ -9663,27 +9663,27 @@ UnknownData_0x102CD: ;sound data block, read via `ld hl, $42CD` in the surroundi
 
 	call UnknownCall_0x13F5E
 	ld a, 6
-	ld [$A52D], a
+	ld [sSfx0Duration], a
 	ld hl, $4343
 	jp UnknownJump_0x10685
 	call UnknownCall_0x111B3
 	ret nz
-	ld a, [$A535]
+	ld a, [sSfx0Phase]
 	inc a
-	ld [$A535], a
+	ld [sSfx0Phase], a
 	cp $03
 	jr z, UnknownRJump_0x10321
 
 UnknownRJump_0x102FF:
 	ld hl, $433F
 	call UnknownCall_0x111A6
-	ld a, [$A535]
+	ld a, [sSfx0Phase]
 	cp $01
 	jr z, UnknownRJump_0x1032E
 	call UnknownCall_0x111BB
 
 UnknownRJump_0x1030F:
-	ld bc, $A504
+	ld bc, sSfx0Step
 	call UnknownCall_0x111B7
 	dec a
 	ld c, a
@@ -9697,7 +9697,7 @@ UnknownRJump_0x10321:
 	call UnknownCall_0x111DC
 	jp z, UnknownJump_0x106A8
 	ld a, 1
-	ld [$A535], a
+	ld [sSfx0Phase], a
 	jr UnknownRJump_0x102FF
 
 UnknownRJump_0x1032E:
@@ -9709,7 +9709,7 @@ UnknownData_0x10333: ;sound data block, read via `ld hl, $4333` in the surroundi
 	db $00, $80, $94, $C0, $87, $04, $80, $94, $CC, $87, $04
 
 	ld a, 12
-	ld [$A52D], a
+	ld [sSfx0Duration], a
 	ld hl, $4388
 	call UnknownCall_0x111F9
 	jp UnknownJump_0x10685
@@ -9733,7 +9733,7 @@ UnknownData_0x10374: ;sound data block, read via `ld hl, $4374` in the surroundi
 	db $FF, $F8, $FF, $FC, $00, $80, $C7, $80, $87, $01
 
 	ld a, 4
-	ld [$A52D], a
+	ld [sSfx0Duration], a
 	ld hl, $43CA
 	jp UnknownJump_0x1068A
 	call UnknownCall_0x111B3
@@ -9820,7 +9820,7 @@ UnknownData_0x10486: ;sound bank data; no direct reader found
 
 UnknownJump_0x1049C:
 	ld a, 10
-	ld [$A52D], a
+	ld [sSfx0Duration], a
 	ld hl, $44D2
 	call UnknownCall_0x111F9
 	jp UnknownJump_0x10685
@@ -9885,7 +9885,7 @@ UnknownData_0x10514: ;sound data block, read via `ld hl, $4514` in the surroundi
 	db $40, $C7, $03, $20, $C7, $03, $00, $C7, $03, $E0, $C7, $03
 
 	ld a, 4
-	ld [$A52D], a
+	ld [sSfx0Duration], a
 	ld hl, $4595
 	call UnknownCall_0x111F9
 	jp UnknownJump_0x10685
@@ -9920,7 +9920,7 @@ UnknownData_0x1058D: ;sound data block, read via `ld hl, $458D` in the surroundi
 	jp z, UnknownJump_0x106A2
 	ld hl, $45CC
 	call UnknownCall_0x111A6
-	ld a, [$A504]
+	ld a, [sSfx0Step]
 	cp $08
 	jp z, UnknownJump_0x111BB
 	and $01
@@ -9942,7 +9942,7 @@ UnknownData_0x105CC: ;sound data block, read via `ld hl, $45CC` in the surroundi
 	db $80, $B6, $B6, $87, $40
 
 	ld a, 4
-	ld [$A52D], a
+	ld [sSfx0Duration], a
 	ld hl, $4626
 	call UnknownCall_0x111F9
 	jp UnknownJump_0x10685
@@ -9969,7 +9969,7 @@ UnknownData_0x1061E: ;sound data block, read via `ld hl, $461E` in the surroundi
 	db $00, $30, $FF, $A0, $00, $40, $FF, $A0, $00, $80, $C5, $C0, $87, $04
 
 	ld a, 8
-	ld [$A52D], a
+	ld [sSfx0Duration], a
 	ld hl, $467A
 	call UnknownCall_0x111F9
 	jp UnknownJump_0x10685
@@ -9996,18 +9996,18 @@ UnknownData_0x10652: ;sound data block, read via `ld hl, $4652` in the surroundi
 
 UnknownJump_0x10680:
 	ld a, 1
-	ld [$A520], a
+	ld [sMusicCh1VibratoTimer], a
 
 UnknownJump_0x10685:
 	ld a, 1
-	ld [$A536], a
+	ld [sSfx0Busy], a
 
 UnknownJump_0x1068A:
 	ld a, [sSfxRequest0]
 	ld [sSfxActive0], a
 	xor a
-	ld [$A500], a
-	ld [$A504], a
+	ld [sSfx0Timer], a
+	ld [sSfx0Step], a
 	ld a, [sMusicCh1Flags]
 	set 7, a
 	ld [sMusicCh1Flags], a
@@ -10020,12 +10020,12 @@ UnknownJump_0x106A2:
 UnknownJump_0x106A8:
 	xor a
 	ld [sSfxActive0], a
-	ld [$A500], a
+	ld [sSfx0Timer], a
 	ldh [rAUD1SWEEP], a
-	ld [$A504], a
-	ld [$A52D], a
-	ld [$A520], a
-	ld [$A536], a
+	ld [sSfx0Step], a
+	ld [sSfx0Duration], a
+	ld [sMusicCh1VibratoTimer], a
+	ld [sSfx0Busy], a
 	ld a, [sMusicCh1Flags]
 	res 7, a
 	ld [sMusicCh1Flags], a
@@ -10047,7 +10047,7 @@ UnknownCall_0x106D3:
 	jr z, UnknownRJump_0x106E9
 	cp $14
 	jr z, UnknownRJump_0x106E3
-	ld a, [$A538]
+	ld a, [sSfx1Busy]
 	and a
 	ret nz
 
@@ -10065,8 +10065,8 @@ UnknownRJump_0x106E9:
 
 UnknownRJump_0x106F0:
 	call UnknownCall_0x111A6
-	ld de, $A502
-	ld bc, $A506
+	ld de, sSfx1Timer
+	ld bc, sSfx1Step
 	jp hl
 
 UnknownData_0x106FA: ;sound bank data; no direct reader found
@@ -10078,7 +10078,7 @@ UnknownData_0x106FA: ;sound bank data; no direct reader found
 	db $78, $4C, $98, $4C, $42, $4E, $F5, $4C, $41, $4D, $7D, $4D, $C2, $4D, $41, $4D
 
 	ld a, 2
-	ld [$A52F], a
+	ld [sSfx1Duration], a
 	call UnknownCall_0x10E49
 	ld hl, $47D1
 	jp UnknownJump_0x10DF8
@@ -10091,7 +10091,7 @@ UnknownData_0x106FA: ;sound bank data; no direct reader found
 UnknownRJump_0x10773:
 	ld hl, $47A3
 	call UnknownCall_0x111A6
-	ld a, [$A506]
+	ld a, [sSfx1Step]
 	cp $04
 	jp z, UnknownJump_0x111C7
 	cp $08
@@ -10130,7 +10130,7 @@ UnknownData_0x107A3: ;sound data block, read via `ld hl, $47A3` in the surroundi
 	jp z, UnknownJump_0x10E1D
 	ld hl, $4844
 	call UnknownCall_0x111A6
-	ld a, [$A506]
+	ld a, [sSfx1Step]
 	cp $03
 	jp z, UnknownJump_0x111C7
 	cp $06
@@ -10152,7 +10152,7 @@ UnknownData_0x10844: ;sound data block, read via `ld hl, $4844` in the surroundi
 	db $C7, $06, $80, $DA, $60, $30, $C7, $02
 
 	ld a, 2
-	ld [$A52F], a
+	ld [sSfx1Duration], a
 	call UnknownCall_0x10E4E
 	ld hl, $48E2
 	jp UnknownJump_0x10DF8
@@ -10163,7 +10163,7 @@ UnknownData_0x10844: ;sound data block, read via `ld hl, $4844` in the surroundi
 	jr z, UnknownRJump_0x108C6
 	ld hl, $48D4
 	call UnknownCall_0x111A6
-	ld a, [$A506]
+	ld a, [sSfx1Step]
 	cp $04
 	jp z, UnknownJump_0x111C7
 	jp UnknownJump_0x10E5D
@@ -10182,7 +10182,7 @@ UnknownData_0x108D4: ;sound data block, read via `ld hl, $48D4` in the surroundi
 	db $DF, $C7, $02
 
 	ld a, 36
-	ld [$A52F], a
+	ld [sSfx1Duration], a
 	call UnknownCall_0x10E53
 	ld hl, $4926
 	call UnknownCall_0x111FF
@@ -10205,7 +10205,7 @@ UnknownData_0x10924: ;sound data block, read via `ld hl, $4924` in the surroundi
 	db $00, $50, $80, $00, $20, $00, $81, $02, $80, $00, $60, $00, $81, $02
 
 	ld a, 2
-	ld [$A52F], a
+	ld [sSfx1Duration], a
 	call UnknownCall_0x10E4E
 	ld hl, $4988
 	call UnknownCall_0x111FF
@@ -10238,7 +10238,7 @@ UnknownData_0x10968: ;sound data block, read via `ld hl, $4968` in the surroundi
 	cp $06
 	ret z
 	call UnknownCall_0x10E58
-	ld hl, $A53E
+	ld hl, sSfx1Variant
 	ld a, [hl]
 	and a
 	jr z, UnknownRJump_0x109AB
@@ -10255,9 +10255,9 @@ UnknownRJump_0x109AB:
 	call UnknownCall_0x111B7
 	cp $03
 	jp z, UnknownJump_0x10E1D
-	ld a, [$A53E]
+	ld a, [sSfx1Variant]
 	and a
-	ld a, [$A506]
+	ld a, [sSfx1Step]
 	jr z, UnknownRJump_0x109D0
 	ld hl, $49DD
 	call UnknownCall_0x111A6
@@ -10273,7 +10273,7 @@ UnknownData_0x109D9: ;sound data block, read via `ld hl, $49D9` in the surroundi
 	db $20, $A8, $C7, $03, $80, $FB, $40, $A0, $C7, $03, $80, $FB, $40, $A8, $C7, $03
 
 	ld a, 48
-	ld [$A52F], a
+	ld [sSfx1Duration], a
 	call UnknownCall_0x10E58
 	ld hl, $4A28
 	call UnknownCall_0x111FF
@@ -10296,7 +10296,7 @@ UnknownData_0x10A26: ;sound data block, read via `ld hl, $4A26` in the surroundi
 	db $00, $10, $80, $00, $20, $00, $82, $02, $80, $00, $40, $00, $82, $02
 
 	ld a, 2
-	ld [$A52F], a
+	ld [sSfx1Duration], a
 	call UnknownCall_0x10E4E
 	ld hl, $4AA3
 	call UnknownCall_0x111FF
@@ -10348,7 +10348,7 @@ UnknownData_0x10B04: ;sound data block, read via `ld hl, $4B04` in the surroundi
 	db $80, $00, $20, $00, $84, $01
 
 	ld a, 3
-	ld [$A52F], a
+	ld [sSfx1Duration], a
 	call UnknownCall_0x10E53
 	ld hl, $4B83
 	call UnknownCall_0x111FF
@@ -10387,7 +10387,7 @@ UnknownData_0x10B5B: ;sound data block, read via `ld hl, $4B5B` in the surroundi
 	db $40, $A0, $85, $02, $80, $00, $60, $A0, $85, $02
 
 	ld a, 2
-	ld [$A52F], a
+	ld [sSfx1Duration], a
 	jp UnknownJump_0x10AEA
 	call UnknownCall_0x111B7
 	cp $0B
@@ -10408,7 +10408,7 @@ UnknownData_0x10BBC: ;sound data block, read via `ld hl, $4BBC` in the surroundi
 	db $80, $00, $40, $00, $84, $01
 
 	ld a, 2
-	ld [$A52F], a
+	ld [sSfx1Duration], a
 	ld hl, $5B86
 	call UnknownCall_0x10E43
 	ld hl, $4C13
@@ -10455,7 +10455,7 @@ UnknownData_0x10C42: ;sound data block, read via `ld hl, $4C42` in the surroundi
 
 UnknownRJump_0x10C4C:
 	ld a, 8
-	ld [$A52F], a
+	ld [sSfx1Duration], a
 	call UnknownCall_0x10E58
 	pop hl
 	call UnknownCall_0x111FF
@@ -10502,7 +10502,7 @@ UnknownData_0x10CAD: ;sound data block, read via `ld hl, $4CAD` in the surroundi
 	db $00, $00, $00, $00
 
 	ld a, 7
-	ld [$A52F], a
+	ld [sSfx1Duration], a
 	ld hl, $4CD1
 	call UnknownCall_0x10E43
 	ld hl, $4D32
@@ -10549,7 +10549,7 @@ UnknownData_0x10D56: ;sound data block, read via `ld hl, $4D56` in the surroundi
 	db $80, $FB, $40, $C8, $C7, $04
 
 	ld a, 10
-	ld [$A52F], a
+	ld [sSfx1Duration], a
 	call UnknownCall_0x10E58
 	ld hl, $4DA8
 	call UnknownCall_0x111FF
@@ -10582,7 +10582,7 @@ UnknownData_0x10DA4: ;sound data block, read via `ld hl, $4DA4` in the surroundi
 	db $FF, $EA, $00, $11, $80, $DE, $40, $C0, $C6, $01
 
 	ld a, 7
-	ld [$A52F], a
+	ld [sSfx1Duration], a
 	ld hl, $5BA6
 	call UnknownCall_0x10E43
 	ld hl, $4DE5
@@ -10617,7 +10617,7 @@ UnknownData_0x10DE1: ;sound data block, read via `ld hl, $4DE1` in the surroundi
 
 UnknownJump_0x10DF3:
 	ld a, 1
-	ld [$A538], a
+	ld [sSfx1Busy], a
 
 UnknownJump_0x10DF8:
 	ld a, [sSfxRequest1]
@@ -10627,8 +10627,8 @@ UnknownJump_0x10DF8:
 	set 7, [hl]
 	pop hl
 	xor a
-	ld [$A502], a
-	ld [$A506], a
+	ld [sSfx1Timer], a
+	ld [sSfx1Step], a
 	ldh [rAUD3ENA], a
 	jp UnknownJump_0x111C7
 
@@ -10642,11 +10642,11 @@ UnknownJump_0x10E17:
 
 UnknownJump_0x10E1D:
 	xor a
-	ld [$A502], a
-	ld [$A506], a
+	ld [sSfx1Timer], a
+	ld [sSfx1Step], a
 	ld [sSfxActive1], a
 	ldh [rAUD3ENA], a
-	ld [$A538], a
+	ld [sSfx1Busy], a
 	ld hl, sMusicCh3Flags
 	res 7, [hl]
 	ld a, [sMusicCh3WavePtrLo]
@@ -10697,7 +10697,7 @@ UnknownCall_0x10E90:
 	ld a, [hl]
 	and a
 	jr z, UnknownRJump_0x10EA2
-	ld a, [$A539]
+	ld a, [sSfx2Busy]
 	and a
 	ret nz
 	ld a, [hl]
@@ -10713,8 +10713,8 @@ UnknownRJump_0x10EA2:
 
 UnknownRJump_0x10EA9:
 	call UnknownCall_0x111A6
-	ld de, $A503
-	ld bc, $A508
+	ld de, sSfx2Timer
+	ld bc, sSfx2Step
 	jp hl
 	ld hl, $4EDC
 	jp UnknownJump_0x11163
@@ -10732,7 +10732,7 @@ UnknownData_0x10ECE: ;sound bank data; no direct reader found
 	db $70, $C0, $02, $3A, $90, $50, $C0, $02, $3A, $E0, $30, $C0, $02
 
 	ld a, 3
-	ld [$A530], a
+	ld [sSfx2Duration], a
 	ld hl, $4F34
 	jp UnknownJump_0x11163
 	call UnknownCall_0x111B3
@@ -10844,7 +10844,7 @@ UnknownData_0x11026: ;sound data block, read via `ld hl, $5026` in the surroundi
 	jp z, UnknownJump_0x1117B
 	ld hl, $505B
 	call UnknownCall_0x111A6
-	ld a, [$A508]
+	ld a, [sSfx2Step]
 	cp $05
 	jr nc, UnknownRJump_0x11052
 	jp UnknownJump_0x111CD
@@ -10870,7 +10870,7 @@ UnknownData_0x1105B: ;sound bank data; no direct reader found
 	jp z, UnknownJump_0x11181
 	ld hl, $50AE
 	call UnknownCall_0x111A6
-	ld a, [$A508]
+	ld a, [sSfx2Step]
 	cp $04
 	jp z, UnknownJump_0x111CD
 	cp $08
@@ -10883,7 +10883,7 @@ UnknownData_0x110AE: ;sound data block, read via `ld hl, $50AE` in the surroundi
 	db $04, $36, $C0, $04, $2F, $40, $24, $80, $04, $2F, $10, $24, $80, $04
 
 	ld a, 5
-	ld [$A530], a
+	ld [sSfx2Duration], a
 	ld hl, $5108
 	jp UnknownJump_0x11163
 	call UnknownCall_0x111B3
@@ -10920,8 +10920,8 @@ UnknownJump_0x11163:
 	ld a, [sSfxRequest2]
 	ld [sSfxActive2], a
 	xor a
-	ld [$A503], a
-	ld [$A508], a
+	ld [sSfx2Timer], a
+	ld [sSfx2Step], a
 	ld a, [sMusicCh4Flags]
 	set 7, a
 	ld [sMusicCh4Flags], a
@@ -10934,10 +10934,10 @@ UnknownJump_0x1117B:
 UnknownJump_0x11181:
 	xor a
 	ld [sSfxActive2], a
-	ld [$A503], a
-	ld [$A508], a
-	ld [$A530], a
-	ld [$A539], a
+	ld [sSfx2Timer], a
+	ld [sSfx2Step], a
+	ld [sSfx2Duration], a
+	ld [sSfx2Busy], a
 	ld a, [sMusicCh4Flags]
 	res 7, a
 	ld [sMusicCh4Flags], a
@@ -11015,21 +11015,21 @@ UnknownJump_0x111DA:
 
 UnknownCall_0x111DC:
 	push de
-	ld de, $A52D
+	ld de, sSfx0Duration
 	jr UnknownRJump_0x111F4
 
 	push de
-	ld de, $A52E
+	ld de, sSfx0Unused1
 	jr UnknownRJump_0x111F4
 
 
 UnknownCall_0x111E8:
 	push de
-	ld de, $A52F
+	ld de, sSfx1Duration
 	jr UnknownRJump_0x111F4
 
 	push de
-	ld de, $A530
+	ld de, sSfx2Duration
 	jr UnknownRJump_0x111F4
 
 
@@ -11040,12 +11040,12 @@ UnknownRJump_0x111F4:
 
 UnknownCall_0x111F9:
 	push de
-	ld de, $A531
+	ld de, sSfx0FreqLo
 	jr UnknownRJump_0x11205
 
 UnknownCall_0x111FF:
 	push de
-	ld de, $A533
+	ld de, sSfx1FreqLo
 	jr UnknownRJump_0x11205
 
 UnknownRJump_0x11205:
@@ -11066,7 +11066,7 @@ UnknownRJump_0x11205:
 
 UnknownJump_0x11214:
 	push de
-	ld de, $A532
+	ld de, sSfx0FreqHi
 	ld a, [bc]
 	ld c, 19
 	push bc
@@ -11074,7 +11074,7 @@ UnknownJump_0x11214:
 
 UnknownJump_0x1121E:
 	push de
-	ld de, $A534
+	ld de, sSfx1FreqHi
 	ld a, [bc]
 	ld c, 29
 	push bc
@@ -11767,7 +11767,7 @@ UnknownRJump_0x116E7:
 	cp $04
 	jr z, UnknownRJump_0x11728
 	push de
-	ld de, $A51A
+	ld de, sMusicCh1SlideState
 	call UnknownCall_0x11A71
 	ld a, [de]
 	and a
@@ -11779,13 +11779,13 @@ UnknownRJump_0x116E7:
 	ld [de], a
 
 UnknownRJump_0x116FF:
-	ld de, $A520
+	ld de, sMusicCh1VibratoTimer
 	call UnknownCall_0x11A71
 	xor a
 	ld [de], a
 	inc e
 	ld [de], a
-	ld de, $A526
+	ld de, sMusicCh1BendFlag
 	call UnknownCall_0x11A71
 	inc e
 	xor a
@@ -11793,14 +11793,14 @@ UnknownRJump_0x116FF:
 	ld a, [sMusicCurChannel]
 	cp $03
 	jr nz, UnknownRJump_0x11727
-	ld de, $A50E
+	ld de, sMusicDrumMode
 	ld a, [de]
 	and a
 	jr z, UnknownRJump_0x11727
 	ld a, 1
 	ld [de], a
 	xor a
-	ld [$A51F], a
+	ld [sMusicCh3SlideStep], a
 
 UnknownRJump_0x11727:
 	pop de
@@ -12031,12 +12031,12 @@ UnknownRJump_0x11839:
 	ld c, 29
 
 UnknownJump_0x11851:
-	ld de, $A51A
+	ld de, sMusicCh1SlideState
 	call UnknownCall_0x11A71
 	ld a, [de]
 	and a
 	jp nz, UnknownJump_0x11A18
-	ld de, $A526
+	ld de, sMusicCh1BendFlag
 	call UnknownCall_0x11A71
 	ld a, [de]
 	and a
@@ -12044,7 +12044,7 @@ UnknownJump_0x11851:
 	ld a, [sMusicCurChannel]
 	cp $03
 	jp nz, UnknownJump_0x11815
-	ld a, [$A50E]
+	ld a, [sMusicDrumMode]
 	and a
 	jp nz, UnknownJump_0x1199A
 	jp UnknownJump_0x11815
@@ -12134,7 +12134,7 @@ UnknownJump_0x118F7:
 	ld [sSfxActive0], a
 	ld [sSfxActive1], a
 	ld [sSfxActive2], a
-	ld [$A505], a
+	ld [sPauseBeepIndex], a
 	ld a, 1
 	ld [sSoundPaused], a
 	ld b, 4
@@ -12147,37 +12147,37 @@ UnknownRJump_0x11914:
 	dec b
 	jr nz, UnknownRJump_0x11914
 	ld hl, $5970
-	ld de, $A501
+	ld de, sPauseBeepTimer
 	call UnknownCall_0x111C1
 	jp UnknownJump_0x10067
 
 UnknownJump_0x11926:
 	xor a
 	ld [sSoundPaused], a
-	ld [$A536], a
-	ld [$A538], a
-	ld [$A539], a
+	ld [sSfx0Busy], a
+	ld [sSfx1Busy], a
+	ld [sSfx2Busy], a
 	jp UnknownJump_0x10044
 
 UnknownJump_0x11936:
-	ld de, $A501
+	ld de, sPauseBeepTimer
 	call UnknownCall_0x111B3
 	jp nz, UnknownJump_0x10067
-	ld bc, $A505
+	ld bc, sPauseBeepIndex
 	call UnknownCall_0x111B7
 	cp $06
 	jp z, UnknownJump_0x11959
 	ld hl, $5966
 	call UnknownCall_0x111A6
-	ld de, $A501
+	ld de, sPauseBeepTimer
 	call UnknownCall_0x111C1
 	jp UnknownJump_0x10067
 
 UnknownJump_0x11959:
 	ld a, 240
-	ld [$A501], a
+	ld [sPauseBeepTimer], a
 	ld a, 5
-	ld [$A505], a
+	ld [sPauseBeepIndex], a
 	jp UnknownJump_0x10067
 
 UnknownData_0x11966: ;sound data block, read via `ld hl, $5966` in the surrounding engine code (line 12014)
@@ -12190,19 +12190,19 @@ UnknownJump_0x11989:
 	ld a, 1
 
 UnknownRJump_0x1198B:
-	ld [$A50E], a
+	ld [sMusicDrumMode], a
 	call UnknownCall_0x11546
 	jp UnknownJump_0x11655
 
 UnknownJump_0x11994:
 	xor a
-	ld [$A50E], a
+	ld [sMusicDrumMode], a
 	jr UnknownRJump_0x1198B
 
 UnknownJump_0x1199A:
 	cp $02
 	jp z, UnknownJump_0x11815
-	ld bc, $A51F
+	ld bc, sMusicCh3SlideStep
 	call UnknownCall_0x111B7
 	ld c, 28
 	ld b, 64
@@ -12219,7 +12219,7 @@ UnknownJump_0x1199A:
 	cp $0D
 	jp nz, UnknownJump_0x11815
 	ld a, 2
-	ld [$A50E], a
+	ld [sMusicDrumMode], a
 
 UnknownRJump_0x119C7:
 	ld a, b
@@ -12227,7 +12227,7 @@ UnknownRJump_0x119C7:
 	jp UnknownJump_0x11815
 
 UnknownJump_0x119CC:
-	ld de, $A526
+	ld de, sMusicCh1BendFlag
 	call UnknownCall_0x11A71
 	ld a, 1
 
@@ -12237,7 +12237,7 @@ UnknownRJump_0x119D4:
 	jp UnknownJump_0x11655
 
 UnknownJump_0x119DB:
-	ld de, $A526
+	ld de, sMusicCh1BendFlag
 	call UnknownCall_0x11A71
 	xor a
 	jr UnknownRJump_0x119D4
@@ -12264,7 +12264,7 @@ UnknownRJump_0x119FA:
 	jr UnknownRJump_0x119F0
 
 UnknownJump_0x119FF:
-	ld de, $A51A
+	ld de, sMusicCh1SlideState
 	call UnknownCall_0x11A71
 	ld a, 1
 
@@ -12274,7 +12274,7 @@ UnknownJump_0x11A07:
 	jp UnknownJump_0x11655
 
 UnknownJump_0x11A0E:
-	ld de, $A51A
+	ld de, sMusicCh1SlideState
 	call UnknownCall_0x11A71
 	xor a
 	jp UnknownJump_0x11A07
@@ -12297,7 +12297,7 @@ UnknownJump_0x11A18:
 	jp UnknownJump_0x11815
 
 UnknownRJump_0x11A35:
-	ld de, $A51A
+	ld de, sMusicCh1SlideState
 	call UnknownCall_0x11A71
 	ld a, 2
 	ld [de], a
@@ -12329,7 +12329,7 @@ UnknownCall_0x11A55:
 	ret
 
 UnknownCall_0x11A60:
-	ld de, $A514
+	ld de, sMusicCh1LastFreqLo
 	call UnknownCall_0x11A71
 	ld a, l
 	ld [$FF00+c], a
@@ -12351,7 +12351,7 @@ UnknownCall_0x11A71:
 	ret
 
 UnknownCall_0x11A7A:
-	ld de, $A514
+	ld de, sMusicCh1LastFreqLo
 	call UnknownCall_0x11A71
 	ld a, [de]
 	ld l, a
@@ -12363,7 +12363,7 @@ UnknownCall_0x11A7A:
 
 UnknownJump_0x11A87:
 	pop de
-	ld de, $A520
+	ld de, sMusicCh1VibratoTimer
 	call UnknownCall_0x11A71
 	ld a, [de]
 	inc a
@@ -13021,39 +13021,39 @@ UnknownCall_0x13F6B:
 	ld [sMusicCh3Flags], a
 	ld [sMusicCh4Flags], a
 	ld [sSoundMode], a
-	ld [$A50E], a
-	ld [$A51F], a
-	ld [$A52C], a
-	ld [$A51A], a
-	ld [$A51C], a
-	ld [$A51E], a
-	ld [$A51B], a
-	ld [$A51D], a
-	ld [$A51F], a
-	ld [$A526], a
-	ld [$A527], a
-	ld [$A528], a
-	ld [$A529], a
-	ld [$A52A], a
-	ld [$A52B], a
-	ld [$A504], a
-	ld [$A505], a
-	ld [$A506], a
-	ld [$A508], a
-	ld [$A500], a
-	ld [$A501], a
-	ld [$A502], a
-	ld [$A503], a
-	ld [$A535], a
-	ld [$A536], a
-	ld [$A537], a
-	ld [$A538], a
-	ld [$A539], a
-	ld [$A520], a
-	ld [$A521], a
-	ld [$A522], a
-	ld [$A523], a
-	ld [$A53F], a
+	ld [sMusicDrumMode], a
+	ld [sMusicCh3SlideStep], a
+	ld [sMusicUnused1], a
+	ld [sMusicCh1SlideState], a
+	ld [sMusicCh2SlideState], a
+	ld [sMusicCh3SlideState], a
+	ld [sMusicCh1SlideStep], a
+	ld [sMusicCh2SlideStep], a
+	ld [sMusicCh3SlideStep], a
+	ld [sMusicCh1BendFlag], a
+	ld [sMusicCh1BendStarted], a
+	ld [sMusicCh2BendFlag], a
+	ld [sMusicCh2BendStarted], a
+	ld [sMusicCh3BendFlag], a
+	ld [sMusicCh3BendStarted], a
+	ld [sSfx0Step], a
+	ld [sPauseBeepIndex], a
+	ld [sSfx1Step], a
+	ld [sSfx2Step], a
+	ld [sSfx0Timer], a
+	ld [sPauseBeepTimer], a
+	ld [sSfx1Timer], a
+	ld [sSfx2Timer], a
+	ld [sSfx0Phase], a
+	ld [sSfx0Busy], a
+	ld [sSfxUnused1], a
+	ld [sSfx1Busy], a
+	ld [sSfx2Busy], a
+	ld [sMusicCh1VibratoTimer], a
+	ld [sMusicCh1VibratoFlag], a
+	ld [sMusicCh2VibratoTimer], a
+	ld [sMusicCh2VibratoFlag], a
+	ld [sLowTimeFlag], a
 
 UnknownCall_0x13FE7:
 	ld a, 8
