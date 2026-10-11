@@ -23537,7 +23537,7 @@ UnknownRJump_0x3EB5C:
 	jp UnknownJump_0x01C5
 
 UnknownCall_0x3EB62:
-	ld hl, $A600
+	ld hl, sMapWin0Col
 	ld a, [hli]
 	ld c, a
 	ld a, [hli]
@@ -23560,7 +23560,7 @@ UnknownRJump_0x3EB6B:
 	ret
 
 UnknownCall_0x3EB7B:
-	ld hl, $A620
+	ld hl, sMapWin1Col
 	ld a, [hli]
 	ld c, a
 	ld a, [hli]
@@ -23583,7 +23583,7 @@ UnknownRJump_0x3EB84:
 	ret
 
 UnknownCall_0x3EB94:
-	ld hl, $A640
+	ld hl, sMapWin2Col
 	ld a, [hli]
 	ld c, a
 	ld a, [hli]
@@ -23606,7 +23606,7 @@ UnknownRJump_0x3EB9F:
 	ret
 
 UnknownCall_0x3EBAE:
-	ld hl, $A660
+	ld hl, sMapWin3Col
 	ld a, [hli]
 	ld c, a
 	ld a, [hli]
@@ -23848,15 +23848,15 @@ UnknownCall_0x3ED4C:
 	srl a
 	srl a
 	ld b, a
-	ld [$A600], a
-	ld [$A620], a
+	ld [sMapWin0Col], a
+	ld [sMapWin1Col], a
 	dec a
 	and $1F
-	ld [$A640], a
+	ld [sMapWin2Col], a
 	ld a, b
 	add 20
 	and $1F
-	ld [$A660], a
+	ld [sMapWin3Col], a
 	ld a, [sMapCamYLo]
 	srl a
 	srl a
@@ -23864,20 +23864,20 @@ UnknownCall_0x3ED4C:
 	ld b, a
 	dec a
 	and $1F
-	ld [$A641], a
-	ld [$A661], a
-	ld [$A601], a
+	ld [sMapWin2Row], a
+	ld [sMapWin3Row], a
+	ld [sMapWin0Row], a
 	ld a, b
 	add 18
 	and $1F
-	ld [$A621], a
-	ld hl, $A600
+	ld [sMapWin1Row], a
+	ld hl, sMapWin0Col
 	call UnknownCall_0x3EE8C
-	ld hl, $A620
+	ld hl, sMapWin1Col
 	call UnknownCall_0x3EE8C
-	ld hl, $A640
+	ld hl, sMapWin2Col
 	call UnknownCall_0x3EE8C
-	ld hl, $A660
+	ld hl, sMapWin3Col
 	call UnknownCall_0x3EE8C
 	ld a, [sMapCamXLo]
 	ld l, a
@@ -23910,7 +23910,7 @@ UnknownCall_0x3ED4C:
 	ld h, a
 	ld b, 20
 	push de
-	ld de, $A602
+	ld de, sMapWin0Tiles
 
 UnknownRJump_0x3EDF2:
 	ld a, 13
@@ -23935,7 +23935,7 @@ UnknownRJump_0x3EDF2:
 	ld h, a
 	ld b, 20
 	push de
-	ld de, $A622
+	ld de, sMapWin1Tiles
 
 UnknownRJump_0x3EE16:
 	ld a, 13
@@ -23968,7 +23968,7 @@ UnknownRJump_0x3EE16:
 	ld l, a
 	ld b, 20
 	push de
-	ld de, $A642
+	ld de, sMapWin2Tiles
 
 UnknownRJump_0x3EE44:
 	ld a, 13
@@ -24001,7 +24001,7 @@ UnknownRJump_0x3EE44:
 	ld l, a
 	ld b, 20
 	push de
-	ld de, $A662
+	ld de, sMapWin3Tiles
 
 UnknownRJump_0x3EE75:
 	ld a, 13

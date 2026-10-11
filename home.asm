@@ -527,7 +527,7 @@ UnknownJump_0x03F1:
 	ld l, a
 	ld a, [sTilesetMapPtrHi]
 	ld h, a
-	ld de, $A600
+	ld de, sMetatileMap
 
 UnknownRJump_0x040A:
 	ld a, [hli]
@@ -1292,7 +1292,7 @@ UnknownRJump_0x09BE:
 	rl d
 	sla e
 	rl d
-	ld hl, $A600
+	ld hl, sMetatileMap
 	add hl, de
 	ld a, [hli]
 	ld [sMetatileTile0], a
@@ -1410,7 +1410,7 @@ UnknownRJump_0x0A8A:
 	rl d
 	sla e
 	rl d
-	ld hl, $A600
+	ld hl, sMetatileMap
 	add hl, de
 	ld a, [hli]
 	ld [sMetatileTile0], a
@@ -5045,7 +5045,7 @@ UnknownRJump_0x264F:
 	ld e, a
 	ld a, [hl]
 	ld d, a
-	ld hl, $A600
+	ld hl, sMetatileMap
 
 UnknownRJump_0x266D:
 	ld a, [de]

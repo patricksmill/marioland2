@@ -183,6 +183,40 @@ DEF sEasyMode EQU $A2E4
 DEF sCurSong EQU $A469
 DEF sFastMusic EQU $A50D
 
+; Map tile-window descriptors ($A600-$A67F) + the in-level metatile map overlay.
+; Map screen: four 32-byte VRAM update buffers, rebuilt every frame by $3ED4C
+; (common per-frame map handler $3C04D; also on screen entry $3F156 and node
+; transitions $3C522/$3C7D0) from the 64x64 tilemap in SRAM $B000-$BFFF
+; (assembled at screen entry by $3EAE5 from four 32x32 blocks at ROM
+; $37000/$37400/$37800/$37C00, bank $0D). Fields: +0 = tilemap column, +1 =
+; row (both packed into a $98xx VRAM dest by $3EE8C), +2..+21 = 20 tile bytes.
+; The strips frame the visible 20x18 area: w0 = the row above (yr-1) and w1 =
+; the row below (yr+18), horizontal from col xr; w2 = the left column (xr-1)
+; and w3 = the right column (xr+20), vertical from row yr-1. Source reads wrap
+; the column at 64 and step rows +64 mod $1000 (the SRAM map is 64x64). The hub
+; copies one strip per frame, picked by $FF97 & 3 at $3EAFF ->
+; $3EB62/$3EB7B/$3EB94/$3EBAE (20 tiles each; $3EBC8 copies all four at entry).
+; OVERLAY: in-level the same bytes are the 512-byte metatile->tile map
+; ($A600-$A7FF): entry = id*4 -> 4 tile ids; loaded from sTilesetMapPtr
+; (bank $08) by $03F1 and by the GFX-setup copy from the $26B5 table; read by
+; the bank-0 block pipelines ($0969/$0A35, home $1295/$1413) as
+; [sMapBlockPtr] -> id*4. $A600 is shared: sMetatileMap (in-level base) and
+; sMapWin0Col (map-screen window-0 column) name the same byte - each ref site
+; uses its fitting name.
+DEF sMetatileMap EQU $A600         ; in-level: base of the metatile->tile map
+DEF sMapWin0Col EQU $A600          ; map screen: window 0 [col] (same byte)
+DEF sMapWin0Row EQU $A601
+DEF sMapWin0Tiles EQU $A602        ; w0's 20 tile bytes (fill loop $3EDF2)
+DEF sMapWin1Col EQU $A620
+DEF sMapWin1Row EQU $A621
+DEF sMapWin1Tiles EQU $A622        ; w1's 20 tile bytes (fill loop $3EE16)
+DEF sMapWin2Col EQU $A640
+DEF sMapWin2Row EQU $A641
+DEF sMapWin2Tiles EQU $A642        ; w2's 20 tile bytes (fill loop $3EE44)
+DEF sMapWin3Col EQU $A660
+DEF sMapWin3Row EQU $A661
+DEF sMapWin3Tiles EQU $A662        ; w3's 20 tile bytes (fill loop $3EE75)
+
 ; Overworld map screen state ($A680-$A6B4). All map screens share this block;
 ; sMapScreenId selects which screen's handler runs (see $3C000 dispatcher).
 DEF sMapCamXLo EQU $A680          ; map camera X lo, latched from $FFB9 by $3ED4C
