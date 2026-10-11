@@ -8722,7 +8722,9 @@ UnknownData_0xCF11: ;sprite-mapping pointer table, selected when [sSpriteMapInde
 
 INCLUDE "gfx/spritemappings3.asm"
 
-UnknownData_0xE037: ;per-level dw table, indexed by sCurLevel * 2 (32 entries; read at line 8644)
+UnknownData_0xE037: ;per-level dw table, indexed by sCurLevel * 2 (32 entries; read at level load
+                    ;by $EBBB — home.asm UnknownRJump_0x052F selects bank 3 then calls it; values
+                    ;are bank-3 CPU addresses)
 	dw $6077, $60BD, $6124, $6182
 	dw $61EF, $624A, $62A2, $630C
 	dw $6385, $63D4, $6432, $649C
@@ -8732,7 +8734,16 @@ UnknownData_0xE037: ;per-level dw table, indexed by sCurLevel * 2 (32 entries; r
 	dw $699E, $6A2F, $6A7E, $6AA3
 	dw $6ACE, $6AE1, $6B3F, $6B55
 
-;level payload records (targets of the table above)
+;level payload records (targets of the table above): packed 3-byte units ended
+;by a $FF control byte. Each unit (c, b2, b3) expands ($EBBB) to one 6-byte
+;spawn record [X hi, X lo, mode, Y hi, Y lo, anim]:
+;  X hi  = c & $0F          X lo = (b2 & $1F) << 3   (8-aligned)
+;  mode  = b3 >> 7          (0 = spawns in both modes; 1 = skipped in Easy
+;                            Mode; the game writes 2 once the record spawned)
+;  Y hi  = (b3 >> 5) & 3    Y lo = (b3 & $1F) << 3   (8-aligned)
+;  anim  = ((c >> 5) & 7) * 8 + (c bit 4 ? $40 : 0) + ((b2 >> 5) & 7)
+;Records are sorted by world X; the spawn scan ($8C31) matches them against
+;the camera-driven cursor and $EBB6 appends a $FF $FF terminator pair.
 	db $21, $3B, $3E, $02, $29, $38, $42, $35, $37, $24, $27, $3A, $05, $2B, $32, $26
 	db $13, $B6, $28, $86, $BE, $28, $96, $BE, $49, $AF, $37, $49, $91, $37, $2A, $25
 	db $3E, $2A, $31, $3E, $4A, $FD, $34, $2B, $21, $3E, $0B, $2D, $38, $0B, $34, $38
