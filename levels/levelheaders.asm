@@ -33,10 +33,10 @@ Level_Header_Pointers: ;$55CB
 	dw Level_Header_32
 
 Level_Header_01: ;$560B
-	db $D4, $01 ;Mario Starting X
-	db $22, $00 ;Mario Starting Y
-	db $C0, $01 ;Camera Starting X
-	db $50, $00 ;Camera Starting Y
+	db $D4, $01 ;Mario Starting Y
+	db $22, $00 ;Mario Starting X
+	db $C0, $01 ;Camera Starting Y
+	db $50, $00 ;Camera Starting X
 	db $00, $58 ;Unknown
 	db $00 ;Level Number
 	dw Level_TileMap_01 ;Tileset Mapping Pointer
@@ -47,10 +47,10 @@ Level_Header_01: ;$560B
 	db $04 ;Time (multiply by 0x64 to get time in decimal)
 
 Level_Header_02:
-	db $D4, $01 ;Mario Starting X
-	db $22, $00 ;Mario Starting Y
-	db $C0, $01 ;Camera Starting X
-	db $50, $00 ;Camera Starting Y
+	db $D4, $01 ;Mario Starting Y
+	db $22, $00 ;Mario Starting X
+	db $C0, $01 ;Camera Starting Y
+	db $50, $00 ;Camera Starting X
 	db $80, $5B ;Unknown
 	db $01 ;Level Number
 	dw Level_TileMap_02 ;Tileset Mapping Pointer
@@ -61,10 +61,10 @@ Level_Header_02:
 	db $05 ;Time
 
 Level_Header_03:
-	db $A4, $00 ;Mario Starting X
-	db $2E, $00 ;Mario Starting Y
-	db $B0, $00 ;Camera Starting X
-	db $50, $00 ;Camera Starting Y
+	db $A4, $00 ;Mario Starting Y
+	db $2E, $00 ;Mario Starting X
+	db $B0, $00 ;Camera Starting Y
+	db $50, $00 ;Camera Starting X
 	db $00, $5F ;Unknown
 	db $02 ;Level Number
 	dw Level_TileMap_03 ;Tileset Mapping Pointer
@@ -75,10 +75,10 @@ Level_Header_03:
 	db $06 ;Time
 
 Level_Header_04:
-	db $D4, $01 ;Mario Starting X
-	db $31, $00 ;Mario Starting Y
-	db $C0, $01 ;Camera Starting X
-	db $50, $00 ;Camera Starting Y
+	db $D4, $01 ;Mario Starting Y
+	db $31, $00 ;Mario Starting X
+	db $C0, $01 ;Camera Starting Y
+	db $50, $00 ;Camera Starting X
 	db $80, $62 ;Unknown
 	db $03 ;Level Number
 	dw Level_TileMap_04 ;Tileset Mapping Pointer
@@ -89,10 +89,10 @@ Level_Header_04:
 	db $04 ;Time
 
 Level_Header_05:
-	db $A4, $02 ;Mario Starting X
-	db $3D, $00 ;Mario Starting Y
-	db $A1, $02 ;Camera Starting X
-	db $50, $00 ;Camera Starting Y
+	db $A4, $02 ;Mario Starting Y
+	db $3D, $00 ;Mario Starting X
+	db $A1, $02 ;Camera Starting Y
+	db $50, $00 ;Camera Starting X
 	db $00, $5F ;Unknown
 	db $04 ;Level Number
 	dw Level_TileMap_05 ;Tileset Mapping Pointer
@@ -103,10 +103,10 @@ Level_Header_05:
 	db $04 ;Time
 
 Level_Header_06:
-	db $C4, $02 ;Mario Starting X
-	db $2E, $00 ;Mario Starting Y
-	db $C0, $02 ;Camera Starting X
-	db $50, $00 ;Camera Starting Y
+	db $C4, $02 ;Mario Starting Y
+	db $2E, $00 ;Mario Starting X
+	db $C0, $02 ;Camera Starting Y
+	db $50, $00 ;Camera Starting X
 	db $00, $66 ;Unknown
 	db $05 ;Level Number
 	dw Level_TileMap_06 ;Tileset Mapping Pointer
@@ -117,10 +117,10 @@ Level_Header_06:
 	db $05 ;Time
 
 Level_Header_07:
-	db $D4, $00 ;Mario Starting X
-	db $35, $00 ;Mario Starting Y
-	db $C0, $00 ;Camera Starting X
-	db $50, $00 ;Camera Starting Y
+	db $D4, $00 ;Mario Starting Y
+	db $35, $00 ;Mario Starting X
+	db $C0, $00 ;Camera Starting Y
+	db $50, $00 ;Camera Starting X
 	db $00, $5E ;Unknown
 	db $06 ;Level Number
 	dw Level_TileMap_07 ;Tileset Mapping Pointer
@@ -131,10 +131,10 @@ Level_Header_07:
 	db $05 ;Time
 
 Level_Header_08:
-	db $D4, $01 ;Mario Starting X
-	db $2F, $00 ;Mario Starting Y
-	db $C0, $01 ;Camera Starting X
-	db $50, $00 ;Camera Starting Y
+	db $D4, $01 ;Mario Starting Y
+	db $2F, $00 ;Mario Starting X
+	db $C0, $01 ;Camera Starting Y
+	db $50, $00 ;Camera Starting X
 	db $80, $61 ;Unknown
 	db $07 ;Level Number
 	dw Level_TileMap_08 ;Tileset Mapping Pointer
@@ -145,10 +145,10 @@ Level_Header_08:
 	db $04 ;Time
 
 Level_Header_09:
-	db $C4, $01 ;Mario Starting X
-	db $37, $00 ;Mario Starting Y
-	db $C1, $01 ;Camera Starting X
-	db $50, $00 ;Camera Starting Y
+	db $C4, $01 ;Mario Starting Y
+	db $37, $00 ;Mario Starting X
+	db $C1, $01 ;Camera Starting Y
+	db $50, $00 ;Camera Starting X
 	db $00, $65 ;Unknown
 	db $08 ;Level Number
 	dw Level_TileMap_09 ;Tileset Mapping Pointer
@@ -159,10 +159,10 @@ Level_Header_09:
 	db $05 ;Time
 
 Level_Header_10:
-	db $D4, $01 ;Mario Starting X
-	db $28, $00 ;Mario Starting Y
-	db $C0, $01 ;Camera Starting X
-	db $50, $00 ;Camera Starting Y
+	db $D4, $01 ;Mario Starting Y
+	db $28, $00 ;Mario Starting X
+	db $C0, $01 ;Camera Starting Y
+	db $50, $00 ;Camera Starting X
 	db $80, $68 ;Unknown
 	db $09 ;Level Number
 	dw Level_TileMap_10 ;Tileset Mapping Pointer
@@ -173,10 +173,10 @@ Level_Header_10:
 	db $05 ;Time
 
 Level_Header_11:
-	db $D4, $02 ;Mario Starting X
-	db $37, $00 ;Mario Starting Y
-	db $C0, $02 ;Camera Starting X
-	db $50, $00 ;Camera Starting Y
+	db $D4, $02 ;Mario Starting Y
+	db $37, $00 ;Mario Starting X
+	db $C0, $02 ;Camera Starting Y
+	db $50, $00 ;Camera Starting X
 	db $00, $5E ;Unknown
 	db $0A ;Level Number
 	dw Level_TileMap_11 ;Tileset Mapping Pointer
@@ -187,10 +187,10 @@ Level_Header_11:
 	db $04 ;Time
 
 Level_Header_12:
-	db $C4, $01 ;Mario Starting X
-	db $38, $00 ;Mario Starting Y
-	db $C0, $01 ;Camera Starting X
-	db $50, $00 ;Camera Starting Y
+	db $C4, $01 ;Mario Starting Y
+	db $38, $00 ;Mario Starting X
+	db $C0, $01 ;Camera Starting Y
+	db $50, $00 ;Camera Starting X
 	db $80, $61 ;Unknown
 	db $0B ;Level Number
 	dw Level_TileMap_12 ;Tileset Mapping Pointer
@@ -201,10 +201,10 @@ Level_Header_12:
 	db $04 ;Time
 
 Level_Header_13:
-	db $D4, $01 ;Mario Starting X
-	db $2F, $00 ;Mario Starting Y
-	db $C0, $01 ;Camera Starting X
-	db $50, $00 ;Camera Starting Y
+	db $D4, $01 ;Mario Starting Y
+	db $2F, $00 ;Mario Starting X
+	db $C0, $01 ;Camera Starting Y
+	db $50, $00 ;Camera Starting X
 	db $00, $65 ;Unknown
 	db $0C ;Level Number
 	dw Level_TileMap_13 ;Tileset Mapping Pointer
@@ -215,10 +215,10 @@ Level_Header_13:
 	db $05 ;Time
 
 Level_Header_14:
-	db $D4, $01 ;Mario Starting X
-	db $38, $00 ;Mario Starting Y
-	db $C0, $01 ;Camera Starting X
-	db $50, $00 ;Camera Starting Y
+	db $D4, $01 ;Mario Starting Y
+	db $38, $00 ;Mario Starting X
+	db $C0, $01 ;Camera Starting Y
+	db $50, $00 ;Camera Starting X
 	db $80, $68 ;Unknown
 	db $0D ;Level Number
 	dw Level_TileMap_14 ;Tileset Mapping Pointer
@@ -229,10 +229,10 @@ Level_Header_14:
 	db $03 ;Time
 
 Level_Header_15:
-	db $34, $02 ;Mario Starting X
-	db $22, $00 ;Mario Starting Y
-	db $3D, $02 ;Camera Starting X
-	db $50, $00 ;Camera Starting Y
+	db $34, $02 ;Mario Starting Y
+	db $22, $00 ;Mario Starting X
+	db $3D, $02 ;Camera Starting Y
+	db $50, $00 ;Camera Starting X
 	db $00, $58 ;Unknown
 	db $0E ;Level Number
 	dw Level_TileMap_15 ;Tileset Mapping Pointer
@@ -243,10 +243,10 @@ Level_Header_15:
 	db $04 ;Time
 
 Level_Header_16:
-	db $D4, $01 ;Mario Starting X
-	db $31, $00 ;Mario Starting Y
-	db $D0, $01 ;Camera Starting X
-	db $50, $00 ;Camera Starting Y
+	db $D4, $01 ;Mario Starting Y
+	db $31, $00 ;Mario Starting X
+	db $D0, $01 ;Camera Starting Y
+	db $50, $00 ;Camera Starting X
 	db $80, $5B ;Unknown
 	db $0F ;Level Number
 	dw Level_TileMap_16 ;Tileset Mapping Pointer
@@ -257,10 +257,10 @@ Level_Header_16:
 	db $06 ;Time
 
 Level_Header_17:
-	db $B4, $01 ;Mario Starting X
-	db $24, $00 ;Mario Starting Y
-	db $C0, $01 ;Camera Starting X
-	db $50, $00 ;Camera Starting Y
+	db $B4, $01 ;Mario Starting Y
+	db $24, $00 ;Mario Starting X
+	db $C0, $01 ;Camera Starting Y
+	db $50, $00 ;Camera Starting X
 	db $00, $5F ;Unknown
 	db $10 ;Level Number
 	dw Level_TileMap_17 ;Tileset Mapping Pointer
@@ -271,10 +271,10 @@ Level_Header_17:
 	db $04 ;Time
 
 Level_Header_18:
-	db $B4, $00 ;Mario Starting X
-	db $27, $00 ;Mario Starting Y
-	db $B2, $00 ;Camera Starting X
-	db $50, $00 ;Camera Starting Y
+	db $B4, $00 ;Mario Starting Y
+	db $27, $00 ;Mario Starting X
+	db $B2, $00 ;Camera Starting Y
+	db $50, $00 ;Camera Starting X
 	db $00, $5A ;Unknown
 	db $11 ;Level Number
 	dw Level_TileMap_15 ;Tileset Mapping Pointer
@@ -285,10 +285,10 @@ Level_Header_18:
 	db $07 ;Time
 
 Level_Header_19:
-	db $B4, $01 ;Mario Starting X
-	db $2D, $00 ;Mario Starting Y
-	db $B0, $01 ;Camera Starting X
-	db $50, $00 ;Camera Starting Y
+	db $B4, $01 ;Mario Starting Y
+	db $2D, $00 ;Mario Starting X
+	db $B0, $01 ;Camera Starting Y
+	db $50, $00 ;Camera Starting X
 	db $80, $5D ;Unknown
 	db $12 ;Level Number
 	dw Level_TileMap_18 ;Tileset Mapping Pointer
@@ -299,10 +299,10 @@ Level_Header_19:
 	db $07 ;Time
 
 Level_Header_20:
-	db $D4, $00 ;Mario Starting X
-	db $3F, $00 ;Mario Starting Y
-	db $C0, $00 ;Camera Starting X
-	db $60, $00 ;Camera Starting Y
+	db $D4, $00 ;Mario Starting Y
+	db $3F, $00 ;Mario Starting X
+	db $C0, $00 ;Camera Starting Y
+	db $60, $00 ;Camera Starting X
 	db $00, $61 ;Unknown
 	db $13 ;Level Number
 	dw Level_TileMap_18 ;Tileset Mapping Pointer
@@ -313,10 +313,10 @@ Level_Header_20:
 	db $06 ;Time
 
 Level_Header_21:
-	db $94, $00 ;Mario Starting X
-	db $28, $00 ;Mario Starting Y
-	db $86, $00 ;Camera Starting X
-	db $50, $00 ;Camera Starting Y
+	db $94, $00 ;Mario Starting Y
+	db $28, $00 ;Mario Starting X
+	db $86, $00 ;Camera Starting Y
+	db $50, $00 ;Camera Starting X
 	db $00, $5E ;Unknown
 	db $14 ;Level Number
 	dw Level_TileMap_19 ;Tileset Mapping Pointer
@@ -327,10 +327,10 @@ Level_Header_21:
 	db $04 ;Time
 
 Level_Header_22:
-	db $D4, $01 ;Mario Starting X
-	db $29, $00 ;Mario Starting Y
-	db $C0, $01 ;Camera Starting X
-	db $50, $00 ;Camera Starting Y
+	db $D4, $01 ;Mario Starting Y
+	db $29, $00 ;Mario Starting X
+	db $C0, $01 ;Camera Starting Y
+	db $50, $00 ;Camera Starting X
 	db $80, $61 ;Unknown
 	db $15 ;Level Number
 	dw Level_TileMap_20 ;Tileset Mapping Pointer
@@ -341,10 +341,10 @@ Level_Header_22:
 	db $04 ;Time
 
 Level_Header_23:
-	db $D4, $01 ;Mario Starting X
-	db $2E, $00 ;Mario Starting Y
-	db $C0, $01 ;Camera Starting X
-	db $50, $00 ;Camera Starting Y
+	db $D4, $01 ;Mario Starting Y
+	db $2E, $00 ;Mario Starting X
+	db $C0, $01 ;Camera Starting Y
+	db $50, $00 ;Camera Starting X
 	db $00, $65 ;Unknown
 	db $16 ;Level Number
 	dw Level_TileMap_21 ;Tileset Mapping Pointer
@@ -355,10 +355,10 @@ Level_Header_23:
 	db $04 ;Time
 
 Level_Header_24:
-	db $D4, $01 ;Mario Starting X
-	db $2C, $00 ;Mario Starting Y
-	db $C0, $01 ;Camera Starting X
-	db $50, $00 ;Camera Starting Y
+	db $D4, $01 ;Mario Starting Y
+	db $2C, $00 ;Mario Starting X
+	db $C0, $01 ;Camera Starting Y
+	db $50, $00 ;Camera Starting X
 	db $80, $68 ;Unknown
 	db $17 ;Level Number
 	dw Level_TileMap_22 ;Tileset Mapping Pointer
@@ -369,10 +369,10 @@ Level_Header_24:
 	db $04 ;Time
 
 Level_Header_25:
-	db $D4, $02 ;Mario Starting X
-	db $29, $09 ;Mario Starting Y
-	db $C0, $02 ;Camera Starting X
-	db $50, $09 ;Camera Starting Y
+	db $D4, $02 ;Mario Starting Y
+	db $29, $09 ;Mario Starting X
+	db $C0, $02 ;Camera Starting Y
+	db $50, $09 ;Camera Starting X
 	db $80, $68 ;Unknown
 	db $18 ;Level Number
 	dw Level_TileMap_23 ;Tileset Mapping Pointer
@@ -383,10 +383,10 @@ Level_Header_25:
 	db $09 ;Time
 
 Level_Header_26:
-	db $D4, $01 ;Mario Starting X
-	db $40, $00 ;Mario Starting Y
-	db $C0, $01 ;Camera Starting X
-	db $61, $00 ;Camera Starting Y
+	db $D4, $01 ;Mario Starting Y
+	db $40, $00 ;Mario Starting X
+	db $C0, $01 ;Camera Starting Y
+	db $61, $00 ;Camera Starting X
 	db $00, $58 ;Unknown
 	db $19 ;Level Number
 	dw Level_TileMap_01 ;Tileset Mapping Pointer
@@ -397,10 +397,10 @@ Level_Header_26:
 	db $04 ;Time
 
 Level_Header_27:
-	db $C4, $01 ;Mario Starting X
-	db $2F, $00 ;Mario Starting Y
-	db $C0, $01 ;Camera Starting X
-	db $50, $00 ;Camera Starting Y
+	db $C4, $01 ;Mario Starting Y
+	db $2F, $00 ;Mario Starting X
+	db $C0, $01 ;Camera Starting Y
+	db $50, $00 ;Camera Starting X
 	db $00, $58 ;Unknown
 	db $1A ;Level Number
 	dw Level_TileMap_01 ;Tileset Mapping Pointer
@@ -411,10 +411,10 @@ Level_Header_27:
 	db $02 ;Time
 
 Level_Header_28:
-	db $04, $01 ;Mario Starting X
-	db $33, $00 ;Mario Starting Y
-	db $F6, $00 ;Camera Starting X
-	db $50, $00 ;Camera Starting Y
+	db $04, $01 ;Mario Starting Y
+	db $33, $00 ;Mario Starting X
+	db $F6, $00 ;Camera Starting Y
+	db $50, $00 ;Camera Starting X
 	db $00, $58 ;Unknown
 	db $1B ;Level Number
 	dw Level_TileMap_02 ;Tileset Mapping Pointer
@@ -425,10 +425,10 @@ Level_Header_28:
 	db $04 ;Time
 
 Level_Header_29:
-	db $C4, $01 ;Mario Starting X
-	db $28, $00 ;Mario Starting Y
-	db $B6, $01 ;Camera Starting X
-	db $50, $00 ;Camera Starting Y
+	db $C4, $01 ;Mario Starting Y
+	db $28, $00 ;Mario Starting X
+	db $B6, $01 ;Camera Starting Y
+	db $50, $00 ;Camera Starting X
 	db $00, $58 ;Unknown
 	db $1C ;Level Number
 	dw Level_TileMap_18 ;Tileset Mapping Pointer
@@ -439,10 +439,10 @@ Level_Header_29:
 	db $04 ;Time
 
 Level_Header_30:
-	db $A4, $01 ;Mario Starting X
-	db $36, $00 ;Mario Starting Y
-	db $AF, $01 ;Camera Starting X
-	db $50, $00 ;Camera Starting Y
+	db $A4, $01 ;Mario Starting Y
+	db $36, $00 ;Mario Starting X
+	db $AF, $01 ;Camera Starting Y
+	db $50, $00 ;Camera Starting X
 	db $80, $5B ;Unknown
 	db $1D ;Level Number
 	dw Level_TileMap_02 ;Tileset Mapping Pointer
@@ -453,10 +453,10 @@ Level_Header_30:
 	db $04 ;Time
 
 Level_Header_31:
-	db $B4, $01 ;Mario Starting X
-	db $22, $00 ;Mario Starting Y
-	db $BE, $01 ;Camera Starting X
-	db $50, $00 ;Camera Starting Y
+	db $B4, $01 ;Mario Starting Y
+	db $22, $00 ;Mario Starting X
+	db $BE, $01 ;Camera Starting Y
+	db $50, $00 ;Camera Starting X
 	db $80, $5B ;Unknown
 	db $1E ;Level Number
 	dw Level_TileMap_06 ;Tileset Mapping Pointer
@@ -467,10 +467,10 @@ Level_Header_31:
 	db $04 ;Time
 
 Level_Header_32:
-	db $94, $00 ;Mario Starting X
-	db $28, $00 ;Mario Starting Y
-	db $A0, $00 ;Camera Starting X
-	db $50, $00 ;Camera Starting Y
+	db $94, $00 ;Mario Starting Y
+	db $28, $00 ;Mario Starting X
+	db $A0, $00 ;Camera Starting Y
+	db $50, $00 ;Camera Starting X
 	db $80, $5B ;Unknown
 	db $1F ;Level Number
 	dw Level_TileMap_24 ;Tileset Mapping Pointer

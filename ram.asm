@@ -194,7 +194,10 @@ DEF sCursorHopActive EQU $A2C7
 DEF sAutoScroll EQU $A2C8
 DEF sRowShiftIndex EQU $A2C9
 DEF sRowShiftCount EQU $A2CA
-DEF sMusicQueue EQU $A2CB
+DEF sGoldenCoinCount EQU $A2CB     ; count of collected golden coins (0-6): cleared then
+                                  ; incremented once per set sGoldenCoinN bit7 by the
+                                  ; castle-screen draw $307BC; cp $05 = castle song 26
+                                  ; (vs 15) + the five-coin room flow, cp $06 = ending
 DEF sCastleCoinDone EQU $A2CC
 DEF sTileAnimPhase EQU $A2CD
 DEF sSoundDisabled EQU $A2CE
@@ -672,25 +675,30 @@ DEF sLevelProgress EQU $A848      ; per-level flags (slot via $304F1/$3C364 offs
                                   ; bit7 = level cleared, bit3 = secret-route marker
 ; Map path/element flags: bit set = element present; each group is copied into the
 ; $A6C3/$A6C0/$A6CC map tile buffer by UnknownCall_0x3DB00 (tile $0E vs $FF).
+; Golden coins (bit7 = collected). The castle screen ($307BC draw, $307E4 checks)
+; reads them in the order 1,2,6,5,4,3 - its X coords $498A..$499C ascend, so that IS
+; the icon order left->right; the hub map icons read them 2,1,3,4,5,6 ($3CE43, k4..k9).
+; No single numeric order is canonical: numbering below = zone-group order, and each
+; comment carries the coin's castle-icon position.
 DEF sMapTreeAPath0 EQU $A849      ; Tree Zone scr A group ($A849-$A84D -> $A6C3)
 DEF sMapTreeAPath1 EQU $A84A
-DEF sGoldenCoin1 EQU $A84D        ; Tree Zone scr A golden coin (bit7 = collected)
+DEF sGoldenCoin1 EQU $A84D        ; Tree Zone scr A golden coin (castle icon 1)
 DEF sMapPumpkinPath0 EQU $A84E    ; Pumpkin Zone scr A group ($A84E-$A851 -> $A6C0)
 DEF sMapPumpkinPath1 EQU $A84F
 DEF sMapPumpkinPath2 EQU $A850
-DEF sGoldenCoin2 EQU $A851        ; Pumpkin Zone scr A golden coin
+DEF sGoldenCoin2 EQU $A851        ; Pumpkin Zone scr A golden coin (castle icon 2)
 DEF sMapMacroPath0 EQU $A853      ; Macro Zone group ($A853-$A856 -> $A6C3)
 DEF sMapMacroPath2 EQU $A855      ; read-only (no writer in ROM; census)
-DEF sGoldenCoin3 EQU $A856        ; Macro Zone golden coin
+DEF sGoldenCoin3 EQU $A856        ; Macro Zone golden coin (castle icon 6)
 DEF sMapSpacePath0 EQU $A858      ; Space Zone group ($A858-$A859 -> $A6C3)
-DEF sGoldenCoin4 EQU $A859        ; Space Zone golden coin
+DEF sGoldenCoin4 EQU $A859        ; Space Zone golden coin (castle icon 5)
 DEF sMapTreeBPath0 EQU $A85D      ; Tree Zone scr B group ($A85D-$A85F -> $A6C3)
 DEF sMapTreeBPath1 EQU $A85E
-DEF sGoldenCoin5 EQU $A85F        ; Tree Zone scr B golden coin
+DEF sGoldenCoin5 EQU $A85F        ; Tree Zone scr B golden coin (castle icon 4)
 DEF sMapMarioPath0 EQU $A862      ; Mario Zone group ($A862-$A865 -> $A6CC)
 DEF sMapMarioPath1 EQU $A863
 DEF sMapMarioPath2 EQU $A864
-DEF sGoldenCoin6 EQU $A865        ; Mario Zone golden coin
+DEF sGoldenCoin6 EQU $A865        ; Mario Zone golden coin (castle icon 3)
 DEF sMapGateMacro EQU $A86B       ; set7 completing node $6A; gates Macro cursor moves
 DEF sMapGatePumpkinA EQU $A86C    ; read-only (no writer in ROM; census)
 DEF sMapGateMario EQU $A86D       ; set7 completing node $66
@@ -838,3 +846,49 @@ DEF sSavedPowerState EQU $AFD1
 ; HRAM Variables
 DEF hKeysHeld EQU $FF80
 DEF hKeysPressed EQU $FF81
+
+; --- Object staging area $FFD0-$FFEF (HRAM) ---
+; UnknownCall_0x81A7 copies the active 32-byte object slot to $FFD0 (UnknownCall_0x81BD
+; copies it back at the end of the frame, after UnknownCall_0x81CF fills +19..+22);
+; the object scripts operate on this copy, so offsets mirror the slot layout
+; (staging $FFD0+n == slot+n). Decoded at batch 13:
+;   +0/+1  $FFD0/D1  world X hi/lo - moved by $8590/$859D (add/sub b, carry into hi)
+;                    and staged to $FFB9/$FFBA; screen X = (X+8) - sScrollX ($C090)
+;   +2     $FFD2     script marker: sole writer $8708 sets $10 after a type/anim swap;
+;                    the two defeat/removal paths compare == $10
+;   +3/+4  $FFD3/D4  world Y hi/lo - staged to $FFB7/$FFB8; screen Y = (Y+16)-sScrollY
+;   +5     $FFD5     sprite anim index
+;   +6/+7  $FFD6/D7  link pointer hi/lo (spawn record+2; targets live in $ADxx-$AFxx,
+;                    which is why $FFD6 is the hi byte - see $5B2F0's `cp $AD`)
+;   +8     $FFD8     state (mirrors slot+8)
+;   +9/+10 $FFD9/DA  screen Y / screen X (written by $C090, read by the interaction
+;                    passes)
+;   +11    $FFDB     sprite id (index into the $4737/$4935 descriptor tables)
+;   +12    $FFDC     defeat attribute byte: bit7 set ($80) when defeated -> drawn behind
+;                    BG, and doubles as the "already defeated" gate ($A3FF)
+;   +13    $FFDD     flip attribute byte: bit6 = X flip (toggled by the $934C init,
+;                    set/reset by scripts), bit5 = Y flip, bit7 = priority
+;   +14    $FFDE     flash bit: bit4 toggled by $B40E every 4th frame ($FFF0 & 3)
+;                    during defeat/spin animations
+;   +15    $FFDF     frame state: 0 = just spawned, else dec + rst $28 dispatch into the
+;                    object's handler table; saved/restored via sSavedFrameState $AFC4
+;   +16    $FFE0     phase frame counter (incremented per frame, compared to the step's
+;                    delay before advancing +15)
+;   +17    $FFE1     (no refs - parked with the +18 type)
+;   +18    $FFE2     type (interaction class, cf. $AF00-region type usage)
+;   +19..22 $FFE3-E6 hitbox top/bottom/left/right - filled by $81CF from the sprite
+;                    descriptor via the $FFDB id, copied back to the slot
+;   +23    $FFE7     interaction flags (bits 0/1/2/4/5 dispatch at $85AA: bumped /
+;                    actor-in-box / touched / hit-from-below / side)
+;   +24    $FFE8     script timer (countdown; reloaded from $FFE9 in several scripts)
+;   +25    $FFE9     script timer 2
+;   +26    $FFEA     animation frame counter (mod $10)
+;   +27    $FFEB     hit-reaction flag: set 1 by the $8633/$86C6/$86D2 bump paths,
+;                    read by the script runner ($5802B -> $58101)
+;   +28    $FFEC     main script timer (the usual per-step countdown)
+;   +29/30 $FFED/EE  (no refs)
+;   +31    $FFEF     bit-scan rotation mask (the $5B136 free-bit scan; cf. $AF4E/$AF4F)
+; $FFDC^$FFDD^$FFDE = sSpriteFlipFlags $AF2B (computed by $C090, XOR'd into the sprite
+; attribute by the $C042 renderer; bit6 -> X mirror, bit5 -> Y mirror, bit7 -> priority).
+; These addresses stay as literals: the staging copy mirrors the slot map, so names
+; would duplicate the slot field names in a second namespace.

@@ -16659,7 +16659,7 @@ UnknownRJump_0x30494:
 	add hl, de
 	ld a, 128
 	ld [hl], a
-	ld a, [sMusicQueue]
+	ld a, [sGoldenCoinCount]
 	cp $05
 	jr z, UnknownRJump_0x304DD
 	ld a, 20
@@ -16753,7 +16753,7 @@ UnknownRJump_0x30567:
 UnknownRJump_0x30593:
 	ld a, 15
 	ld [sMusicRequest], a
-	ld a, [sMusicQueue]
+	ld a, [sGoldenCoinCount]
 	cp $05
 	jr nz, UnknownRJump_0x305A4
 	ld a, 26
@@ -16923,7 +16923,7 @@ UnknownData_0x306D1: ;4-byte palette records (BGPalette, OAMPalette1, OAMPalette
 
 	ld a, 187
 	ldh [$FFC6], a
-	ld a, [sMusicQueue]
+	ld a, [sGoldenCoinCount]
 	cp $06
 	jr nz, UnknownRJump_0x30700
 	ldh_a_n $81
@@ -17046,7 +17046,7 @@ UnknownRJump_0x307B9:
 
 UnknownCall_0x307BC:
 	xor a
-	ld [sMusicQueue], a
+	ld [sGoldenCoinCount], a
 	ld a, 1
 	ldh [$FFBB], a
 	ld a, [sGoldenCoin1]
@@ -17059,9 +17059,9 @@ UnknownCall_0x307BC:
 	ld a, [$49BA]
 	ldh [$FFC6], a
 	call UnknownCall_0x2B13
-	ld a, [sMusicQueue]
+	ld a, [sGoldenCoinCount]
 	inc a
-	ld [sMusicQueue], a
+	ld [sGoldenCoinCount], a
 
 UnknownRJump_0x307E4:
 	ld a, [sGoldenCoin2]
@@ -17074,9 +17074,9 @@ UnknownRJump_0x307E4:
 	ld a, [$49BE]
 	ldh [$FFC6], a
 	call UnknownCall_0x2B13
-	ld a, [sMusicQueue]
+	ld a, [sGoldenCoinCount]
 	inc a
-	ld [sMusicQueue], a
+	ld [sGoldenCoinCount], a
 
 UnknownRJump_0x30804:
 	ld a, [sGoldenCoin6]
@@ -17089,9 +17089,9 @@ UnknownRJump_0x30804:
 	ld a, [$49C2]
 	ldh [$FFC6], a
 	call UnknownCall_0x2B13
-	ld a, [sMusicQueue]
+	ld a, [sGoldenCoinCount]
 	inc a
-	ld [sMusicQueue], a
+	ld [sGoldenCoinCount], a
 
 UnknownRJump_0x30824:
 	ld a, [sGoldenCoin5]
@@ -17104,9 +17104,9 @@ UnknownRJump_0x30824:
 	ld a, [$49C5]
 	ldh [$FFC6], a
 	call UnknownCall_0x2B13
-	ld a, [sMusicQueue]
+	ld a, [sGoldenCoinCount]
 	inc a
-	ld [sMusicQueue], a
+	ld [sGoldenCoinCount], a
 
 UnknownRJump_0x30844:
 	ld a, [sGoldenCoin4]
@@ -17119,9 +17119,9 @@ UnknownRJump_0x30844:
 	ld a, [$49C8]
 	ldh [$FFC6], a
 	call UnknownCall_0x2B13
-	ld a, [sMusicQueue]
+	ld a, [sGoldenCoinCount]
 	inc a
-	ld [sMusicQueue], a
+	ld [sGoldenCoinCount], a
 
 UnknownRJump_0x30864:
 	ld a, [sGoldenCoin3]
@@ -17134,9 +17134,9 @@ UnknownRJump_0x30864:
 	ld a, [$49CC]
 	ldh [$FFC6], a
 	call UnknownCall_0x2B13
-	ld a, [sMusicQueue]
+	ld a, [sGoldenCoinCount]
 	inc a
-	ld [sMusicQueue], a
+	ld [sGoldenCoinCount], a
 	ret
 
 UnknownCall_0x30884:
