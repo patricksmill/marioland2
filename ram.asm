@@ -725,11 +725,14 @@ DEF sScreenEdgeMap EQU $A960       ; screen-boundary bits per cell: bit0 right,
 DEF sScrollPatchList EQU $A9FF     ; ScrollLevelMap ($0AFB) walks 6-byte VRAM
                                    ; patch records from here (it pre-increments,
                                    ; so the first record is at $AA00:
-                                   ; [dest lo][dest hi][4 tiles]); DEAD: the
-                                   ; list-active flag is never set anywhere
+                                   ; [dest lo][dest hi][4 tiles]); written by
+                                   ; the $0969/$0A35 strip loaders via the
+                                   ; $FFAF/$FFB0 pointer (set to $AA00)
 DEF sScrollPatchFlag EQU $AA01     ; first record's dest-hi byte, doubling as
-                                   ; the list-active flag (cleared by $0264 and
-                                   ; by $0AFB .done; never set -> unreachable)
+                                   ; the list-active flag: the VBlank handler
+                                   ; ($26C3) calls $0AFB whenever it is nonzero
+                                   ; (cleared by $0AFB .done and by the main
+                                   ; loop head $0264)
 DEF sBlockAnimSlots EQU $AA80      ; 8 slots x $10 for brick-bump animations:
                                    ; +0 type (-> sBlockAnimType), +1 state,
                                    ; +2/+3 Y, +4/+5 X; $5960 registers a bump,
