@@ -180,7 +180,99 @@ DEF sEndingTileFlag EQU $A2E2
 DEF sBossClearFlag EQU $A2E3
 DEF sEasyMode EQU $A2E4
 
+; Music engine state ($A400-$A45F). The sound driver (_UpdateSound $10030, bank 4)
+; runs the music sequencer ($11638) plus three sfx slots, driving the four APU
+; channels from four $10-byte channel blocks at $A410/$A420/$A430/$A440
+; (ch1 pulse1, ch2 pulse2, ch3 wave, ch4 noise). Channel block layout (ch1 shown;
+; offsets from the block base):
+;   +0/+1   sequence-list pointer (song header; command $00 advances it 2 and
+;           loads the next section stream; hi $00 = song end, $FF = list jump)
+;   +2      note/command countdown (decremented per frame; reloaded from +3)
+;   +3      note duration (low nibble of the $Ax commands indexes the $A401 table)
+;   +4/+5   stream read pointer (current position in the section's stream)
+;   +6/+7/+8 instrument bytes (command $9D: +6 = APU envelope, +7 = env config,
+;           +8 = duty/level; ch3: +6/+7 = wave pattern ptr, +8 = wave level;
+;           ch4: +6..+10 = 5-byte noise record copied from the $5C06 table)
+;   +9/+10  current note frequency (from the $5AF4 table + sMusicTranspose)
+;   +11     rest flag (note byte $01: skips the APU writes and the envelope)
+;   +12/+13 stream loop-return pointer (command $9B)
+;   +14     bit7 = suppress the APU writes
+;   +$E     envelope frame counter (incremented once per frame by $11808)
+;   +$F     bit7 = sfx took over this channel; bits0-6 = stream loop count
+;           ($9B ORs the count in, $9C decrements; 0 -> loop ends)
+DEF sMusicTranspose EQU $A400      ; signed note transpose (header byte 0; +4 while
+                                   ; sFastMusic; stream command $9F overwrites)
+DEF sMusicDurTableLo EQU $A401     ; note-duration table ptr (header bytes 1-2;
+DEF sMusicDurTableHi EQU $A402     ; stream command $9E overwrites)
+DEF sMusicCh1EnvTimer EQU $A407    ; ch1 envelope fire value: the envelope byte
+DEF sMusicCh2EnvTimer EQU $A408    ; ($5CAC[instrument & $0F]) is applied when the
+                                   ; channel's envelope counter equals this value.
+                                   ; Written per note only when the instrument's
+                                   ; high nibble is nonzero ($A409/$A40A hold the
+                                   ; ch3/ch4 copies, which are never read)
+DEF sMusicCh1State EQU $A410
+DEF sMusicCh1NoteTimer EQU $A412
+DEF sMusicCh1StreamPtrLo EQU $A414
+DEF sMusicCh1Instrument EQU $A417  ; low nibble = envelope id (indexes $5CAC),
+                                   ; high nibble = envelope-timer scale (duration
+                                   ; >> (5 - nibble/16))
+DEF sMusicCh1FreqHi EQU $A41A      ; note frequency high byte (| $80 on retrigger)
+DEF sMusicCh1Rest EQU $A41B
+DEF sMusicCh1EnvCounter EQU $A41E
+DEF sMusicCh1Flags EQU $A41F
+DEF sMusicCh2State EQU $A420
+DEF sMusicCh2StreamPtrLo EQU $A424
+DEF sMusicCh2Instrument EQU $A427
+DEF sMusicCh2FreqHi EQU $A42A
+DEF sMusicCh2Rest EQU $A42B
+DEF sMusicCh2EnvCounter EQU $A42E
+DEF sMusicCh2Flags EQU $A42F
+DEF sMusicCh3State EQU $A430
+DEF sMusicCh3StreamPtrLo EQU $A434
+DEF sMusicCh3WavePtrLo EQU $A436  ; 16-byte wave pattern pointer (the wave-slot
+DEF sMusicCh3WavePtrHi EQU $A437  ; sfx stop $10E1D restores rAUD3 wave RAM from it)
+DEF sMusicCh3WaveLevel EQU $A438  ; wave level byte; bit7 = boost to $40 when 6
+                                   ; frames of the note remain ($11565)
+DEF sMusicCh3EnvCounter EQU $A43E
+DEF sMusicCh3Flags EQU $A43F
+DEF sMusicCh4State EQU $A440
+DEF sMusicCh4StreamPtrLo EQU $A444
+DEF sMusicCh4NoteData EQU $A446   ; 5-byte noise note record (from the $5C06 table
+                                   ; per note; bytes land at +6..+10)
+DEF sMusicCh4Flags EQU $A44F
+DEF sMusicCurChannel EQU $A450     ; 1-4 while the per-frame channel walk runs
+DEF sMusicCurVibratoDepth EQU $A451 ; scratch copy of the current channel's
+                                   ; instrument low nibble ([+8] & $0F); 1 selects
+                                   ; the $A520-counter vibrato path
+DEF sSoundFadeState EQU $A455      ; vestigial fade-out state (1 = idle; 3 = set by
+                                   ; the stop-all $13F5E). The fade tick $11421
+                                   ; would cycle rAUDTERM through $A459-$A45C every
+                                   ; $A457 frames ($A456 = tick, $A458 = index), but
+                                   ; every song's control record ($52F7) loads
+                                   ; state 1, so it never runs
+DEF sSoundPaused EQU $A45D         ; 1 while the pause jingle plays ($11936)
+DEF sSoundMode EQU $A45E           ; 0 = normal, 1 = pause requested ($118F7),
+                                   ; 2 = unpause requested ($11926)
+; Sound request slots: game code writes an sfx/song id to the request byte;
+; _UpdateSound copies it to the active byte, runs the id's command stream and
+; clears the request. $A460 slot 0 = pulse 1; $A470 slot 1 = wave channel
+; (drums); $A478 slot 2 = noise. $A468 = music request (id -> sCurSong;
+; $FF = stop all sound).
+DEF sSfxRequest0 EQU $A460
+DEF sSfxActive0 EQU $A461
+DEF sMusicRequest EQU $A468
 DEF sCurSong EQU $A469
+DEF sSfxRequest1 EQU $A470
+DEF sSfxActive1 EQU $A471
+DEF sSfxRequest2 EQU $A478
+DEF sSfxActive2 EQU $A479
+DEF sMusicInstrGate EQU $A48D      ; read-only: when nonzero, stream command $9D
+                                   ; skips the instrument store (never written)
+DEF sSoundSaveArea EQU $A490       ; sound-state save area of the unreachable
+                                   ; $112B5/$112CE rotation pair (the whole
+                                   ; $A490-$A4FF region is touched only by it)
+DEF sSavedSongId EQU $A49F         ; set to 5 by the dead save; the dead restore
+                                   ; copies it into sCurSong
 DEF sFastMusic EQU $A50D
 
 ; Map tile-window descriptors ($A600-$A67F) + the in-level metatile map overlay.

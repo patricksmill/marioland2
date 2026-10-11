@@ -646,7 +646,7 @@ UnknownRJump_0x049C:
 	ld a, 64
 	ld [sStarTimerLow], a
 	ld a, 4
-	ld [$A468], a
+	ld [sMusicRequest], a
 	xor a
 	ld [sStarCarryover], a
 
@@ -735,7 +735,7 @@ UnknownRJump_0x052F:
 	and a
 	jr nz, UnknownRJump_0x0598
 	ld a, [sLevelMusic]
-	ld [$A468], a
+	ld [sMusicRequest], a
 
 UnknownRJump_0x0598:
 	ld hl, LevelPropertiesUNK
@@ -2020,14 +2020,14 @@ UnknownRJump_0x0EB0:
 	ld a, 195
 	ldh [rLCDC], a
 	ld a, 32
-	ld [$A468], a
+	ld [sMusicRequest], a
 	ld [sLevelSong], a
 	ld a, [sCurLevel]
 	cp $18
 	jr nz, UnknownRJump_0x0EE4
 	ld a, [sBossFightPhase]
 	add 33
-	ld [$A468], a
+	ld [sMusicRequest], a
 	ld [sLevelSong], a
 
 UnknownRJump_0x0EE4:
@@ -2040,7 +2040,7 @@ UnknownRJump_0x0EE4:
 
 UnknownRJump_0x0EF3:
 	ld a, 5
-	ld [$A460], a
+	ld [sSfxRequest0], a
 	ld a, [sLevelBGPalette]
 	ld [sBGPalette], a
 	ld a, [sLevelOAMPalette1]
@@ -2190,7 +2190,7 @@ UnknownCall_0x0FF2:
 	bit 0, a
 	jr z, UnknownRJump_0x101D
 	ld a, 18
-	ld [$A460], a
+	ld [sSfxRequest0], a
 
 UnknownRJump_0x101D:
 	ld a, [sVVelocityIndex]
@@ -2241,7 +2241,7 @@ UnknownRJump_0x1055:
 	ld a, 8
 	ld [sMoonJumpPoseTimer], a
 	ld a, 3
-	ld [$A460], a
+	ld [sSfxRequest0], a
 	ret
 
 UnknownRJump_0x106F:
@@ -2255,7 +2255,7 @@ UnknownRJump_0x106F:
 	bit 0, a
 	jr z, UnknownRJump_0x1084
 	ld a, 18
-	ld [$A460], a
+	ld [sSfxRequest0], a
 
 UnknownRJump_0x1084:
 	ld a, [sVVelocityIndex]
@@ -2312,7 +2312,7 @@ UnknownRJump_0x10DC:
 	ld a, 24
 	ld [sVVelocityIndex], a
 	ld a, 6
-	ld [$A470], a
+	ld [sSfxRequest1], a
 
 UnknownRJump_0x10EB:
 	ret
@@ -2420,7 +2420,7 @@ UnknownCall_0x1189:
 	ld a, 16
 	ld [sPipeTravelDirection], a
 	ld a, 5
-	ld [$A460], a
+	ld [sSfxRequest0], a
 	xor a
 	ld [sMarioDucking], a
 	ld [sFireball1Active], a
@@ -2452,7 +2452,7 @@ UnknownRJump_0x11C0:
 	sbc 0
 	ldh [$FFC1], a
 	ld a, 5
-	ld [$A460], a
+	ld [sSfxRequest0], a
 	xor a
 	ld [sMarioDucking], a
 	ld [sFireball1Active], a
@@ -2499,7 +2499,7 @@ UnknownRJump_0x1225:
 	and a
 	ret nz
 	ld a, 5
-	ld [$A460], a
+	ld [sSfxRequest0], a
 	ret
 
 UnknownRJump_0x1244:
@@ -2517,7 +2517,7 @@ UnknownRJump_0x1255:
 	ld a, 64
 	ld [sPipeTravelDirection], a
 	ld a, 5
-	ld [$A460], a
+	ld [sSfxRequest0], a
 	xor a
 	ld [sMarioDucking], a
 	ld [sFireball1Active], a
@@ -2543,7 +2543,7 @@ UnknownCall_0x126F:
 	and a
 	jr nz, UnknownRJump_0x1294
 	ld a, 14
-	ld [$A460], a
+	ld [sSfxRequest0], a
 
 UnknownRJump_0x1294:
 	ld a, 255
@@ -2828,7 +2828,7 @@ UnknownRJump_0x1464:
 	ld a, 128
 	ld [sMarioDead], a
 	ld a, 15
-	ld [$A460], a
+	ld [sSfxRequest0], a
 	xor a
 	ld [$A53F], a
 
@@ -3054,7 +3054,7 @@ UnknownRJump_0x15CF:
 	and a
 	jr nz, UnknownRJump_0x15F4
 	ld a, 2
-	ld [$A460], a
+	ld [sSfxRequest0], a
 
 UnknownRJump_0x15F4:
 	call UnknownCall_0x1993
@@ -3107,14 +3107,14 @@ UnknownRJump_0x1637:
 	ld a, 1
 	ld [sJumpFlag], a
 	ld a, 1
-	ld [$A460], a
+	ld [sSfxRequest0], a
 	ld a, [sMoonPhysics]
 	and $0F
 	jr z, UnknownRJump_0x1659
 	bit 1, a
 	jr nz, UnknownRJump_0x165F
 	ld a, 18
-	ld [$A460], a
+	ld [sSfxRequest0], a
 	jr UnknownRJump_0x1664
 
 UnknownRJump_0x1659:
@@ -3124,7 +3124,7 @@ UnknownRJump_0x1659:
 
 UnknownRJump_0x165F:
 	ld a, 3
-	ld [$A460], a
+	ld [sSfxRequest0], a
 
 UnknownRJump_0x1664:
 	ld a, [sCurPowerup]
@@ -3134,7 +3134,7 @@ UnknownRJump_0x1664:
 	bit 7, a
 	jr z, UnknownRJump_0x1675
 	xor a
-	ld [$A460], a
+	ld [sSfxRequest0], a
 
 UnknownRJump_0x1675:
 	ld a, 255
@@ -3495,7 +3495,7 @@ UnknownRJump_0x19B0:
 	and a
 	jr z, UnknownRJump_0x19F1
 	ld a, 1
-	ld [$A478], a
+	ld [sSfxRequest2], a
 	ld b, 1
 	jr UnknownRJump_0x19F1
 
@@ -3505,7 +3505,7 @@ UnknownRJump_0x19C1:
 	and a
 	jr z, UnknownRJump_0x19F1
 	ld a, 1
-	ld [$A478], a
+	ld [sSfxRequest2], a
 	ld b, 5
 	jr UnknownRJump_0x19F1
 
@@ -3513,7 +3513,7 @@ UnknownRJump_0x19D2:
 	ld a, 255
 	ld [sSpinJumpBounce], a
 	ld a, 2
-	ld [$A460], a
+	ld [sSfxRequest0], a
 	ld b, 3
 	call UnknownCall_0x2C6C
 	ld a, [sObjectBumpSpecial]
@@ -3522,12 +3522,12 @@ UnknownRJump_0x19D2:
 	ld b, 4
 	call UnknownCall_0x2C77
 	ld a, 7
-	ld [$A460], a
+	ld [sSfxRequest0], a
 	ret
 
 UnknownRJump_0x19F1:
 	ld a, 2
-	ld [$A460], a
+	ld [sSfxRequest0], a
 	call UnknownCall_0x2C6C
 	ld a, 255
 	ld [sSpinJumpBounce], a
@@ -3621,12 +3621,12 @@ UnknownRJump_0x1C4E:
 	ld a, 15
 	ld [sMarioDead], a
 	ld a, 20
-	ld [$A460], a
+	ld [sSfxRequest0], a
 	ld a, [sCurPowerup]
 	and a
 	jr nz, UnknownRJump_0x1C6D
 	ld a, 15
-	ld [$A460], a
+	ld [sSfxRequest0], a
 
 UnknownRJump_0x1C6D:
 	ld a, [sMarioScreenY]
@@ -3635,7 +3635,7 @@ UnknownRJump_0x1C6D:
 	ld a, 128
 	ld [sMarioDead], a
 	ld a, 15
-	ld [$A460], a
+	ld [sSfxRequest0], a
 	jp UnknownJump_0x1D71
 
 UnknownRJump_0x1C82:
@@ -3685,11 +3685,11 @@ UnknownRJump_0x1CBA:
 
 UnknownRJump_0x1CD7:
 	ld a, 3
-	ld [$A468], a
+	ld [sMusicRequest], a
 	xor a
-	ld [$A460], a
-	ld [$A478], a
-	ld [$A470], a
+	ld [sSfxRequest0], a
+	ld [sSfxRequest2], a
+	ld [sSfxRequest1], a
 	ld a, 24
 	ldh [$FF9B], a
 	ld a, 192
@@ -3773,7 +3773,7 @@ UnknownCall_0x1D75:
 	cp $48
 	jr nz, UnknownRJump_0x1DA4
 	ld a, 7
-	ld [$A460], a
+	ld [sSfxRequest0], a
 	call UnknownCall_0x1DA5
 	ld a, [sCoinLow]
 	inc a
@@ -5190,7 +5190,7 @@ UnknownCall_0x273E:
 	ld a, 8
 	ldh [$FF9B], a
 	ld a, 1
-	ld [$A45E], a
+	ld [sSoundMode], a
 	ret
 
 UnknownJump_0x2756:
@@ -5211,7 +5211,7 @@ UnknownRJump_0x2760:
 	bit 7, a
 	jr z, UnknownRJump_0x278E
 	ld a, 2
-	ld [$A45E], a
+	ld [sSoundMode], a
 	ld [sMarioDead], a
 	xor a
 	ld [sAutoScroll], a
@@ -5235,7 +5235,7 @@ UnknownRJump_0x278E:
 	ld a, 4
 	ldh [$FF9B], a
 	ld a, 2
-	ld [$A45E], a
+	ld [sSoundMode], a
 	ret
 
 UnknownJump_0x27AF:
@@ -5329,7 +5329,7 @@ UnknownRJump_0x2844:
 	ld a, 255
 	ld [sFadeTimerLow], a
 	ld a, 7
-	ld [$A468], a
+	ld [sMusicRequest], a
 	ld a, 7
 	ldh [$FF9B], a
 	ret
@@ -5356,7 +5356,7 @@ UnknownJump_0x287E:
 	ld a, 0
 	ldh [$FF9B], a
 	ld a, 255
-	ld [$A468], a
+	ld [sMusicRequest], a
 	ret
 
 UnknownCall_0x28A7:
@@ -6205,12 +6205,12 @@ UnknownRJump_0x2E8E:
 	ld a, 15
 	ld [sMarioDead], a
 	ld a, 20
-	ld [$A460], a
+	ld [sSfxRequest0], a
 	ld a, [sCurPowerup]
 	and a
 	ret nz
 	ld a, 15
-	ld [$A460], a
+	ld [sSfxRequest0], a
 	ret
 
 UnknownJump_0x2EAA:
@@ -6232,7 +6232,7 @@ UnknownJump_0x2EAA:
 	cp $05
 	ret c
 	ld a, 9
-	ld [$A460], a
+	ld [sSfxRequest0], a
 	ld a, [sLives]
 	inc a
 	daa
@@ -6502,7 +6502,7 @@ UnknownCall_0x3007:
 	bit 2, a
 	jr nz, UnknownRJump_0x3071
 	ld a, 2
-	ld [$A460], a
+	ld [sSfxRequest0], a
 	ld [sObjectHitResult], a
 	jr UnknownRJump_0x307C
 
@@ -6678,7 +6678,7 @@ UnknownCall_0x315C:
 
 UnknownRJump_0x3186:
 	ld a, 2
-	ld [$A468], a
+	ld [sMusicRequest], a
 	xor a
 	ld [sCurPowerup], a
 	ld [sInvincibilityTimer], a
@@ -6874,7 +6874,7 @@ UnknownRJump_0x330E:
 	ld a, 8
 	ld [sMarioThrowTimer], a
 	ld a, 11
-	ld [$A460], a
+	ld [sSfxRequest0], a
 	ret
 
 UnknownCall_0x331C:
@@ -7026,10 +7026,10 @@ UnknownJump_0x3415:
 
 UnknownRJump_0x341C:
 	ld a, 1
-	ld [$A478], a
+	ld [sSfxRequest2], a
 	ld b, 1
 	ld a, 2
-	ld [$A460], a
+	ld [sSfxRequest0], a
 	call UnknownCall_0x2C6C
 	ld a, 255
 	ld [sSpinJumpBounce], a
@@ -7039,7 +7039,7 @@ UnknownRJump_0x3430:
 	xor a
 	ld [hl], a
 	ld a, 2
-	ld [$A460], a
+	ld [sSfxRequest0], a
 	ret
 
 UnknownData_0x3439: ;indexed by sFireballPhase
@@ -7056,7 +7056,7 @@ UnknownCall_0x3451:
 	ld a, 1
 	ld [sCurPowerup], a
 	ld a, 20
-	ld [$A470], a
+	ld [sSfxRequest1], a
 	jp UnknownJump_0x3534
 
 UnknownRJump_0x3467:
@@ -7065,7 +7065,7 @@ UnknownRJump_0x3467:
 	ld a, 3
 	ld [sCurPowerup], a
 	ld a, 20
-	ld [$A470], a
+	ld [sSfxRequest1], a
 	jp UnknownJump_0x3534
 
 UnknownRJump_0x3478:
@@ -7074,7 +7074,7 @@ UnknownRJump_0x3478:
 	ld a, 2
 	ld [sCurPowerup], a
 	ld a, 20
-	ld [$A470], a
+	ld [sSfxRequest1], a
 	jp UnknownJump_0x3534
 
 UnknownRJump_0x3489:
@@ -7095,14 +7095,14 @@ UnknownRJump_0x349D:
 	ld a, 64
 	ld [sStarTimerLow], a
 	ld a, 4
-	ld [$A468], a
+	ld [sMusicRequest], a
 	jp UnknownJump_0x3539
 
 UnknownRJump_0x34AF:
 	cp $05
 	jr nz, UnknownRJump_0x34C9
 	ld a, 9
-	ld [$A460], a
+	ld [sSfxRequest0], a
 	ld a, [sLives]
 	inc a
 	daa
@@ -7118,7 +7118,7 @@ UnknownRJump_0x34C9:
 	cp $07
 	jr nz, UnknownRJump_0x34D9
 	ld a, 21
-	ld [$A460], a
+	ld [sSfxRequest0], a
 	ld a, 255
 	ld [sSecretRouteFlag], a
 	jr UnknownRJump_0x3539
@@ -7127,7 +7127,7 @@ UnknownRJump_0x34D9:
 	cp $08
 	jr nz, UnknownRJump_0x34EC
 	ld a, 20
-	ld [$A470], a
+	ld [sSfxRequest1], a
 	ld a, [sMoonPhysics]
 	set 2, a
 	ld [sMoonPhysics], a
@@ -7137,7 +7137,7 @@ UnknownRJump_0x34EC:
 	cp $06
 	jr nz, UnknownRJump_0x350A
 	ld a, 12
-	ld [$A460], a
+	ld [sSfxRequest0], a
 	ld [sGoalBell], a
 	xor a
 	ld [$A53F], a
@@ -7152,7 +7152,7 @@ UnknownRJump_0x350A:
 	cp $09
 	jr nz, UnknownRJump_0x3539
 	ld a, 7
-	ld [$A460], a
+	ld [sSfxRequest0], a
 	ld a, [sCoinLow]
 	add 80
 	daa
