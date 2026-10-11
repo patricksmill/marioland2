@@ -306,6 +306,103 @@ DEF sMapSprite17X EQU $A6FA
 DEF sMapSprite17Y EQU $A6FB
 DEF sMapSprite17Id EQU $A6FC
 
+; Overworld map working state ($A700-$A7FF): wave strips, per-screen animation
+; counters, castle/ending scene state (bank $0F handlers + the bank $18 state
+; machines at ROM $60037/$60521/$60A81) and the map tile-patch lists. The
+; $A6B5/$A7D0 lists hold 16 x 3 [X, Y, id] records in the zone screens (the hub
+; uses the 18 x 4 view documented above; $3E2A2 loads both lists from one table).
+; $A700-$A77F: four 32-byte tile-shift strips (2 tiles each) for the hub's wave
+; animation; seeded from ROM $3C8E0/$3C9E0/$3CCE0/$3CDE0 by $3E7BE, shifted one
+; bit per frame by the $3E853 raster handler (direction alternates with the
+; phase) and mirrored to VRAM $88E0/$89E0/$8CE0/$8DE0.
+DEF sMapWaveStrip0 EQU $A700
+DEF sMapWaveStrip1 EQU $A720
+DEF sMapWaveStrip2 EQU $A740
+DEF sMapWaveStrip3 EQU $A760
+DEF sMapCoinIconPhase EQU $A780     ; 0-2 coin-icon anim phase (every 8 frames -> ids 2/3/4)
+DEF sMapCloudDriftCounter EQU $A781 ; sprite 1-3 drift counter (bit 6 = direction); reset on load
+DEF sMapDecorOAMIndex EQU $A782     ; OAM entry index for map decorations ($3E277 sets 4 =
+                                    ; after the cursor entries; cap $28); $6106D resets to 0
+DEF sMapTreeAnimStep EQU $A783      ; Tree screen anim step: bits 0-1 = frame, bit 4 = direction
+DEF sMapTreeAnimTick EQU $A784      ; 10-frame tick driving sMapTreeAnimStep
+DEF sMapFrameSyncFlag EQU $A785     ; set to 1 by the $3E73 raster trampoline; $3E9EC waits on it
+DEF sMapTransitionDir EQU $A786     ; cursor walk dir during screen transitions (1=R 2=L 4=U 8=D)
+DEF sMapPatchDrawX EQU $A787        ; scratch X of the current $A7D0 record while drawing
+DEF sMapPatchDrawY EQU $A788        ; scratch Y of the current $A7D0 record while drawing
+DEF sMapRockAnimTimer EQU $A789     ; rock/gate animation counter (hub k14; $3C4E7 sets 1 at
+                                    ; nodes $0C/$1E; $3CF16 walks it to $58)
+DEF sMapBandScroll0 EQU $A78A       ; rSCX band 0 (scanlines < $0F); Turtle wobble
+DEF sMapBandScroll1 EQU $A78B       ; rSCX band 1 (scanlines $0F-$16; wraps at $18)
+DEF sMapBandScroll2 EQU $A78C       ; rSCX band 2 (scanlines $17-$1E)
+; Castle/ending scene animation state ($A795-$A79C is zeroed on entry by
+; $3F307/$3F4B1/$3F5A4; also used by the zone walk handlers for sprite anims).
+DEF sCastleWalkPhase EQU $A795      ; 0-2 walk animation phase (offsets sprite frames)
+DEF sMapSprite1AnimCount EQU $A796  ; sprite-1 anim counter (castle: 0-$7F page oscillation;
+                                    ; Turtle: 0-2 phase)
+DEF sMapAnimStep EQU $A797          ; anim step 0-3 (castle) / palette-flash state 0-2 (Turtle)
+DEF sMapAnimAccum EQU $A798         ; accumulator (+= table value mod 3) / free-run counter
+DEF sTurtleAnimPhase EQU $A799      ; 0-3 phase counter (Turtle random-anim sprite)
+DEF sCastleWalkScriptIdx EQU $A79A  ; index into the $4FA8 Y-offset walk script ($80 = end)
+DEF sCastleUnused1 EQU $A79B        ; zeroed on entry; no other refs (census)
+DEF sCastleUnused2 EQU $A79C        ; zeroed on entry; no other refs (census)
+DEF sMapTransitionState EQU $A79D   ; 1 = walk-out ($3E3BA), 2 = walk-in ($3E2F7), 0 = idle;
+                                    ; nonzero gates per-screen logic during the transition
+DEF sTurtleMoveState EQU $A79E      ; Turtle decoration movement (0=blink 1=L 2=R 3=U 4=D)
+DEF sTurtleBlinkTimer EQU $A79F     ; frames before the next direction pick (30)
+DEF sMapScrollOnlyLatch EQU $A7A0   ; $FF while B is held on the hub (camera scrolls, cursor
+                                    ; stays, node activation blocked); cleared on release
+DEF sCastleRevealProgress EQU $A7A5 ; castle reveal progress: index = (byte & $7C) >> 2,
+                                    ; clamped at 29; decremented 2/frame by the walk states
+DEF sCastleState EQU $A7A6          ; castle/ending screen state 0-$0B (jp-table index for the
+                                    ; bank-$18 machines $60037/$60521/$60A81 and $3C0DF/$3C10E)
+DEF sCastleStateTimer EQU $A7A7     ; per-state countdown (walk/jump/pickup timers)
+DEF sCastleItemIndex EQU $A7A8      ; item/decoration index at Mario's position (0 = none;
+                                    ; -> $4F6A/$4C51/$4C4D tables; pickup grants lives etc.)
+DEF sMapSparkleTimer EQU $A7A9      ; sparkle re-arm countdown (4 -> 0; re-arm when rDIV&$72==0)
+DEF sCastleMarkerCol EQU $A7AA      ; castle marker tile byte (bit 7 set = draw; low nibble =
+                                    ; column); drawn by the $3EBD5 castle IRQ at $988C
+DEF sCastleSavedPowerup EQU $A7AB   ; saved sCurPowerup (item-preview fallback)
+DEF sCastleItemPreview EQU $A7AC    ; powerup/item id being previewed (-> $4C4D lookup);
+                                    ; committed to sCurPowerup on pickup
+DEF sCastleRevealTick EQU $A7AD     ; reveal frame counter (bits 2-3 select the sprite-3 frame)
+DEF sCastleScriptPtrLo EQU $A7AE    ; item-script pointer lo ($3F4B1 picks by sTimerHigh & $0F)
+DEF sCastleScriptPtrHi EQU $A7AF    ; item-script pointer hi
+DEF sCastleDecorSlotA EQU $A7B0     ; random active decoration slot index A (0-8, $6046A)
+DEF sCastleDecorSlotB EQU $A7B1     ; random active decoration slot index B (0-8, $6046A)
+DEF sCastleItemReached EQU $A7B2    ; set when the walk reaches an item slot (gates pickup sfx)
+DEF sCastleSpriteAnimState EQU $A7B3 ; sprite-10/11 animation state (1/2/3)
+DEF sCastleSpriteAnimTimer EQU $A7B4 ; countdown for sCastleSpriteAnimState
+DEF sCastleScriptPtrLoCopy EQU $A7B5 ; loop-back copy of sCastleScriptPtrLo
+DEF sCastleScriptPtrHiCopy EQU $A7B6 ; loop-back copy of sCastleScriptPtrHi
+DEF sMapRandAccum EQU $A7B7         ; rDIV/$FF97 shuffle accumulator (shared random state)
+DEF sMapSpecialNodeLatch EQU $A7B8  ; set to 16 pressing A on a special node ($6E+); NO READER
+                                    ; (census) - write-only
+DEF sCastleShufflePhase EQU $A7B9   ; 0-2 phase rotating the three VRAM patches
+                                    ; ($8D30/$8E70/$9550 via $3F0E)
+DEF sMapGrowthActive EQU $A7BA      ; zone growth-animation active flag (0/$FF; gates $3DB12)
+DEF sSpaceLaunchState EQU $A7BB     ; Space-zone UFO launch state (0=off 1=launch 2=return 3=scroll)
+DEF sSpaceLaunchTimer EQU $A7BC     ; its countdown / scroll amount
+DEF sSpaceBlinkTimer EQU $A7BD      ; Space blinker countdown (5 -> 0, re-randomized)
+DEF sMapIRQDivider EQU $A7BE        ; per-scanline work divider 0-$0D (Pumpkin/Tree IRQ)
+DEF sMapIRQPatchIndex EQU $A7BF     ; IRQ patch frame counter ($3EC7D & $3F / $3ECF5 & 7)
+; Map tile-patch list ($A7D0-$A7FF, 48 bytes). Zone/castle screens: 16 x 3 [X, Y,
+; patchId] records loaded by $3E2A2, drawn into the VRAM tilemap by $610DD/$61147
+; (patchId indexes the $5213/$63EA descriptor lists; $FF = empty). The four
+; $A7D2/$A7D5/$A7D8/$A7DB bytes are the records' patchId fields (the per-screen
+; "pending tile" registers applied by $3F8E). Screen $0D reuses the same bytes as
+; five parallel 5-byte slot arrays + a round-robin index ($A7D0/$A7D5/$A7DA/$A7DF/
+; $A7E4 + $A7E9) - names below are the record (zone) view where both apply.
+DEF sMapPatchList EQU $A7D0
+DEF sMapPatch0Id EQU $A7D2
+DEF sMapPatch1Id EQU $A7D5
+DEF sMapPatch2Id EQU $A7D8
+DEF sCastleSlotCounter EQU $A7DA    ; screen-$0D slot counters (5; increment to $68)
+DEF sMapPatch3Id EQU $A7DB
+DEF sCastleSlotDelay EQU $A7DF      ; screen-$0D slot respawn delays (5; init 2,26,50,74,98)
+DEF sCastleSlotValue EQU $A7E4      ; screen-$0D slot values (5; sprite ids from the script)
+DEF sCastleSlotIndex EQU $A7E9      ; screen-$0D round-robin slot index (0-4)
+DEF sMapPatch9Id EQU $A7ED          ; record 9 patch id (records 9-12 set to 1 by $601BA)
+
 
 ; Level header block ($A800-$A813): 20 bytes copied from levels/levelheaders.asm
 ; by LoadLevelHeader ($5579, bank 1) at level load; secret route overlays

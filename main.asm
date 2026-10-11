@@ -18423,7 +18423,7 @@ UnknownJump_0x3C0DF:
 	ld a, 24
 	ld hl, $4512
 	call UnknownCall_0x3E00
-	ld a, [$A7A6]
+	ld a, [sCastleState]
 	cp $04
 	jr c, UnknownRJump_0x3C101
 	cp $07
@@ -18433,11 +18433,11 @@ UnknownJump_0x3C0DF:
 	jr z, UnknownRJump_0x3C101
 
 	ld a, 9
-	ld [$A7A6], a
+	ld [sCastleState], a
 
 
 UnknownRJump_0x3C101:
-	ld a, [$A7A6]
+	ld a, [sCastleState]
 	cp $0A
 	ret nz
 	call UnknownCall_0x3E9FB
@@ -18449,7 +18449,7 @@ UnknownJump_0x3C10E:
 	ld a, 24
 	ld hl, $4028
 	call UnknownCall_0x3E00
-	ld a, [$A7A6]
+	ld a, [sCastleState]
 	cp $05
 	jr nz, UnknownRJump_0x3C131
 	ldh_a_n $80
@@ -18457,13 +18457,13 @@ UnknownJump_0x3C10E:
 	jr z, UnknownRJump_0x3C131
 
 	ld a, 9
-	ld [$A7A6], a
+	ld [sCastleState], a
 	ld a, 20
-	ld [$A7A7], a
+	ld [sCastleStateTimer], a
 
 
 UnknownRJump_0x3C131:
-	ld a, [$A7A6]
+	ld a, [sCastleState]
 	cp $0A
 	ret nz
 	call UnknownCall_0x3E9FB
@@ -18502,7 +18502,7 @@ UnknownJump_0x3C169:
 	ldh_a_n $81
 	and $09
 	ret z
-	ld a, [$A7A0]
+	ld a, [sMapScrollOnlyLatch]
 	or a
 	ret nz
 	ld a, [sMapNode]
@@ -18588,7 +18588,7 @@ UnknownRJump_0x3C201:
 	and $01
 	ret z
 	ld a, 16
-	ld [$A7B8], a
+	ld [sMapSpecialNodeLatch], a
 	ld a, [sMapNode]
 	cp $6E
 	ret c
@@ -18888,7 +18888,7 @@ UnknownRJump_0x3C4E7:
 	and $09
 	jr z, UnknownRJump_0x3C505
 	ld a, 1
-	ld [$A789], a
+	ld [sMapRockAnimTimer], a
 	ld a, 25
 	ld [$A468], a
 	ld bc, $5BF6
@@ -18901,7 +18901,7 @@ UnknownRJump_0x3C505:
 	ldh_a_n $80
 	bit 1, a
 	jp nz, UnknownJump_0x3C5B2
-	ld a, [$A7A0]
+	ld a, [sMapScrollOnlyLatch]
 	or a
 	jr z, UnknownRJump_0x3C52B
 	ld a, [sMapNode]
@@ -18913,7 +18913,7 @@ UnknownRJump_0x3C505:
 
 UnknownRJump_0x3C52B:
 	xor a
-	ld [$A7A0], a
+	ld [sMapScrollOnlyLatch], a
 	ldh_a_n $81
 	and $F0
 	jp z, UnknownJump_0x3C5DA
@@ -18992,7 +18992,7 @@ UnknownJump_0x3C588:
 
 UnknownJump_0x3C5B2:
 	ld a, 255
-	ld [$A7A0], a
+	ld [sMapScrollOnlyLatch], a
 	ldh_a_n $80
 	bit 4, a
 	call nz, UnknownCall_0x3CA37
@@ -19016,7 +19016,7 @@ UnknownRJump_0x3C5DA:
 	cp $0D
 	jr nz, UnknownRJump_0x3C5F4
 	call UnknownCall_0x3C2B2
-	ld a, [$A789]
+	ld a, [sMapRockAnimTimer]
 	or a
 	jr z, UnknownRJump_0x3C5F4
 	jr UnknownRJump_0x3C60B
@@ -19643,7 +19643,7 @@ UnknownRJump_0x3CA45:
 	ld a, [sScrollX]
 	inc a
 	ld [sScrollX], a
-	ld a, [$A7A0]
+	ld a, [sMapScrollOnlyLatch]
 	or a
 	ret nz
 	ld a, [sMapCursorX]
@@ -19671,7 +19671,7 @@ UnknownCall_0x3CA63:
 	ld a, [sScrollX]
 	dec a
 	ld [sScrollX], a
-	ld a, [$A7A0]
+	ld a, [sMapScrollOnlyLatch]
 	or a
 	ret nz
 	ld a, [sMapCursorX]
@@ -19699,7 +19699,7 @@ UnknownCall_0x3CA8A:
 	ld a, [sScrollY]
 	dec a
 	ld [sScrollY], a
-	ld a, [$A7A0]
+	ld a, [sMapScrollOnlyLatch]
 	or a
 	ret nz
 	ld a, [sMapCursorY]
@@ -19732,7 +19732,7 @@ UnknownRJump_0x3CABF:
 	ld a, [sScrollY]
 	inc a
 	ld [sScrollY], a
-	ld a, [$A7A0]
+	ld a, [sMapScrollOnlyLatch]
 	or a
 	ret nz
 	ld a, [sMapCursorY]
@@ -19762,7 +19762,7 @@ UnknownData_0x3CAD7: ;data block, read at line 19420
 
 UnknownCall_0x3CBE7:
 	xor a
-	ld [$A781], a
+	ld [sMapCloudDriftCounter], a
 	ld hl, sMapSprite0Page
 	ld c, 72
 	ld de, $4BFD
@@ -19857,14 +19857,14 @@ UnknownCall_0x3CE6B:
 	ld a, [sMapFrameCounter]
 	and $07
 	jr nz, UnknownRJump_0x3CE93
-	ld a, [$A780]
+	ld a, [sMapCoinIconPhase]
 	inc a
 	cp $03
 	jr c, UnknownRJump_0x3CE7B
 	xor a
 
 UnknownRJump_0x3CE7B:
-	ld [$A780], a
+	ld [sMapCoinIconPhase], a
 	add 2
 	ld hl, sMapSprite4Id
 	ld de, $0004
@@ -19888,9 +19888,9 @@ UnknownRJump_0x3CE93:
 	jr nz, UnknownRJump_0x3CEB7
 	ld hl, sMapSprite1X
 	ld de, $0004
-	ld a, [$A781]
+	ld a, [sMapCloudDriftCounter]
 	inc a
-	ld [$A781], a
+	ld [sMapCloudDriftCounter], a
 	bit 6, a
 	jr z, UnknownRJump_0x3CEB2
 	inc [hl]
@@ -19911,7 +19911,7 @@ UnknownRJump_0x3CEB7:
 	ld a, [sMapFrameCounter]
 	and $03
 	jr nz, UnknownRJump_0x3CF16
-	ld a, [$A7A9]
+	ld a, [sMapSparkleTimer]
 	or a
 	jr z, UnknownRJump_0x3CF09
 
@@ -19919,9 +19919,9 @@ UnknownRJump_0x3CEC4:
 	ld a, 255
 	ld [sMapSprite16Id], a
 	ld [sMapSprite17Id], a
-	ld a, [$A7A9]
+	ld a, [sMapSparkleTimer]
 	dec a
-	ld [$A7A9], a
+	ld [sMapSparkleTimer], a
 	bit 0, a
 	jr z, UnknownRJump_0x3CF16
 	ld a, 10
@@ -19955,15 +19955,15 @@ UnknownRJump_0x3CF09:
 	and $72
 	jr nz, UnknownRJump_0x3CF16
 	ld a, 4
-	ld [$A7A9], a
+	ld [sMapSparkleTimer], a
 	jr UnknownRJump_0x3CEC4
 
 UnknownRJump_0x3CF16:
-	ld a, [$A789]
+	ld a, [sMapRockAnimTimer]
 	or a
 	ret z
 	inc a
-	ld [$A789], a
+	ld [sMapRockAnimTimer], a
 	ld d, a
 	ld c, 0
 	cp $10
@@ -20328,10 +20328,10 @@ UnknownRJump_0x3D151:
 	ld [sMapFrameCounter], a
 	ld [sMapAnimIndexB], a
 	ld [sMapUnused4], a
-	ld [$A7BE], a
-	ld [$A7BF], a
+	ld [sMapIRQDivider], a
+	ld [sMapIRQPatchIndex], a
 	ld a, 16
-	ld [$A783], a
+	ld [sMapTreeAnimStep], a
 	ld a, 16
 	ld [$A468], a
 	call UnknownCall_0x2AAA
@@ -20449,8 +20449,8 @@ UnknownRJump_0x3D25A:
 	ld [sMapUnused2], a
 	ld [sMapUnused1], a
 	ld [sMapAnimValueA], a
-	ld [$A7BE], a
-	ld [$A7BF], a
+	ld [sMapIRQDivider], a
+	ld [sMapIRQPatchIndex], a
 	ld a, 195
 	ldh_n_a $40
 	xor a
@@ -20463,7 +20463,7 @@ UnknownRJump_0x3D25A:
 
 UnknownCall_0x3D29F:
 	xor a
-	ld [$A7BA], a
+	ld [sMapGrowthActive], a
 	ld a, [sExitTileFlag]
 	or a
 	ret z
@@ -20474,7 +20474,7 @@ UnknownCall_0x3D29F:
 	cp $2C
 	jr nz, UnknownRJump_0x3D2D5
 	ld a, 31
-	ld [$A7D2], a
+	ld [sMapPatch0Id], a
 	call UnknownCall_0x3F8E
 	ld a, 44
 	ld [sMapNode], a
@@ -20485,7 +20485,7 @@ UnknownCall_0x3D29F:
 	set 0, a
 	ld [sMapPumpkinPath1], a
 	ld a, 255
-	ld [$A7BA], a
+	ld [sMapGrowthActive], a
 	ret
 
 UnknownRJump_0x3D2D5:
@@ -20493,7 +20493,7 @@ UnknownRJump_0x3D2D5:
 	cp $2F
 	ret nz
 	ld a, 39
-	ld [$A7D5], a
+	ld [sMapPatch1Id], a
 	call UnknownCall_0x3F8E
 	ld a, 47
 	ld [sMapNode], a
@@ -20504,7 +20504,7 @@ UnknownRJump_0x3D2D5:
 	set 0, a
 	ld [sMapPumpkinPath2], a
 	ld a, 255
-	ld [$A7BA], a
+	ld [sMapGrowthActive], a
 	ret
 
 UnknownCall_0x3D2FC:
@@ -20514,7 +20514,7 @@ UnknownCall_0x3D2FC:
 	ld a, 31
 
 UnknownRJump_0x3D304:
-	ld [$A7D2], a
+	ld [sMapPatch0Id], a
 	push af
 	call UnknownCall_0x3F8E
 	pop af
@@ -20537,7 +20537,7 @@ UnknownCall_0x3D324:
 	ld a, 39
 
 UnknownRJump_0x3D32C:
-	ld [$A7D2], a
+	ld [sMapPatch0Id], a
 	push af
 	call UnknownCall_0x3F8E
 	pop af
@@ -20622,7 +20622,7 @@ UnknownCall_0x3D371:
 	ld [sMapFrameCounter], a
 	ld [sMapAnimIndexB], a
 	ld [sMapUnused4], a
-	ld [$A783], a
+	ld [sMapTreeAnimStep], a
 	ld a, 5
 	ld [$A468], a
 	call UnknownCall_0x2AAA
@@ -20639,7 +20639,7 @@ UnknownCall_0x3D409:
 	or a
 	ret nz
 	ld a, 16
-	ld [$A7D2], a
+	ld [sMapPatch0Id], a
 	ld a, 107
 	ld [sMapNode], a
 	call UnknownCall_0x3EEA4
@@ -20648,7 +20648,7 @@ UnknownCall_0x3D409:
 	jr z, UnknownRJump_0x3D432
 
 	xor a
-	ld [$A7BA], a
+	ld [sMapGrowthActive], a
 	ret
 
 
@@ -20656,7 +20656,7 @@ UnknownRJump_0x3D432:
 	set 0, a
 	ld [sMapMacroPath0], a
 	ld a, 255
-	ld [$A7BA], a
+	ld [sMapGrowthActive], a
 	ret
 
 UnknownCall_0x3D43D:
@@ -20680,14 +20680,14 @@ UnknownRJump_0x3D45C:
 
 UnknownCall_0x3D45D:
 	xor a
-	ld [$A7BA], a
+	ld [sMapGrowthActive], a
 	ld a, [sMapMacroPath0]
 	and $01
 	ret z
 	ld a, 16
 
 UnknownRJump_0x3D469:
-	ld [$A7D2], a
+	ld [sMapPatch0Id], a
 	push af
 	call UnknownCall_0x3F8E
 	pop af
@@ -20768,8 +20768,8 @@ UnknownRJump_0x3D4D3:
 	ld [sMapFrameCounter], a
 	ld [sMapAnimIndexB], a
 	ld [sMapUnused4], a
-	ld [$A783], a
-	ld [$A7BD], a
+	ld [sMapTreeAnimStep], a
+	ld [sSpaceBlinkTimer], a
 	ld a, 28
 	ld [$A468], a
 	call UnknownCall_0x2AAA
@@ -20783,7 +20783,7 @@ UnknownCall_0x3D533:
 	or a
 	ret nz
 	ld a, 47
-	ld [$A7D2], a
+	ld [sMapPatch0Id], a
 	ld a, 67
 	ld [sMapNode], a
 	call UnknownCall_0x3EEA4
@@ -20792,9 +20792,9 @@ UnknownCall_0x3D533:
 	jr nz, UnknownRJump_0x3D562
 	ld e, a
 	ld a, 1
-	ld [$A7BB], a
+	ld [sSpaceLaunchState], a
 	ld a, 60
-	ld [$A7BC], a
+	ld [sSpaceLaunchTimer], a
 	ld a, 117
 	ld [sMapSprite7X], a
 	ld a, e
@@ -20818,37 +20818,37 @@ UnknownCall_0x3D56B:
 	bit 7, a
 	ret z
 	ld a, 57
-	ld [$A7D2], a
+	ld [sMapPatch0Id], a
 	call UnknownCall_0x3F8E
 	ret
 
 UnknownCall_0x3D58D:
 	ld a, 0
-	ld [$A7BB], a
+	ld [sSpaceLaunchState], a
 	ld a, [sMapSpacePath0]
 	and $01
 	ret z
 	ld a, 56
-	ld [$A7D2], a
+	ld [sMapPatch0Id], a
 	call UnknownCall_0x3F8E
 	ld a, 51
-	ld [$A7D2], a
+	ld [sMapPatch0Id], a
 	ld a, 52
-	ld [$A7D5], a
+	ld [sMapPatch1Id], a
 	call UnknownCall_0x3F8E
 	ld a, 112
 	ld [sMapSprite5Id], a
 	ld a, 3
-	ld [$A7BB], a
+	ld [sSpaceLaunchState], a
 	ld a, 0
-	ld [$A7BC], a
+	ld [sSpaceLaunchTimer], a
 	ld a, 123
 	ld [sMapSprite7X], a
 	ld a, [sMapGateSpace]
 	bit 7, a
 	ret z
 	ld a, 57
-	ld [$A7D2], a
+	ld [sMapPatch0Id], a
 	call UnknownCall_0x3F8E
 	ret
 
@@ -20929,7 +20929,7 @@ UnknownCall_0x3D61F:
 	ld [sMapFrameCounter], a
 	ld [sMapAnimIndexB], a
 	ld [sMapUnused4], a
-	ld [$A783], a
+	ld [sMapTreeAnimStep], a
 	ld a, 160
 	ld [sMapMovingX], a
 	ld a, 18
@@ -21014,12 +21014,12 @@ UnknownCall_0x3D6EB:
 	xor a
 	ldh_n_a $81
 	ld [sMapFrameCounter], a
-	ld [$A79E], a
-	ld [$A79D], a
+	ld [sTurtleMoveState], a
+	ld [sMapTransitionState], a
 	ld a, 1
-	ld [$A79F], a
+	ld [sTurtleBlinkTimer], a
 	ld a, 23
-	ld [$A78B], a
+	ld [sMapBandScroll1], a
 	ld a, 14
 	ld [$A468], a
 	call UnknownCall_0x2AAA
@@ -21099,13 +21099,13 @@ UnknownCall_0x3D79A:
 	rlca
 	rlca
 	add 6
-	ld [$A7D8], a
+	ld [sMapPatch2Id], a
 	ld a, [sMapMarioPath2]
 	and $80
 	rlca
 	rlca
 	add 9
-	ld [$A7DB], a
+	ld [sMapPatch3Id], a
 	call UnknownCall_0x3F8E
 	ld hl, sMapMarioPath0
 	ld de, sMapSprite5Id
@@ -21119,7 +21119,7 @@ UnknownCall_0x3D79A:
 	ld [sMapFrameCounter], a
 	ld [sMapAnimIndexB], a
 	ld [sMapUnused4], a
-	ld [$A783], a
+	ld [sMapTreeAnimStep], a
 	ld a, 27
 	ld [$A468], a
 	call UnknownCall_0x2AAA
@@ -21180,7 +21180,7 @@ UnknownCall_0x3D880:
 	xor a
 	ldh_n_a $81
 	ld [sMapFrameCounter], a
-	ld [$A7AA], a
+	ld [sCastleMarkerCol], a
 	ld a, 13
 	ld [$A468], a
 	call UnknownCall_0x2AAA
@@ -21315,7 +21315,7 @@ UnknownRJump_0x3D99D:
 	ld a, [sMapFrameCounter]
 	and $07
 	jr nz, UnknownRJump_0x3DA12
-	ld a, [$A7BA]
+	ld a, [sMapGrowthActive]
 	or a
 	jr z, UnknownRJump_0x3DA12
 	ld a, [sMapNode]
@@ -21324,7 +21324,7 @@ UnknownRJump_0x3D99D:
 	ld a, [sMapGatePumpkinB]
 	bit 7, a
 	jr nz, UnknownRJump_0x3D9DE
-	ld a, [$A7D2]
+	ld a, [sMapPatch0Id]
 	cp $27
 	jr nc, UnknownRJump_0x3D9DE
 	inc a
@@ -21333,12 +21333,12 @@ UnknownRJump_0x3D99D:
 	ld a, 21
 	ld [$A460], a
 	ld a, 255
-	ld [$A7D2], a
+	ld [sMapPatch0Id], a
 	call UnknownCall_0x3F8E
 	jr UnknownRJump_0x3D9DE
 
 UnknownRJump_0x3D9D3:
-	ld [$A7D2], a
+	ld [sMapPatch0Id], a
 	call UnknownCall_0x3F8E
 	ld a, 6
 	ld [$A460], a
@@ -21350,7 +21350,7 @@ UnknownRJump_0x3D9DE:
 	ld a, [sMapGatePumpkinC]
 	bit 7, a
 	jr nz, UnknownRJump_0x3DA12
-	ld a, [$A7D5]
+	ld a, [sMapPatch1Id]
 	cp $2F
 	jr nc, UnknownRJump_0x3DA12
 	inc a
@@ -21359,12 +21359,12 @@ UnknownRJump_0x3D9DE:
 	ld a, 21
 	ld [$A460], a
 	ld a, 255
-	ld [$A7D5], a
+	ld [sMapPatch1Id], a
 	call UnknownCall_0x3F8E
 	jr UnknownRJump_0x3DA12
 
 UnknownRJump_0x3DA07:
-	ld [$A7D5], a
+	ld [sMapPatch1Id], a
 	call UnknownCall_0x3F8E
 	ld a, 6
 	ld [$A460], a
@@ -21379,16 +21379,16 @@ UnknownData_0x3DA16: ;data block, read at line 21209
 
 
 UnknownCall_0x3DA2D:
-	ld a, [$A784]
+	ld a, [sMapTreeAnimTick]
 	inc a
-	ld [$A784], a
+	ld [sMapTreeAnimTick], a
 	cp $0A
 	jr c, UnknownRJump_0x3DA66
 	xor a
-	ld [$A784], a
-	ld a, [$A783]
+	ld [sMapTreeAnimTick], a
+	ld a, [sMapTreeAnimStep]
 	inc a
-	ld [$A783], a
+	ld [sMapTreeAnimStep], a
 	ld d, a
 	and $03
 	ld e, a
@@ -21528,13 +21528,13 @@ UnknownRJump_0x3DB0B:
 	jr nz, UnknownRJump_0x3DB00
 
 UnknownCall_0x3DB12:
-	ld a, [$A7BA]
+	ld a, [sMapGrowthActive]
 	or a
 	ret z
 	ld a, [sMapFrameCounter]
 	and $07
 	ret nz
-	ld a, [$A7D2]
+	ld a, [sMapPatch0Id]
 	cp $1F
 	ret nc
 	inc a
@@ -21543,11 +21543,11 @@ UnknownCall_0x3DB12:
 	ld a, 21
 	ld [$A460], a
 	ld a, 255
-	ld [$A7D2], a
+	ld [sMapPatch0Id], a
 	jr UnknownRJump_0x3DB3C
 
 UnknownRJump_0x3DB34:
-	ld [$A7D2], a
+	ld [sMapPatch0Id], a
 	ld a, 6
 	ld [$A460], a
 
@@ -21559,7 +21559,7 @@ UnknownCall_0x3DB40:
 	ld a, [sMapFrameCounter]
 	and $03
 	jr nz, UnknownRJump_0x3DB7A
-	ld a, [$A7BD]
+	ld a, [sSpaceBlinkTimer]
 	or a
 	jr nz, UnknownRJump_0x3DB68
 	push bc
@@ -21568,12 +21568,12 @@ UnknownCall_0x3DB40:
 	swap a
 	add b
 	ld b, a
-	ld a, [$A7B7]
+	ld a, [sMapRandAccum]
 	add b
 	ld b, a
 	ldh_a_n $97
 	add b
-	ld [$A7B7], a
+	ld [sMapRandAccum], a
 	pop bc
 	and $07
 	jr nz, UnknownRJump_0x3DB7A
@@ -21581,7 +21581,7 @@ UnknownCall_0x3DB40:
 
 UnknownRJump_0x3DB68:
 	dec a
-	ld [$A7BD], a
+	ld [sSpaceBlinkTimer], a
 	dec a
 	and $03
 	ld hl, $5D58
@@ -21724,7 +21724,7 @@ UnknownRJump_0x3DC59:
 	ret
 
 UnknownCall_0x3DC62:
-	ld a, [$A7BB]
+	ld a, [sSpaceLaunchState]
 	or a
 	jr nz, UnknownRJump_0x3DC71
 	ld a, 255
@@ -21754,12 +21754,12 @@ UnknownRJump_0x3DC71:
 	sub 3
 	ld [sMapSprite5Y], a
 	ld [sMapSprite6X], a
-	ld a, [$A7BC]
+	ld a, [sSpaceLaunchTimer]
 	dec a
-	ld [$A7BC], a
+	ld [sSpaceLaunchTimer], a
 	ret nz
 	ld a, 2
-	ld [$A7BB], a
+	ld [sSpaceLaunchState], a
 	ld a, 168
 	ld [sMapSprite5X], a
 	ld a, 14
@@ -21767,7 +21767,7 @@ UnknownRJump_0x3DC71:
 	ld a, 255
 	ld [sMapSprite6Y], a
 	ld a, 10
-	ld [$A7BC], a
+	ld [sSpaceLaunchTimer], a
 	ret
 
 UnknownRJump_0x3DCC4:
@@ -21781,12 +21781,12 @@ UnknownRJump_0x3DCC4:
 	ld [sMapSprite5Y], a
 	ld a, 111
 	ld [sMapSprite5Id], a
-	ld a, [$A7BC]
+	ld a, [sSpaceLaunchTimer]
 	dec a
-	ld [$A7BC], a
+	ld [sSpaceLaunchTimer], a
 	ret nz
 	ld a, 3
-	ld [$A7BB], a
+	ld [sSpaceLaunchState], a
 	ld a, 156
 	ld [sMapSprite5X], a
 	ld a, 36
@@ -21796,12 +21796,12 @@ UnknownRJump_0x3DCC4:
 	ld a, 255
 	ld [sMapSprite6Y], a
 	ld a, 56
-	ld [$A7D2], a
+	ld [sMapPatch0Id], a
 	ld a, 52
-	ld [$A7D5], a
+	ld [sMapPatch1Id], a
 	call UnknownCall_0x3F8E
 	ld a, 20
-	ld [$A7BC], a
+	ld [sSpaceLaunchTimer], a
 	ld a, 24
 	ld [$A460], a
 	ret
@@ -21818,20 +21818,20 @@ UnknownRJump_0x3DD16:
 	ld a, 0
 	ld [sScrollX], a
 	ld [sScrollY], a
-	ld a, [$A7BC]
+	ld a, [sSpaceLaunchTimer]
 	or a
 	ret z
 	dec a
-	ld [$A7BC], a
+	ld [sSpaceLaunchTimer], a
 	ld a, [sMapFrameCounter]
 	bit 1, a
 	ret z
-	ld a, [$A7BC]
+	ld a, [sSpaceLaunchTimer]
 	srl a
 	ld [sScrollX], a
 	cpl
 	ld [sScrollY], a
-	ld a, [$A7BC]
+	ld a, [sSpaceLaunchTimer]
 	or a
 	ret nz
 
@@ -21951,17 +21951,17 @@ UnknownRJump_0x3DE25:
 	swap a
 	add b
 	ld b, a
-	ld a, [$A7B7]
+	ld a, [sMapRandAccum]
 	add b
 	ld b, a
 	ldh_a_n $97
 	add b
-	ld [$A7B7], a
+	ld [sMapRandAccum], a
 	pop bc
-	ld a, [$A7B7]
+	ld a, [sMapRandAccum]
 	and $01
 	add 53
-	ld [$A7D2], a
+	ld [sMapPatch0Id], a
 	call UnknownCall_0x3F8E
 
 UnknownRJump_0x3DE4E:
@@ -22111,22 +22111,22 @@ UnknownRJump_0x3DF0B:
 	ld hl, $5FC8
 	add hl, de
 	ld a, [hl]
-	ld [$A7D2], a
+	ld [sMapPatch0Id], a
 	ld hl, $5FD0
 	add hl, de
 	ld a, [hl]
-	ld [$A7D5], a
+	ld [sMapPatch1Id], a
 	ld a, [sMapMarioPath1]
 	bit 7, a
 	jr nz, UnknownRJump_0x3DF83
 	ld a, [sMapMarioPath0]
 	bit 7, a
 	jr z, UnknownRJump_0x3DF83
-	ld a, [$A7D8]
+	ld a, [sMapPatch2Id]
 	cp $08
 	jr nc, UnknownRJump_0x3DF83
 	inc a
-	ld [$A7D8], a
+	ld [sMapPatch2Id], a
 
 UnknownRJump_0x3DF83:
 	ld a, [sMapMarioPath2]
@@ -22135,11 +22135,11 @@ UnknownRJump_0x3DF83:
 	ld a, [sMapMarioPath1]
 	bit 7, a
 	jr z, UnknownRJump_0x3DF9C
-	ld a, [$A7DB]
+	ld a, [sMapPatch3Id]
 	cp $0B
 	jr nc, UnknownRJump_0x3DF9C
 	inc a
-	ld [$A7DB], a
+	ld [sMapPatch3Id], a
 
 UnknownRJump_0x3DF9C:
 	call UnknownCall_0x3F8E
@@ -22157,13 +22157,13 @@ UnknownCall_0x3DFE8:
 	ld a, [sMapFrameCounter]
 	and $07
 	jr nz, UnknownRJump_0x3E003
-	ld a, [$A796]
+	ld a, [sMapSprite1AnimCount]
 	inc a
-	ld [$A796], a
+	ld [sMapSprite1AnimCount], a
 	cp $03
 	jr c, UnknownRJump_0x3DFFE
 	xor a
-	ld [$A796], a
+	ld [sMapSprite1AnimCount], a
 
 UnknownRJump_0x3DFFE:
 	add 53
@@ -22180,10 +22180,10 @@ UnknownRJump_0x3E003:
 	jr nz, UnknownRJump_0x3E02E
 	ld a, 56
 	ld [sMapSprite2Page], a
-	ld a, [$A799]
+	ld a, [sTurtleAnimPhase]
 	inc a
 	and $03
-	ld [$A799], a
+	ld [sTurtleAnimPhase], a
 	ld d, 0
 	ld e, a
 	ld hl, $61D3
@@ -22192,17 +22192,17 @@ UnknownRJump_0x3E003:
 	ld [sMapSprite1Y], a
 
 UnknownRJump_0x3E02E:
-	ld a, [$A79D]
+	ld a, [sMapTransitionState]
 	or a
 	jr nz, UnknownRJump_0x3E08F
 	ld a, [sMapFrameCounter]
 	and $03
 	jr nz, UnknownRJump_0x3E08F
-	ld a, [$A797]
+	ld a, [sMapAnimStep]
 	cp $01
 	jr nz, UnknownRJump_0x3E053
 	ld a, 2
-	ld [$A797], a
+	ld [sMapAnimStep], a
 	ld a, 225
 	ld [sBGPalette], a
 	ld a, 57
@@ -22213,7 +22213,7 @@ UnknownRJump_0x3E053:
 	cp $02
 	jr nz, UnknownRJump_0x3E06B
 	xor a
-	ld [$A797], a
+	ld [sMapAnimStep], a
 	ld a, 225
 	xor $FF
 	ld [sBGPalette], a
@@ -22237,16 +22237,16 @@ UnknownRJump_0x3E06B:
 	xor $FF
 	ld [sOAMPalette2], a
 	ld a, 1
-	ld [$A797], a
+	ld [sMapAnimStep], a
 
 UnknownRJump_0x3E08F:
 	ld a, [sMapFrameCounter]
 	and $01
 	jr nz, UnknownRJump_0x3E0C7
-	ld a, [$A798]
+	ld a, [sMapAnimAccum]
 	inc a
-	ld [$A798], a
-	ld a, [$A79E]
+	ld [sMapAnimAccum], a
+	ld a, [sTurtleMoveState]
 	cp $01
 	jr nz, UnknownRJump_0x3E0A9
 	call UnknownCall_0x3E0CB
@@ -22278,7 +22278,7 @@ UnknownRJump_0x3E0C7:
 	ret
 
 UnknownCall_0x3E0CB:
-	ld a, [$A798]
+	ld a, [sMapAnimAccum]
 	and $03
 	ld d, 0
 	ld e, a
@@ -22305,7 +22305,7 @@ UnknownCall_0x3E0CB:
 	ret
 
 UnknownCall_0x3E0FD:
-	ld a, [$A798]
+	ld a, [sMapAnimAccum]
 	and $03
 	ld d, 0
 	ld e, a
@@ -22358,7 +22358,7 @@ UnknownCall_0x3E147:
 	ret
 
 UnknownCall_0x3E15F:
-	ld a, [$A798]
+	ld a, [sMapAnimAccum]
 	and $0C
 	rrca
 	rrca
@@ -22369,11 +22369,11 @@ UnknownCall_0x3E15F:
 	ld a, [hl]
 	add 63
 	ld [sMapSprite2Id], a
-	ld a, [$A79F]
+	ld a, [sTurtleBlinkTimer]
 	or a
 	jr z, UnknownRJump_0x3E17E
 	dec a
-	ld [$A79F], a
+	ld [sTurtleBlinkTimer], a
 	ret
 
 UnknownJump_0x3E17E:
@@ -22384,7 +22384,7 @@ UnknownRJump_0x3E17E:
 	add e
 	and $07
 	ld e, a
-	ld a, [$A79E]
+	ld a, [sTurtleMoveState]
 	ld d, a
 	cp e
 	jr z, UnknownRJump_0x3E17E
@@ -22413,9 +22413,9 @@ UnknownRJump_0x3E1A4:
 
 UnknownRJump_0x3E1A9:
 	ld a, e
-	ld [$A79E], a
+	ld [sTurtleMoveState], a
 	ld a, 30
-	ld [$A79F], a
+	ld [sTurtleBlinkTimer], a
 	ret
 
 UnknownJump_0x3E1B3:
@@ -22423,14 +22423,14 @@ UnknownJump_0x3E1B3:
 	cp $32
 	jr c, UnknownRJump_0x3E1C0
 	ld a, 1
-	ld [$A79E], a
+	ld [sTurtleMoveState], a
 	ret
 
 UnknownRJump_0x3E1C0:
 	ld a, 2
-	ld [$A79E], a
+	ld [sTurtleMoveState], a
 	ld a, 30
-	ld [$A79F], a
+	ld [sTurtleBlinkTimer], a
 	ret
 
 UnknownData_0x3E1CB: ;data block; no direct reader found
@@ -22497,7 +22497,7 @@ UnknownRJump_0x3E27D:
 	dec d
 	jr nz, UnknownRJump_0x3E27D
 	ld a, 4
-	ld [$A782], a
+	ld [sMapDecorOAMIndex], a
 	ld hl, sMapSprite0Page
 	ld a, 16
 
@@ -22522,7 +22522,7 @@ UnknownRJump_0x3E28B:
 
 UnknownCall_0x3E2A2:
 	xor a
-	ld [$A781], a
+	ld [sMapCloudDriftCounter], a
 	ld a, 255
 	ld c, 48
 	ld hl, sMapSprite0Y
@@ -22533,7 +22533,7 @@ UnknownRJump_0x3E2AD:
 	jr nz, UnknownRJump_0x3E2AD
 	ld a, 255
 	ld c, 48
-	ld hl, $A7D0
+	ld hl, sMapPatchList
 
 UnknownRJump_0x3E2B8:
 	ld [hli], a
@@ -22564,7 +22564,7 @@ UnknownRJump_0x3E2D1:
 	inc de
 	inc de
 	inc de
-	ld hl, $A7D0
+	ld hl, sMapPatchList
 	ld c, 16
 
 UnknownRJump_0x3E2DE:
@@ -22589,9 +22589,9 @@ UnknownRJump_0x3E2EE:
 	ret
 
 UnknownCall_0x3E2F7:
-	ld [$A786], a
+	ld [sMapTransitionDir], a
 	ld a, 2
-	ld [$A79D], a
+	ld [sMapTransitionState], a
 	ld a, 40
 
 UnknownRJump_0x3E301:
@@ -22652,7 +22652,7 @@ UnknownRJump_0x3E356:
 	or c
 	jr nz, UnknownRJump_0x3E352
 	xor a
-	ld [$A79D], a
+	ld [sMapTransitionState], a
 	ret
 
 UnknownCall_0x3E367:
@@ -22715,9 +22715,9 @@ UnknownRJump_0x3E3B5:
 	ret
 
 UnknownCall_0x3E3BA:
-	ld [$A786], a
+	ld [sMapTransitionDir], a
 	ld a, 1
-	ld [$A79D], a
+	ld [sMapTransitionState], a
 	ld a, 146
 	ld [sMapCursorAnim], a
 	ld d, 228
@@ -22769,11 +22769,11 @@ UnknownRJump_0x3E40D:
 	dec a
 	jr nz, UnknownRJump_0x3E40D
 	xor a
-	ld [$A79D], a
+	ld [sMapTransitionState], a
 	ret
 
 UnknownCall_0x3E426:
-	ld a, [$A786]
+	ld a, [sMapTransitionDir]
 	cp $01
 	jr z, UnknownRJump_0x3E49F
 	cp $02
@@ -22894,7 +22894,7 @@ UnknownRJump_0x3E4D2:
 	dec a
 	jr nz, UnknownRJump_0x3E4D2
 	xor a
-	ld [$A79D], a
+	ld [sMapTransitionState], a
 	ret
 
 UnknownCall_0x3E4EB:
@@ -22965,19 +22965,19 @@ UnknownData_0x3E50E: ;data block; no direct reader found
 
 UnknownCall_0x3E7BE:
 	ld hl, $88E0
-	ld de, $A700
+	ld de, sMapWaveStrip0
 	ld c, 32
 	call UnknownCall_0x3E7EB
 	ld hl, $89E0
-	ld de, $A720
+	ld de, sMapWaveStrip1
 	ld c, 32
 	call UnknownCall_0x3E7EB
 	ld hl, $8CE0
-	ld de, $A740
+	ld de, sMapWaveStrip2
 	ld c, 32
 	call UnknownCall_0x3E7EB
 	ld hl, $8DE0
-	ld de, $A760
+	ld de, sMapWaveStrip3
 	ld c, 32
 	call UnknownCall_0x3E7EB
 	ret
@@ -22998,26 +22998,26 @@ UnknownCall_0x3E7F2:
 	ld e, a
 	and $03
 	jr nz, UnknownRJump_0x3E823
-	ld a, [$A78A]
+	ld a, [sMapBandScroll0]
 	dec a
-	ld [$A78A], a
+	ld [sMapBandScroll0], a
 	ld a, e
 	and $04
 	jr nz, UnknownRJump_0x3E823
-	ld a, [$A78B]
+	ld a, [sMapBandScroll1]
 	dec a
 	cp $18
 	jr c, UnknownRJump_0x3E814
 	ld a, 23
 
 UnknownRJump_0x3E814:
-	ld [$A78B], a
+	ld [sMapBandScroll1], a
 	ld a, e
 	and $08
 	jr nz, UnknownRJump_0x3E823
-	ld a, [$A78C]
+	ld a, [sMapBandScroll2]
 	dec a
-	ld [$A78C], a
+	ld [sMapBandScroll2], a
 
 UnknownRJump_0x3E823:
 	ld e, 255
@@ -23026,21 +23026,21 @@ UnknownRJump_0x3E825:
 	ldh a, [rLY]
 	cp $0F
 	jr nc, UnknownRJump_0x3E832
-	ld a, [$A78A]
+	ld a, [sMapBandScroll0]
 	ldh [rSCX], a
 	jr UnknownRJump_0x3E84B
 
 UnknownRJump_0x3E832:
 	cp $17
 	jr nc, UnknownRJump_0x3E83D
-	ld a, [$A78B]
+	ld a, [sMapBandScroll1]
 	ldh [rSCX], a
 	jr UnknownRJump_0x3E84B
 
 UnknownRJump_0x3E83D:
 	cp $1F
 	jr nc, UnknownRJump_0x3E848
-	ld a, [$A78C]
+	ld a, [sMapBandScroll2]
 	ldh [rSCX], a
 	jr UnknownRJump_0x3E84B
 
@@ -23069,7 +23069,7 @@ UnknownCall_0x3E853:
 	bit 0, b
 	jp z, UnknownJump_0x3E929
 	ld h, 136
-	ld bc, $A700
+	ld bc, sMapWaveStrip0
 	ld a, e
 	or $F0
 	ld l, a
@@ -23092,7 +23092,7 @@ UnknownCall_0x3E853:
 	ld [hl], a
 	ld [bc], a
 	ld h, 137
-	ld bc, $A720
+	ld bc, sMapWaveStrip1
 	ld a, e
 	or $F0
 	ld l, a
@@ -23115,7 +23115,7 @@ UnknownCall_0x3E853:
 	ld [hl], a
 	ld [bc], a
 	ld h, 140
-	ld bc, $A740
+	ld bc, sMapWaveStrip2
 	ld a, e
 	or $F0
 	ld l, a
@@ -23138,7 +23138,7 @@ UnknownCall_0x3E853:
 	ld [hl], a
 	ld [bc], a
 	ld h, 141
-	ld bc, $A760
+	ld bc, sMapWaveStrip3
 	ld a, e
 	or $F0
 	ld l, a
@@ -23162,7 +23162,7 @@ UnknownCall_0x3E853:
 	ld [bc], a
 	set 0, e
 	ld h, 140
-	ld bc, $A740
+	ld bc, sMapWaveStrip2
 	ld a, e
 	or $F0
 	ld l, a
@@ -23185,7 +23185,7 @@ UnknownCall_0x3E853:
 	ld [hl], a
 	ld [bc], a
 	ld h, 141
-	ld bc, $A760
+	ld bc, sMapWaveStrip3
 	ld a, e
 	or $F0
 	ld l, a
@@ -23211,7 +23211,7 @@ UnknownCall_0x3E853:
 
 UnknownJump_0x3E929:
 	ld h, 136
-	ld bc, $A700
+	ld bc, sMapWaveStrip0
 	ld a, e
 	or $F0
 	ld l, a
@@ -23234,7 +23234,7 @@ UnknownJump_0x3E929:
 	ld [hl], a
 	ld [bc], a
 	ld h, 137
-	ld bc, $A720
+	ld bc, sMapWaveStrip1
 	ld a, e
 	or $F0
 	ld l, a
@@ -23257,7 +23257,7 @@ UnknownJump_0x3E929:
 	ld [hl], a
 	ld [bc], a
 	ld h, 140
-	ld bc, $A740
+	ld bc, sMapWaveStrip2
 	ld a, e
 	or $F0
 	ld l, a
@@ -23280,7 +23280,7 @@ UnknownJump_0x3E929:
 	ld [hl], a
 	ld [bc], a
 	ld h, 141
-	ld bc, $A760
+	ld bc, sMapWaveStrip3
 	ld a, e
 	or $F0
 	ld l, a
@@ -23304,7 +23304,7 @@ UnknownJump_0x3E929:
 	ld [bc], a
 	set 0, e
 	ld h, 140
-	ld bc, $A740
+	ld bc, sMapWaveStrip2
 	ld a, e
 	or $F0
 	ld l, a
@@ -23327,7 +23327,7 @@ UnknownJump_0x3E929:
 	ld [hl], a
 	ld [bc], a
 	ld h, 141
-	ld bc, $A760
+	ld bc, sMapWaveStrip3
 	ld a, e
 	or $F0
 	ld l, a
@@ -23354,10 +23354,10 @@ UnknownJump_0x3E929:
 UnknownCall_0x3E9EC:
 	ei
 	xor a
-	ld [$A785], a
+	ld [sMapFrameSyncFlag], a
 
 UnknownRJump_0x3E9F1:
-	ld a, [$A785]
+	ld a, [sMapFrameSyncFlag]
 	or a
 	jr z, UnknownRJump_0x3E9F1
 	call UnknownCall_0x3EAD7
@@ -23647,15 +23647,15 @@ UnknownCall_0x3EBD5:
 	ld c, [hl]
 	inc hl
 	ld b, [hl]
-	ld a, [$A7A5]
+	ld a, [sCastleRevealProgress]
 	and $7C
 	srl a
 	srl a
 	cp $1E
 	jr c, UnknownRJump_0x3EBFD
-	ld a, [$A7A5]
+	ld a, [sCastleRevealProgress]
 	and $77
-	ld [$A7A5], a
+	ld [sCastleRevealProgress], a
 	ld a, 29
 
 UnknownRJump_0x3EBFD:
@@ -23710,7 +23710,7 @@ UnknownRJump_0x3EC0E:
 	and $0F
 	add 128
 	ld [bc], a
-	ld a, [$A7AA]
+	ld a, [sCastleMarkerCol]
 	bit 7, a
 	ret z
 	and $0F
@@ -23741,19 +23741,19 @@ UnknownCall_0x3EC7D:
 	ld a, [sMapGatePumpkinC]
 	bit 7, a
 	ret z
-	ld a, [$A7BE]
+	ld a, [sMapIRQDivider]
 	inc a
 	cp $0E
 	jr c, UnknownRJump_0x3EC8C
 	xor a
 
 UnknownRJump_0x3EC8C:
-	ld [$A7BE], a
+	ld [sMapIRQDivider], a
 	or a
 	ret nz
-	ld a, [$A7BF]
+	ld a, [sMapIRQPatchIndex]
 	inc a
-	ld [$A7BF], a
+	ld [sMapIRQPatchIndex], a
 	and $3F
 	ld d, 0
 	ld e, a
@@ -23782,19 +23782,19 @@ UnknownCall_0x3ECF5:
 	ld a, [sMapGatePumpkinA]
 	bit 7, a
 	ret z
-	ld a, [$A7BE]
+	ld a, [sMapIRQDivider]
 	inc a
 	cp $0E
 	jr c, UnknownRJump_0x3ED04
 	xor a
 
 UnknownRJump_0x3ED04:
-	ld [$A7BE], a
+	ld [sMapIRQDivider], a
 	or a
 	ret nz
-	ld a, [$A7BF]
+	ld a, [sMapIRQPatchIndex]
 	inc a
-	ld [$A7BF], a
+	ld [sMapIRQPatchIndex], a
 	and $07
 	ld d, 0
 	ld e, a
@@ -24431,7 +24431,7 @@ UnknownCall_0x3F156:
 	ld [sScrollX], a
 	ld a, 0
 	ld [sMapCursorWalking], a
-	ld [$A789], a
+	ld [sMapRockAnimTimer], a
 	ld [sMapScreenId], a
 	ld hl, $7800
 	ld bc, $B800
@@ -24478,8 +24478,8 @@ UnknownRJump_0x3F1C2:
 	call UnknownCall_0x3CBE7
 	call UnknownCall_0x3CE43
 	xor a
-	ld [$A7A0], a
-	ld [$A7A9], a
+	ld [sMapScrollOnlyLatch], a
+	ld [sMapSparkleTimer], a
 	ld a, 0
 	ld [sMapCursorAnim], a
 	ld a, 6
@@ -24653,18 +24653,18 @@ UnknownCall_0x3F307:
 	ld [sMapCursorWalking], a
 	ldh_n_a $81
 	ld [sMapFrameCounter], a
-	ld [$A795], a
-	ld [$A796], a
-	ld [$A797], a
-	ld [$A798], a
-	ld [$A799], a
-	ld [$A79A], a
-	ld [$A79B], a
-	ld [$A79C], a
-	ld [$A7A7], a
-	ld [$A7A8], a
+	ld [sCastleWalkPhase], a
+	ld [sMapSprite1AnimCount], a
+	ld [sMapAnimStep], a
+	ld [sMapAnimAccum], a
+	ld [sTurtleAnimPhase], a
+	ld [sCastleWalkScriptIdx], a
+	ld [sCastleUnused1], a
+	ld [sCastleUnused2], a
+	ld [sCastleStateTimer], a
+	ld [sCastleItemIndex], a
 	ld a, 4
-	ld [$A7A6], a
+	ld [sCastleState], a
 	call UnknownCall_0x3E46
 	ret
 
@@ -24827,7 +24827,7 @@ UnknownCall_0x3F4A0:
 	ld a, 24
 	ld hl, $4A81
 	call UnknownCall_0x3E00
-	ld a, [$A7A6]
+	ld a, [sCastleState]
 	cp $03
 	call z, UnknownCall_0x3D880
 	ret
@@ -24849,16 +24849,16 @@ UnknownCall_0x3F4B1:
 	ld [sMapCursorWalking], a
 	ldh_n_a $81
 	ld [sMapFrameCounter], a
-	ld [$A795], a
-	ld [$A796], a
-	ld [$A797], a
-	ld [$A798], a
-	ld [$A799], a
-	ld [$A79A], a
-	ld [$A79B], a
-	ld [$A79C], a
-	ld [$A7A6], a
-	ld [$A7A7], a
+	ld [sCastleWalkPhase], a
+	ld [sMapSprite1AnimCount], a
+	ld [sMapAnimStep], a
+	ld [sMapAnimAccum], a
+	ld [sTurtleAnimPhase], a
+	ld [sCastleWalkScriptIdx], a
+	ld [sCastleUnused1], a
+	ld [sCastleUnused2], a
+	ld [sCastleState], a
+	ld [sCastleStateTimer], a
 	ld a, [sTimerHigh]
 	and $0F
 	jr nz, UnknownRJump_0x3F507
@@ -24879,11 +24879,11 @@ UnknownRJump_0x3F510:
 	ld hl, $4A58
 UnknownRJump_0x3F513:
 	ld a, l
-	ld [$A7AE], a
-	ld [$A7B5], a
+	ld [sCastleScriptPtrLo], a
+	ld [sCastleScriptPtrLoCopy], a
 	ld a, h
-	ld [$A7AF], a
-	ld [$A7B6], a
+	ld [sCastleScriptPtrHi], a
+	ld [sCastleScriptPtrHiCopy], a
 	call UnknownCall_0x3E46
 	ld a, 17 ;prepare bank switch
 	ld bc, $0400
@@ -24908,28 +24908,28 @@ UnknownRJump_0x3F513:
 	ld a, 5
 	ld [$A460], a
 	ld a, 144
-	ld hl, $A7D5
+	ld hl, sMapPatch1Id
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
 	ld [hl], a
 	ld a, 96
-	ld hl, $A7DA
+	ld hl, sCastleSlotCounter
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
 	ld [hl], a
 	ld a, 3
-	ld hl, $A7D0
+	ld hl, sMapPatchList
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
 	ld [hl], a
 	ld a, 2
-	ld hl, $A7DF
+	ld hl, sCastleSlotDelay
 	ld [hli], a
 	add 24
 	ld [hli], a
@@ -24940,7 +24940,7 @@ UnknownRJump_0x3F513:
 	add 24
 	ld [hl], a
 	ld a, 0
-	ld [$A7E9], a
+	ld [sCastleSlotIndex], a
 	ld a, 195
 	ldh_n_a $40
 	ld a, 21
@@ -24966,20 +24966,20 @@ UnknownCall_0x3F5A4:
 	ld [sMapCursorWalking], a
 	ldh_n_a $81
 	ld [sMapFrameCounter], a
-	ld [$A795], a
-	ld [$A796], a
-	ld [$A797], a
-	ld [$A798], a
-	ld [$A799], a
-	ld [$A79A], a
-	ld [$A79B], a
-	ld [$A79C], a
-	ld [$A7A6], a
-	ld [$A7A7], a
-	ld [$A7B0], a
-	ld [$A7B1], a
-	ld [$A7B3], a
-	ld [$A7A8], a
+	ld [sCastleWalkPhase], a
+	ld [sMapSprite1AnimCount], a
+	ld [sMapAnimStep], a
+	ld [sMapAnimAccum], a
+	ld [sTurtleAnimPhase], a
+	ld [sCastleWalkScriptIdx], a
+	ld [sCastleUnused1], a
+	ld [sCastleUnused2], a
+	ld [sCastleState], a
+	ld [sCastleStateTimer], a
+	ld [sCastleDecorSlotA], a
+	ld [sCastleDecorSlotB], a
+	ld [sCastleSpriteAnimState], a
+	ld [sCastleItemIndex], a
 	call UnknownCall_0x3E46
 	ld a, 17 ;prepare bank switch
 	ld bc, $0240
@@ -35472,7 +35472,7 @@ UnknownData_0x60000: ;byte table (values 0-$0B); no direct reader found
 	db $03, $02, $04, $00, $06, $00, $0B, $04, $05, $04, $06, $05, $04, $00, $07, $0B
 	db $0A, $0B, $06, $08, $06, $09, $0B, $0A
 
-	ld a, [$A7A6]
+	ld a, [sCastleState]
 	add a
 	ld d, 0
 	ld e, a
@@ -35483,7 +35483,7 @@ UnknownData_0x60000: ;byte table (values 0-$0B); no direct reader found
 	ld l, a
 	jp hl
 
-UnknownData_0x60037: ;state handler table, `jp hl` targets, indexed by [$A7A6] (read via `ld hl, $4037`)
+UnknownData_0x60037: ;state handler table, `jp hl` targets, indexed by [sCastleState] (read via `ld hl, $4037`)
 	dw $404F, UnknownRJump_0x60097, UnknownJump_0x600D3, UnknownJump_0x6012B
 	dw UnknownJump_0x60182, UnknownJump_0x6022A, $4340, UnknownJump_0x60433
 	dw $4441, $4444, UnknownJump_0x60461, UnknownJump_0x60461
@@ -35496,7 +35496,7 @@ UnknownData_0x60037: ;state handler table, `jp hl` targets, indexed by [$A7A6] (
 	cp $28
 	jr nz, UnknownRJump_0x6006E
 	ld a, 1
-	ld [$A7A6], a
+	ld [sCastleState], a
 	call UnknownCall_0x60C41
 	ldh_n_a $C6
 	jr UnknownRJump_0x60097
@@ -35507,18 +35507,18 @@ UnknownRJump_0x6006E:
 	ld a, [sMapFrameCounter]
 	and $02
 	jr z, UnknownRJump_0x60088
-	ld a, [$A795]
+	ld a, [sCastleWalkPhase]
 	inc a
-	ld [$A795], a
+	ld [sCastleWalkPhase], a
 	cp $03
 	jr c, UnknownRJump_0x60088
 	xor a
-	ld [$A795], a
+	ld [sCastleWalkPhase], a
 
 UnknownRJump_0x60088:
 	call UnknownCall_0x60C41
 	ld e, a
-	ld a, [$A795]
+	ld a, [sCastleWalkPhase]
 	add e
 	inc a
 	ldh_n_a $C6
@@ -35537,23 +35537,23 @@ UnknownRJump_0x60097:
 
 UnknownRJump_0x600AC:
 	ld a, 4
-	ld [$A7A6], a
+	ld [sCastleState], a
 	ld a, 16
-	ld [$A7A7], a
+	ld [sCastleStateTimer], a
 	jp UnknownJump_0x60182
 
 UnknownRJump_0x600B9:
 	ld a, 2
-	ld [$A7A6], a
+	ld [sCastleState], a
 	ld a, 32
-	ld [$A7A7], a
+	ld [sCastleStateTimer], a
 	jp UnknownJump_0x600D3
 
 UnknownRJump_0x600C6:
 	ld a, 3
-	ld [$A7A6], a
+	ld [sCastleState], a
 	ld a, 32
-	ld [$A7A7], a
+	ld [sCastleStateTimer], a
 	jp UnknownJump_0x6012B
 
 UnknownJump_0x600D3:
@@ -35564,29 +35564,29 @@ UnknownJump_0x600D3:
 	ldh_a_n $C5
 	cp $28
 	jp z, UnknownJump_0x6011D
-	ld a, [$A7A7]
+	ld a, [sCastleStateTimer]
 	or a
 	jr z, UnknownRJump_0x6011D
 	dec a
-	ld [$A7A7], a
+	ld [sCastleStateTimer], a
 	ldh_a_n $C5
 	dec a
 	ldh_n_a $C5
 	ld a, [sMapFrameCounter]
 	and $02
 	jr z, UnknownRJump_0x6010D
-	ld a, [$A795]
+	ld a, [sCastleWalkPhase]
 	inc a
-	ld [$A795], a
+	ld [sCastleWalkPhase], a
 	cp $03
 	jr c, UnknownRJump_0x6010D
 	xor a
-	ld [$A795], a
+	ld [sCastleWalkPhase], a
 
 UnknownRJump_0x6010D:
 	call UnknownCall_0x60C41
 	ld e, a
-	ld a, [$A795]
+	ld a, [sCastleWalkPhase]
 	add e
 	add 5
 	ldh_n_a $C6
@@ -35595,7 +35595,7 @@ UnknownRJump_0x6010D:
 UnknownJump_0x6011D:
 UnknownRJump_0x6011D:
 	ld a, 1
-	ld [$A7A6], a
+	ld [sCastleState], a
 	call UnknownCall_0x60C41
 	ldh_n_a $C6
 	jp UnknownJump_0x60461
@@ -35608,29 +35608,29 @@ UnknownJump_0x6012B:
 	ldh_a_n $C5
 	cp $88
 	jp z, UnknownJump_0x60174
-	ld a, [$A7A7]
+	ld a, [sCastleStateTimer]
 	or a
 	jr z, UnknownRJump_0x60174
 	dec a
-	ld [$A7A7], a
+	ld [sCastleStateTimer], a
 	ldh_a_n $C5
 	inc a
 	ldh_n_a $C5
 	ld a, [sMapFrameCounter]
 	and $02
 	jr z, UnknownRJump_0x60165
-	ld a, [$A795]
+	ld a, [sCastleWalkPhase]
 	inc a
-	ld [$A795], a
+	ld [sCastleWalkPhase], a
 	cp $03
 	jr c, UnknownRJump_0x60165
 	xor a
-	ld [$A795], a
+	ld [sCastleWalkPhase], a
 
 UnknownRJump_0x60165:
 	call UnknownCall_0x60C41
 	ld e, a
-	ld a, [$A795]
+	ld a, [sCastleWalkPhase]
 	add e
 	inc a
 	ldh_n_a $C6
@@ -35639,7 +35639,7 @@ UnknownRJump_0x60165:
 UnknownJump_0x60174:
 UnknownRJump_0x60174:
 	ld a, 1
-	ld [$A7A6], a
+	ld [sCastleState], a
 	call UnknownCall_0x60C41
 	ldh_n_a $C6
 	jp UnknownJump_0x60461
@@ -35649,11 +35649,11 @@ UnknownJump_0x60182:
 	ld a, [sMapFrameCounter]
 	and $03
 	jp z, UnknownJump_0x60461
-	ld a, [$A7A7]
+	ld a, [sCastleStateTimer]
 	or a
 	jr z, UnknownRJump_0x601D9
 	dec a
-	ld [$A7A7], a
+	ld [sCastleStateTimer], a
 	ld b, 0
 	ld c, a
 	ld hl, $421A
@@ -35666,13 +35666,13 @@ UnknownJump_0x60182:
 	call UnknownCall_0x60C41
 	add 8
 	ldh_n_a $C6
-	ld a, [$A7A7]
+	ld a, [sCastleStateTimer]
 	cp $08
 	call z, UnknownCall_0x601BA
 	jp UnknownJump_0x60461
 
 UnknownCall_0x601BA:
-	ld hl, $A7ED
+	ld hl, sMapPatch9Id
 	ld d, 0
 	ldh_a_n $C5
 	sub 40
@@ -35692,21 +35692,21 @@ UnknownCall_0x601BA:
 
 UnknownRJump_0x601D9:
 	ld a, 5
-	ld [$A7A6], a
+	ld [sCastleState], a
 	call UnknownCall_0x60C41
 	ldh_n_a $C6
-	ld hl, $A7D2
+	ld hl, sMapPatch0Id
 	ld d, 0
-	ld a, [$A7B0]
+	ld a, [sCastleDecorSlotA]
 	ld e, a
 	add hl, de
 	add hl, de
 	add hl, de
 	ld a, 0
 	ld [hl], a
-	ld hl, $A7D2
+	ld hl, sMapPatch0Id
 	ld d, 0
-	ld a, [$A7B1]
+	ld a, [sCastleDecorSlotB]
 	ld e, a
 	add hl, de
 	add hl, de
@@ -35720,10 +35720,10 @@ UnknownRJump_0x601D9:
 	ld a, 42
 	ld [sMapSprite11Page], a
 	ld a, 3
-	ld [$A7B3], a
+	ld [sCastleSpriteAnimState], a
 	jp UnknownJump_0x6022A
 
-UnknownData_0x6021A: ;byte table, indexed by [$A7A7] (read via `ld hl, $421A`)
+UnknownData_0x6021A: ;byte table, indexed by [sCastleStateTimer] (read via `ld hl, $421A`)
 	db $04, $03, $03, $02, $02, $01, $01, $00, $00, $FF, $FF, $FE, $FE, $FD, $FD, $FC
 
 
@@ -35746,13 +35746,13 @@ UnknownRJump_0x60248:
 	ld [sMapSprite11Page], a
 
 UnknownRJump_0x6024B:
-	ld a, [$A7B3]
+	ld a, [sCastleSpriteAnimState]
 	cp $03
 	call z, UnknownCall_0x60290
-	ld a, [$A7B3]
+	ld a, [sCastleSpriteAnimState]
 	cp $01
 	call z, UnknownCall_0x60314
-	ld a, [$A7B3]
+	ld a, [sCastleSpriteAnimState]
 	cp $02
 	call z, UnknownCall_0x6032A
 	call UnknownCall_0x60269
@@ -35768,7 +35768,7 @@ UnknownCall_0x60269:
 UnknownJump_0x60275:
 	ld hl, sMapSprite4X
 	ld d, 0
-	ld a, [$A7B0]
+	ld a, [sCastleDecorSlotA]
 	ld e, a
 	add hl, de
 	add hl, de
@@ -35776,7 +35776,7 @@ UnknownJump_0x60275:
 	ld [hl], b
 	ld hl, sMapSprite4X
 	ld d, 0
-	ld a, [$A7B1]
+	ld a, [sCastleDecorSlotB]
 	ld e, a
 	add hl, de
 	add hl, de
@@ -35826,16 +35826,16 @@ UnknownRJump_0x602C0:
 
 UnknownRJump_0x602D3:
 	ld a, 1
-	ld [$A7B3], a
+	ld [sCastleSpriteAnimState], a
 	ld a, 32
-	ld [$A7B4], a
+	ld [sCastleSpriteAnimTimer], a
 	ret
 
 UnknownRJump_0x602DE:
 	ld a, 2
-	ld [$A7B3], a
+	ld [sCastleSpriteAnimState], a
 	ld a, 32
-	ld [$A7B4], a
+	ld [sCastleSpriteAnimTimer], a
 	ret
 
 UnknownRJump_0x602E9:
@@ -35843,7 +35843,7 @@ UnknownRJump_0x602E9:
 	cp $2A
 	ret nc
 	ld a, 6
-	ld [$A7A6], a
+	ld [sCastleState], a
 	ld a, [sMapSprite10Y]
 	sub 4
 	ld [sMapSprite11X], a
@@ -35852,7 +35852,7 @@ UnknownRJump_0x602E9:
 	and $60
 	swap a
 	rrca
-	ld [$A7A8], a
+	ld [sCastleItemIndex], a
 	ld a, 255
 	ld [sMapSprite11Page], a
 	ld a, 39
@@ -35863,26 +35863,26 @@ UnknownCall_0x60314:
 	ld a, [sMapSprite10Y]
 	inc a
 	ld [sMapSprite10Y], a
-	ld a, [$A7B4]
+	ld a, [sCastleSpriteAnimTimer]
 	dec a
-	ld [$A7B4], a
+	ld [sCastleSpriteAnimTimer], a
 	or a
 	ret nz
 	ld a, 3
-	ld [$A7B3], a
+	ld [sCastleSpriteAnimState], a
 	ret
 
 UnknownCall_0x6032A:
 	ld a, [sMapSprite10Y]
 	dec a
 	ld [sMapSprite10Y], a
-	ld a, [$A7B4]
+	ld a, [sCastleSpriteAnimTimer]
 	dec a
-	ld [$A7B4], a
+	ld [sCastleSpriteAnimTimer], a
 	or a
 	ret nz
 	ld a, 3
-	ld [$A7B3], a
+	ld [sCastleSpriteAnimState], a
 	ret
 	call UnknownCall_0x60269
 	ld a, [sMapSprite11Id]
@@ -35906,7 +35906,7 @@ UnknownCall_0x6032A:
 	jp UnknownJump_0x60461
 
 UnknownRJump_0x60373:
-	ld a, [$A7A8]
+	ld a, [sCastleItemIndex]
 	ld d, 0
 	ld e, a
 	ld hl, sMapSprite1Page
@@ -35919,9 +35919,9 @@ UnknownRJump_0x60373:
 	cp $70
 	jr c, UnknownRJump_0x603AA
 	ld a, 7
-	ld [$A7A6], a
+	ld [sCastleState], a
 	ld hl, sMapSprite1X
-	ld a, [$A7A8]
+	ld a, [sCastleItemIndex]
 	ld d, 0
 	ld e, a
 	add hl, de
@@ -35931,7 +35931,7 @@ UnknownRJump_0x60373:
 	ld [hl], a
 	call UnknownCall_0x60917
 	ld a, 20
-	ld [$A7A7], a
+	ld [sCastleStateTimer], a
 	ld a, 116
 	ld [sMapSprite11Y], a
 	jp UnknownJump_0x60433
@@ -35940,7 +35940,7 @@ UnknownRJump_0x603AA:
 	call UnknownCall_0x60C41
 	ldh_n_a $C6
 	ld hl, sMapSprite0Id
-	ld a, [$A7A8]
+	ld a, [sCastleItemIndex]
 	ld d, 0
 	ld e, a
 	add hl, de
@@ -35966,25 +35966,25 @@ UnknownRJump_0x603D1:
 	ld a, [sMapFrameCounter]
 	and $03
 	jr nz, UnknownRJump_0x603EA
-	ld a, [$A795]
+	ld a, [sCastleWalkPhase]
 	inc a
-	ld [$A795], a
+	ld [sCastleWalkPhase], a
 	cp $03
 	jr c, UnknownRJump_0x603EA
 	xor a
-	ld [$A795], a
+	ld [sCastleWalkPhase], a
 
 UnknownRJump_0x603EA:
 	call UnknownCall_0x60C41
 	ld e, a
-	ld a, [$A795]
+	ld a, [sCastleWalkPhase]
 	add e
 	add c
 	ldh_n_a $C6
 	jp UnknownJump_0x60461
 
 UnknownCall_0x603F9:
-	ld a, [$A7A8]
+	ld a, [sCastleItemIndex]
 	and $03
 	rlca
 	rlca
@@ -36036,13 +36036,13 @@ UnknownJump_0x60433:
 	ld a, [sMapFrameCounter]
 	and $01
 	jp z, UnknownJump_0x60461
-	ld a, [$A7A7]
+	ld a, [sCastleStateTimer]
 	dec a
-	ld [$A7A7], a
+	ld [sCastleStateTimer], a
 	or a
 	jr nz, UnknownRJump_0x60461
 	ld a, 10
-	ld [$A7A6], a
+	ld [sCastleState], a
 	jp UnknownJump_0x60461
 
 	jp UnknownJump_0x60461
@@ -36058,7 +36058,7 @@ UnknownCall_0x6046A:
 	ld a, [sMapFrameCounter]
 	and $07
 	jp nz, UnknownJump_0x604F3
-	ld a, [$A7B0]
+	ld a, [sCastleDecorSlotA]
 	ld c, a
 	ld b, 0
 	ld hl, sMapSprite4X
@@ -36075,22 +36075,22 @@ UnknownRJump_0x60481:
 	swap a
 	add b
 	ld b, a
-	ld a, [$A7B7]
+	ld a, [sMapRandAccum]
 	add b
 	ld b, a
 	ldh_a_n $97
 	add b
-	ld [$A7B7], a
+	ld [sMapRandAccum], a
 	pop bc
 	and $0F
 	cp $09
 	jr nc, UnknownRJump_0x60481
 	ld c, a
-	ld a, [$A7B1]
+	ld a, [sCastleDecorSlotB]
 	cp c
 	jr z, UnknownRJump_0x60481
 	ld a, c
-	ld [$A7B0], a
+	ld [sCastleDecorSlotA], a
 	ld b, 0
 	ld hl, sMapSprite4X
 	add hl, bc
@@ -36098,7 +36098,7 @@ UnknownRJump_0x60481:
 	add hl, bc
 	ld a, 37
 	ld [hl], a
-	ld a, [$A7B1]
+	ld a, [sCastleDecorSlotB]
 	ld c, a
 	ld b, 0
 	ld hl, sMapSprite4X
@@ -36115,22 +36115,22 @@ UnknownRJump_0x604C1:
 	swap a
 	add b
 	ld b, a
-	ld a, [$A7B7]
+	ld a, [sMapRandAccum]
 	add b
 	ld b, a
 	ldh_a_n $97
 	add b
-	ld [$A7B7], a
+	ld [sMapRandAccum], a
 	pop bc
 	and $0F
 	cp $09
 	jr nc, UnknownRJump_0x604C1
 	ld c, a
-	ld a, [$A7B0]
+	ld a, [sCastleDecorSlotA]
 	cp c
 	jr z, UnknownRJump_0x604C1
 	ld a, c
-	ld [$A7B1], a
+	ld [sCastleDecorSlotB], a
 	ld b, 0
 	ld hl, sMapSprite4X
 	add hl, bc
@@ -36141,7 +36141,7 @@ UnknownRJump_0x604C1:
 	ret
 
 UnknownJump_0x604F3:
-	ld a, [$A7B0]
+	ld a, [sCastleDecorSlotA]
 	ld c, a
 	ld b, 0
 	ld hl, sMapSprite4X
@@ -36150,7 +36150,7 @@ UnknownJump_0x604F3:
 	add hl, bc
 	ld a, 37
 	ld [hl], a
-	ld a, [$A7B1]
+	ld a, [sCastleDecorSlotB]
 	ld c, a
 	ld b, 0
 	ld hl, sMapSprite4X
@@ -36160,7 +36160,7 @@ UnknownJump_0x604F3:
 	ld a, 37
 	ld [hl], a
 	ret
-	ld a, [$A7A6]
+	ld a, [sCastleState]
 	add a
 	ld d, 0
 	ld e, a
@@ -36171,7 +36171,7 @@ UnknownJump_0x604F3:
 	ld l, a
 	jp hl
 
-UnknownData_0x60521: ;state handler table, `jp hl` targets, indexed by [$A7A6] (read via `ld hl, $4521`)
+UnknownData_0x60521: ;state handler table, `jp hl` targets, indexed by [sCastleState] (read via `ld hl, $4521`)
 	dw $4539, UnknownRJump_0x60582, UnknownRJump_0x605A0, UnknownRJump_0x605CA
 	dw UnknownRJump_0x605EE, UnknownRJump_0x60639, UnknownRJump_0x6065B, UnknownRJump_0x6067F
 	dw $469C, $4764, UnknownJump_0x607AA, UnknownJump_0x607AA
@@ -36183,11 +36183,11 @@ UnknownData_0x60521: ;state handler table, `jp hl` targets, indexed by [$A7A6] (
 	cp $20
 	jr nz, UnknownRJump_0x60559
 	ld a, 1
-	ld [$A7A6], a
+	ld [sCastleState], a
 	call UnknownCall_0x60C41
 	ldh_n_a $C6
 	xor a
-	ld [$A7B2], a
+	ld [sCastleItemReached], a
 	jr UnknownRJump_0x60582
 
 UnknownRJump_0x60559:
@@ -36196,18 +36196,18 @@ UnknownRJump_0x60559:
 	ld a, [sMapFrameCounter]
 	and $02
 	jr z, UnknownRJump_0x60573
-	ld a, [$A795]
+	ld a, [sCastleWalkPhase]
 	inc a
-	ld [$A795], a
+	ld [sCastleWalkPhase], a
 	cp $03
 	jr c, UnknownRJump_0x60573
 	xor a
-	ld [$A795], a
+	ld [sCastleWalkPhase], a
 
 UnknownRJump_0x60573:
 	call UnknownCall_0x60C41
 	ld e, a
-	ld a, [$A795]
+	ld a, [sCastleWalkPhase]
 	add e
 	inc a
 	ldh_n_a $C6
@@ -36218,9 +36218,9 @@ UnknownRJump_0x60582:
 	and $01
 	jr z, UnknownRJump_0x6059A
 	ld a, 2
-	ld [$A7A6], a
+	ld [sCastleState], a
 	ld a, 24
-	ld [$A7A7], a
+	ld [sCastleStateTimer], a
 	ld a, 8
 	ld [$A468], a
 	jr UnknownRJump_0x605A0
@@ -36233,19 +36233,19 @@ UnknownRJump_0x605A0:
 	ld a, [sMapFrameCounter]
 	and $03
 	jr nz, UnknownRJump_0x605C7
-	ld a, [$A7A7]
+	ld a, [sCastleStateTimer]
 	or a
 	jr nz, UnknownRJump_0x605B9
 	ld a, 3
-	ld [$A7A6], a
+	ld [sCastleState], a
 	ld a, 0
-	ld [$A7A7], a
+	ld [sCastleStateTimer], a
 	jr UnknownRJump_0x605CA
 
 UnknownRJump_0x605B9:
-	ld a, [$A7A7]
+	ld a, [sCastleStateTimer]
 	dec a
-	ld [$A7A7], a
+	ld [sCastleStateTimer], a
 	ld a, [sMapSprite1Id]
 	inc a
 	ld [sMapSprite1Id], a
@@ -36261,9 +36261,9 @@ UnknownRJump_0x605CA:
 	cp $23
 	jr c, UnknownRJump_0x605E4
 	ld a, 4
-	ld [$A7A6], a
+	ld [sCastleState], a
 	ld a, 32
-	ld [$A7A7], a
+	ld [sCastleStateTimer], a
 	jr UnknownRJump_0x605EE
 
 UnknownRJump_0x605E4:
@@ -36278,17 +36278,17 @@ UnknownRJump_0x605EE:
 	ld a, [sMapFrameCounter]
 	and $03
 	jr nz, UnknownRJump_0x60619
-	ld a, [$A7A7]
+	ld a, [sCastleStateTimer]
 	or a
 	jr nz, UnknownRJump_0x60602
 	ld a, 5
-	ld [$A7A6], a
+	ld [sCastleState], a
 	jr UnknownRJump_0x60639
 
 UnknownRJump_0x60602:
-	ld a, [$A7A7]
+	ld a, [sCastleStateTimer]
 	dec a
-	ld [$A7A7], a
+	ld [sCastleStateTimer], a
 	or a
 	call z, UnknownCall_0x6062D
 	ld a, [sMapSprite1Id]
@@ -36301,17 +36301,17 @@ UnknownRJump_0x60619:
 	jp UnknownJump_0x607AA
 
 UnknownCall_0x6061C:
-	ld a, [$A7B2]
+	ld a, [sCastleItemReached]
 	cp $01
 	ret z
 	ld a, 9
-	ld [$A7A6], a
+	ld [sCastleState], a
 	ld a, 17
 	ld [$A460], a
 	ret
 
 UnknownCall_0x6062D:
-	ld a, [$A7B2]
+	ld a, [sCastleItemReached]
 	cp $01
 	ret nz
 	ld a, 22
@@ -36326,7 +36326,7 @@ UnknownRJump_0x60639:
 	cp $1D
 	jr nc, UnknownRJump_0x6064E
 	ld a, 6
-	ld [$A7A6], a
+	ld [sCastleState], a
 	jr UnknownRJump_0x6065B
 
 UnknownRJump_0x6064E:
@@ -36346,9 +36346,9 @@ UnknownRJump_0x6065B:
 	cp $21
 	jr nz, UnknownRJump_0x60675
 	ld a, 7
-	ld [$A7A6], a
+	ld [sCastleState], a
 	ld a, 25
-	ld [$A7A7], a
+	ld [sCastleStateTimer], a
 	jr UnknownRJump_0x6067F
 
 UnknownRJump_0x60675:
@@ -36363,16 +36363,16 @@ UnknownRJump_0x6067F:
 	ld a, [sMapFrameCounter]
 	and $03
 	jp nz, UnknownJump_0x607AA
-	ld a, [$A7A7]
+	ld a, [sCastleStateTimer]
 	or a
 	jr z, UnknownRJump_0x60694
 	dec a
-	ld [$A7A7], a
+	ld [sCastleStateTimer], a
 	jp UnknownJump_0x607AA
 
 UnknownRJump_0x60694:
 	ld a, 9
-	ld [$A7A6], a
+	ld [sCastleState], a
 	jp UnknownJump_0x607AA
 
 	ld a, [sMapFrameCounter]
@@ -36382,13 +36382,13 @@ UnknownRJump_0x60694:
 	jp UnknownJump_0x607AA
 
 UnknownCall_0x606AA:
-	ld a, [$A7A8]
+	ld a, [sCastleItemIndex]
 	cp $03
 	jr nc, UnknownRJump_0x60711
 	ld a, [sMapFrameCounter]
 	and $0C
 	jr nz, UnknownRJump_0x606BE
-	ld a, [$A7AC]
+	ld a, [sCastleItemPreview]
 	ld e, a
 	jr UnknownRJump_0x606DF
 
@@ -36401,11 +36401,11 @@ UnknownRJump_0x606BE:
 UnknownRJump_0x606C6:
 	cp $08
 	jr nz, UnknownRJump_0x606D7
-	ld a, [$A7AB]
+	ld a, [sCastleSavedPowerup]
 	ld e, a
 	or a
 	jr nz, UnknownRJump_0x606DF
-	ld a, [$A7AC]
+	ld a, [sCastleItemPreview]
 	ld e, a
 	jr UnknownRJump_0x606DF
 
@@ -36414,7 +36414,7 @@ UnknownRJump_0x606D7:
 	jr UnknownRJump_0x606DF
 
 UnknownJump_0x606DB:
-	ld a, [$A7AC]
+	ld a, [sCastleItemPreview]
 	ld e, a
 
 UnknownRJump_0x606DF:
@@ -36423,12 +36423,12 @@ UnknownRJump_0x606DF:
 	add hl, de
 	ld a, [hl]
 	ldh_n_a $C6
-	ld a, [$A7A7]
+	ld a, [sCastleStateTimer]
 	dec a
-	ld [$A7A7], a
+	ld [sCastleStateTimer], a
 	or a
 	ret nz
-	ld a, [$A7AC]
+	ld a, [sCastleItemPreview]
 	ld [sCurPowerup], a
 	ld d, 0
 	ld e, a
@@ -36437,15 +36437,15 @@ UnknownRJump_0x606DF:
 	ld a, [hl]
 	ldh_n_a $C6
 	ld a, 9
-	ld [$A7A6], a
+	ld [sCastleState], a
 	ld a, 20
-	ld [$A7A7], a
+	ld [sCastleStateTimer], a
 	call UnknownCall_0x2934
 	ret
 
 UnknownRJump_0x60711:
 	ld c, 30
-	ld a, [$A7A8]
+	ld a, [sCastleItemIndex]
 	cp $03
 	jr nz, UnknownRJump_0x60723
 	ld c, 29
@@ -36498,7 +36498,7 @@ UnknownCall_0x60772:
 	cp $E8
 	jr nz, UnknownRJump_0x6077F
 	ld a, 10
-	ld [$A7A6], a
+	ld [sCastleState], a
 	ret
 
 UnknownRJump_0x6077F:
@@ -36507,18 +36507,18 @@ UnknownRJump_0x6077F:
 	ld a, [sMapFrameCounter]
 	and $02
 	jr z, UnknownRJump_0x60799
-	ld a, [$A795]
+	ld a, [sCastleWalkPhase]
 	inc a
-	ld [$A795], a
+	ld [sCastleWalkPhase], a
 	cp $03
 	jr c, UnknownRJump_0x60799
 	xor a
-	ld [$A795], a
+	ld [sCastleWalkPhase], a
 
 UnknownRJump_0x60799:
 	call UnknownCall_0x60C41
 	ld e, a
-	ld a, [$A795]
+	ld a, [sCastleWalkPhase]
 	add e
 	add 5
 	ldh_n_a $C6
@@ -36572,7 +36572,7 @@ UnknownCall_0x60800:
 	ret z
 	ld a, [sMapSprite0Id]
 	ld e, a
-	ld a, [$A7A7]
+	ld a, [sCastleStateTimer]
 	bit 0, a
 	jr nz, UnknownRJump_0x60822
 	ld a, e
@@ -36582,9 +36582,9 @@ UnknownCall_0x60800:
 	jr UnknownRJump_0x60828
 
 UnknownRJump_0x60819:
-	ld a, [$A7A7]
+	ld a, [sCastleStateTimer]
 	cpl
-	ld [$A7A7], a
+	ld [sCastleStateTimer], a
 	jr UnknownRJump_0x60828
 
 UnknownRJump_0x60822:
@@ -36604,16 +36604,16 @@ UnknownRJump_0x60828:
 	ret
 
 UnknownCall_0x6083C:
-	ld a, [$A7E9]
+	ld a, [sCastleSlotIndex]
 	cp $05
 	jr c, UnknownRJump_0x60847
 	xor a
-	ld [$A7E9], a
+	ld [sCastleSlotIndex], a
 
 UnknownRJump_0x60847:
 	ld d, 0
 	ld e, a
-	ld hl, $A7D0
+	ld hl, sMapPatchList
 	add hl, de
 	ld a, [hl]
 	or a
@@ -36632,7 +36632,7 @@ UnknownJump_0x60865:
 	ld a, [sMapFrameCounter]
 	and $01
 	jp nz, UnknownJump_0x609E4
-	ld hl, $A7D5
+	ld hl, sMapPatch1Id
 	add hl, de
 	ld a, [hl]
 	dec a
@@ -36642,28 +36642,28 @@ UnknownJump_0x60865:
 	ld a, 142
 	ld [hl], a
 	ld a, 3
-	ld hl, $A7D0
+	ld hl, sMapPatchList
 	add hl, de
 	ld [hl], a
 	ld a, 28
-	ld hl, $A7DF
+	ld hl, sCastleSlotDelay
 	add hl, de
 	ld [hl], a
 	jp UnknownJump_0x60965
 
 UnknownRJump_0x6088C:
-	ld a, [$A7A6]
+	ld a, [sCastleState]
 	cp $03
 	call z, UnknownCall_0x60897
 	jp UnknownJump_0x609E4
 
 UnknownCall_0x60897:
-	ld hl, $A7E4
+	ld hl, sCastleSlotValue
 	add hl, de
 	ld a, [hl]
 	cp $05
 	ret nc
-	ld hl, $A7D5
+	ld hl, sMapPatch1Id
 	add hl, de
 	ld a, [sMapSprite1Y]
 	sub 12
@@ -36672,36 +36672,36 @@ UnknownCall_0x60897:
 	add 16
 	cp [hl]
 	ret c
-	ld hl, $A7D0
+	ld hl, sMapPatchList
 	add hl, de
 	ld a, 1
 	ld [hl], a
 	ld a, 1
-	ld [$A7B2], a
+	ld [sCastleItemReached], a
 	ret
 
 UnknownJump_0x608BB:
 	ld a, [sMapSprite1Y]
 	sub 4
-	ld hl, $A7D5
+	ld hl, sMapPatch1Id
 	add hl, de
 	ld [hl], a
 	ld a, [sMapSprite1Id]
 	add 8
-	ld hl, $A7DA
+	ld hl, sCastleSlotCounter
 	add hl, de
 	ld [hl], a
-	ld a, [$A7A6]
+	ld a, [sCastleState]
 	cp $07
 	jp nz, UnknownJump_0x609E4
 	ld a, 2
-	ld hl, $A7D0
+	ld hl, sMapPatchList
 	add hl, de
 	ld [hl], a
 	jp UnknownJump_0x609E4
 
 UnknownJump_0x608E1:
-	ld hl, $A7DA
+	ld hl, sCastleSlotCounter
 	add hl, de
 	ld a, [hl]
 	inc a
@@ -36709,32 +36709,32 @@ UnknownJump_0x608E1:
 	cp $68
 	jp c, UnknownJump_0x609E4
 	ld a, 3
-	ld hl, $A7D0
+	ld hl, sMapPatchList
 	add hl, de
 	ld [hl], a
 	ld a, 255
-	ld hl, $A7DF
+	ld hl, sCastleSlotDelay
 	add hl, de
 	ld [hl], a
 	ld a, 8
-	ld [$A7A6], a
+	ld [sCastleState], a
 	ld a, 20
-	ld [$A7A7], a
+	ld [sCastleStateTimer], a
 	ld hl, sMapSprite5Id
 	add hl, de
 	add hl, de
 	add hl, de
 	ld a, [hl]
 	sub 24
-	ld [$A7A8], a
+	ld [sCastleItemIndex], a
 	call UnknownCall_0x60917
 	jp UnknownJump_0x609E4
 
 UnknownCall_0x60917:
 	ld a, [sCurPowerup]
-	ld [$A7AB], a
-	ld [$A7AC], a
-	ld a, [$A7A8]
+	ld [sCastleSavedPowerup], a
+	ld [sCastleItemPreview], a
+	ld a, [sCastleItemIndex]
 	cp $03
 	jp nc, UnknownJump_0x60939
 	ld hl, $4C51
@@ -36742,7 +36742,7 @@ UnknownCall_0x60917:
 	ld c, a
 	add hl, bc
 	ld a, [hl]
-	ld [$A7AC], a
+	ld [sCastleItemPreview], a
 	ld a, 20
 	ld [$A470], a
 	ret
@@ -36750,7 +36750,7 @@ UnknownCall_0x60917:
 UnknownJump_0x60939:
 	ld a, 9
 	ld [$A460], a
-	ld a, [$A7A8]
+	ld a, [sCastleItemIndex]
 	cp $03
 	jr nz, UnknownRJump_0x60955
 	ld a, [sLives]
@@ -36778,30 +36778,30 @@ UnknownRJump_0x60955:
 
 UnknownJump_0x60965:
 	ld a, 142
-	ld hl, $A7D5
+	ld hl, sMapPatch1Id
 	add hl, de
 	ld [hl], a
 	ld a, 96
-	ld hl, $A7DA
+	ld hl, sCastleSlotCounter
 	add hl, de
 	ld [hl], a
-	ld a, [$A7AE]
+	ld a, [sCastleScriptPtrLo]
 	ld l, a
-	ld a, [$A7AF]
+	ld a, [sCastleScriptPtrHi]
 	ld h, a
 	ld a, [hl]
 	cp $06
 	jr c, UnknownRJump_0x6098F
-	ld a, [$A7B5]
-	ld [$A7AE], a
+	ld a, [sCastleScriptPtrLoCopy]
+	ld [sCastleScriptPtrLo], a
 	ld l, a
-	ld a, [$A7B6]
-	ld [$A7AF], a
+	ld a, [sCastleScriptPtrHiCopy]
+	ld [sCastleScriptPtrHi], a
 	ld h, a
 	ld a, [hl]
 
 UnknownRJump_0x6098F:
-	ld hl, $A7E4
+	ld hl, sCastleSlotValue
 	add hl, de
 	ld [hl], a
 	ld a, 255
@@ -36813,7 +36813,7 @@ UnknownRJump_0x6098F:
 	ld a, [sMapFrameCounter]
 	and $01
 	jp nz, UnknownJump_0x609E4
-	ld hl, $A7DF
+	ld hl, sCastleSlotDelay
 	add hl, de
 	ld a, [hl]
 	cp $FF
@@ -36825,7 +36825,7 @@ UnknownRJump_0x6098F:
 	jp UnknownJump_0x609E4
 
 UnknownRJump_0x609B7:
-	ld hl, $A7E4
+	ld hl, sCastleSlotValue
 	add hl, de
 	ld a, [hl]
 	cp $05
@@ -36839,22 +36839,22 @@ UnknownRJump_0x609B7:
 
 UnknownRJump_0x609C9:
 	ld a, 0
-	ld hl, $A7D0
+	ld hl, sMapPatchList
 	add hl, de
 	ld [hl], a
-	ld a, [$A7AE]
+	ld a, [sCastleScriptPtrLo]
 	ld l, a
-	ld a, [$A7AF]
+	ld a, [sCastleScriptPtrHi]
 	ld h, a
 	inc hl
 	ld a, l
-	ld [$A7AE], a
+	ld [sCastleScriptPtrLo], a
 	ld a, h
-	ld [$A7AF], a
+	ld [sCastleScriptPtrHi], a
 	jp UnknownJump_0x609E4
 
 UnknownJump_0x609E4:
-	ld hl, $A7D5
+	ld hl, sMapPatch1Id
 	ld a, [hli]
 	ld [sMapSprite5X], a
 	ld a, [hli]
@@ -36865,7 +36865,7 @@ UnknownJump_0x609E4:
 	ld [sMapSprite7Y], a
 	ld a, [hl]
 	ld [sMapSprite8X], a
-	ld hl, $A7DA
+	ld hl, sCastleSlotCounter
 	ld a, [hli]
 	ld [sMapSprite5Y], a
 	ld a, [hli]
@@ -36876,9 +36876,9 @@ UnknownJump_0x609E4:
 	ld [sMapSprite7Id], a
 	ld a, [hl]
 	ld [sMapSprite8Y], a
-	ld a, [$A7E9]
+	ld a, [sCastleSlotIndex]
 	inc a
-	ld [$A7E9], a
+	ld [sCastleSlotIndex], a
 	ret
 
 UnknownData_0x60A1A: ;byte table (values 0-$04, $FF markers); no direct reader found
@@ -36890,7 +36890,7 @@ UnknownData_0x60A1A: ;byte table (values 0-$04, $FF markers); no direct reader f
 	db $01, $02, $04, $04, $02, $04, $02, $04, $02, $04, $02, $04, $01, $02, $04, $02
 	db $02, $04, $01, $02, $04, $01, $FF
 
-	ld a, [$A7A6]
+	ld a, [sCastleState]
 	cp $00
 	jr nz, UnknownRJump_0x60AEC
 	ld a, [sMapSprite2Page]
@@ -36900,9 +36900,9 @@ UnknownData_0x60A1A: ;byte table (values 0-$04, $FF markers); no direct reader f
 	bit 0, a
 	jr z, UnknownRJump_0x60AA7
 	ld a, 5
-	ld [$A7A6], a
+	ld [sCastleState], a
 	ld a, 0
-	ld [$A79A], a
+	ld [sCastleWalkScriptIdx], a
 	ld a, 1
 	ld [$A460], a
 	jr UnknownRJump_0x60AEC
@@ -36911,9 +36911,9 @@ UnknownJump_0x60AA7:
 UnknownRJump_0x60AA7:
 	ld a, [sMapSprite1Page]
 	ld d, a
-	ld a, [$A796]
+	ld a, [sMapSprite1AnimCount]
 	inc a
-	ld [$A796], a
+	ld [sMapSprite1AnimCount], a
 	cp $28
 	jr c, UnknownRJump_0x60AC2
 	cp $50
@@ -36923,7 +36923,7 @@ UnknownRJump_0x60AA7:
 
 UnknownRJump_0x60ABD:
 	ld a, 0
-	ld [$A796], a
+	ld [sMapSprite1AnimCount], a
 
 UnknownRJump_0x60AC2:
 	inc d
@@ -36942,28 +36942,28 @@ UnknownRJump_0x60AC3:
 
 UnknownRJump_0x60AD9:
 	ld b, 2
-	ld a, [$A7A5]
+	ld a, [sCastleRevealProgress]
 	sub b
-	ld [$A7A5], a
-	ld a, [$A7AD]
+	ld [sCastleRevealProgress], a
+	ld a, [sCastleRevealTick]
 	inc a
-	ld [$A7AD], a
+	ld [sCastleRevealTick], a
 	jp UnknownJump_0x60CF9
 
 UnknownJump_0x60AEC:
 UnknownRJump_0x60AEC:
-	ld a, [$A7A6]
+	ld a, [sCastleState]
 	cp $01
 	jp nz, UnknownJump_0x60BBF
-	ld a, [$A7A7]
+	ld a, [sCastleStateTimer]
 	dec a
-	ld [$A7A7], a
+	ld [sCastleStateTimer], a
 	or a
 	jr nz, UnknownRJump_0x60B18
 	ld a, 2
-	ld [$A7A6], a
+	ld [sCastleState], a
 	ld a, 90
-	ld [$A7A7], a
+	ld [sCastleStateTimer], a
 	ld a, 2
 	ld [sMapSprite1X], a
 	call UnknownCall_0x60D32
@@ -36973,17 +36973,17 @@ UnknownRJump_0x60AEC:
 
 UnknownRJump_0x60B18:
 	call UnknownCall_0x60D08
-	ld a, [$A7A7]
+	ld a, [sCastleStateTimer]
 	cp $78
 	jr nc, UnknownRJump_0x60B88
 	and $01
 	jr z, UnknownRJump_0x60B49
-	ld a, [$A797]
+	ld a, [sMapAnimStep]
 	inc a
 	cp $03
 	jr c, UnknownRJump_0x60B41
 	ld a, 3
-	ld [$A797], a
+	ld [sMapAnimStep], a
 	ld a, 2
 	ld [sMapSprite1X], a
 	ld a, [sMapFrameCounter]
@@ -36992,12 +36992,12 @@ UnknownRJump_0x60B18:
 	jr UnknownRJump_0x60B49
 
 UnknownRJump_0x60B41:
-	ld [$A797], a
+	ld [sMapAnimStep], a
 	add 2
 	ld [sMapSprite1X], a
 
 UnknownRJump_0x60B49:
-	ld a, [$A7A7]
+	ld a, [sCastleStateTimer]
 	ld d, 0
 	ld e, a
 	ld hl, $4FCD
@@ -37012,21 +37012,21 @@ UnknownRJump_0x60B49:
 
 UnknownRJump_0x60B5C:
 	ld b, a
-	ld a, [$A7A5]
+	ld a, [sCastleRevealProgress]
 	sub b
-	ld [$A7A5], a
-	ld a, [$A7AD]
+	ld [sCastleRevealProgress], a
+	ld a, [sCastleRevealTick]
 	inc a
-	ld [$A7AD], a
-	ld a, [$A798]
+	ld [sCastleRevealTick], a
+	ld a, [sMapAnimAccum]
 	add b
-	ld [$A798], a
+	ld [sMapAnimAccum], a
 	cp $03
 	jp c, UnknownJump_0x60CF9
 	sub 3
-	ld [$A798], a
+	ld [sMapAnimAccum], a
 	xor a
-	ld [$A797], a
+	ld [sMapAnimStep], a
 	ld a, 2
 	ld [sMapSprite1X], a
 	jp UnknownJump_0x60CF9
@@ -37037,9 +37037,9 @@ UnknownRJump_0x60B88:
 	and $07
 	cp $05
 	jr z, UnknownRJump_0x60BAD
-	ld a, [$A796]
+	ld a, [sMapSprite1AnimCount]
 	inc a
-	ld [$A796], a
+	ld [sMapSprite1AnimCount], a
 	cp $28
 	jr c, UnknownRJump_0x60BA8
 	cp $50
@@ -37049,7 +37049,7 @@ UnknownRJump_0x60B88:
 
 UnknownRJump_0x60BA4:
 	xor a
-	ld [$A796], a
+	ld [sMapSprite1AnimCount], a
 
 
 UnknownRJump_0x60BA8:
@@ -37060,16 +37060,16 @@ UnknownRJump_0x60BA9:
 	ld [sMapSprite1Page], a
 
 UnknownRJump_0x60BAD:
-	ld a, [$A7A5]
+	ld a, [sCastleRevealProgress]
 	sub 2
-	ld [$A7A5], a
-	ld a, [$A7AD]
+	ld [sCastleRevealProgress], a
+	ld a, [sCastleRevealTick]
 	inc a
-	ld [$A7AD], a
+	ld [sCastleRevealTick], a
 	jp UnknownJump_0x60CF9
 
 UnknownJump_0x60BBF:
-	ld a, [$A7A6]
+	ld a, [sCastleState]
 	cp $02
 	jr nz, UnknownRJump_0x60C13
 	ld a, [sMapFrameCounter]
@@ -37077,7 +37077,7 @@ UnknownJump_0x60BBF:
 	jp nz, UnknownJump_0x60CF9
 	ld a, 255
 	ld [sMapSprite3Y], a
-	ld a, [$A7A7]
+	ld a, [sCastleStateTimer]
 	cp $3C
 	jr nc, UnknownRJump_0x60BF3
 	ld a, [sMapSprite3X]
@@ -37087,27 +37087,27 @@ UnknownJump_0x60BBF:
 	call z, UnknownCall_0x60D80
 	ld a, 32
 	ld [sMapSprite3Page], a
-	ld a, [$A7A8]
+	ld a, [sCastleItemIndex]
 	add 11
 	ld [sMapSprite3Y], a
 
 UnknownRJump_0x60BF3:
-	ld a, [$A7A7]
+	ld a, [sCastleStateTimer]
 	dec a
-	ld [$A7A7], a
+	ld [sCastleStateTimer], a
 	or a
 	jp nz, UnknownJump_0x60CF9
 	ld a, 100
-	ld [$A7A7], a
+	ld [sCastleStateTimer], a
 	ld a, 6
-	ld [$A7A6], a
+	ld [sCastleState], a
 	ld a, 255
 	ld [sMapSprite3Y], a
 	call UnknownCall_0x60DC7
 	jp UnknownJump_0x60CF9
 
 UnknownRJump_0x60C13:
-	ld a, [$A7A6]
+	ld a, [sCastleState]
 	cp $04
 	jr nz, UnknownRJump_0x60C59
 	call UnknownCall_0x60C41
@@ -37119,7 +37119,7 @@ UnknownRJump_0x60C13:
 	cp $7D
 	jp nc, UnknownJump_0x60CF9
 	ld a, 0
-	ld [$A7A6], a
+	ld [sCastleState], a
 	call UnknownCall_0x60C41
 	ldh_n_a $C6
 	ld a, 1
@@ -37135,12 +37135,12 @@ UnknownCall_0x60C41:
 	ld a, [hl]
 	ret
 
-UnknownData_0x60C4D: ;byte lookup tables: base $4C4D by sCurPowerup/[$A7AC] (UnknownCall_0x60C41), base $4C51 by [$A7A8]
+UnknownData_0x60C4D: ;byte lookup tables: base $4C4D by sCurPowerup/[sCastleItemPreview] (UnknownCall_0x60C41), base $4C51 by [sCastleItemIndex]
 	db $20, $00, $45, $70, $01, $03, $02, $00, $00, $00, $00, $00
 
 
 UnknownRJump_0x60C59:
-	ld a, [$A7A6]
+	ld a, [sCastleState]
 	cp $05
 	jr nz, UnknownRJump_0x60C94
 	call UnknownCall_0x60D08
@@ -37159,9 +37159,9 @@ UnknownRJump_0x60C59:
 
 UnknownRJump_0x60C7F:
 	ld a, 1
-	ld [$A7A6], a
+	ld [sCastleState], a
 	ld a, 150
-	ld [$A7A7], a
+	ld [sCastleStateTimer], a
 	ld a, 8
 	ld [$A468], a
 	jp UnknownJump_0x60AEC
@@ -37170,13 +37170,13 @@ UnknownRJump_0x60C91:
 	jp UnknownJump_0x60AA7
 
 UnknownRJump_0x60C94:
-	ld a, [$A7A6]
+	ld a, [sCastleState]
 	cp $06
 	jp nz, UnknownJump_0x60CF9
-	ld a, [$A7A7]
+	ld a, [sCastleStateTimer]
 	cp $19
 	jr c, UnknownRJump_0x60CD8
-	ld a, [$A7A8]
+	ld a, [sCastleItemIndex]
 	cp $00
 	jr z, UnknownRJump_0x60CD8
 	cp $04
@@ -37184,7 +37184,7 @@ UnknownRJump_0x60C94:
 	ld a, [sMapFrameCounter]
 	and $0C
 	jr nz, UnknownRJump_0x60CBB
-	ld a, [$A7AC]
+	ld a, [sCastleItemPreview]
 	ld e, a
 	jr UnknownRJump_0x60CDC
 
@@ -37197,11 +37197,11 @@ UnknownRJump_0x60CBB:
 UnknownRJump_0x60CC3:
 	cp $08
 	jr nz, UnknownRJump_0x60CD4
-	ld a, [$A7AB]
+	ld a, [sCastleSavedPowerup]
 	ld e, a
 	or a
 	jr nz, UnknownRJump_0x60CDC
-	ld a, [$A7AC]
+	ld a, [sCastleItemPreview]
 	ld e, a
 	jr UnknownRJump_0x60CDC
 
@@ -37210,7 +37210,7 @@ UnknownRJump_0x60CD4:
 	jr UnknownRJump_0x60CDC
 
 UnknownRJump_0x60CD8:
-	ld a, [$A7AC]
+	ld a, [sCastleItemPreview]
 	ld e, a
 
 UnknownRJump_0x60CDC:
@@ -37219,13 +37219,13 @@ UnknownRJump_0x60CDC:
 	add hl, de
 	ld a, [hl]
 	ldh_n_a $C6
-	ld a, [$A7A7]
+	ld a, [sCastleStateTimer]
 	dec a
-	ld [$A7A7], a
+	ld [sCastleStateTimer], a
 	or a
 	jp nz, UnknownJump_0x60CF9
 	ld a, 3
-	ld [$A7A6], a
+	ld [sCastleState], a
 	jp UnknownJump_0x60CF9
 
 UnknownJump_0x60CF9:
@@ -37238,7 +37238,7 @@ UnknownJump_0x60CF9:
 UnknownCall_0x60D08:
 	call UnknownCall_0x60C41
 	ldh_n_a $C6
-	ld a, [$A79A]
+	ld a, [sCastleWalkScriptIdx]
 	ld d, 0
 	ld e, a
 	ld hl, $4FA8
@@ -37249,7 +37249,7 @@ UnknownCall_0x60D08:
 	ld b, a
 	inc e
 	ld a, e
-	ld [$A79A], a
+	ld [sCastleWalkScriptIdx], a
 	ldh_a_n $C4
 	add b
 	ldh_n_a $C4
@@ -37259,16 +37259,16 @@ UnknownCall_0x60D08:
 	ret
 
 UnknownCall_0x60D32:
-	ld a, [$A7A5]
+	ld a, [sCastleRevealProgress]
 	and $7C
 	srl a
 	srl a
 	cp $1E
 	jr c, UnknownRJump_0x60D49
 
-	ld a, [$A7A5]
+	ld a, [sCastleRevealProgress]
 	and $77
-	ld [$A7A5], a
+	ld [sCastleRevealProgress], a
 	ld a, 29
 
 
@@ -37300,7 +37300,7 @@ UnknownRJump_0x60D49:
 	ld l, c
 	add hl, de
 	ld a, [hl]
-	ld [$A7A8], a
+	ld [sCastleItemIndex], a
 	or a
 	ret z
 	ld a, 22
@@ -37308,7 +37308,7 @@ UnknownRJump_0x60D49:
 	ret
 
 UnknownCall_0x60D80:
-	ld a, [$A7A8]
+	ld a, [sCastleItemIndex]
 	or a
 	ret nz
 	ld a, [sMapSprite1Page]
@@ -37317,7 +37317,7 @@ UnknownCall_0x60D80:
 	srl a
 	srl a
 	and $0F
-	ld [$A7AA], a
+	ld [sCastleMarkerCol], a
 	ld a, [sMapSprite1Page]
 	sub 40
 	srl a
@@ -37325,7 +37325,7 @@ UnknownCall_0x60D80:
 	srl a
 	and $0F
 	ld d, a
-	ld a, [$A7A5]
+	ld a, [sCastleRevealProgress]
 	srl a
 	srl a
 	add d
@@ -37341,19 +37341,19 @@ UnknownRJump_0x60DB3:
 	ld a, 2
 	sub e
 	ld d, a
-	ld a, [$A7AA]
+	ld a, [sCastleMarkerCol]
 	add d
 	set 7, a
-	ld [$A7AA], a
+	ld [sCastleMarkerCol], a
 	ld a, 17
 	ld [$A460], a
 	ret
 
 UnknownCall_0x60DC7:
 	ld a, [sCurPowerup]
-	ld [$A7AB], a
-	ld [$A7AC], a
-	ld a, [$A7A8]
+	ld [sCastleSavedPowerup], a
+	ld [sCastleItemPreview], a
+	ld a, [sCastleItemIndex]
 	or a
 	ret z
 	cp $01
@@ -37466,8 +37466,8 @@ UnknownRJump_0x60E7C:
 UnknownJump_0x60E7D:
 UnknownRJump_0x60E7D:
 	ld a, [sCurPowerup]
-	ld [$A7AC], a
-	ld a, [$A7A8]
+	ld [sCastleItemPreview], a
+	ld a, [sCastleItemIndex]
 	ld d, 0
 	ld e, a
 	ld hl, $4F6A
@@ -37503,7 +37503,7 @@ UnknownCall_0x60EAF:
 
 
 UnknownCall_0x60EB5:
-	ld a, [$A7AD]
+	ld a, [sCastleRevealTick]
 	and $0C
 	rrca
 	rrca
@@ -37537,20 +37537,20 @@ UnknownRJump_0x60EE0:
 	ret
 
 UnknownCall_0x60EE6:
-	ld a, [$A7A8]
+	ld a, [sCastleItemIndex]
 	or a
 	ret z
 	ld a, [sMapFrameCounter]
 	and $03
 	ret nz
-	ld a, [$A7B9]
+	ld a, [sCastleShufflePhase]
 	inc a
 	cp $03
 	jr c, UnknownRJump_0x60EFA
 	xor a
 
 UnknownRJump_0x60EFA:
-	ld [$A7B9], a
+	ld [sCastleShufflePhase], a
 	or a
 	jr z, UnknownRJump_0x60F06
 	cp $01
@@ -37624,7 +37624,7 @@ UnknownRJump_0x61073:
 	dec d
 	jr nz, UnknownRJump_0x61073
 	ld a, 0
-	ld [$A782], a
+	ld [sMapDecorOAMIndex], a
 	ld hl, sMapSprite0Page
 	ld a, 16
 
@@ -37656,7 +37656,7 @@ UnknownCall_0x6109B:
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, [$A782]
+	ld a, [sMapDecorOAMIndex]
 	cp $28
 	ret nc
 	add a
@@ -37669,7 +37669,7 @@ UnknownCall_0x6109B:
 	ld d, a
 
 UnknownRJump_0x610B6:
-	ld a, [$A782]
+	ld a, [sMapDecorOAMIndex]
 	cp $28
 	ret nc
 	ld a, [hli]
@@ -37688,9 +37688,9 @@ UnknownRJump_0x610B6:
 	ld a, [hli]
 	ld [de], a
 	inc de
-	ld a, [$A782]
+	ld a, [sMapDecorOAMIndex]
 	inc a
-	ld [$A782], a
+	ld [sMapDecorOAMIndex], a
 	jr UnknownRJump_0x610B6
 
 UnknownRJump_0x610D7:
@@ -37703,14 +37703,14 @@ UnknownRJump_0x610D7:
 
 UnknownCall_0x610DD:
 	ld b, 15
-	ld hl, $A7D0
+	ld hl, sMapPatchList
 
 UnknownRJump_0x610E2:
 	push bc
 	ld a, [hli]
-	ld [$A787], a
+	ld [sMapPatchDrawX], a
 	ld a, [hli]
-	ld [$A788], a
+	ld [sMapPatchDrawY], a
 	ld a, [hli]
 	cp $FF
 	jr z, UnknownRJump_0x61142
@@ -37732,7 +37732,7 @@ UnknownRJump_0x610FF:
 	cp $FF
 	jr z, UnknownRJump_0x61142
 	ld c, a
-	ld a, [$A787]
+	ld a, [sMapPatchDrawX]
 	add c
 	and $1F
 	ld c, a
@@ -37741,7 +37741,7 @@ UnknownRJump_0x610FF:
 	inc de
 	push hl
 	ld l, a
-	ld a, [$A788]
+	ld a, [sMapPatchDrawY]
 	add l
 	and $1F
 	ld h, 0
@@ -37780,14 +37780,14 @@ UnknownRJump_0x61142:
 
 UnknownCall_0x61147:
 	ld b, 15
-	ld hl, $A7D0
+	ld hl, sMapPatchList
 
 UnknownRJump_0x6114C:
 	push bc
 	ld a, [hli]
-	ld [$A787], a
+	ld [sMapPatchDrawX], a
 	ld a, [hli]
-	ld [$A788], a
+	ld [sMapPatchDrawY], a
 	ld a, [hli]
 	cp $FF
 	jr z, UnknownRJump_0x611AC
@@ -37809,7 +37809,7 @@ UnknownRJump_0x61169:
 	cp $FF
 	jr z, UnknownRJump_0x611AC
 	ld c, a
-	ld a, [$A787]
+	ld a, [sMapPatchDrawX]
 	add c
 	and $1F
 	ld c, a
@@ -37818,7 +37818,7 @@ UnknownRJump_0x61169:
 	inc de
 	push hl
 	ld l, a
-	ld a, [$A788]
+	ld a, [sMapPatchDrawY]
 	add l
 	and $1F
 	ld h, 0

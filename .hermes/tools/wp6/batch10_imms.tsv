@@ -1,0 +1,11 @@
+$A700	sMapWaveStrip0
+$A720	sMapWaveStrip1
+$A740	sMapWaveStrip2
+$A760	sMapWaveStrip3
+$A7D0	sMapPatchList
+$A7D2	sMapPatch0Id
+$A7D5	sMapPatch1Id
+$A7DA	sCastleSlotCounter
+$A7DF	sCastleSlotDelay
+$A7E4	sCastleSlotValue
+$A7ED	sMapPatch9Id

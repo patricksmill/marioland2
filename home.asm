@@ -8080,7 +8080,7 @@ UnknownCall_0x3E51:
 
 UnknownJump_0x3E73:
 	ld a, 1
-	ld [$A785], a
+	ld [sMapFrameSyncFlag], a
 	jp UnknownJump_0x3EAFF
 
 UnknownCall_0x3E7B:
