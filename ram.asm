@@ -858,11 +858,16 @@ DEF hKeysPressed EQU $FF81
 ;                    the two defeat/removal paths compare == $10
 ;   +3/+4  $FFD3/D4  world Y hi/lo - staged to $FFB7/$FFB8; screen Y = (Y+16)-sScrollY
 ;   +5     $FFD5     sprite anim index
-;   +6/+7  $FFD6/D7  link pointer hi/lo (spawn record+2; targets live in $ADxx-$AFxx,
-;                    which is why $FFD6 is the hi byte - see $5B2F0's `cp $AD`)
+;   +6/+7  $FFD6/D7  spawn-record pointer hi/lo: the stream spawn stores stream_ptr+2
+;                    (the record's +2..+3 word) right after the $8D59 6-byte copy
+;                    loop; $5B2BF copies 5 bytes from ptr-2 (the record start) into
+;                    +0..+4; $86F9 writes the record's anim byte at ptr+3 (= record+5).
+;                    Validity checks treat hi >= $AD as "not stream-backed" ($8240,
+;                    $5B2F0) - record pointers live in the $ABxx stream buffer, below $AD
 ;   +8     $FFD8     state (mirrors slot+8)
-;   +9/+10 $FFD9/DA  screen Y / screen X (written by $C090, read by the interaction
-;                    passes)
+;   +9/+10 $FFD9/DA  screen Y / screen X (recomputed per frame by $C090 from +3/+4 -
+;                    scroll; scripts nudge them via $B270/$B276 for bob/shake; the
+;                    interaction passes box-check against them)
 ;   +11    $FFDB     sprite id (index into the $4737/$4935 descriptor tables)
 ;   +12    $FFDC     defeat attribute byte: bit7 set ($80) when defeated -> drawn behind
 ;                    BG, and doubles as the "already defeated" gate ($A3FF)
@@ -872,8 +877,9 @@ DEF hKeysPressed EQU $FF81
 ;                    during defeat/spin animations
 ;   +15    $FFDF     frame state: 0 = just spawned, else dec + rst $28 dispatch into the
 ;                    object's handler table; saved/restored via sSavedFrameState $AFC4
-;   +16    $FFE0     phase frame counter (incremented per frame, compared to the step's
-;                    delay before advancing +15)
+;   +16    $FFE0     phase frame counter: scripts increment it per frame and compare
+;                    against the step's delay (helpers set c) before advancing +15;
+;                    also used as an index into per-object animation curves (e.g. $7214)
 ;   +17    $FFE1     (no refs - parked with the +18 type)
 ;   +18    $FFE2     type (interaction class, cf. $AF00-region type usage)
 ;   +19..22 $FFE3-E6 hitbox top/bottom/left/right - filled by $81CF from the sprite
