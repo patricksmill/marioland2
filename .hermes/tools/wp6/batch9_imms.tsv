@@ -1,0 +1,16 @@
+$A680	sMapCamXLo
+$A682	sMapCamYLo
+$A692	sMapWalkPtrLo
+$A6B5	sMapSprite0Page
+$A6B7	sMapSprite0Y
+$A6B8	sMapSprite0Id
+$A6B9	sMapSprite1Page
+$A6BA	sMapSprite1X
+$A6BB	sMapSprite1Y
+$A6C0	sMapSprite2Id
+$A6C3	sMapSprite3Y
+$A6C6	sMapSprite4X
+$A6C8	sMapSprite4Id
+$A6CC	sMapSprite5Id
+$A6D5	sMapSprite8Page
+$A6F0	sMapSprite14Id

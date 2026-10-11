@@ -18308,7 +18308,7 @@ SECTION "bank0F", ROMX, BANK[$0F]
 
 
 UnknownJump_0x3C000:
-	ld a, [$A68B]
+	ld a, [sMapScreenId]
 	or a
 	jp z, UnknownJump_0x3C04D
 	cp $01
@@ -18343,7 +18343,7 @@ UnknownJump_0x3C000:
 UnknownJump_0x3C04D:
 	call UnknownCall_0x3ED4C
 	call UnknownCall_0x3C38C
-	ld a, [$A68B]
+	ld a, [sMapScreenId]
 	or a
 	jp nz, UnknownJump_0x3C169
 	call UnknownCall_0x3C13E
@@ -18474,29 +18474,29 @@ UnknownCall_0x3C13E:
 	ld c, 4
 	ld a, [$FF00+c]
 	ld d, a
-	ld a, [$A6B2]
+	ld a, [sMapKeysXor]
 	xor d
-	ld [$A6B2], a
-	ld a, [$A69A]
+	ld [sMapKeysXor], a
+	ld a, [sMapFrameCounter]
 	inc a
-	ld [$A69A], a
-	ld a, [$A697]
+	ld [sMapFrameCounter], a
+	ld a, [sMapTickTimer]
 	dec a
-	ld [$A697], a
+	ld [sMapTickTimer], a
 	ret nz
 	ld a, 40
-	ld [$A697], a
+	ld [sMapTickTimer], a
 	ld c, 4
 	ld a, [$FF00+c]
 	ld d, a
-	ld a, [$A696]
+	ld a, [sMapRandLatch]
 	xor d
-	ld [$A696], a
+	ld [sMapRandLatch], a
 	ret
 
 UnknownJump_0x3C169:
 	ei
-	ld a, [$A690]
+	ld a, [sMapCursorWalking]
 	or a
 	ret nz
 	ldh_a_n $81
@@ -18548,7 +18548,7 @@ UnknownRJump_0x3C1A2:
 	ld a, 255
 	ld [$A468], a
 	call UnknownCall_0x2AAA
-	ld a, [$A68B]
+	ld a, [sMapScreenId]
 	cp $03
 	jr z, UnknownRJump_0x3C1EC
 	ld hl, $A102
@@ -18689,7 +18689,7 @@ UnknownCall_0x3C2FE:
 
 
 UnknownJump_0x3C316:
-	ld a, [$A690]
+	ld a, [sMapCursorWalking]
 	or a
 	jp nz, UnknownJump_0x3C4CC
 	ld a, [sLevelProgress]
@@ -18702,7 +18702,7 @@ UnknownJump_0x3C316:
 
 
 UnknownCall_0x3C32D:
-	ld a, [$A690]
+	ld a, [sMapCursorWalking]
 	or a
 	ret nz
 	ld a, [sMarioDead]
@@ -18866,7 +18866,7 @@ UnknownCall_0x3C38C:
 	jp z, UnknownJump_0x3C316
 
 UnknownJump_0x3C4CC:
-	ld a, [$A690]
+	ld a, [sMapCursorWalking]
 	or a
 	jp nz, UnknownJump_0x3C7EC
 UnknownJump_0x3C4D3:
@@ -18895,7 +18895,7 @@ UnknownRJump_0x3C4E7:
 	jp UnknownJump_0x3C588
 
 UnknownRJump_0x3C505:
-	ld a, [$A68B]
+	ld a, [sMapScreenId]
 	or a
 	jr nz, UnknownRJump_0x3C52B
 	ldh_a_n $80
@@ -18969,7 +18969,7 @@ UnknownRJump_0x3C56E:
 	jr z, UnknownRJump_0x3C5DA
 
 UnknownJump_0x3C588:
-	ld hl, $A692
+	ld hl, sMapWalkPtrLo
 	ld [hl], c
 	inc hl
 	ld [hl], b
@@ -18979,15 +18979,15 @@ UnknownJump_0x3C588:
 	ld d, a
 	ld [sMapCursorMove], a
 	ld a, 255
-	ld [$A690], a
+	ld [sMapCursorWalking], a
 	ld a, 9
-	ld [$A694], a
+	ld [sMapWalkStepTimer], a
 	ld a, d
 	and $F0
 	cp $10
 	jp nz, UnknownJump_0x3C7EC
 	ld a, 5
-	ld [$A694], a
+	ld [sMapWalkStepTimer], a
 	jp UnknownJump_0x3C7EC
 
 UnknownJump_0x3C5B2:
@@ -19025,7 +19025,7 @@ UnknownRJump_0x3C5F4:
 	ldh_a_n $81
 	and $09
 	jp z, UnknownJump_0x3C66C
-	ld a, [$A68B]
+	ld a, [sMapScreenId]
 	or a
 	jp z, UnknownJump_0x3C60B
 	cp $08
@@ -19069,14 +19069,14 @@ UnknownRJump_0x3C60B:
 	jp z, UnknownJump_0x3F3B9
 	cp $11
 	jr nz, UnknownRJump_0x3C66C
-	ld a, [$A68B]
+	ld a, [sMapScreenId]
 	or a
 	jp nz, UnknownJump_0x3C66C
 	jp UnknownJump_0x3D6C3
 
 UnknownJump_0x3C66C:
 UnknownRJump_0x3C66C:
-	ld a, [$A68B]
+	ld a, [sMapScreenId]
 	or a
 	jp z, UnknownJump_0x3C7D9
 	ld a, [sMapNode]
@@ -19157,11 +19157,11 @@ UnknownJump_0x3C708:
 	ld a, 34
 	ld [sMapCursorMove], a
 	ld a, 255
-	ld [$A690], a
+	ld [sMapCursorWalking], a
 	ld a, 2
 	call UnknownCall_0x3E2F7
 	ld a, 0
-	ld [$A690], a
+	ld [sMapCursorWalking], a
 
 UnknownJump_0x3C724:
 	ld a, 27
@@ -19255,17 +19255,17 @@ UnknownCall_0x3C7CA:
 	call UnknownCall_0x3EEA4
 	call UnknownCall_0x3ED4C
 	ld a, 0
-	ld [$A68B], a
+	ld [sMapScreenId], a
 	ret
 
 UnknownJump_0x3C7D9:
 	xor a
-	ld [$A690], a
+	ld [sMapCursorWalking], a
 	ld a, 8
-	ld [$A694], a
-	ld a, [$A68C]
+	ld [sMapWalkStepTimer], a
+	ld a, [sMapCursorWalkFrame]
 	inc a
-	ld [$A68C], a
+	ld [sMapCursorWalkFrame], a
 	jp UnknownJump_0x3C8F4
 
 UnknownJump_0x3C7EC:
@@ -19276,13 +19276,13 @@ UnknownJump_0x3C7EC:
 	jp UnknownJump_0x3C901
 
 UnknownRJump_0x3C7F8:
-	ld a, [$A694]
+	ld a, [sMapWalkStepTimer]
 	dec a
-	ld [$A694], a
+	ld [sMapWalkStepTimer], a
 	jr nz, UnknownRJump_0x3C83C
 	ld a, 8
-	ld [$A694], a
-	ld hl, $A692
+	ld [sMapWalkStepTimer], a
+	ld hl, sMapWalkPtrLo
 	ld c, [hl]
 	inc hl
 	ld b, [hl]
@@ -19296,7 +19296,7 @@ UnknownRJump_0x3C7F8:
 	or a
 	jr nz, UnknownRJump_0x3C82D
 	xor a
-	ld [$A690], a
+	ld [sMapCursorWalking], a
 	inc bc
 	ld a, 24
 	call UnknownCall_0x3E8F
@@ -19311,30 +19311,30 @@ UnknownRJump_0x3C82D:
 	bit 4, a
 	jr z, UnknownRJump_0x3C83C
 	ld a, 4
-	ld [$A694], a
+	ld [sMapWalkStepTimer], a
 
 UnknownRJump_0x3C83C:
-	ld a, [$A68C]
+	ld a, [sMapCursorWalkFrame]
 	inc a
-	ld [$A68C], a
+	ld [sMapCursorWalkFrame], a
 	ld a, [sMapCursorMove]
 	and $0F
 	jp z, UnknownJump_0x3C8F4
 	ld a, [sMapCursorMove]
 	bit 2, a
 	jr z, UnknownRJump_0x3C872
-	ld a, [$A68C]
+	ld a, [sMapCursorWalkFrame]
 	and $0C
 	rrca
 	rrca
 	add 8
-	ld [$A695], a
+	ld [sMapCursorPose], a
 	ld a, [sMapCursorY]
 	cp $08
 	ccf
 	sbc 0
 	ld [sMapCursorY], a
-	ld a, [$A68B]
+	ld a, [sMapScreenId]
 	or a
 	call z, UnknownCall_0x3CA84
 	jr UnknownRJump_0x3C893
@@ -19342,17 +19342,17 @@ UnknownRJump_0x3C83C:
 UnknownRJump_0x3C872:
 	bit 3, a
 	jr z, UnknownRJump_0x3C893
-	ld a, [$A68C]
+	ld a, [sMapCursorWalkFrame]
 	and $0C
 	rrca
 	rrca
 	add 12
-	ld [$A695], a
+	ld [sMapCursorPose], a
 	ld a, [sMapCursorY]
 	cp $8A
 	adc 0
 	ld [sMapCursorY], a
-	ld a, [$A68B]
+	ld a, [sMapScreenId]
 	or a
 	call z, UnknownCall_0x3CAAB
 
@@ -19360,23 +19360,23 @@ UnknownRJump_0x3C893:
 	ld a, [sMapCursorMove]
 	bit 0, a
 	jr z, UnknownRJump_0x3C8C1
-	ld a, [$A68C]
+	ld a, [sMapCursorWalkFrame]
 	and $0C
 	cp $0C
 	jr nz, UnknownRJump_0x3C8A7
 	xor a
-	ld [$A68C], a
+	ld [sMapCursorWalkFrame], a
 
 UnknownRJump_0x3C8A7:
 	rrca
 	rrca
 	add 4
-	ld [$A695], a
+	ld [sMapCursorPose], a
 	ld a, [sMapCursorX]
 	cp $94
 	adc 0
 	ld [sMapCursorX], a
-	ld a, [$A68B]
+	ld a, [sMapScreenId]
 	or a
 	call z, UnknownCall_0x3CA31
 	jr UnknownRJump_0x3C901
@@ -19384,23 +19384,23 @@ UnknownRJump_0x3C8A7:
 UnknownRJump_0x3C8C1:
 	bit 1, a
 	jr z, UnknownRJump_0x3C8EB
-	ld a, [$A68C]
+	ld a, [sMapCursorWalkFrame]
 	and $0C
 	cp $0C
 	jr nz, UnknownRJump_0x3C8D2
 	xor a
-	ld [$A68C], a
+	ld [sMapCursorWalkFrame], a
 
 UnknownRJump_0x3C8D2:
 	rrca
 	rrca
-	ld [$A695], a
+	ld [sMapCursorPose], a
 	ld a, [sMapCursorX]
 	cp $08
 	ccf
 	sbc 0
 	ld [sMapCursorX], a
-	ld a, [$A68B]
+	ld a, [sMapScreenId]
 	or a
 	call z, UnknownCall_0x3CA5D
 	jr UnknownRJump_0x3C901
@@ -19415,18 +19415,18 @@ UnknownRJump_0x3C8F2:
 
 
 UnknownJump_0x3C8F4:
-	ld a, [$A68C]
+	ld a, [sMapCursorWalkFrame]
 	and $18
 	rrca
 	rrca
 	rrca
 	add 12
-	ld [$A695], a
+	ld [sMapCursorPose], a
 
 UnknownJump_0x3C901:
 UnknownRJump_0x3C901:
 UnknownCall_0x3C901:
-	ld a, [$A695]
+	ld a, [sMapCursorPose]
 	add a
 	ld d, 0
 	ld e, a
@@ -19441,7 +19441,7 @@ UnknownCall_0x3C901:
 	cp $08
 	jr nz, UnknownRJump_0x3C92A
 	ld de, $4B77
-	ld a, [$A68C]
+	ld a, [sMapCursorWalkFrame]
 	and $08
 	ld l, a
 	ld h, 0
@@ -19461,14 +19461,14 @@ UnknownRJump_0x3C933:
 	jr z, UnknownRJump_0x3C990
 	and $02
 	jr z, UnknownRJump_0x3C990
-	ld a, [$A690]
+	ld a, [sMapCursorWalking]
 	or a
 	jr z, UnknownRJump_0x3C971
 	ld a, [sMapCursorMove]
 	bit 1, a
 	jr z, UnknownRJump_0x3C959
 	ld de, $4B8F
-	ld a, [$A68C]
+	ld a, [sMapCursorWalkFrame]
 	and $0C
 	rlca
 	ld l, a
@@ -19483,7 +19483,7 @@ UnknownRJump_0x3C959:
 	bit 0, a
 	jr z, UnknownRJump_0x3C971
 	ld de, $4BAF
-	ld a, [$A68C]
+	ld a, [sMapCursorWalkFrame]
 	and $0C
 	rlca
 	ld l, a
@@ -19494,7 +19494,7 @@ UnknownRJump_0x3C959:
 	jr UnknownRJump_0x3C990
 
 UnknownRJump_0x3C971:
-	ld a, [$A68C]
+	ld a, [sMapCursorWalkFrame]
 	and $18
 	rrca
 	rrca
@@ -19763,7 +19763,7 @@ UnknownData_0x3CAD7: ;data block, read at line 19420
 UnknownCall_0x3CBE7:
 	xor a
 	ld [$A781], a
-	ld hl, $A6B5
+	ld hl, sMapSprite0Page
 	ld c, 72
 	ld de, $4BFD
 
@@ -19818,7 +19818,7 @@ UnknownData_0x3CBFD: ;data block, read at line 19738
 
 UnknownCall_0x3CE43:
 	ld hl, $4E37
-	ld de, $A6C8
+	ld de, sMapSprite4Id
 	ld b, 6
 
 UnknownRJump_0x3CE4B:
@@ -19854,7 +19854,7 @@ UnknownRJump_0x3CE5E:
 	ret
 
 UnknownCall_0x3CE6B:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $07
 	jr nz, UnknownRJump_0x3CE93
 	ld a, [$A780]
@@ -19866,7 +19866,7 @@ UnknownCall_0x3CE6B:
 UnknownRJump_0x3CE7B:
 	ld [$A780], a
 	add 2
-	ld hl, $A6C8
+	ld hl, sMapSprite4Id
 	ld de, $0004
 	ld b, 6
 	ld c, a
@@ -19883,10 +19883,10 @@ UnknownRJump_0x3CE8F:
 	jr nz, UnknownRJump_0x3CE89
 
 UnknownRJump_0x3CE93:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $03
 	jr nz, UnknownRJump_0x3CEB7
-	ld hl, $A6BA
+	ld hl, sMapSprite1X
 	ld de, $0004
 	ld a, [$A781]
 	inc a
@@ -19908,7 +19908,7 @@ UnknownRJump_0x3CEB2:
 	dec [hl]
 
 UnknownRJump_0x3CEB7:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $03
 	jr nz, UnknownRJump_0x3CF16
 	ld a, [$A7A9]
@@ -19917,16 +19917,16 @@ UnknownRJump_0x3CEB7:
 
 UnknownRJump_0x3CEC4:
 	ld a, 255
-	ld [$A6F8], a
-	ld [$A6FC], a
+	ld [sMapSprite16Id], a
+	ld [sMapSprite17Id], a
 	ld a, [$A7A9]
 	dec a
 	ld [$A7A9], a
 	bit 0, a
 	jr z, UnknownRJump_0x3CF16
 	ld a, 10
-	ld [$A6F8], a
-	ld [$A6FC], a
+	ld [sMapSprite16Id], a
+	ld [sMapSprite17Id], a
 	ldh a, [rDIV]
 	and $0E
 	ld d, 0
@@ -19934,9 +19934,9 @@ UnknownRJump_0x3CEC4:
 	ld hl, $4FA8
 	add hl, de
 	ld a, [hli]
-	ld [$A6F6], a
+	ld [sMapSprite16X], a
 	ld a, [hl]
-	ld [$A6F7], a
+	ld [sMapSprite16Y], a
 	ldh a, [rDIV]
 	and $E0
 	swap a
@@ -19945,9 +19945,9 @@ UnknownRJump_0x3CEC4:
 	ld hl, $4FB8
 	add hl, de
 	ld a, [hli]
-	ld [$A6FA], a
+	ld [sMapSprite17X], a
 	ld a, [hl]
-	ld [$A6FB], a
+	ld [sMapSprite17Y], a
 	jr UnknownRJump_0x3CF16
 
 UnknownRJump_0x3CF09:
@@ -19978,7 +19978,7 @@ UnknownRJump_0x3CF2E:
 	ld a, d
 	cp $58
 	jr c, UnknownRJump_0x3CF3A
-	ld hl, $A6F0
+	ld hl, sMapSprite14Id
 	ld a, 5
 	ld [hl], a
 	ret
@@ -19986,30 +19986,30 @@ UnknownRJump_0x3CF2E:
 UnknownRJump_0x3CF3A:
 	cp $2C
 	jr nc, UnknownRJump_0x3CF48
-	ld a, [$A6EE]
+	ld a, [sMapSprite14X]
 	dec a
-	ld [$A6EE], a
+	ld [sMapSprite14X], a
 	ld e, a
 	jr UnknownRJump_0x3CF52
 
 UnknownRJump_0x3CF48:
-	ld a, [$A6EE]
+	ld a, [sMapSprite14X]
 	inc a
-	ld [$A6EE], a
+	ld [sMapSprite14X], a
 	ld e, a
 	ld c, 0
 
 UnknownRJump_0x3CF52:
-	ld hl, $A6F0
+	ld hl, sMapSprite14Id
 	ld a, c
 	add 5
 	ld [hl], a
 	ld a, 255
-	ld [$A6E0], a
-	ld [$A6E4], a
-	ld [$A6E8], a
-	ld [$A6EC], a
-	ld [$A6F4], a
+	ld [sMapSprite10Id], a
+	ld [sMapSprite11Id], a
+	ld [sMapSprite12Id], a
+	ld [sMapSprite13Id], a
+	ld [sMapSprite15Id], a
 	ld a, e
 	sub 88
 	srl a
@@ -20020,35 +20020,35 @@ UnknownRJump_0x3CF52:
 	cp $06
 	jr nc, UnknownRJump_0x3CF80
 	ld a, 11
-	ld [$A6E0], a
+	ld [sMapSprite10Id], a
 	ld a, e
 
 UnknownRJump_0x3CF80:
 	cp $05
 	jr nc, UnknownRJump_0x3CF8A
 	ld a, 11
-	ld [$A6E4], a
+	ld [sMapSprite11Id], a
 	ld a, e
 
 UnknownRJump_0x3CF8A:
 	cp $04
 	jr nc, UnknownRJump_0x3CF94
 	ld a, 11
-	ld [$A6E8], a
+	ld [sMapSprite12Id], a
 	ld a, e
 
 UnknownRJump_0x3CF94:
 	cp $03
 	jr nc, UnknownRJump_0x3CF9E
 	ld a, 11
-	ld [$A6EC], a
+	ld [sMapSprite13Id], a
 	ld a, e
 
 UnknownRJump_0x3CF9E:
 	cp $02
 	jr nc, UnknownRJump_0x3CFA7
 	ld a, 11
-	ld [$A6F4], a
+	ld [sMapSprite15Id], a
 
 UnknownRJump_0x3CFA7:
 	ret
@@ -20069,8 +20069,8 @@ UnknownRJump_0x3CFD1:
 	dec d
 	jr nz, UnknownRJump_0x3CFD1
 	ld a, 13
-	ld [$A6B3], a
-	ld hl, $A6B5
+	ld [sMapOAMIndex], a
+	ld hl, sMapSprite0Page
 	ld a, 18
 
 UnknownRJump_0x3CFDF:
@@ -20087,7 +20087,7 @@ UnknownRJump_0x3CFDF:
 	dec hl
 	call UnknownCall_0x3D044
 	ld e, a
-	ld a, [$A6B4]
+	ld a, [sMapSpriteOffscreen]
 	or a
 	call z, UnknownCall_0x3D001
 
@@ -20108,7 +20108,7 @@ UnknownCall_0x3D001:
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, [$A6B3]
+	ld a, [sMapOAMIndex]
 	cp $28
 	ret nc
 	add a
@@ -20121,7 +20121,7 @@ UnknownCall_0x3D001:
 	ld d, a
 
 UnknownRJump_0x3D01D:
-	ld a, [$A6B3]
+	ld a, [sMapOAMIndex]
 	cp $28
 	ret nc
 	ld a, [hli]
@@ -20140,9 +20140,9 @@ UnknownRJump_0x3D01D:
 	ld a, [hli]
 	ld [de], a
 	inc de
-	ld a, [$A6B3]
+	ld a, [sMapOAMIndex]
 	inc a
-	ld [$A6B3], a
+	ld [sMapOAMIndex], a
 	jr UnknownRJump_0x3D01D
 
 UnknownRJump_0x3D03E:
@@ -20170,11 +20170,11 @@ UnknownCall_0x3D044:
 	ld e, a
 	push hl
 	xor a
-	ld [$A6B4], a
+	ld [sMapSpriteOffscreen], a
 	push de
-	ld a, [$A680]
+	ld a, [sMapCamXLo]
 	ld l, a
-	ld a, [$A681]
+	ld a, [sMapCamXHi]
 	or $06
 	ld h, a
 	push hl
@@ -20188,7 +20188,7 @@ UnknownCall_0x3D044:
 	ld h, a
 	jr c, UnknownRJump_0x3D079
 	ld a, 255
-	ld [$A6B4], a
+	ld [sMapSpriteOffscreen], a
 
 UnknownRJump_0x3D079:
 	pop hl
@@ -20202,14 +20202,14 @@ UnknownRJump_0x3D079:
 	ld h, a
 	jr nc, UnknownRJump_0x3D08B
 	ld a, 255
-	ld [$A6B4], a
+	ld [sMapSpriteOffscreen], a
 
 UnknownRJump_0x3D08B:
 	pop de
 	push bc
-	ld a, [$A682]
+	ld a, [sMapCamYLo]
 	ld l, a
-	ld a, [$A683]
+	ld a, [sMapCamYHi]
 	or $06
 	ld h, a
 	push hl
@@ -20223,7 +20223,7 @@ UnknownRJump_0x3D08B:
 	ld h, a
 	jr c, UnknownRJump_0x3D0A9
 	ld a, 255
-	ld [$A6B4], a
+	ld [sMapSpriteOffscreen], a
 
 UnknownRJump_0x3D0A9:
 	pop hl
@@ -20237,20 +20237,20 @@ UnknownRJump_0x3D0A9:
 	ld h, a
 	jr nc, UnknownRJump_0x3D0BB
 	ld a, 255
-	ld [$A6B4], a
+	ld [sMapSpriteOffscreen], a
 
 UnknownRJump_0x3D0BB:
 	pop bc
-	ld a, [$A6B4]
+	ld a, [sMapSpriteOffscreen]
 	or a
 	jr nz, UnknownRJump_0x3D0D4
-	ld a, [$A680]
+	ld a, [sMapCamXLo]
 	ld b, a
 	ld a, c
 	sub b
 	add 8
 	ld b, a
-	ld a, [$A682]
+	ld a, [sMapCamYLo]
 	ld d, a
 	ld a, e
 	sub d
@@ -20300,9 +20300,9 @@ UnknownCall_0x3D0FF:
 	ld a, 0
 	ld [sScrollX], a
 	ld [sScrollY], a
-	ld [$A690], a
+	ld [sMapCursorWalking], a
 	ld a, 2
-	ld [$A68B], a
+	ld [sMapScreenId], a
 	call UnknownCall_0x3E46
 	ld de, $65BA
 	call UnknownCall_0x3E2A2
@@ -20310,11 +20310,11 @@ UnknownCall_0x3D0FF:
 	bit 7, a
 	jr z, UnknownRJump_0x3D151
 	ld a, 255
-	ld [$A6B7], a
+	ld [sMapSprite0Y], a
 
 UnknownRJump_0x3D151:
 	ld hl, sMapTreeAPath0
-	ld de, $A6C3
+	ld de, sMapSprite3Y
 	ld b, 5
 	call UnknownCall_0x3DB00
 	call UnknownCall_0x3E277
@@ -20325,9 +20325,9 @@ UnknownRJump_0x3D151:
 	ldh_n_a $40
 	xor a
 	ldh_n_a $81
-	ld [$A69A], a
-	ld [$A6B0], a
-	ld [$A6B1], a
+	ld [sMapFrameCounter], a
+	ld [sMapAnimIndexB], a
+	ld [sMapUnused4], a
 	ld [$A7BE], a
 	ld [$A7BF], a
 	ld a, 16
@@ -20348,7 +20348,7 @@ UnknownCall_0x3D18E:
 	and $01
 	jr nz, UnknownRJump_0x3D1A4
 	ld a, 106
-	ld [$A6D2], a
+	ld [sMapSprite7X], a
 
 UnknownRJump_0x3D1A4:
 	ld a, 37
@@ -20375,12 +20375,12 @@ UnknownCall_0x3D1C9:
 	and $01
 	ret z
 	ld a, 109
-	ld [$A6D2], a
+	ld [sMapSprite7X], a
 	ld a, [sMapGatePumpkinA]
 	bit 7, a
 	ret z
 	ld a, 124
-	ld [$A6D2], a
+	ld [sMapSprite7X], a
 	ret
 
 UnknownJump_0x3D1E0:
@@ -20421,9 +20421,9 @@ UnknownCall_0x3D208:
 	ld a, 0
 	ld [sScrollX], a
 	ld [sScrollY], a
-	ld [$A690], a
+	ld [sMapCursorWalking], a
 	ld a, 1
-	ld [$A68B], a
+	ld [sMapScreenId], a
 	call UnknownCall_0x3E46
 	ld de, $65DE
 	call UnknownCall_0x3E2A2
@@ -20431,31 +20431,31 @@ UnknownCall_0x3D208:
 	bit 7, a
 	jr z, UnknownRJump_0x3D25A
 	ld a, 255
-	ld [$A6BD], a
+	ld [sMapSprite2Page], a
 
 UnknownRJump_0x3D25A:
 	call UnknownCall_0x3D2FC
 	call UnknownCall_0x3D324
 	call UnknownCall_0x3D29F
 	ld hl, sMapPumpkinPath0
-	ld de, $A6C0
+	ld de, sMapSprite2Id
 	ld b, 4
 	call UnknownCall_0x3DB00
 	call UnknownCall_0x3E277
 	xor a
-	ld [$A6A8], a
-	ld [$A6A7], a
-	ld [$A6AD], a
-	ld [$A6AC], a
-	ld [$A6A6], a
-	ld [$A6A5], a
+	ld [sMapMovingDir], a
+	ld [sMapMovingX], a
+	ld [sMapUnused3], a
+	ld [sMapUnused2], a
+	ld [sMapUnused1], a
+	ld [sMapAnimValueA], a
 	ld [$A7BE], a
 	ld [$A7BF], a
 	ld a, 195
 	ldh_n_a $40
 	xor a
 	ldh_n_a $81
-	ld [$A69A], a
+	ld [sMapFrameCounter], a
 	ld a, 30
 	ld [$A468], a
 	call UnknownCall_0x2AAA
@@ -20563,11 +20563,11 @@ UnknownJump_0x3D33A:
 	call UnknownCall_0x2AAA
 	call UnknownCall_0x3D371
 	ld a, 255
-	ld [$A690], a
+	ld [sMapCursorWalking], a
 	ld a, 1
 	call UnknownCall_0x3E3BA
 	ld a, 0
-	ld [$A690], a
+	ld [sMapCursorWalking], a
 	ret
 
 UnknownCall_0x3D371:
@@ -20590,11 +20590,11 @@ UnknownCall_0x3D371:
 	ld a, 0
 	ld [sScrollX], a
 	ld [sScrollY], a
-	ld [$A690], a
+	ld [sMapCursorWalking], a
 	ld a, 33
 	ld [sMapCursorMove], a
 	ld a, 3
-	ld [$A68B], a
+	ld [sMapScreenId], a
 	call UnknownCall_0x3E46
 	ld de, $662C
 	call UnknownCall_0x3E2A2
@@ -20605,13 +20605,13 @@ UnknownCall_0x3D371:
 	or $20
 	ld [sMapCursorMove], a
 	ld a, 0
-	ld [$A690], a
+	ld [sMapCursorWalking], a
 	ld hl, sMapMacroPath0
-	ld de, $A6C3
+	ld de, sMapSprite3Y
 	ld b, 4
 	call UnknownCall_0x3DB00
 	ld hl, sMapGateMacro
-	ld de, $A6B7
+	ld de, sMapSprite0Y
 	ld b, 1
 	call UnknownCall_0x3DB00
 	call UnknownCall_0x3E277
@@ -20619,9 +20619,9 @@ UnknownCall_0x3D371:
 	ldh_n_a $40
 	xor a
 	ldh_n_a $81
-	ld [$A69A], a
-	ld [$A6B0], a
-	ld [$A6B1], a
+	ld [sMapFrameCounter], a
+	ld [sMapAnimIndexB], a
+	ld [sMapUnused4], a
 	ld [$A783], a
 	ld a, 5
 	ld [$A468], a
@@ -20743,9 +20743,9 @@ UnknownRJump_0x3D4D3:
 	ld a, 0
 	ld [sScrollX], a
 	ld [sScrollY], a
-	ld [$A690], a
+	ld [sMapCursorWalking], a
 	ld a, 4
-	ld [$A68B], a
+	ld [sMapScreenId], a
 	call UnknownCall_0x3E46
 	ld de, $65FF
 	call UnknownCall_0x3E2A2
@@ -20753,11 +20753,11 @@ UnknownRJump_0x3D4D3:
 	call UnknownCall_0x3D533
 	call UnknownCall_0x3D56B
 	ld hl, sMapSpacePath0
-	ld de, $A6C3
+	ld de, sMapSprite3Y
 	ld b, 2
 	call UnknownCall_0x3DB00
 	ld hl, sMapGateSpace
-	ld de, $A6D5
+	ld de, sMapSprite8Page
 	ld b, 1
 	call UnknownCall_0x3DB00
 	call UnknownCall_0x3E277
@@ -20765,9 +20765,9 @@ UnknownRJump_0x3D4D3:
 	ldh_n_a $40
 	xor a
 	ldh_n_a $81
-	ld [$A69A], a
-	ld [$A6B0], a
-	ld [$A6B1], a
+	ld [sMapFrameCounter], a
+	ld [sMapAnimIndexB], a
+	ld [sMapUnused4], a
 	ld [$A783], a
 	ld [$A7BD], a
 	ld a, 28
@@ -20796,7 +20796,7 @@ UnknownCall_0x3D533:
 	ld a, 60
 	ld [$A7BC], a
 	ld a, 117
-	ld [$A6D2], a
+	ld [sMapSprite7X], a
 	ld a, e
 
 UnknownRJump_0x3D562:
@@ -20837,13 +20837,13 @@ UnknownCall_0x3D58D:
 	ld [$A7D5], a
 	call UnknownCall_0x3F8E
 	ld a, 112
-	ld [$A6CC], a
+	ld [sMapSprite5Id], a
 	ld a, 3
 	ld [$A7BB], a
 	ld a, 0
 	ld [$A7BC], a
 	ld a, 123
-	ld [$A6D2], a
+	ld [sMapSprite7X], a
 	ld a, [sMapGateSpace]
 	bit 7, a
 	ret z
@@ -20909,16 +20909,16 @@ UnknownCall_0x3D61F:
 	ld a, 0
 	ld [sScrollX], a
 	ld [sScrollY], a
-	ld [$A690], a
+	ld [sMapCursorWalking], a
 	ld a, 5
-	ld [$A68B], a
+	ld [sMapScreenId], a
 	call UnknownCall_0x3E46
 	ld de, $6680
 	call UnknownCall_0x3E2A2
 	call UnknownCall_0x3D6B7
 	call UnknownCall_0x3D69C
 	ld hl, sMapTreeBPath0
-	ld de, $A6C3
+	ld de, sMapSprite3Y
 	ld b, 3
 	call UnknownCall_0x3DB00
 	call UnknownCall_0x3E277
@@ -20926,12 +20926,12 @@ UnknownCall_0x3D61F:
 	ldh_n_a $40
 	xor a
 	ldh_n_a $81
-	ld [$A69A], a
-	ld [$A6B0], a
-	ld [$A6B1], a
+	ld [sMapFrameCounter], a
+	ld [sMapAnimIndexB], a
+	ld [sMapUnused4], a
 	ld [$A783], a
 	ld a, 160
-	ld [$A6A7], a
+	ld [sMapMovingX], a
 	ld a, 18
 	ld [$A468], a
 	call UnknownCall_0x2AAA
@@ -20950,7 +20950,7 @@ UnknownCall_0x3D69C:
 	set 0, a
 	ld [sMapTreeBPath1], a
 	ld a, 125
-	ld [$A6D5], a
+	ld [sMapSprite8Page], a
 	ret
 
 UnknownCall_0x3D6B7:
@@ -20958,7 +20958,7 @@ UnknownCall_0x3D6B7:
 	and $01
 	ret z
 	ld a, 129
-	ld [$A6D5], a
+	ld [sMapSprite8Page], a
 	ret
 
 UnknownJump_0x3D6C3:
@@ -20999,9 +20999,9 @@ UnknownCall_0x3D6EB:
 	ld a, 0
 	ld [sScrollX], a
 	ld [sScrollY], a
-	ld [$A690], a
+	ld [sMapCursorWalking], a
 	ld a, 7
-	ld [$A68B], a
+	ld [sMapScreenId], a
 	call UnknownCall_0x3E46
 	ld a, 225
 	ld [sBGPalette], a
@@ -21013,7 +21013,7 @@ UnknownCall_0x3D6EB:
 	ldh_n_a $40
 	xor a
 	ldh_n_a $81
-	ld [$A69A], a
+	ld [sMapFrameCounter], a
 	ld [$A79E], a
 	ld [$A79D], a
 	ld a, 1
@@ -21047,7 +21047,7 @@ UnknownJump_0x3D760:
 	rlca
 	or b
 	add 56
-	ld [$A6C4], a
+	ld [sMapSprite3Id], a
 	ld a, 1
 	call UnknownCall_0x3E3BA
 	ret
@@ -21072,20 +21072,20 @@ UnknownCall_0x3D79A:
 	ld a, 0
 	ld [sScrollX], a
 	ld [sScrollY], a
-	ld [$A690], a
+	ld [sMapCursorWalking], a
 	ld a, 6
-	ld [$A68B], a
+	ld [sMapScreenId], a
 	call UnknownCall_0x3E46
 	ld de, $664D
 	call UnknownCall_0x3E2A2
 	ld a, 74
-	ld [$A6C4], a
+	ld [sMapSprite3Id], a
 	ld a, [sGoldenCoin6]
 	and $80
 	swap a
 	sla a
 	add 76
-	ld [$A6BB], a
+	ld [sMapSprite1Y], a
 	ld a, [sGoldenCoin6]
 	and $80
 	rlca
@@ -21093,7 +21093,7 @@ UnknownCall_0x3D79A:
 	rlca
 	or b
 	add 16
-	ld [$A6BC], a
+	ld [sMapSprite1Id], a
 	ld a, [sMapMarioPath1]
 	and $80
 	rlca
@@ -21108,7 +21108,7 @@ UnknownCall_0x3D79A:
 	ld [$A7DB], a
 	call UnknownCall_0x3F8E
 	ld hl, sMapMarioPath0
-	ld de, $A6CC
+	ld de, sMapSprite5Id
 	ld b, 4
 	call UnknownCall_0x3DB00
 	call UnknownCall_0x3E277
@@ -21116,9 +21116,9 @@ UnknownCall_0x3D79A:
 	ldh_n_a $40
 	xor a
 	ldh_n_a $81
-	ld [$A69A], a
-	ld [$A6B0], a
-	ld [$A6B1], a
+	ld [sMapFrameCounter], a
+	ld [sMapAnimIndexB], a
+	ld [sMapUnused4], a
 	ld [$A783], a
 	ld a, 27
 	ld [$A468], a
@@ -21169,9 +21169,9 @@ UnknownCall_0x3D880:
 	ld a, 0
 	ld [sScrollX], a
 	ld [sScrollY], a
-	ld [$A690], a
+	ld [sMapCursorWalking], a
 	ld a, 8
-	ld [$A68B], a
+	ld [sMapScreenId], a
 	call UnknownCall_0x3E46
 	ld de, $66BC
 	call UnknownCall_0x3E2A2
@@ -21179,7 +21179,7 @@ UnknownCall_0x3D880:
 	ldh_n_a $40
 	xor a
 	ldh_n_a $81
-	ld [$A69A], a
+	ld [sMapFrameCounter], a
 	ld [$A7AA], a
 	ld a, 13
 	ld [$A468], a
@@ -21190,9 +21190,9 @@ UnknownCall_0x3D880:
 	ret
 
 UnknownCall_0x3D8E6:
-	ld a, [$A699]
+	ld a, [sMapAnimPhase]
 	inc a
-	ld [$A699], a
+	ld [sMapAnimPhase], a
 	and $38
 	rlca
 	swap a
@@ -21201,8 +21201,8 @@ UnknownCall_0x3D8E6:
 	ld hl, $5A21
 	add hl, de
 	ld a, [hl]
-	ld [$A6B7], a
-	ld a, [$A699]
+	ld [sMapSprite0Y], a
+	ld a, [sMapAnimPhase]
 	and $0C
 	rrca
 	rrca
@@ -21211,10 +21211,10 @@ UnknownCall_0x3D8E6:
 	ld hl, $5A29
 	add hl, de
 	ld a, [hl]
-	ld [$A6BA], a
-	ld a, [$A6B9]
+	ld [sMapSprite1X], a
+	ld a, [sMapSprite1Page]
 	ld b, a
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	ld c, a
 	and $07
 	jr nz, UnknownRJump_0x3D927
@@ -21228,28 +21228,28 @@ UnknownRJump_0x3D922:
 
 UnknownRJump_0x3D923:
 	ld a, b
-	ld [$A6B9], a
+	ld [sMapSprite1Page], a
 
 UnknownRJump_0x3D927:
-	ld a, [$A697]
+	ld a, [sMapTickTimer]
 	and $01
 	jr z, UnknownRJump_0x3D96F
-	ld a, [$A6BC]
+	ld a, [sMapSprite1Id]
 	ld b, a
-	ld a, [$A6A2]
+	ld a, [sMapAnimIndexA]
 	inc a
 	cp $50
 	jr c, UnknownRJump_0x3D93B
 	xor a
 
 UnknownRJump_0x3D93B:
-	ld [$A6A2], a
+	ld [sMapAnimIndexA], a
 	ld hl, $6227
 	ld d, 0
 	ld e, a
 	add hl, de
 	ld a, [hl]
-	ld [$A6A5], a
+	ld [sMapAnimValueA], a
 	ld d, a
 	and $07
 	bit 3, d
@@ -21263,8 +21263,8 @@ UnknownRJump_0x3D953:
 	sub c
 
 UnknownRJump_0x3D956:
-	ld [$A6BC], a
-	ld a, [$A6BB]
+	ld [sMapSprite1Id], a
+	ld a, [sMapSprite1Y]
 	ld b, a
 	ld a, d
 	swap a
@@ -21280,10 +21280,10 @@ UnknownRJump_0x3D969:
 	sub c
 
 UnknownRJump_0x3D96C:
-	ld [$A6BB], a
+	ld [sMapSprite1Y], a
 
 UnknownRJump_0x3D96F:
-	ld a, [$A6A2]
+	ld a, [sMapAnimIndexA]
 	and $78
 	rrca
 	rrca
@@ -21295,7 +21295,7 @@ UnknownRJump_0x3D96F:
 	ld a, [hl]
 	add 22
 	ld e, a
-	ld a, [$A6A5]
+	ld a, [sMapAnimValueA]
 	bit 7, a
 	jr nz, UnknownRJump_0x3D98D
 	ld a, e
@@ -21304,15 +21304,15 @@ UnknownRJump_0x3D96F:
 
 UnknownRJump_0x3D98D:
 	ld a, e
-	ld [$A6BD], a
+	ld [sMapSprite2Page], a
 	ld a, [sGoldenCoin2]
 	bit 7, a
 	jr z, UnknownRJump_0x3D99D
 	ld a, 255
-	ld [$A6BD], a
+	ld [sMapSprite2Page], a
 
 UnknownRJump_0x3D99D:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $07
 	jr nz, UnknownRJump_0x3DA12
 	ld a, [$A7BA]
@@ -21399,40 +21399,40 @@ UnknownCall_0x3DA2D:
 	rlca
 	or e
 	add 87
-	ld [$A6BD], a
+	ld [sMapSprite2Page], a
 	bit 4, d
 	jr nz, UnknownRJump_0x3DA60
-	ld hl, $A6BB
+	ld hl, sMapSprite1Y
 	inc [hl]
 	inc hl
 	dec [hl]
 	jr UnknownRJump_0x3DA66
 
 UnknownRJump_0x3DA60:
-	ld hl, $A6BB
+	ld hl, sMapSprite1Y
 	dec [hl]
 	inc hl
 	inc [hl]
 
 UnknownRJump_0x3DA66:
-	ld a, [$A697]
+	ld a, [sMapTickTimer]
 	and $02
 	srl a
 	add 4
-	ld [$A6BA], a
-	ld a, [$A697]
+	ld [sMapSprite1X], a
+	ld a, [sMapTickTimer]
 	and $01
 	jr z, UnknownRJump_0x3DAB7
-	ld a, [$A6B9]
+	ld a, [sMapSprite1Page]
 	ld b, a
-	ld a, [$A6B0]
+	ld a, [sMapAnimIndexB]
 	inc a
 	cp $50
 	jr c, UnknownRJump_0x3DA86
 	xor a
 
 UnknownRJump_0x3DA86:
-	ld [$A6B0], a
+	ld [sMapAnimIndexB], a
 	ld hl, $6227
 	ld d, 0
 	ld e, a
@@ -21451,8 +21451,8 @@ UnknownRJump_0x3DA9B:
 	sub c
 
 UnknownRJump_0x3DA9E:
-	ld [$A6B9], a
-	ld a, [$A6B8]
+	ld [sMapSprite1Page], a
+	ld a, [sMapSprite0Id]
 	ld b, a
 	ld a, d
 	swap a
@@ -21468,40 +21468,40 @@ UnknownRJump_0x3DAB1:
 	sub c
 
 UnknownRJump_0x3DAB4:
-	ld [$A6B8], a
+	ld [sMapSprite0Id], a
 
 UnknownRJump_0x3DAB7:
-	ld a, [$A696]
+	ld a, [sMapRandLatch]
 	and $30
 	swap a
-	ld [$A6B7], a
+	ld [sMapSprite0Y], a
 	ld a, [sGoldenCoin1]
 	bit 7, a
 	jr z, UnknownRJump_0x3DACD
 	ld a, 255
-	ld [$A6B7], a
+	ld [sMapSprite0Y], a
 
 UnknownRJump_0x3DACD:
 	call UnknownCall_0x3DADF
 	ld hl, sMapTreeAPath0
-	ld de, $A6C3
+	ld de, sMapSprite3Y
 	ld b, 5
 	call UnknownCall_0x3DB00
 	call UnknownCall_0x3E277
 	ret
 
 UnknownCall_0x3DADF:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $0F
 	ret nz
-	ld a, [$A6D2]
+	ld a, [sMapSprite7X]
 	cp $6D
 	ret nc
 	inc a
-	ld [$A6D2], a
+	ld [sMapSprite7X], a
 	ld a, 6
 	ld [$A460], a
-	ld a, [$A6D2]
+	ld a, [sMapSprite7X]
 	cp $6D
 	ret c
 	ld a, 21
@@ -21531,7 +21531,7 @@ UnknownCall_0x3DB12:
 	ld a, [$A7BA]
 	or a
 	ret z
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $07
 	ret nz
 	ld a, [$A7D2]
@@ -21556,7 +21556,7 @@ UnknownRJump_0x3DB3C:
 	ret
 
 UnknownCall_0x3DB40:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $03
 	jr nz, UnknownRJump_0x3DB7A
 	ld a, [$A7BD]
@@ -21589,10 +21589,10 @@ UnknownRJump_0x3DB68:
 	ld e, a
 	add hl, de
 	ld a, [hl]
-	ld [$A6B7], a
+	ld [sMapSprite0Y], a
 
 UnknownRJump_0x3DB7A:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $18
 	srl a
 	srl a
@@ -21602,23 +21602,23 @@ UnknownRJump_0x3DB7A:
 	ld e, a
 	add hl, de
 	ld a, [hl]
-	ld [$A6C9], a
-	ld a, [$A6C7]
+	ld [sMapSprite5Page], a
+	ld a, [sMapSprite4Y]
 	dec a
-	ld [$A6C7], a
-	ld a, [$A69A]
+	ld [sMapSprite4Y], a
+	ld a, [sMapFrameCounter]
 	and $03
 	jr nz, UnknownRJump_0x3DBAD
-	ld a, [$A6C8]
+	ld a, [sMapSprite4Id]
 	inc a
-	ld [$A6C8], a
+	ld [sMapSprite4Id], a
 	or a
 	jr nz, UnknownRJump_0x3DBAD
 	ldh a, [rDIV]
-	ld [$A6C7], a
+	ld [sMapSprite4Y], a
 
 UnknownRJump_0x3DBAD:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	ld d, a
 	and $07
 	jp nz, UnknownJump_0x3DC3D
@@ -21632,7 +21632,7 @@ UnknownRJump_0x3DBAD:
 	ld e, a
 	add hl, de
 	ld a, [hl]
-	ld [$A6BA], a
+	ld [sMapSprite1X], a
 	ld a, e
 	or a
 	jr nz, UnknownRJump_0x3DBE1
@@ -21643,12 +21643,12 @@ UnknownRJump_0x3DBAD:
 	ld hl, $5D6C
 	add hl, de
 	ld a, [hli]
-	ld [$A6B8], a
+	ld [sMapSprite0Id], a
 	ld a, [hl]
-	ld [$A6B9], a
+	ld [sMapSprite1Page], a
 
 UnknownRJump_0x3DBE1:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $18
 	srl a
 	srl a
@@ -21658,7 +21658,7 @@ UnknownRJump_0x3DBE1:
 	ld e, a
 	add hl, de
 	ld a, [hl]
-	ld [$A6BD], a
+	ld [sMapSprite2Page], a
 	ld a, e
 	cp $01
 	jr nz, UnknownRJump_0x3DC0F
@@ -21669,12 +21669,12 @@ UnknownRJump_0x3DBE1:
 	ld hl, $5D6C
 	add hl, de
 	ld a, [hli]
-	ld [$A6BB], a
+	ld [sMapSprite1Y], a
 	ld a, [hl]
-	ld [$A6BC], a
+	ld [sMapSprite1Id], a
 
 UnknownRJump_0x3DC0F:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $18
 	srl a
 	srl a
@@ -21684,7 +21684,7 @@ UnknownRJump_0x3DC0F:
 	ld e, a
 	add hl, de
 	ld a, [hl]
-	ld [$A6C0], a
+	ld [sMapSprite2Id], a
 	ld a, e
 	cp $02
 	jr nz, UnknownRJump_0x3DC3D
@@ -21695,21 +21695,21 @@ UnknownRJump_0x3DC0F:
 	ld hl, $5D6C
 	add hl, de
 	ld a, [hli]
-	ld [$A6BE], a
+	ld [sMapSprite2X], a
 	ld a, [hl]
-	ld [$A6BF], a
+	ld [sMapSprite2Y], a
 
 UnknownJump_0x3DC3D:
 UnknownRJump_0x3DC3D:
 	call UnknownCall_0x3DC62
 	call UnknownCall_0x3E277
-	ld a, [$A6D2]
+	ld a, [sMapSprite7X]
 	cp $7B
 	ret nc
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $07
 	ret nz
-	ld a, [$A6D2]
+	ld a, [sMapSprite7X]
 	inc a
 	cp $7C
 	jr c, UnknownRJump_0x3DC59
@@ -21718,7 +21718,7 @@ UnknownRJump_0x3DC3D:
 
 
 UnknownRJump_0x3DC59:
-	ld [$A6D2], a
+	ld [sMapSprite7X], a
 	ld a, 6
 	ld [$A460], a
 	ret
@@ -21728,32 +21728,32 @@ UnknownCall_0x3DC62:
 	or a
 	jr nz, UnknownRJump_0x3DC71
 	ld a, 255
-	ld [$A6CC], a
-	ld [$A6CF], a
+	ld [sMapSprite5Id], a
+	ld [sMapSprite6Y], a
 	ret
 
 UnknownRJump_0x3DC71:
 	cp $01
 	jr nz, UnknownRJump_0x3DCC4
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $01
 	ret z
 	ld a, 111
-	ld [$A6CC], a
-	ld a, [$A69A]
+	ld [sMapSprite5Id], a
+	ld a, [sMapFrameCounter]
 	and $0C
 	rrca
 	rrca
 	add 113
-	ld [$A6CF], a
-	ld a, [$A6CA]
+	ld [sMapSprite6Y], a
+	ld a, [sMapSprite5X]
 	add 3
-	ld [$A6CA], a
-	ld [$A6CD], a
-	ld a, [$A6CB]
+	ld [sMapSprite5X], a
+	ld [sMapSprite6Page], a
+	ld a, [sMapSprite5Y]
 	sub 3
-	ld [$A6CB], a
-	ld [$A6CE], a
+	ld [sMapSprite5Y], a
+	ld [sMapSprite6X], a
 	ld a, [$A7BC]
 	dec a
 	ld [$A7BC], a
@@ -21761,11 +21761,11 @@ UnknownRJump_0x3DC71:
 	ld a, 2
 	ld [$A7BB], a
 	ld a, 168
-	ld [$A6CA], a
+	ld [sMapSprite5X], a
 	ld a, 14
-	ld [$A6CB], a
+	ld [sMapSprite5Y], a
 	ld a, 255
-	ld [$A6CF], a
+	ld [sMapSprite6Y], a
 	ld a, 10
 	ld [$A7BC], a
 	ret
@@ -21773,14 +21773,14 @@ UnknownRJump_0x3DC71:
 UnknownRJump_0x3DCC4:
 	cp $02
 	jr nz, UnknownRJump_0x3DD16
-	ld a, [$A6CA]
+	ld a, [sMapSprite5X]
 	sub 2
-	ld [$A6CA], a
-	ld a, [$A6CB]
+	ld [sMapSprite5X], a
+	ld a, [sMapSprite5Y]
 	add 2
-	ld [$A6CB], a
+	ld [sMapSprite5Y], a
 	ld a, 111
-	ld [$A6CC], a
+	ld [sMapSprite5Id], a
 	ld a, [$A7BC]
 	dec a
 	ld [$A7BC], a
@@ -21788,13 +21788,13 @@ UnknownRJump_0x3DCC4:
 	ld a, 3
 	ld [$A7BB], a
 	ld a, 156
-	ld [$A6CA], a
+	ld [sMapSprite5X], a
 	ld a, 36
-	ld [$A6CB], a
+	ld [sMapSprite5Y], a
 	ld a, 112
-	ld [$A6CC], a
+	ld [sMapSprite5Id], a
 	ld a, 255
-	ld [$A6CF], a
+	ld [sMapSprite6Y], a
 	ld a, 56
 	ld [$A7D2], a
 	ld a, 52
@@ -21808,13 +21808,13 @@ UnknownRJump_0x3DCC4:
 
 UnknownRJump_0x3DD16:
 	ld a, 140
-	ld [$A6CA], a
+	ld [sMapSprite5X], a
 	ld a, 36
-	ld [$A6CB], a
+	ld [sMapSprite5Y], a
 	ld a, 255
-	ld [$A6CC], a
+	ld [sMapSprite5Id], a
 	ld a, 255
-	ld [$A6CF], a
+	ld [sMapSprite6Y], a
 	ld a, 0
 	ld [sScrollX], a
 	ld [sScrollY], a
@@ -21823,7 +21823,7 @@ UnknownRJump_0x3DD16:
 	ret z
 	dec a
 	ld [$A7BC], a
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	bit 1, a
 	ret z
 	ld a, [$A7BC]
@@ -21848,9 +21848,9 @@ UnknownData_0x3DD52:
 
 
 UnknownCall_0x3DD8C:
-	ld a, [$A6B5]
+	ld a, [sMapSprite0Page]
 	ld e, a
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	ld d, a
 	and $07
 	jr nz, UnknownRJump_0x3DDA0
@@ -21864,10 +21864,10 @@ UnknownRJump_0x3DD9F:
 
 UnknownRJump_0x3DDA0:
 	ld a, e
-	ld [$A6B5], a
-	ld a, [$A6B8]
+	ld [sMapSprite0Page], a
+	ld a, [sMapSprite0Id]
 	ld e, a
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	ld d, a
 	and $07
 	jr nz, UnknownRJump_0x3DDB8
@@ -21881,7 +21881,7 @@ UnknownRJump_0x3DDB7:
 
 UnknownRJump_0x3DDB8:
 	ld a, e
-	ld [$A6B8], a
+	ld [sMapSprite0Id], a
 	call UnknownCall_0x3E4EB
 	call UnknownCall_0x3E277
 	ret
@@ -21903,46 +21903,46 @@ UnknownCall_0x3DDCF:
 	ret
 
 UnknownCall_0x3DDD3:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $30
 	swap a
 	add 42
-	ld [$A6BA], a
-	ld [$A6BD], a
-	ld [$A6C0], a
-	ld a, [$A69A]
+	ld [sMapSprite1X], a
+	ld [sMapSprite2Page], a
+	ld [sMapSprite2Id], a
+	ld a, [sMapFrameCounter]
 	and $30
 	swap a
 	add 46
-	ld [$A6CC], a
-	ld [$A6CF], a
-	ld a, [$A69A]
+	ld [sMapSprite5Id], a
+	ld [sMapSprite6Y], a
+	ld a, [sMapFrameCounter]
 	and $7C
 	srl a
 	srl a
 	ld c, a
 	ld a, 80
 	sub c
-	ld [$A6CE], a
+	ld [sMapSprite6X], a
 	ld a, c
 	and $0F
 	ld c, a
 	ld a, 64
 	sub c
-	ld [$A6CB], a
+	ld [sMapSprite5Y], a
 	ld a, [sMapGateMario]
 	bit 7, a
 	jr nz, UnknownRJump_0x3DE25
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $60
 	srl a
 	swap a
 	add 38
-	ld [$A6B7], a
+	ld [sMapSprite0Y], a
 	jr UnknownRJump_0x3DE4E
 
 UnknownRJump_0x3DE25:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $0F
 	jr nz, UnknownRJump_0x3DE4E
 	push bc
@@ -21965,61 +21965,61 @@ UnknownRJump_0x3DE25:
 	call UnknownCall_0x3F8E
 
 UnknownRJump_0x3DE4E:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	ld d, a
 	and $02
 	srl a
 	and d
 	ld d, a
-	ld a, [$A6A8]
+	ld a, [sMapMovingDir]
 	bit 0, a
 	jr nz, UnknownRJump_0x3DE7F
-	ld a, [$A6A7]
+	ld a, [sMapMovingX]
 	sub d
 	ld c, a
-	ld [$A6A7], a
+	ld [sMapMovingX], a
 	cp $C0
 	jr nz, UnknownRJump_0x3DE78
-	ld a, [$A6A8]
+	ld a, [sMapMovingDir]
 	xor $FF
-	ld [$A6A8], a
+	ld [sMapMovingDir], a
 	ld a, 120
-	ld [$A6D1], a
+	ld [sMapSprite7Page], a
 
 UnknownRJump_0x3DE78:
 	ld a, 50
-	ld [$A6D2], a
+	ld [sMapSprite7X], a
 	jr UnknownRJump_0x3DE9D
 
 UnknownRJump_0x3DE7F:
-	ld a, [$A6A7]
+	ld a, [sMapMovingX]
 	add d
 	ld c, a
-	ld [$A6A7], a
+	ld [sMapMovingX], a
 	cp $B0
 	jr nz, UnknownRJump_0x3DE98
-	ld a, [$A6A8]
+	ld a, [sMapMovingDir]
 	xor $FF
-	ld [$A6A8], a
+	ld [sMapMovingDir], a
 	ld a, 64
-	ld [$A6D1], a
+	ld [sMapSprite7Page], a
 
 UnknownRJump_0x3DE98:
 	ld a, 51
-	ld [$A6D2], a
+	ld [sMapSprite7X], a
 
 UnknownRJump_0x3DE9D:
 	ld a, c
-	ld [$A6D0], a
-	ld a, [$A69A]
+	ld [sMapSprite6Id], a
+	ld a, [sMapFrameCounter]
 	and $0F
 	jr nz, UnknownRJump_0x3DEC3
-	ld a, [$A6D5]
+	ld a, [sMapSprite8Page]
 	cp $81
 	jr nc, UnknownRJump_0x3DEC3
 	inc a
 	ld c, a
-	ld [$A6D5], a
+	ld [sMapSprite8Page], a
 	ld a, 6
 	ld [$A460], a
 	ld a, c
@@ -22033,7 +22033,7 @@ UnknownRJump_0x3DEC3:
 	ret
 
 UnknownCall_0x3DEC7:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $03
 	jr nz, UnknownRJump_0x3DEF2
 	ld a, [sGoldenCoin6]
@@ -22042,32 +22042,32 @@ UnknownCall_0x3DEC7:
 	ld a, [sMapMarioPath2]
 	bit 7, a
 	jr z, UnknownRJump_0x3DEF2
-	ld a, [$A6BB]
+	ld a, [sMapSprite1Y]
 	cp $5C
 	jr nc, UnknownRJump_0x3DEF2
 	inc a
-	ld [$A6BB], a
-	ld a, [$A6BC]
+	ld [sMapSprite1Y], a
+	ld a, [sMapSprite1Id]
 	cp $13
 	jr nc, UnknownRJump_0x3DEF2
 	inc a
-	ld [$A6BC], a
+	ld [sMapSprite1Id], a
 
 UnknownRJump_0x3DEF2:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $01
 	jr nz, UnknownRJump_0x3DF0B
 	ld a, [sMapCursorX]
 	cp $2E
 	jr c, UnknownRJump_0x3DF0B
-	ld a, [$A6C4]
+	ld a, [sMapSprite3Id]
 	cp $4A
 	jr nc, UnknownRJump_0x3DF0B
 	inc a
-	ld [$A6C4], a
+	ld [sMapSprite3Id], a
 
 UnknownRJump_0x3DF0B:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $70
 	swap a
 	ld d, 0
@@ -22075,8 +22075,8 @@ UnknownRJump_0x3DF0B:
 	ld hl, $5FA0
 	add hl, de
 	ld a, [hl]
-	ld [$A6C9], a
-	ld a, [$A69A]
+	ld [sMapSprite5Page], a
+	ld a, [sMapFrameCounter]
 	and $70
 	swap a
 	ld d, 0
@@ -22084,21 +22084,21 @@ UnknownRJump_0x3DF0B:
 	ld hl, $5FA8
 	add hl, de
 	ld a, [hl]
-	ld [$A6B6], a
+	ld [sMapSprite0X], a
 	ld hl, $5FB0
 	add hl, de
 	ld a, [hl]
-	ld [$A6B9], a
+	ld [sMapSprite1Page], a
 	ld hl, $5FB8
 	add hl, de
 	ld a, [hl]
-	ld [$A6BE], a
+	ld [sMapSprite2X], a
 	ld hl, $5FC0
 	add hl, de
 	ld a, [hl]
-	ld [$A6C1], a
+	ld [sMapSprite3Page], a
 	call UnknownCall_0x3E277
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	ld c, a
 	and $0F
 	ret nz
@@ -22154,7 +22154,7 @@ UnknownData_0x3DFA0: ;data block, read at line 21985
 
 
 UnknownCall_0x3DFE8:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $07
 	jr nz, UnknownRJump_0x3E003
 	ld a, [$A796]
@@ -22167,19 +22167,19 @@ UnknownCall_0x3DFE8:
 
 UnknownRJump_0x3DFFE:
 	add 53
-	ld [$A6BA], a
+	ld [sMapSprite1X], a
 
 UnknownRJump_0x3E003:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $03
 	jr nz, UnknownRJump_0x3E02E
 	ld a, 255
-	ld [$A6BD], a
+	ld [sMapSprite2Page], a
 	ldh a, [rDIV]
 	and $7E
 	jr nz, UnknownRJump_0x3E02E
 	ld a, 56
-	ld [$A6BD], a
+	ld [sMapSprite2Page], a
 	ld a, [$A799]
 	inc a
 	and $03
@@ -22189,13 +22189,13 @@ UnknownRJump_0x3E003:
 	ld hl, $61D3
 	add hl, de
 	ld a, [hl]
-	ld [$A6BB], a
+	ld [sMapSprite1Y], a
 
 UnknownRJump_0x3E02E:
 	ld a, [$A79D]
 	or a
 	jr nz, UnknownRJump_0x3E08F
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $03
 	jr nz, UnknownRJump_0x3E08F
 	ld a, [$A797]
@@ -22227,7 +22227,7 @@ UnknownRJump_0x3E06B:
 	ld [sBGPalette], a
 	ld a, 57
 	ld [sOAMPalette2], a
-	ld a, [$A6BD]
+	ld a, [sMapSprite2Page]
 	cp $38
 	jr nz, UnknownRJump_0x3E08F
 	ld a, 225
@@ -22240,7 +22240,7 @@ UnknownRJump_0x3E06B:
 	ld [$A797], a
 
 UnknownRJump_0x3E08F:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $01
 	jr nz, UnknownRJump_0x3E0C7
 	ld a, [$A798]
@@ -22286,22 +22286,22 @@ UnknownCall_0x3E0CB:
 	add hl, de
 	ld a, [hl]
 	add 57
-	ld [$A6C0], a
-	ld a, [$A6BE]
+	ld [sMapSprite2Id], a
+	ld a, [sMapSprite2X]
 	cp $28
 	jp c, UnknownJump_0x3E17E
 	res 1, e
 	sub e
-	ld [$A6BE], a
+	ld [sMapSprite2X], a
 	cp $40
 	ret c
 	cp $60
 	ret nc
-	ld a, [$A6BF]
+	ld a, [sMapSprite2Y]
 	cp $50
 	ret c
 	ld a, 255
-	ld [$A6C0], a
+	ld [sMapSprite2Id], a
 	ret
 
 UnknownCall_0x3E0FD:
@@ -22313,48 +22313,48 @@ UnknownCall_0x3E0FD:
 	add hl, de
 	ld a, [hl]
 	add 60
-	ld [$A6C0], a
-	ld a, [$A6BE]
+	ld [sMapSprite2Id], a
+	ld a, [sMapSprite2X]
 	cp $78
 	jp nc, UnknownJump_0x3E17E
 	res 1, e
 	add e
-	ld [$A6BE], a
+	ld [sMapSprite2X], a
 	cp $40
 	ret c
 	cp $60
 	ret nc
-	ld a, [$A6BF]
+	ld a, [sMapSprite2Y]
 	cp $50
 	ret c
 
 	ld a, 255
-	ld [$A6C0], a
+	ld [sMapSprite2Id], a
 	ret
 
 
 UnknownCall_0x3E12F:
 	ld a, 63
-	ld [$A6C0], a
-	ld a, [$A6BF]
+	ld [sMapSprite2Id], a
+	ld a, [sMapSprite2Y]
 	cp $36
 	jp c, UnknownJump_0x3E1B3
 	sub 4
-	ld [$A6BF], a
+	ld [sMapSprite2Y], a
 	ld a, 255
-	ld [$A6C0], a
+	ld [sMapSprite2Id], a
 	ret
 
 UnknownCall_0x3E147:
 	ld a, 63
-	ld [$A6C0], a
-	ld a, [$A6BF]
+	ld [sMapSprite2Id], a
+	ld a, [sMapSprite2Y]
 	cp $62
 	jp nc, UnknownJump_0x3E1B3
 	add 4
-	ld [$A6BF], a
+	ld [sMapSprite2Y], a
 	ld a, 255
-	ld [$A6C0], a
+	ld [sMapSprite2Id], a
 	ret
 
 UnknownCall_0x3E15F:
@@ -22368,7 +22368,7 @@ UnknownCall_0x3E15F:
 	add hl, de
 	ld a, [hl]
 	add 63
-	ld [$A6C0], a
+	ld [sMapSprite2Id], a
 	ld a, [$A79F]
 	or a
 	jr z, UnknownRJump_0x3E17E
@@ -22419,7 +22419,7 @@ UnknownRJump_0x3E1A9:
 	ret
 
 UnknownJump_0x3E1B3:
-	ld a, [$A6BE]
+	ld a, [sMapSprite2X]
 	cp $32
 	jr c, UnknownRJump_0x3E1C0
 	ld a, 1
@@ -22438,7 +22438,7 @@ UnknownData_0x3E1CB: ;data block; no direct reader found
 
 
 UnknownCall_0x3E1D7:
-	ld a, [$A68B]
+	ld a, [sMapScreenId]
 	or a
 	jr z, UnknownRJump_0x3E210
 	ldh_a_n $80
@@ -22498,7 +22498,7 @@ UnknownRJump_0x3E27D:
 	jr nz, UnknownRJump_0x3E27D
 	ld a, 4
 	ld [$A782], a
-	ld hl, $A6B5
+	ld hl, sMapSprite0Page
 	ld a, 16
 
 UnknownRJump_0x3E28B:
@@ -22525,7 +22525,7 @@ UnknownCall_0x3E2A2:
 	ld [$A781], a
 	ld a, 255
 	ld c, 48
-	ld hl, $A6B7
+	ld hl, sMapSprite0Y
 
 UnknownRJump_0x3E2AD:
 	ld [hli], a
@@ -22539,7 +22539,7 @@ UnknownRJump_0x3E2B8:
 	ld [hli], a
 	dec c
 	jr nz, UnknownRJump_0x3E2B8
-	ld hl, $A6B5
+	ld hl, sMapSprite0Page
 	ld c, 16
 
 UnknownRJump_0x3E2C1:
@@ -22583,7 +22583,7 @@ UnknownRJump_0x3E2DE:
 	jr nz, UnknownRJump_0x3E2DE
 
 UnknownRJump_0x3E2EE:
-	ld a, [$A68B]
+	ld a, [sMapScreenId]
 	cp $0D
 	call c, UnknownCall_0x3F8E
 	ret
@@ -22661,7 +22661,7 @@ UnknownCall_0x3E367:
 	push de
 	push hl
 	call UnknownCall_0x3C13E
-	ld a, [$A68B]
+	ld a, [sMapScreenId]
 	cp $01
 	jr nz, UnknownRJump_0x3E37A
 	call UnknownCall_0x3D8E6
@@ -22721,7 +22721,7 @@ UnknownCall_0x3E3BA:
 	ld a, 146
 	ld [sMapCursorAnim], a
 	ld d, 228
-	ld a, [$A68B]
+	ld a, [sMapScreenId]
 	cp $07
 	jp z, UnknownJump_0x3E4C1
 	ld e, 1
@@ -22791,14 +22791,14 @@ UnknownRJump_0x3E43A:
 	push bc
 	push de
 	push hl
-	ld a, [$A68C]
+	ld a, [sMapCursorWalkFrame]
 	inc a
-	ld [$A68C], a
+	ld [sMapCursorWalkFrame], a
 	and $0C
 	rrca
 	rrca
 	add 8
-	ld [$A695], a
+	ld [sMapCursorPose], a
 	ld a, [sMapCursorY]
 	dec a
 	ld [sMapCursorY], a
@@ -22814,13 +22814,13 @@ UnknownRJump_0x3E45D:
 	push bc
 	push de
 	push hl
-	ld a, [$A68C]
+	ld a, [sMapCursorWalkFrame]
 	inc a
-	ld [$A68C], a
+	ld [sMapCursorWalkFrame], a
 	and $06
 	rrca
 	add 12
-	ld [$A695], a
+	ld [sMapCursorPose], a
 	ld a, [sMapCursorY]
 	inc a
 	ld [sMapCursorY], a
@@ -22836,12 +22836,12 @@ UnknownRJump_0x3E47F:
 	push bc
 	push de
 	push hl
-	ld a, [$A68C]
+	ld a, [sMapCursorWalkFrame]
 	inc a
-	ld [$A68C], a
+	ld [sMapCursorWalkFrame], a
 	and $06
 	rrca
-	ld [$A695], a
+	ld [sMapCursorPose], a
 	ld a, [sMapCursorX]
 	dec a
 	ld [sMapCursorX], a
@@ -22857,13 +22857,13 @@ UnknownRJump_0x3E49F:
 	push bc
 	push de
 	push hl
-	ld a, [$A68C]
+	ld a, [sMapCursorWalkFrame]
 	inc a
-	ld [$A68C], a
+	ld [sMapCursorWalkFrame], a
 	and $06
 	rrca
 	add 4
-	ld [$A695], a
+	ld [sMapCursorPose], a
 	ld a, [sMapCursorX]
 	inc a
 	ld [sMapCursorX], a
@@ -22905,16 +22905,16 @@ UnknownCall_0x3E4EB:
 	ld a, h
 	and $0F
 	add 96
-	ld [$A6C0], a
+	ld [sMapSprite2Id], a
 	ld a, l
 	swap a
 	and $0F
 	add 96
-	ld [$A6C3], a
+	ld [sMapSprite3Y], a
 	ld a, l
 	and $0F
 	add 96
-	ld [$A6C6], a
+	ld [sMapSprite4X], a
 	ret
 
 UnknownData_0x3E50E: ;data block; no direct reader found
@@ -22992,9 +22992,9 @@ UnknownCall_0x3E7EB:
 	ret
 
 UnknownCall_0x3E7F2:
-	ld a, [$A689]
+	ld a, [sMapRasterPhase]
 	inc a
-	ld [$A689], a
+	ld [sMapRasterPhase], a
 	ld e, a
 	and $03
 	jr nz, UnknownRJump_0x3E823
@@ -23058,10 +23058,10 @@ UnknownRJump_0x3E84B:
 	ret
 
 UnknownCall_0x3E853:
-	ld a, [$A689]
+	ld a, [sMapRasterPhase]
 	inc a
 	ld b, a
-	ld [$A689], a
+	ld [sMapRasterPhase], a
 	and $07
 	rlca
 	ld e, a
@@ -23488,29 +23488,29 @@ UnknownCall_0x3EAE5:
 	ret
 
 UnknownJump_0x3EAFF:
-	ld a, [$A68B]
+	ld a, [sMapScreenId]
 	or a
 	call z, UnknownCall_0x3E853
-	ld a, [$A68B]
+	ld a, [sMapScreenId]
 	cp $07
 	call z, UnknownCall_0x3E7F2
-	ld a, [$A68B]
+	ld a, [sMapScreenId]
 	cp $0D
 	jr nc, UnknownRJump_0x3EB1A
 	cp $09
 	call nc, UnknownCall_0x3EBD5
 
 UnknownRJump_0x3EB1A:
-	ld a, [$A68B]
+	ld a, [sMapScreenId]
 	cp $01
 	call z, UnknownCall_0x3EC7D
-	ld a, [$A68B]
+	ld a, [sMapScreenId]
 	cp $02
 	call z, UnknownCall_0x3ECF5
-	ld a, [$A68B]
+	ld a, [sMapScreenId]
 	cp $05
 	call z, UnknownCall_0x3ED35
-	ld a, [$A68B]
+	ld a, [sMapScreenId]
 	or a
 	jp nz, UnknownJump_0x01C5
 	ldh_a_n $97
@@ -23817,7 +23817,7 @@ UnknownData_0x3ED2D: ;data block; no direct reader found
 
 
 UnknownCall_0x3ED35:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	ld e, a
 	and $0F
 	ret z
@@ -23833,17 +23833,17 @@ UnknownCall_0x3ED35:
 
 UnknownCall_0x3ED4C:
 	di
-	ld hl, $A680
+	ld hl, sMapCamXLo
 	ldh_a_n $B9
 	ld [hli], a
 	ldh_a_n $BA
 	ld [hl], a
-	ld hl, $A682
+	ld hl, sMapCamYLo
 	ldh_a_n $B7
 	ld [hli], a
 	ldh_a_n $B8
 	ld [hl], a
-	ld a, [$A680]
+	ld a, [sMapCamXLo]
 	srl a
 	srl a
 	srl a
@@ -23857,7 +23857,7 @@ UnknownCall_0x3ED4C:
 	add 20
 	and $1F
 	ld [$A660], a
-	ld a, [$A682]
+	ld a, [sMapCamYLo]
 	srl a
 	srl a
 	srl a
@@ -23879,19 +23879,19 @@ UnknownCall_0x3ED4C:
 	call UnknownCall_0x3EE8C
 	ld hl, $A660
 	call UnknownCall_0x3EE8C
-	ld a, [$A680]
+	ld a, [sMapCamXLo]
 	ld l, a
-	ld a, [$A681]
+	ld a, [sMapCamXHi]
 	ld h, a
 	srl h
 	rr l
 	srl l
 	srl l
 	ld h, 0
-	ld a, [$A682]
+	ld a, [sMapCamYLo]
 	and $F8
 	ld c, a
-	ld a, [$A683]
+	ld a, [sMapCamYHi]
 	ld b, a
 	sla c
 	rl b
@@ -24203,7 +24203,7 @@ UnknownRJump_0x3EFB2:
 	ld a, 8
 	ld [sMapCursorMove], a
 	xor a
-	ld [$A68B], a
+	ld [sMapScreenId], a
 	ld a, [sMarioDead]
 	or a
 	jr nz, UnknownRJump_0x3F003
@@ -24275,7 +24275,7 @@ UnknownRJump_0x3F04D:
 	jr nc, UnknownRJump_0x3F05C
 	call UnknownCall_0x3D0FF
 	ld a, 2
-	ld [$A68B], a
+	ld [sMapScreenId], a
 	jp UnknownJump_0x3F147
 
 UnknownRJump_0x3F05C:
@@ -24285,7 +24285,7 @@ UnknownRJump_0x3F05C:
 UnknownJump_0x3F060:
 	call UnknownCall_0x3D208
 	ld a, 1
-	ld [$A68B], a
+	ld [sMapScreenId], a
 	jp UnknownJump_0x3F147
 
 UnknownRJump_0x3F06B:
@@ -24295,7 +24295,7 @@ UnknownRJump_0x3F06B:
 UnknownJump_0x3F06F:
 	call UnknownCall_0x3D371
 	ld a, 3
-	ld [$A68B], a
+	ld [sMapScreenId], a
 	jp UnknownJump_0x3F147
 
 UnknownRJump_0x3F07A:
@@ -24305,7 +24305,7 @@ UnknownRJump_0x3F07A:
 UnknownRJump_0x3F07E:
 	call UnknownCall_0x3D49F
 	ld a, 4
-	ld [$A68B], a
+	ld [sMapScreenId], a
 	jp UnknownJump_0x3F147
 
 UnknownRJump_0x3F089:
@@ -24313,7 +24313,7 @@ UnknownRJump_0x3F089:
 	jr nc, UnknownRJump_0x3F098
 	call UnknownCall_0x3D61F
 	ld a, 5
-	ld [$A68B], a
+	ld [sMapScreenId], a
 	jp UnknownJump_0x3F147
 
 UnknownRJump_0x3F098:
@@ -24321,7 +24321,7 @@ UnknownRJump_0x3F098:
 	jr nc, UnknownRJump_0x3F0A7
 	call UnknownCall_0x3D79A
 	ld a, 6
-	ld [$A68B], a
+	ld [sMapScreenId], a
 	jp UnknownJump_0x3F147
 
 UnknownRJump_0x3F0A7:
@@ -24336,7 +24336,7 @@ UnknownRJump_0x3F0A7:
 UnknownRJump_0x3F0B7:
 	call UnknownCall_0x3D6EB
 	ld a, 7
-	ld [$A68B], a
+	ld [sMapScreenId], a
 	jp UnknownJump_0x3F147
 
 UnknownRJump_0x3F0C2:
@@ -24369,7 +24369,7 @@ UnknownRJump_0x3F0F6:
 	jr nc, UnknownRJump_0x3F104
 	call UnknownCall_0x3D880
 	ld a, 8
-	ld [$A68B], a
+	ld [sMapScreenId], a
 	jr UnknownRJump_0x3F147
 
 UnknownRJump_0x3F104:
@@ -24430,9 +24430,9 @@ UnknownCall_0x3F156:
 	ldh_a_n $B9
 	ld [sScrollX], a
 	ld a, 0
-	ld [$A690], a
+	ld [sMapCursorWalking], a
 	ld [$A789], a
-	ld [$A68B], a
+	ld [sMapScreenId], a
 	ld hl, $7800
 	ld bc, $B800
 	ld de, $2020
@@ -24539,9 +24539,9 @@ UnknownData_0x3F251: ;data block, read at line 24343
 
 
 UnknownCall_0x3F275:
-	ld a, [$A683]
+	ld a, [sMapCamYHi]
 	ld h, a
-	ld a, [$A682]
+	ld a, [sMapCamYLo]
 	and $F8
 	ld l, a
 	sla l
@@ -24550,9 +24550,9 @@ UnknownCall_0x3F275:
 	rl h
 	sla l
 	rl h
-	ld a, [$A681]
+	ld a, [sMapCamXHi]
 	ld b, a
-	ld a, [$A680]
+	ld a, [sMapCamXLo]
 	srl b
 	rr a
 	srl a
@@ -24562,7 +24562,7 @@ UnknownCall_0x3F275:
 	ld a, h
 	or $B0
 	ld h, a
-	ld a, [$A682]
+	ld a, [sMapCamYLo]
 	and $F8
 	ld c, a
 	ld b, 0
@@ -24570,7 +24570,7 @@ UnknownCall_0x3F275:
 	rl b
 	sla c
 	rl b
-	ld a, [$A680]
+	ld a, [sMapCamXLo]
 	srl a
 	srl a
 	srl a
@@ -24650,9 +24650,9 @@ UnknownCall_0x3F307:
 	xor a
 	ld [sScrollX], a
 	ld [sScrollY], a
-	ld [$A690], a
+	ld [sMapCursorWalking], a
 	ldh_n_a $81
-	ld [$A69A], a
+	ld [sMapFrameCounter], a
 	ld [$A795], a
 	ld [$A796], a
 	ld [$A797], a
@@ -24736,7 +24736,7 @@ UnknownJump_0x3F3B9:
 	ld de, $9800
 	call FarCopyMem
 	ld a, 9
-	ld [$A68B], a
+	ld [sMapScreenId], a
 	ld de, $66D4
 	call UnknownCall_0x3E2A2
 	call UnknownCall_0x3F35A
@@ -24759,7 +24759,7 @@ UnknownJump_0x3F3F0:
 	ld de, $9800
 	call FarCopyMem
 	ld a, 10
-	ld [$A68B], a
+	ld [sMapScreenId], a
 	ld de, $671C
 	call UnknownCall_0x3E2A2
 	call UnknownCall_0x3F35A
@@ -24782,7 +24782,7 @@ UnknownJump_0x3F427:
 	ld de, $9800
 	call FarCopyMem
 	ld a, 11
-	ld [$A68B], a
+	ld [sMapScreenId], a
 	ld de, $6704
 	call UnknownCall_0x3E2A2
 	call UnknownCall_0x3F35A
@@ -24805,7 +24805,7 @@ UnknownJump_0x3F45E:
 	ld de, $9800
 	call FarCopyMem
 	ld a, 12
-	ld [$A68B], a
+	ld [sMapScreenId], a
 	ld de, $66EC
 	call UnknownCall_0x3E2A2
 	call UnknownCall_0x3F35A
@@ -24846,9 +24846,9 @@ UnknownCall_0x3F4B1:
 	xor a
 	ld [sScrollX], a
 	ld [sScrollY], a
-	ld [$A690], a
+	ld [sMapCursorWalking], a
 	ldh_n_a $81
-	ld [$A69A], a
+	ld [sMapFrameCounter], a
 	ld [$A795], a
 	ld [$A796], a
 	ld [$A797], a
@@ -24891,7 +24891,7 @@ UnknownRJump_0x3F513:
 	ld de, $9800
 	call FarCopyMem
 	ld a, 13
-	ld [$A68B], a
+	ld [sMapScreenId], a
 	ld de, $6734
 	call UnknownCall_0x3E2A2
 	ld a, 240
@@ -24963,9 +24963,9 @@ UnknownCall_0x3F5A4:
 	xor a
 	ld [sScrollX], a
 	ld [sScrollY], a
-	ld [$A690], a
+	ld [sMapCursorWalking], a
 	ldh_n_a $81
-	ld [$A69A], a
+	ld [sMapFrameCounter], a
 	ld [$A795], a
 	ld [$A796], a
 	ld [$A797], a
@@ -24987,7 +24987,7 @@ UnknownCall_0x3F5A4:
 	ld de, $9800
 	call FarCopyMem
 	ld a, 14
-	ld [$A68B], a
+	ld [sMapScreenId], a
 	ld de, $6761
 	call UnknownCall_0x3E2A2
 	ld a, 240
@@ -35489,7 +35489,7 @@ UnknownData_0x60037: ;state handler table, `jp hl` targets, indexed by [$A7A6] (
 	dw $4441, $4444, UnknownJump_0x60461, UnknownJump_0x60461
 
 	call UnknownCall_0x6046A
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $01
 	jp z, UnknownJump_0x60461
 	ldh_a_n $C5
@@ -35504,7 +35504,7 @@ UnknownData_0x60037: ;state handler table, `jp hl` targets, indexed by [$A7A6] (
 UnknownRJump_0x6006E:
 	inc a
 	ldh_n_a $C5
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $02
 	jr z, UnknownRJump_0x60088
 	ld a, [$A795]
@@ -35558,7 +35558,7 @@ UnknownRJump_0x600C6:
 
 UnknownJump_0x600D3:
 	call UnknownCall_0x6046A
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $03
 	jp z, UnknownJump_0x60461
 	ldh_a_n $C5
@@ -35572,7 +35572,7 @@ UnknownJump_0x600D3:
 	ldh_a_n $C5
 	dec a
 	ldh_n_a $C5
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $02
 	jr z, UnknownRJump_0x6010D
 	ld a, [$A795]
@@ -35602,7 +35602,7 @@ UnknownRJump_0x6011D:
 
 UnknownJump_0x6012B:
 	call UnknownCall_0x6046A
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $03
 	jp z, UnknownJump_0x60461
 	ldh_a_n $C5
@@ -35616,7 +35616,7 @@ UnknownJump_0x6012B:
 	ldh_a_n $C5
 	inc a
 	ldh_n_a $C5
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $02
 	jr z, UnknownRJump_0x60165
 	ld a, [$A795]
@@ -35646,7 +35646,7 @@ UnknownRJump_0x60174:
 
 UnknownJump_0x60182:
 	call UnknownCall_0x60269
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $03
 	jp z, UnknownJump_0x60461
 	ld a, [$A7A7]
@@ -35716,9 +35716,9 @@ UnknownRJump_0x601D9:
 	call UnknownCall_0x610DD
 	ldh_a_n $C5
 	sub 4
-	ld [$A6DF], a
+	ld [sMapSprite10Y], a
 	ld a, 42
-	ld [$A6E1], a
+	ld [sMapSprite11Page], a
 	ld a, 3
 	ld [$A7B3], a
 	jp UnknownJump_0x6022A
@@ -35728,22 +35728,22 @@ UnknownData_0x6021A: ;byte table, indexed by [$A7A7] (read via `ld hl, $421A`)
 
 
 UnknownJump_0x6022A:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $01
 	jp z, UnknownJump_0x60461
 	ld a, 4
 	ld [$A478], a
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $02
 	jr z, UnknownRJump_0x6024B
-	ld a, [$A6E1]
+	ld a, [sMapSprite11Page]
 	inc a
 	cp $2D
 	jr c, UnknownRJump_0x60248
 	ld a, 42
 
 UnknownRJump_0x60248:
-	ld [$A6E1], a
+	ld [sMapSprite11Page], a
 
 UnknownRJump_0x6024B:
 	ld a, [$A7B3]
@@ -35760,13 +35760,13 @@ UnknownRJump_0x6024B:
 
 UnknownCall_0x60269:
 	ld b, 37
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	bit 3, a
 	jp z, UnknownJump_0x60275
 	ld b, 38
 
 UnknownJump_0x60275:
-	ld hl, $A6C6
+	ld hl, sMapSprite4X
 	ld d, 0
 	ld a, [$A7B0]
 	ld e, a
@@ -35774,7 +35774,7 @@ UnknownJump_0x60275:
 	add hl, de
 	add hl, de
 	ld [hl], b
-	ld hl, $A6C6
+	ld hl, sMapSprite4X
 	ld d, 0
 	ld a, [$A7B1]
 	ld e, a
@@ -35785,13 +35785,13 @@ UnknownJump_0x60275:
 	ret
 
 UnknownCall_0x60290:
-	ld a, [$A6E0]
+	ld a, [sMapSprite10Id]
 	dec a
-	ld [$A6E0], a
+	ld [sMapSprite10Id], a
 	and $07
 	jr nz, UnknownRJump_0x602E9
 	ld b, 0
-	ld a, [$A6E0]
+	ld a, [sMapSprite10Id]
 	and $F8
 	sub 16
 	sla a
@@ -35799,7 +35799,7 @@ UnknownCall_0x60290:
 	sla a
 	rl b
 	ld c, a
-	ld a, [$A6DF]
+	ld a, [sMapSprite10Y]
 	sub 12
 	srl a
 	srl a
@@ -35839,30 +35839,30 @@ UnknownRJump_0x602DE:
 	ret
 
 UnknownRJump_0x602E9:
-	ld a, [$A6E0]
+	ld a, [sMapSprite10Id]
 	cp $2A
 	ret nc
 	ld a, 6
 	ld [$A7A6], a
-	ld a, [$A6DF]
+	ld a, [sMapSprite10Y]
 	sub 4
-	ld [$A6E2], a
-	ld a, [$A6DF]
+	ld [sMapSprite11X], a
+	ld a, [sMapSprite10Y]
 	sub 36
 	and $60
 	swap a
 	rrca
 	ld [$A7A8], a
 	ld a, 255
-	ld [$A6E1], a
+	ld [sMapSprite11Page], a
 	ld a, 39
-	ld [$A6E4], a
+	ld [sMapSprite11Id], a
 	ret
 
 UnknownCall_0x60314:
-	ld a, [$A6DF]
+	ld a, [sMapSprite10Y]
 	inc a
-	ld [$A6DF], a
+	ld [sMapSprite10Y], a
 	ld a, [$A7B4]
 	dec a
 	ld [$A7B4], a
@@ -35873,9 +35873,9 @@ UnknownCall_0x60314:
 	ret
 
 UnknownCall_0x6032A:
-	ld a, [$A6DF]
+	ld a, [sMapSprite10Y]
 	dec a
-	ld [$A6DF], a
+	ld [sMapSprite10Y], a
 	ld a, [$A7B4]
 	dec a
 	ld [$A7B4], a
@@ -35885,31 +35885,31 @@ UnknownCall_0x6032A:
 	ld [$A7B3], a
 	ret
 	call UnknownCall_0x60269
-	ld a, [$A6E4]
+	ld a, [sMapSprite11Id]
 	cp $FF
 	jr z, UnknownRJump_0x60373
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $0F
 	jp nz, UnknownJump_0x60461
-	ld a, [$A6E4]
+	ld a, [sMapSprite11Id]
 	cp $27
 	call z, UnknownCall_0x603F9
-	ld a, [$A6E4]
+	ld a, [sMapSprite11Id]
 	cp $29
 	call z, UnknownCall_0x6042D
-	ld a, [$A6E4]
+	ld a, [sMapSprite11Id]
 	cp $FF
 	jr z, UnknownRJump_0x60373
-	ld a, [$A6E4]
+	ld a, [sMapSprite11Id]
 	inc a
-	ld [$A6E4], a
+	ld [sMapSprite11Id], a
 	jp UnknownJump_0x60461
 
 UnknownRJump_0x60373:
 	ld a, [$A7A8]
 	ld d, 0
 	ld e, a
-	ld hl, $A6B9
+	ld hl, sMapSprite1Page
 	add hl, de
 	add hl, de
 	add hl, de
@@ -35920,7 +35920,7 @@ UnknownRJump_0x60373:
 	jr c, UnknownRJump_0x603AA
 	ld a, 7
 	ld [$A7A6], a
-	ld hl, $A6BA
+	ld hl, sMapSprite1X
 	ld a, [$A7A8]
 	ld d, 0
 	ld e, a
@@ -35933,13 +35933,13 @@ UnknownRJump_0x60373:
 	ld a, 20
 	ld [$A7A7], a
 	ld a, 116
-	ld [$A6E3], a
+	ld [sMapSprite11Y], a
 	jp UnknownJump_0x60433
 
 UnknownRJump_0x603AA:
 	call UnknownCall_0x60C41
 	ldh_n_a $C6
-	ld hl, $A6B8
+	ld hl, sMapSprite0Id
 	ld a, [$A7A8]
 	ld d, 0
 	ld e, a
@@ -35963,7 +35963,7 @@ UnknownRJump_0x603CE:
 
 UnknownRJump_0x603D1:
 	ldh_n_a $C5
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $03
 	jr nz, UnknownRJump_0x603EA
 	ld a, [$A795]
@@ -36021,11 +36021,11 @@ UnknownRJump_0x6041E:
 
 UnknownCall_0x6042D:
 	ld a, 255
-	ld [$A6E4], a
+	ld [sMapSprite11Id], a
 	ret
 
 UnknownJump_0x60433:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $03
 	jp nz, UnknownJump_0x60461
 	call UnknownCall_0x606AA
@@ -36033,7 +36033,7 @@ UnknownJump_0x60433:
 
 	jp UnknownJump_0x60461
 
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $01
 	jp z, UnknownJump_0x60461
 	ld a, [$A7A7]
@@ -36055,13 +36055,13 @@ UnknownRJump_0x60461:
 	jp UnknownJump_0x3E07
 
 UnknownCall_0x6046A:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $07
 	jp nz, UnknownJump_0x604F3
 	ld a, [$A7B0]
 	ld c, a
 	ld b, 0
-	ld hl, $A6C6
+	ld hl, sMapSprite4X
 	add hl, bc
 	add hl, bc
 	add hl, bc
@@ -36092,7 +36092,7 @@ UnknownRJump_0x60481:
 	ld a, c
 	ld [$A7B0], a
 	ld b, 0
-	ld hl, $A6C6
+	ld hl, sMapSprite4X
 	add hl, bc
 	add hl, bc
 	add hl, bc
@@ -36101,7 +36101,7 @@ UnknownRJump_0x60481:
 	ld a, [$A7B1]
 	ld c, a
 	ld b, 0
-	ld hl, $A6C6
+	ld hl, sMapSprite4X
 	add hl, bc
 	add hl, bc
 	add hl, bc
@@ -36132,7 +36132,7 @@ UnknownRJump_0x604C1:
 	ld a, c
 	ld [$A7B1], a
 	ld b, 0
-	ld hl, $A6C6
+	ld hl, sMapSprite4X
 	add hl, bc
 	add hl, bc
 	add hl, bc
@@ -36144,7 +36144,7 @@ UnknownJump_0x604F3:
 	ld a, [$A7B0]
 	ld c, a
 	ld b, 0
-	ld hl, $A6C6
+	ld hl, sMapSprite4X
 	add hl, bc
 	add hl, bc
 	add hl, bc
@@ -36153,7 +36153,7 @@ UnknownJump_0x604F3:
 	ld a, [$A7B1]
 	ld c, a
 	ld b, 0
-	ld hl, $A6C6
+	ld hl, sMapSprite4X
 	add hl, bc
 	add hl, bc
 	add hl, bc
@@ -36176,7 +36176,7 @@ UnknownData_0x60521: ;state handler table, `jp hl` targets, indexed by [$A7A6] (
 	dw UnknownRJump_0x605EE, UnknownRJump_0x60639, UnknownRJump_0x6065B, UnknownRJump_0x6067F
 	dw $469C, $4764, UnknownJump_0x607AA, UnknownJump_0x607AA
 
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $01
 	jp z, UnknownJump_0x607AA
 	ldh_a_n $C5
@@ -36193,7 +36193,7 @@ UnknownData_0x60521: ;state handler table, `jp hl` targets, indexed by [$A7A6] (
 UnknownRJump_0x60559:
 	inc a
 	ldh_n_a $C5
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $02
 	jr z, UnknownRJump_0x60573
 	ld a, [$A795]
@@ -36230,7 +36230,7 @@ UnknownRJump_0x6059A:
 	jp UnknownJump_0x607AA
 
 UnknownRJump_0x605A0:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $03
 	jr nz, UnknownRJump_0x605C7
 	ld a, [$A7A7]
@@ -36246,18 +36246,18 @@ UnknownRJump_0x605B9:
 	ld a, [$A7A7]
 	dec a
 	ld [$A7A7], a
-	ld a, [$A6BC]
+	ld a, [sMapSprite1Id]
 	inc a
-	ld [$A6BC], a
+	ld [sMapSprite1Id], a
 
 UnknownRJump_0x605C7:
 	jp UnknownJump_0x607AA
 
 UnknownRJump_0x605CA:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $03
 	jr nz, UnknownRJump_0x605EB
-	ld a, [$A6BD]
+	ld a, [sMapSprite2Page]
 	cp $23
 	jr c, UnknownRJump_0x605E4
 	ld a, 4
@@ -36267,15 +36267,15 @@ UnknownRJump_0x605CA:
 	jr UnknownRJump_0x605EE
 
 UnknownRJump_0x605E4:
-	ld a, [$A6BD]
+	ld a, [sMapSprite2Page]
 	inc a
-	ld [$A6BD], a
+	ld [sMapSprite2Page], a
 
 UnknownRJump_0x605EB:
 	jp UnknownJump_0x607AA
 
 UnknownRJump_0x605EE:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $03
 	jr nz, UnknownRJump_0x60619
 	ld a, [$A7A7]
@@ -36291,9 +36291,9 @@ UnknownRJump_0x60602:
 	ld [$A7A7], a
 	or a
 	call z, UnknownCall_0x6062D
-	ld a, [$A6BC]
+	ld a, [sMapSprite1Id]
 	dec a
-	ld [$A6BC], a
+	ld [sMapSprite1Id], a
 	cp $48
 	call z, UnknownCall_0x6061C
 
@@ -36319,10 +36319,10 @@ UnknownCall_0x6062D:
 	ret
 
 UnknownRJump_0x60639:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	bit 0, a
 	jr nz, UnknownRJump_0x60658
-	ld a, [$A6B8]
+	ld a, [sMapSprite0Id]
 	cp $1D
 	jr nc, UnknownRJump_0x6064E
 	ld a, 6
@@ -36330,19 +36330,19 @@ UnknownRJump_0x60639:
 	jr UnknownRJump_0x6065B
 
 UnknownRJump_0x6064E:
-	ld a, [$A6B8]
+	ld a, [sMapSprite0Id]
 	dec a
-	ld [$A6B8], a
-	ld [$A6BB], a
+	ld [sMapSprite0Id], a
+	ld [sMapSprite1Y], a
 
 UnknownRJump_0x60658:
 	jp UnknownJump_0x607AA
 
 UnknownRJump_0x6065B:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $03
 	jr nz, UnknownRJump_0x6067C
-	ld a, [$A6BD]
+	ld a, [sMapSprite2Page]
 	cp $21
 	jr nz, UnknownRJump_0x60675
 	ld a, 7
@@ -36352,15 +36352,15 @@ UnknownRJump_0x6065B:
 	jr UnknownRJump_0x6067F
 
 UnknownRJump_0x60675:
-	ld a, [$A6BD]
+	ld a, [sMapSprite2Page]
 	dec a
-	ld [$A6BD], a
+	ld [sMapSprite2Page], a
 
 UnknownRJump_0x6067C:
 	jp UnknownJump_0x607AA
 
 UnknownRJump_0x6067F:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $03
 	jp nz, UnknownJump_0x607AA
 	ld a, [$A7A7]
@@ -36375,7 +36375,7 @@ UnknownRJump_0x60694:
 	ld [$A7A6], a
 	jp UnknownJump_0x607AA
 
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $03
 	jp nz, UnknownJump_0x607AA
 	call UnknownCall_0x606AA
@@ -36385,7 +36385,7 @@ UnknownCall_0x606AA:
 	ld a, [$A7A8]
 	cp $03
 	jr nc, UnknownRJump_0x60711
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $0C
 	jr nz, UnknownRJump_0x606BE
 	ld a, [$A7AC]
@@ -36449,45 +36449,45 @@ UnknownRJump_0x60711:
 	cp $03
 	jr nz, UnknownRJump_0x60723
 	ld c, 29
-	ld a, [$A68B]
+	ld a, [sMapScreenId]
 	cp $0E
 	jr z, UnknownRJump_0x6073D
 
 UnknownRJump_0x60723:
 	ld a, c
-	ld [$A6DB], a
-	ld a, [$A6DA]
+	ld [sMapSprite9Y], a
+	ld a, [sMapSprite9X]
 	cp $60
 	jr c, UnknownRJump_0x60735
 	dec a
-	ld [$A6DA], a
+	ld [sMapSprite9X], a
 	jp UnknownJump_0x606DB
 
 UnknownRJump_0x60735:
 	ld a, 255
-	ld [$A6DB], a
+	ld [sMapSprite9Y], a
 	jp UnknownJump_0x606DB
 
 UnknownRJump_0x6073D:
 	ld a, c
-	ld [$A6E4], a
-	ld a, [$A6E3]
+	ld [sMapSprite11Id], a
+	ld a, [sMapSprite11Y]
 	cp $62
 	jr c, UnknownRJump_0x60757
 	dec a
-	ld [$A6E3], a
+	ld [sMapSprite11Y], a
 	ldh_a_n $C5
 	sub 4
-	ld [$A6E2], a
+	ld [sMapSprite11X], a
 	jp UnknownJump_0x606DB
 
 UnknownRJump_0x60757:
 	ld a, 255
-	ld [$A6E4], a
+	ld [sMapSprite11Id], a
 	ld a, 176
-	ld [$A6E2], a
+	ld [sMapSprite11X], a
 	jp UnknownJump_0x606DB
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $01
 	jp z, UnknownJump_0x607AA
 	call UnknownCall_0x60772
@@ -36504,7 +36504,7 @@ UnknownCall_0x60772:
 UnknownRJump_0x6077F:
 	dec a
 	ldh_n_a $C5
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $02
 	jr z, UnknownRJump_0x60799
 	ld a, [$A795]
@@ -36540,37 +36540,37 @@ UnknownJump_0x607AA:
 
 UnknownCall_0x607C5:
 	ld a, 255
-	ld [$A6C0], a
-	ld [$A6C3], a
-	ld [$A6C6], a
-	ld [$A6C9], a
-	ld a, [$A6BC]
+	ld [sMapSprite2Id], a
+	ld [sMapSprite3Y], a
+	ld [sMapSprite4X], a
+	ld [sMapSprite5Page], a
+	ld a, [sMapSprite1Id]
 	cp $3E
 	ret c
 	ld a, 32
-	ld [$A6C0], a
-	ld a, [$A6BC]
+	ld [sMapSprite2Id], a
+	ld a, [sMapSprite1Id]
 	cp $46
 	ret c
 	ld a, 32
-	ld [$A6C3], a
-	ld a, [$A6BC]
+	ld [sMapSprite3Y], a
+	ld a, [sMapSprite1Id]
 	cp $4E
 	ret c
 	ld a, 32
-	ld [$A6C6], a
-	ld a, [$A6BC]
+	ld [sMapSprite4X], a
+	ld a, [sMapSprite1Id]
 	cp $56
 	ret c
 	ld a, 32
-	ld [$A6C9], a
+	ld [sMapSprite5Page], a
 	ret
 
 UnknownCall_0x60800:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $03
 	ret z
-	ld a, [$A6B8]
+	ld a, [sMapSprite0Id]
 	ld e, a
 	ld a, [$A7A7]
 	bit 0, a
@@ -36595,12 +36595,12 @@ UnknownRJump_0x60822:
 
 UnknownRJump_0x60828:
 	ld a, e
-	ld [$A6B8], a
-	ld [$A6BB], a
-	ld [$A6BE], a
-	ld [$A6C1], a
-	ld [$A6C4], a
-	ld [$A6C7], a
+	ld [sMapSprite0Id], a
+	ld [sMapSprite1Y], a
+	ld [sMapSprite2X], a
+	ld [sMapSprite3Page], a
+	ld [sMapSprite3Id], a
+	ld [sMapSprite4Y], a
 	ret
 
 UnknownCall_0x6083C:
@@ -36629,7 +36629,7 @@ UnknownRJump_0x60847:
 
 
 UnknownJump_0x60865:
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $01
 	jp nz, UnknownJump_0x609E4
 	ld hl, $A7D5
@@ -36665,7 +36665,7 @@ UnknownCall_0x60897:
 	ret nc
 	ld hl, $A7D5
 	add hl, de
-	ld a, [$A6BB]
+	ld a, [sMapSprite1Y]
 	sub 12
 	cp [hl]
 	ret nc
@@ -36681,12 +36681,12 @@ UnknownCall_0x60897:
 	ret
 
 UnknownJump_0x608BB:
-	ld a, [$A6BB]
+	ld a, [sMapSprite1Y]
 	sub 4
 	ld hl, $A7D5
 	add hl, de
 	ld [hl], a
-	ld a, [$A6BC]
+	ld a, [sMapSprite1Id]
 	add 8
 	ld hl, $A7DA
 	add hl, de
@@ -36720,7 +36720,7 @@ UnknownJump_0x608E1:
 	ld [$A7A6], a
 	ld a, 20
 	ld [$A7A7], a
-	ld hl, $A6CC
+	ld hl, sMapSprite5Id
 	add hl, de
 	add hl, de
 	add hl, de
@@ -36805,12 +36805,12 @@ UnknownRJump_0x6098F:
 	add hl, de
 	ld [hl], a
 	ld a, 255
-	ld hl, $A6CC
+	ld hl, sMapSprite5Id
 	add hl, de
 	add hl, de
 	add hl, de
 	ld [hl], a
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $01
 	jp nz, UnknownJump_0x609E4
 	ld hl, $A7DF
@@ -36831,7 +36831,7 @@ UnknownRJump_0x609B7:
 	cp $05
 	jr z, UnknownRJump_0x609C9
 	add 24
-	ld hl, $A6CC
+	ld hl, sMapSprite5Id
 	add hl, de
 	add hl, de
 	add hl, de
@@ -36856,26 +36856,26 @@ UnknownRJump_0x609C9:
 UnknownJump_0x609E4:
 	ld hl, $A7D5
 	ld a, [hli]
-	ld [$A6CA], a
+	ld [sMapSprite5X], a
 	ld a, [hli]
-	ld [$A6CD], a
+	ld [sMapSprite6Page], a
 	ld a, [hli]
-	ld [$A6D0], a
+	ld [sMapSprite6Id], a
 	ld a, [hli]
-	ld [$A6D3], a
+	ld [sMapSprite7Y], a
 	ld a, [hl]
-	ld [$A6D6], a
+	ld [sMapSprite8X], a
 	ld hl, $A7DA
 	ld a, [hli]
-	ld [$A6CB], a
+	ld [sMapSprite5Y], a
 	ld a, [hli]
-	ld [$A6CE], a
+	ld [sMapSprite6X], a
 	ld a, [hli]
-	ld [$A6D1], a
+	ld [sMapSprite7Page], a
 	ld a, [hli]
-	ld [$A6D4], a
+	ld [sMapSprite7Id], a
 	ld a, [hl]
-	ld [$A6D7], a
+	ld [sMapSprite8Y], a
 	ld a, [$A7E9]
 	inc a
 	ld [$A7E9], a
@@ -36893,7 +36893,7 @@ UnknownData_0x60A1A: ;byte table (values 0-$04, $FF markers); no direct reader f
 	ld a, [$A7A6]
 	cp $00
 	jr nz, UnknownRJump_0x60AEC
-	ld a, [$A6BD]
+	ld a, [sMapSprite2Page]
 	cp $07
 	jr nz, UnknownRJump_0x60AA7
 	ldh_a_n $81
@@ -36909,7 +36909,7 @@ UnknownData_0x60A1A: ;byte table (values 0-$04, $FF markers); no direct reader f
 
 UnknownJump_0x60AA7:
 UnknownRJump_0x60AA7:
-	ld a, [$A6B9]
+	ld a, [sMapSprite1Page]
 	ld d, a
 	ld a, [$A796]
 	inc a
@@ -36930,15 +36930,15 @@ UnknownRJump_0x60AC2:
 
 UnknownRJump_0x60AC3:
 	ld a, d
-	ld [$A6B9], a
-	ld a, [$A69A]
+	ld [sMapSprite1Page], a
+	ld a, [sMapFrameCounter]
 	and $07
 	jr nz, UnknownRJump_0x60AD9
-	ld a, [$A6BD]
+	ld a, [sMapSprite2Page]
 	cp $07
 	jr z, UnknownRJump_0x60AD9
 	inc a
-	ld [$A6BD], a
+	ld [sMapSprite2Page], a
 
 UnknownRJump_0x60AD9:
 	ld b, 2
@@ -36965,10 +36965,10 @@ UnknownRJump_0x60AEC:
 	ld a, 90
 	ld [$A7A7], a
 	ld a, 2
-	ld [$A6BA], a
+	ld [sMapSprite1X], a
 	call UnknownCall_0x60D32
 	ld a, 56
-	ld [$A6C2], a
+	ld [sMapSprite3X], a
 	jp UnknownJump_0x60BBF
 
 UnknownRJump_0x60B18:
@@ -36985,8 +36985,8 @@ UnknownRJump_0x60B18:
 	ld a, 3
 	ld [$A797], a
 	ld a, 2
-	ld [$A6BA], a
-	ld a, [$A69A]
+	ld [sMapSprite1X], a
+	ld a, [sMapFrameCounter]
 	and $04
 	jr nz, UnknownRJump_0x60B49
 	jr UnknownRJump_0x60B49
@@ -36994,7 +36994,7 @@ UnknownRJump_0x60B18:
 UnknownRJump_0x60B41:
 	ld [$A797], a
 	add 2
-	ld [$A6BA], a
+	ld [sMapSprite1X], a
 
 UnknownRJump_0x60B49:
 	ld a, [$A7A7]
@@ -37028,11 +37028,11 @@ UnknownRJump_0x60B5C:
 	xor a
 	ld [$A797], a
 	ld a, 2
-	ld [$A6BA], a
+	ld [sMapSprite1X], a
 	jp UnknownJump_0x60CF9
 
 UnknownRJump_0x60B88:
-	ld a, [$A6B9]
+	ld a, [sMapSprite1Page]
 	ld d, a
 	and $07
 	cp $05
@@ -37057,7 +37057,7 @@ UnknownRJump_0x60BA8:
 
 UnknownRJump_0x60BA9:
 	ld a, d
-	ld [$A6B9], a
+	ld [sMapSprite1Page], a
 
 UnknownRJump_0x60BAD:
 	ld a, [$A7A5]
@@ -37072,24 +37072,24 @@ UnknownJump_0x60BBF:
 	ld a, [$A7A6]
 	cp $02
 	jr nz, UnknownRJump_0x60C13
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	bit 0, a
 	jp nz, UnknownJump_0x60CF9
 	ld a, 255
-	ld [$A6C3], a
+	ld [sMapSprite3Y], a
 	ld a, [$A7A7]
 	cp $3C
 	jr nc, UnknownRJump_0x60BF3
-	ld a, [$A6C2]
+	ld a, [sMapSprite3X]
 	inc a
-	ld [$A6C2], a
+	ld [sMapSprite3X], a
 	cp $4E
 	call z, UnknownCall_0x60D80
 	ld a, 32
-	ld [$A6C1], a
+	ld [sMapSprite3Page], a
 	ld a, [$A7A8]
 	add 11
-	ld [$A6C3], a
+	ld [sMapSprite3Y], a
 
 UnknownRJump_0x60BF3:
 	ld a, [$A7A7]
@@ -37102,7 +37102,7 @@ UnknownRJump_0x60BF3:
 	ld a, 6
 	ld [$A7A6], a
 	ld a, 255
-	ld [$A6C3], a
+	ld [sMapSprite3Y], a
 	call UnknownCall_0x60DC7
 	jp UnknownJump_0x60CF9
 
@@ -37147,14 +37147,14 @@ UnknownRJump_0x60C59:
 	ldh_a_n $C4
 	cp $6C
 	jr nc, UnknownRJump_0x60C91
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $01
 	jr nz, UnknownRJump_0x60C91
-	ld a, [$A6C0]
+	ld a, [sMapSprite2Id]
 	cp $0A
 	jr nc, UnknownRJump_0x60C7F
 	inc a
-	ld [$A6C0], a
+	ld [sMapSprite2Id], a
 	jp UnknownJump_0x60CF9
 
 UnknownRJump_0x60C7F:
@@ -37181,7 +37181,7 @@ UnknownRJump_0x60C94:
 	jr z, UnknownRJump_0x60CD8
 	cp $04
 	jr nc, UnknownRJump_0x60CD8
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $0C
 	jr nz, UnknownRJump_0x60CBB
 	ld a, [$A7AC]
@@ -37274,7 +37274,7 @@ UnknownCall_0x60D32:
 
 UnknownRJump_0x60D49:
 	ld d, a
-	ld a, [$A6B9]
+	ld a, [sMapSprite1Page]
 	sub 40
 	srl a
 	srl a
@@ -37311,14 +37311,14 @@ UnknownCall_0x60D80:
 	ld a, [$A7A8]
 	or a
 	ret nz
-	ld a, [$A6B9]
+	ld a, [sMapSprite1Page]
 	sub 48
 	srl a
 	srl a
 	srl a
 	and $0F
 	ld [$A7AA], a
-	ld a, [$A6B9]
+	ld a, [sMapSprite1Page]
 	sub 40
 	srl a
 	srl a
@@ -37533,14 +37533,14 @@ UnknownRJump_0x60EDD:
 UnknownRJump_0x60EE0:
 	add hl, de
 	ld a, [hl]
-	ld [$A6C4], a
+	ld [sMapSprite3Id], a
 	ret
 
 UnknownCall_0x60EE6:
 	ld a, [$A7A8]
 	or a
 	ret z
-	ld a, [$A69A]
+	ld a, [sMapFrameCounter]
 	and $03
 	ret nz
 	ld a, [$A7B9]
@@ -37625,7 +37625,7 @@ UnknownRJump_0x61073:
 	jr nz, UnknownRJump_0x61073
 	ld a, 0
 	ld [$A782], a
-	ld hl, $A6B5
+	ld hl, sMapSprite0Page
 	ld a, 16
 
 UnknownRJump_0x61081:

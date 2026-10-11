@@ -183,6 +183,130 @@ DEF sEasyMode EQU $A2E4
 DEF sCurSong EQU $A469
 DEF sFastMusic EQU $A50D
 
+; Overworld map screen state ($A680-$A6B4). All map screens share this block;
+; sMapScreenId selects which screen's handler runs (see $3C000 dispatcher).
+DEF sMapCamXLo EQU $A680          ; map camera X lo, latched from $FFB9 by $3ED4C
+DEF sMapCamXHi EQU $A681          ; map sprites are culled/placed against it
+DEF sMapCamYLo EQU $A682          ; map camera Y lo, latched from $FFB7
+DEF sMapCamYHi EQU $A683
+DEF sMapRasterPhase EQU $A689     ; rSCX wobble phase (hub $3E853, Turtle $3E7F2)
+DEF sMapScreenId EQU $A68B        ; 0 hub; 1/8 Pumpkin; 2/5 Tree; 3 Macro; 4 Space;
+                                  ; 6 Mario; 7 Turtle; 9-$0E castle/ending screens
+DEF sMapCursorWalkFrame EQU $A68C ; cursor walk/idle animation frame ($3C8F4:
+                                  ; idle pose = (($A68C & $18) >> 3) + 12)
+DEF sMapCursorWalking EQU $A690   ; nonzero while the cursor walks a path
+DEF sMapWalkPtrLo EQU $A692       ; ptr into the walk-command stream (bank $18):
+DEF sMapWalkPtrHi EQU $A693       ; $563A + node*8 + dir*2 (dir order R,L,U,D);
+                                  ; stream = move bytes (01 R, 02 L, 04 U, 08 D)
+                                  ; ended by 00, then the destination node id
+DEF sMapWalkStepTimer EQU $A694   ; frames per walk step (9/5 when the walk starts,
+                                  ; reload 8, or 4 while sMapCursorMove bit 4 set)
+DEF sMapCursorPose EQU $A695      ; cursor pose: 0-11 walking, 12-15 idle; indexes
+                                  ; the $4AD7 pointer table for the cursor's OAM
+DEF sMapRandLatch EQU $A696       ; 40-frame joypad XOR (pseudo-random source)
+DEF sMapTickTimer EQU $A697       ; 40-frame countdown; drives sMapRandLatch
+DEF sMapAnimPhase EQU $A699       ; Pumpkin animation phase ($5A21/$5A29 tables)
+DEF sMapFrameCounter EQU $A69A    ; free-running frame counter; every anim phase
+                                  ; source (& $01/$03/$07/$0F/$18/$30/$70/$E0)
+DEF sMapAnimIndexA EQU $A6A2      ; 0-$4F index into the $6227 anim table (Pumpkin)
+DEF sMapAnimValueA EQU $A6A5      ; scratch copy of $6227[sMapAnimIndexA]
+DEF sMapUnused1 EQU $A6A6         ; write-only (cleared by the Pumpkin loader)
+DEF sMapMovingX EQU $A6A7         ; moving object X (screen id 5 handler $3DDD3)
+DEF sMapMovingDir EQU $A6A8       ; its direction flag (bit0: 0 = -x, 1 = +x)
+DEF sMapUnused2 EQU $A6AC         ; write-only (census)
+DEF sMapUnused3 EQU $A6AD         ; write-only (census)
+DEF sMapAnimIndexB EQU $A6B0      ; $6227 index (Tree handler $3DA2D)
+DEF sMapUnused4 EQU $A6B1         ; cleared with sMapAnimIndexB; no reader (census)
+DEF sMapKeysXor EQU $A6B2         ; joypad XORed in every frame; NO READER (census)
+DEF sMapOAMIndex EQU $A6B3        ; next OAM index for map sprites (starts at 13)
+DEF sMapSpriteOffscreen EQU $A6B4 ; $FF when the current sprite is outside the
+                                  ; camera window; checked before writing OAM
+; Hub map-decoration sprite list: 18 entries x 4 bytes ($A6B5-$A6FC), drawn to OAM
+; by $3CFC8 (slots 13+). Fields: +0 = packed coordinate pages (X page in the high
+; nibble, Y page in the low nibble; used as $06|nibble), +1 = X lo, +2 = Y lo,
+; +3 = sprite id into the $4C4D descriptor table ($FF = entry disabled). Screen
+; pos = (Xlo - sMapCamXLo + 8, Ylo - sMapCamYLo + 16); culled unless within
+; X (-$30,+$D0] / Y (-$38,+$C8] of the camera. Live (hub): k1-k3 drift +-64 px
+; (k2/k3 = clouds, id 9); k4-k9 = the six coin icons, ids written by $3CE43 from
+; sGoldenCoin1-6 bit7 (k4<-$A851, k5<-$A84D, k6<-$A856, k7<-$A859, k8<-$A85F,
+; k9<-$A865) and cycled 2/3/4 by $3CE6B; k14 = rock (ids 5-8 while the $A789
+; sequence runs); k16/k17 = random sparkles (id $0A, positions from $4FA8/$4FB8).
+; NOTE: other screens reuse these bytes for stride-3 arrays ($A6C6+3k, $A6CA+3k,
+; $A6CB+3k, $A6CC+3k, ...) - names below are the hub (proven) meanings.
+DEF sMapSprite0Page EQU $A6B5
+DEF sMapSprite0X EQU $A6B6
+DEF sMapSprite0Y EQU $A6B7
+DEF sMapSprite0Id EQU $A6B8
+DEF sMapSprite1Page EQU $A6B9
+DEF sMapSprite1X EQU $A6BA
+DEF sMapSprite1Y EQU $A6BB
+DEF sMapSprite1Id EQU $A6BC
+DEF sMapSprite2Page EQU $A6BD
+DEF sMapSprite2X EQU $A6BE
+DEF sMapSprite2Y EQU $A6BF
+DEF sMapSprite2Id EQU $A6C0
+DEF sMapSprite3Page EQU $A6C1
+DEF sMapSprite3X EQU $A6C2
+DEF sMapSprite3Y EQU $A6C3
+DEF sMapSprite3Id EQU $A6C4
+DEF sMapSprite4Page EQU $A6C5
+DEF sMapSprite4X EQU $A6C6
+DEF sMapSprite4Y EQU $A6C7
+DEF sMapSprite4Id EQU $A6C8
+DEF sMapSprite5Page EQU $A6C9
+DEF sMapSprite5X EQU $A6CA
+DEF sMapSprite5Y EQU $A6CB
+DEF sMapSprite5Id EQU $A6CC
+DEF sMapSprite6Page EQU $A6CD
+DEF sMapSprite6X EQU $A6CE
+DEF sMapSprite6Y EQU $A6CF
+DEF sMapSprite6Id EQU $A6D0
+DEF sMapSprite7Page EQU $A6D1
+DEF sMapSprite7X EQU $A6D2
+DEF sMapSprite7Y EQU $A6D3
+DEF sMapSprite7Id EQU $A6D4
+DEF sMapSprite8Page EQU $A6D5
+DEF sMapSprite8X EQU $A6D6
+DEF sMapSprite8Y EQU $A6D7
+DEF sMapSprite8Id EQU $A6D8
+DEF sMapSprite9Page EQU $A6D9
+DEF sMapSprite9X EQU $A6DA
+DEF sMapSprite9Y EQU $A6DB
+DEF sMapSprite9Id EQU $A6DC
+DEF sMapSprite10Page EQU $A6DD
+DEF sMapSprite10X EQU $A6DE
+DEF sMapSprite10Y EQU $A6DF
+DEF sMapSprite10Id EQU $A6E0
+DEF sMapSprite11Page EQU $A6E1
+DEF sMapSprite11X EQU $A6E2
+DEF sMapSprite11Y EQU $A6E3
+DEF sMapSprite11Id EQU $A6E4
+DEF sMapSprite12Page EQU $A6E5
+DEF sMapSprite12X EQU $A6E6
+DEF sMapSprite12Y EQU $A6E7
+DEF sMapSprite12Id EQU $A6E8
+DEF sMapSprite13Page EQU $A6E9
+DEF sMapSprite13X EQU $A6EA
+DEF sMapSprite13Y EQU $A6EB
+DEF sMapSprite13Id EQU $A6EC
+DEF sMapSprite14Page EQU $A6ED
+DEF sMapSprite14X EQU $A6EE
+DEF sMapSprite14Y EQU $A6EF
+DEF sMapSprite14Id EQU $A6F0
+DEF sMapSprite15Page EQU $A6F1
+DEF sMapSprite15X EQU $A6F2
+DEF sMapSprite15Y EQU $A6F3
+DEF sMapSprite15Id EQU $A6F4
+DEF sMapSprite16Page EQU $A6F5
+DEF sMapSprite16X EQU $A6F6
+DEF sMapSprite16Y EQU $A6F7
+DEF sMapSprite16Id EQU $A6F8
+DEF sMapSprite17Page EQU $A6F9
+DEF sMapSprite17X EQU $A6FA
+DEF sMapSprite17Y EQU $A6FB
+DEF sMapSprite17Id EQU $A6FC
+
+
 ; Level header block ($A800-$A813): 20 bytes copied from levels/levelheaders.asm
 ; by LoadLevelHeader ($5579, bank 1) at level load; secret route overlays
 ; $A800-$A807 from UnknownData_0x377B (home.asm).
