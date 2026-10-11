@@ -1,0 +1,10 @@
+$A042	sSaveSlot0Tally
+$A092	sSaveSlot1Tally
+$A0E2	sSaveSlot2Tally
+$A0F0	sDemoIndex
+$A11A	sStatusBarLivesTens
+$A11E	sStatusBarLivesOnes
+$A12A	sStatusBarCoinHundreds
+$A12E	sStatusBarCoinTens
+$A132	sStatusBarCoinOnes
+$AA01	sScrollPatchFlag

@@ -139,7 +139,7 @@ UnknownRJump_0x018B:
 	ld a, [sSceneId]
 	and a
 	jp nz, UnknownJump_0x26C3
-	ld a, [$AA01]
+	ld a, [sScrollPatchFlag]
 	and a
 	jr z, UnknownRJump_0x01BF
 	ld a, [sLevelBank] ;prepare bank switch
@@ -250,7 +250,7 @@ UnknownRJump_0x0244:
 
 UnknownJump_0x0264:
 	xor a
-	ld [$AA01], a
+	ld [sScrollPatchFlag], a
 	ld a, [sScreenTransition]
 	and a
 	jr nz, UnknownRJump_0x0279
@@ -560,7 +560,7 @@ UnknownRJump_0x040A:
 	swap a
 	ld e, a
 	add hl, de
-	ld de, $A960
+	ld de, sScreenEdgeMap
 	ld b, 48
 
 UnknownRJump_0x043F:
@@ -593,7 +593,7 @@ UnknownRJump_0x043F:
 	swap a
 	ld e, a
 	add hl, de
-	ld de, $A900
+	ld de, sSceneMap
 	ld b, 48
 
 UnknownRJump_0x0472:
@@ -614,7 +614,7 @@ UnknownRJump_0x0472:
 	ld [sLevelLoadFlag], a
 	ld [sVRAMTransferActive], a
 	ld [sOAMWriteEnd], a
-	ld hl, $AA80
+	ld hl, sBlockAnimSlots
 
 UnknownRJump_0x049C:
 	xor a
@@ -1464,7 +1464,7 @@ UnknownRJump_0x0A8A:
 	ret
 
 ScrollLevelMap: ;$0AFB
-	ld de, $A9FF
+	ld de, sScrollPatchList
 
 .continue
 	inc de
@@ -1502,7 +1502,7 @@ ScrollLevelMap: ;$0AFB
 
 .done
 	xor a
-	ld [$AA01], a
+	ld [sScrollPatchFlag], a
 	ret
 
 UnknownCall_0x0B2A:
@@ -1526,7 +1526,7 @@ UnknownRJump_0x0B39:
 	or b
 	ld e, a
 	ld d, 0
-	ld hl, $A960
+	ld hl, sScreenEdgeMap
 	add hl, de
 	ld a, [hl]
 	ldh [$FF98], a
@@ -2060,7 +2060,7 @@ UnknownCall_0x0F0B:
 	add e
 	ld e, a
 	ld d, 0
-	ld hl, $A900
+	ld hl, sSceneMap
 	add hl, de
 	ld a, [hl]
 	ld [sSceneId], a
@@ -5095,7 +5095,7 @@ UnknownData_0x26B5: ;pointers, indexed by $A22D * 2
 
 
 UnknownJump_0x26C3:
-	ld a, [$AA01]
+	ld a, [sScrollPatchFlag]
 	and a
 	jr z, UnknownRJump_0x2712
 	ld a, [sLevelBank] ;prepare bank switch
@@ -5389,11 +5389,11 @@ UnknownRJump_0x28CD:
 	ret
 
 UnknownCall_0x28D9:
-	ld hl, $A000
+	ld hl, sSaveSlot0
 	call UnknownCall_0x28EC
-	ld hl, $A050
+	ld hl, sSaveSlot1
 	call UnknownCall_0x28EC
-	ld hl, $A0A0
+	ld hl, sSaveSlot2
 	call UnknownCall_0x28EC
 	ret
 
@@ -5458,7 +5458,7 @@ UnknownRJump_0x2917:
 	ret
 
 UnknownCall_0x2934:
-	ld hl, $A000
+	ld hl, sSaveSlot0
 	ld a, [sSaveFileIndex]
 	ld b, a
 	sla a
@@ -5594,7 +5594,7 @@ UnknownRJump_0x2A02:
 	ld [sOAMPalette1], a
 	ld a, 57
 	ld [sOAMPalette2], a
-	ld hl, $A100
+	ld hl, sOAMShadow
 
 UnknownRJump_0x2A23:
 	xor a
@@ -6022,7 +6022,7 @@ UnknownCall_0x2D4C:
 	ld d, 0
 	sla e
 	rl d
-	ld hl, $A900
+	ld hl, sSceneMap
 	add hl, de
 	inc hl
 	ld a, [hl]
@@ -6550,7 +6550,7 @@ UnknownRJump_0x3098:
 	or b
 	ld e, a
 	ld d, 0
-	ld hl, $A960
+	ld hl, sScreenEdgeMap
 	add hl, de
 	ld a, [hl]
 	ldh [$FF98], a
@@ -6587,7 +6587,7 @@ UnknownRJump_0x30D9:
 	or b
 	ld e, a
 	ld d, 0
-	ld hl, $A960
+	ld hl, sScreenEdgeMap
 	add hl, de
 	ld a, [hl]
 	ldh [$FF98], a
@@ -6645,10 +6645,10 @@ UnknownRJump_0x314B:
 	ret
 
 UnknownJump_0x3150:
-	ld a, [$A0F0]
+	ld a, [sDemoIndex]
 	inc a
 	and $03
-	ld [$A0F0], a
+	ld [sDemoIndex], a
 	jp Init
 
 
@@ -7428,10 +7428,10 @@ UnknownJump_0x38CE:
 	ld [sCurROMBank], a
 	ld [$2100], a
 	call UnknownCall_0x1002D
-	ld a, [$A0F0]
+	ld a, [sDemoIndex]
 	inc a
 	and $03
-	ld [$A0F0], a
+	ld [sDemoIndex], a
 	jp Init
 
 UnknownRJump_0x38E5:
@@ -8042,7 +8042,7 @@ UnknownCall_0x3E34:
 	ret
 
 UnknownCall_0x3E46:
-	ld hl, $A100
+	ld hl, sOAMShadow
 
 UnknownRJump_0x3E49:
 	xor a

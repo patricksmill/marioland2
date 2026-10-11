@@ -1,3 +1,44 @@
+; Save slots + attract-demo state ($A000-$A0FF).
+; $A000-$BFFF is the battery-backed cart RAM used as work RAM; the three save
+; records sit at $A000/$A050/$A0A0 (80 bytes each). Record layout: 64-byte
+; progress block; +$40 coin lo, +$41 coin hi, +$42 BCD level tally, +$43 lives,
+; +$44 moneybags, +$45 checksum (sum of bytes 0..$44), +$46..$4A signature
+; $12 $34 $56 $78 $78. $28EC validates a slot; $2934 (save) / the file-select
+; load copy between a slot and sMapNode..sMapCursorAnim.
+DEF sSaveSlot0 EQU $A000
+DEF sSaveSlot0Tally EQU $A042      ; +$42: the BCD level tally (saved copy of
+                                   ; sLevelTally; drawn on the file-select
+                                   ; screen by $300FE)
+DEF sSaveSlot1 EQU $A050
+DEF sSaveSlot1Tally EQU $A092
+DEF sSaveSlot2 EQU $A0A0
+DEF sSaveSlot2Tally EQU $A0E2
+DEF sDemoIndex EQU $A0F0           ; attract-demo index 0-3: picks the demo's
+                                   ; level ($4121+idx -> sCurLevel) and input
+                                   ; list ($7C00+idx*$100 -> $A300); set from
+                                   ; the title ($140A8), cycled on demo end
+                                   ; ($3150/$38CE)
+
+; OAM shadow ($A100-$A19F): 40 entries x 4 bytes (Y, X, tile, attr), DMA'd to
+; $FE00. Entries 0-3 = map cursor, 4-12 = map status bar, 13+ = map sprite
+; list. Cleared whole by $5302/$3E46, from entry 4 by $3E277 (map decoration
+; start), from entry 13 by $3CFC8.
+DEF sOAMShadow EQU $A100
+DEF sMapCursorOAMTile EQU $A102    ; cursor OAM entry 0 tile byte (attr at +1;
+                                   ; entries 1-3 at $A106/$A10A/$A10E; the
+                                   ; builder writes $1B/$0A/$1C/$0B; the pose
+                                   ; table $4AD7 rewrites tile+attr)
+DEF sStatusBarOAM EQU $A110        ; OAM entry 4: the 9-entry status-bar block
+                                   ; (36 bytes copied from the $7251 template by
+                                   ; $3F203, then the digit tiles patched)
+DEF sStatusBarLivesTens EQU $A11A  ; digit tile = value | $70
+DEF sStatusBarLivesOnes EQU $A11E
+DEF sStatusBarCoinHundreds EQU $A12A
+DEF sStatusBarCoinTens EQU $A12E
+DEF sStatusBarCoinOnes EQU $A132
+DEF sMapSpriteOAM EQU $A134        ; OAM entry 13: hub map sprite list area
+                                   ; (27 entries; $3CFC8 clears 108 bytes here)
+
 ; WRAM ($A200-$A2FF) Variables
 DEF sHVelocityIndex EQU $A200
 DEF sVVelocityIndex EQU $A201
@@ -179,6 +220,10 @@ DEF sCreditsScrollY EQU $A2E1
 DEF sEndingTileFlag EQU $A2E2
 DEF sBossClearFlag EQU $A2E3
 DEF sEasyMode EQU $A2E4
+
+; Attract-demo input list: 256 bytes copied from $7C00 + sDemoIndex*$100 by
+; $140D6 (or recorded into, in record mode); walked via sDemoInputPos ($A2CF).
+DEF sDemoInputBuf EQU $A300
 
 ; Music engine state ($A400-$A45F). The sound driver (_UpdateSound $10030, bank 4)
 ; runs the music sequencer ($11638) plus three sfx slots, driving the four APU
@@ -658,6 +703,37 @@ DEF sMapCursorAnim EQU $A878      ; walk anim pattern ($92 while walking, rrca p
 ; +0 active, +1/+2 Y (lo/hi), +3/+4 X (lo/hi), +5 direction, +6 sFireballPhase
 DEF sFireball1Active EQU $A880
 DEF sFireball2Active EQU $A890
+
+; Level scroll buffers + the object-stream buffer.
+; sSceneMap/sScreenEdgeMap: two parallel 48-byte 3x16 maps of the level cells
+; around the view, copied at level load ($03F1) from the level header pointers
+; [$4002]/[$4000] + sLevelLayoutIndex*48; indexed (Yhi & $0F)*16 + (Xlo & $0F).
+DEF sSceneMap EQU $A900            ; scene/level id per cell; $0F0B reads the
+                                   ; cell under Mario to seed sSceneId
+DEF sScreenEdgeMap EQU $A960       ; screen-boundary bits per cell: bit0 right,
+                                   ; bit1 left, bit2 up, bit3 down (hard edge ->
+                                   ; sScreenTransition 1/2/4/8); read into
+                                   ; $FF98 when the camera moves
+DEF sScrollPatchList EQU $A9FF     ; ScrollLevelMap ($0AFB) walks 6-byte VRAM
+                                   ; patch records from here (it pre-increments,
+                                   ; so the first record is at $AA00:
+                                   ; [dest lo][dest hi][4 tiles]); DEAD: the
+                                   ; list-active flag is never set anywhere
+DEF sScrollPatchFlag EQU $AA01     ; first record's dest-hi byte, doubling as
+                                   ; the list-active flag (cleared by $0264 and
+                                   ; by $0AFB .done; never set -> unreachable)
+DEF sBlockAnimSlots EQU $AA80      ; 8 slots x $10 for brick-bump animations:
+                                   ; +0 type (-> sBlockAnimType), +1 state,
+                                   ; +2/+3 Y, +4/+5 X; $5960 registers a bump,
+                                   ; $5997 updates, $049C clears
+DEF sObjectStreamBuf EQU $AB00     ; 512-byte object-stream buffer ($AB00-$ACFF);
+                                   ; $EC17 clears it, $AB00-$AB05 stay $FF
+DEF sObjectStream EQU $AB06        ; first stream record (the unpacked stream is
+                                   ; copied here by $EBBB; sObjectStreamPtrHi/Lo
+                                   ; init to it)
+DEF sObjectScanBase EQU $ACE8      ; one $20 stride before slot 0's state byte
+                                   ; ($AD08): the first-free-slot scans
+                                   ; ($8C8D/$8D3C/$5B346/$5B36D) add $20 first
 
 ; Object/actor table ($AD00-$AEFF), 16 slots x $20
 DEF sObjectTable EQU $AD00

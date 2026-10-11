@@ -1,0 +1,16 @@
+$A000	sSaveSlot0
+$A050	sSaveSlot1
+$A0A0	sSaveSlot2
+$A100	sOAMShadow
+$A102	sMapCursorOAMTile
+$A110	sStatusBarOAM
+$A134	sMapSpriteOAM
+$A22B	sMarioDirection
+$A300	sDemoInputBuf
+$A900	sSceneMap
+$A960	sScreenEdgeMap
+$A9FF	sScrollPatchList
+$AA80	sBlockAnimSlots
+$AB00	sObjectStreamBuf
+$AB06	sObjectStream
+$ACE8	sObjectScanBase
