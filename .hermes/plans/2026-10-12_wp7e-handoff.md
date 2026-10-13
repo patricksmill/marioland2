@@ -68,7 +68,14 @@ divergence and is the only exemption.
   record at 3016 spawns 2 frames early → `sptr`/`standby`/`uphase`/`ff0` diverge.
   `traj13` is trimmed at record 4645, the frame before it. **That divergence is
   the next target** — replay the untrimmed version (the scratch copy or by
-  re-running the script, whose tail prints the full route) to reproduce.
+  re-running the script, whose tail prints the full route) to reproduce. The run is frozen at `captures/traj13_full.json` (4719 records, sha1 `4e917a9bdd1ab7af629389570487928672fbab5f`).
+  > **Superseded (wp7f, same day):** it is not a physics divergence and there is
+  > no wall push-out there — two of the frozen run's records are *mid-frame*
+  > snapshots (the record-16 spawn frame overruns its VBlank slot), which is why
+  > x is a constant +2 off, and the death is the fallwalker's object contact.
+  > See `.hermes/plans/2026-10-12_wp7f-handoff.md`; `captures/traj14.json` (the
+  > same route, hook-sampled per logic frame) carries that tail as a gate
+  > capture, and `traj13_full` is retired.
 - **Sampling note**: this stretch is *tick-sampled* (like traj5-12) and its
   `$FFF0` deltas are 0/1 alternating, which is normal — do not read that as a
   slowdown. The lag-frame rule (use the `$05E4` hook) still applies to the death
