@@ -117,6 +117,43 @@ all-zero.
   not reach it. It is the cheapest single-slot `$66` case if a future capture
   routes around the walker (hop over it, or stomp it from the right phase).
 
+## Follow-up, same session: the visible half (the bump on screen + a live HUD)
+
+The bump was simulated but invisible: `run_play` still fed the player sprite
+from `frame_index` and the HUD strip was static, so a verified coin credit
+looked like nothing. Both are now wired.
+
+- **The bump is its own OAM sprite.** Each draw path stages
+  `$FFC5 = slotX - sScrollX` (types 1/5 also ∓ the timer) and
+  `$FFC4 = slotY - sScrollY + offset[timer]` and calls `$5297`, so it is an
+  *extra* entry — Mario's sprite never changes. The three offset tables are
+  `$5BB4` (types 2/3/6, 8 entries), `$5AE0` (type 4, 25 entries by `timer >> 1`)
+  and `$5A4A` (types 1/5, 40 entries, two sprites at `x ∓ timer`).
+  `PlayerSim::block_draw: Vec<(x, y, frame)>` stages them (types 1/5 push two);
+  `SpriteCtx::bumpers` carries them to `render_view`, which draws them through
+  the *player* mapping path after Mario and before the objects (the engine's OAM
+  order).
+- **The anchors are measured, not derived.** `probe_block_bump.py` now logs the
+  staged pair: at the `traj15` coin's timer-2 frame the console stages
+  `$FFC4`/`$FFC5` = **80/71** for slot (472, 368) with camera (448, 377); the
+  port's base computes the same 80/71 with anchors `slotX - 16` and
+  `slotY + offset - 26` (the engine's pair is scroll-relative with no player
+  `+96/+98`; its scroll sits at `cam - 80`/`cam - 72`). The first attempt used
+  `−96/−98` and drew the coin 80 px left and off the bottom — the numbers above
+  are what corrected it.
+- **The HUD follows the sim.** `$076B` patches the status bar every in-level
+  frame (`$9C07 = sCoinHigh & $0F`, `$9C08 = sCoinLow >> 4`, `$9C09 = sCoinLow &
+  $0F`, tile `$80 + digit`); `hud_row_coins` does the same from the sim in
+  `run_play` and in the replay filmstrip. The coin digits tick the frame the
+  coin is credited (the filmstrip frame's coin group reads 001).
+  Lives/money/time still come from the ROM template (they are not sim state the
+  play loop maintains).
+- Verified: rebuild clean, no debug residue, the whole 16-capture suite still
+  all-zero with no `note:` lines, and the filmstrip
+  (`--replay captures/traj15.json --filmstrip DIR`) shows the block bump on the
+  block (frames 305-309) and the coin rising above it (304-353), with Mario's
+  own pose unchanged.
+
 ## Open items (measured order)
 
 1. **`$1BFF`'s exit-tile arm** (`$4A/$4B` → `$FF9B = 24` + the 192-frame fade +
@@ -132,11 +169,14 @@ all-zero.
 4. **A push-out/side-push capture** (wp7f): needs a `$0C-$0F` side pipe or a
    `$04/$05` landing next to a wall; also what would make the `$181C` fix and
    `$12CE`'s landing `inc sScrollDeltaRight` green.
-5. Unmodelled by design (documented): the bump's **BG-map art writes** — `$5C01`/
-   `$5C2C`/`$5BD3`'s `$FF`/`$F4-$FB`/`$F8-$FB` 2x2 and `$200C`'s `$97E0`-based
-   address — are VRAM/art only, and the draw position (`$FFC4`/`$FFC5`, Y from
-   the `$5AE0` offset table) is not checked because no capture records it. The
-   renderer would need the 2x2 override to show a bumped block's art.
+5. Unmodelled by design (documented): the bump's **BG-map art writes** —
+   `$5C01`/`$5C2C`/`$5BD3`'s `$FF`/`$F4-$FB`/`$F8-$FB` 2x2 and `$200C`'s
+   `$97E0`-based address — are VRAM/art only. The renderer would need that 2x2
+   override to show a bumped block's *tile* art after the animation ends (the
+   bump sprite covers the block while it plays, which is why it is not obvious);
+   the same gap covers the death fade's palette steps. The bump's *draw*
+   position is no longer in this list — it is modelled and verified against the
+   console's own `$FFC4`/`$FFC5` staging (see the follow-up section).
 6. Unchanged: the goal bell's own behaviour, the game-over screen, the scene
    system, the type-`$06` carry, and the `--play` gaps.
 
