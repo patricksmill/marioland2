@@ -28,9 +28,10 @@ documented legacy `$FFF0` divergence and is the only exemption). No
    feet, else `(x+16, y+28)`. The engine writes `sMarioDead = 15` unless
    `sInvincibilityTimer`/`sStarTimerHigh` runs, then *overwrites* with `$80` when
    `sMarioScreenY >= $80` — the `$1C4E`→`$1C6D` fall-through means that overwrite
-   happens even while invincible. The byte is applied *after* `death_dispatch()`
-   so the hit frame still moves normally, matching the object-contact path's
-   one-frame delay (`sml2-runtime` writes `obj.mario_dead` post-step). The probe
+   happens even while invincible. The byte must be applied *before*
+   `death_dispatch()` — a hazard hit dispatches in the **same** frame; this doc
+   said "after" and `death3` (see `2026-10-12_wp7d-handoff.md`) disproved it,
+   which is why that negative control exists. The probe
    reads the **pre-update** x/y and the **previous** frame's ducking flag, which
    is what `$0F71`'s call order (`$1BFF` before `$129F`/`$14A6`) gives it.
    `PlayerSim` gained `camy` (`sCameraY` low byte) for `sMarioScreenY`; the
