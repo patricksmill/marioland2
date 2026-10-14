@@ -70,3 +70,10 @@ short address (`ldh [$41], a`) is also invalid — always the full `$FFxx`.
   `$AA`-heavy or high-bit-set and renders as static; code sweeps cleanly through
   `sm83.py` with no illegal opcodes. A length that is a multiple of 16 is **not**
   evidence of tiles.
+
+## Sibling Rust port
+
+The live-verified Rust port lives in a **separate repo** at `/home/pmill/sml2-rs`
+(not under this tree). It reads this disassembly via `SML2_DECOMP_ROOT` (default
+`../sml2decomp`). Keep `/sml2-rs` in `.gitignore` so a nested checkout is never
+committed here by accident.

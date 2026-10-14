@@ -3,14 +3,15 @@
 First doc of the 2026-10-13 series; the 2026-10-12 series is wp7 → wp7b → wp7c →
 wp7d → wp7e → wp7f. Read **wp7f** first (it closed the "ledge-side wall push-out"
 as a capture-sampling artifact and retired `traj13_full`). This WP took the first
-item off wp7f's open list: **bounce blocks**. The port lives in `sml2-rs/` and is
-**untracked by request**; `DESIGN.md` + `captures/README.md` are its docs.
+item off wp7f's open list: **bounce blocks**. The port now lives in the sibling
+repo `/home/pmill/sml2-rs` (its own git history); `DESIGN.md` + `captures/README.md`
+are its docs.
 
 ## Measured state (verified this session)
 
 ```bash
 make clean && make compare && sha1sum baserom.gb sml2.gb   # cmp exit 0, both bba4085…
-cd sml2-rs && cargo build --release
+cd /home/pmill/sml2-rs && cargo build --release
 for f in traj4_ff0 traj5 traj6 traj7 traj8 traj9 traj10 traj11 traj12 traj13 \
          traj14 traj15 death1 death2 death3; do
   ./target/release/sml2-runtime --level 0 --replay captures/$f.json | tail -1
@@ -206,16 +207,18 @@ exception; `traj13_full` is retired and not part of the gate).
 ## Copy-paste handoff prompt
 
 > Continue the live-verified Rust port of Super Mario Land 2 in
-> `/home/pmill/sml2decomp/sml2-rs` (untracked by request; `DESIGN.md` +
-> `captures/README.md` are the docs). Read `.hermes/plans/2026-10-13_wp7g-handoff.md`
-> and the wp7…wp7f docs behind it. Entry gate: `make clean && make compare &&
-> sha1sum baserom.gb sml2.gb` (cmp exit 0, both
-> `bba408539ecbf8d322324956d859bc86e2a9977b`), then `cargo build --release` and
-> replay traj4_ff0, traj5-15, death1-3: all must be all-zero with no `note:`
-> lines (`traj4_ff0` is the documented exception). Capture records must come from
-> a `$05E4` hook + `apply_pairing.py`, not per-tick sampling. Next target:
-> **the `$1BFF` exit-tile arm** (`$4A/$4B` → `$FF9B = 24` + fade, reachable past
-> x ≥ 4044), then the unexercised item ids. Read the handler and the `$2EDD` box
-> math first — do not tune inputs against PyBoy. If a replay goes "off by a
-> frame", run `probe_frame_cadence.py` before touching the port. Finish with the
-> ROM gate re-run, `captures/README.md` + `DESIGN.md`, and a fresh handoff doc.
+> `/home/pmill/sml2-rs` (sibling git repo; `DESIGN.md` + `captures/README.md`
+> are the docs; decomp is `/home/pmill/sml2decomp` via `SML2_DECOMP_ROOT`).
+> Read `/home/pmill/sml2decomp/.hermes/plans/2026-10-13_wp7g-handoff.md`
+> and the wp7…wp7f docs behind it. Entry gate: in the decomp,
+> `make clean && make compare && sha1sum baserom.gb sml2.gb` (cmp exit 0, both
+> `bba408539ecbf8d322324956d859bc86e2a9977b`); then in `/home/pmill/sml2-rs`,
+> `cargo build --release` and replay traj4_ff0, traj5-15, death1-3: all must be
+> all-zero with no `note:` lines (`traj4_ff0` is the documented exception).
+> Capture records must come from a `$05E4` hook + `apply_pairing.py`, not
+> per-tick sampling. Next target: **the `$1BFF` exit-tile arm** (`$4A/$4B` →
+> `$FF9B = 24` + fade, reachable past x ≥ 4044), then the unexercised item ids.
+> Read the handler and the `$2EDD` box math first — do not tune inputs against
+> PyBoy. If a replay goes "off by a frame", run `probe_frame_cadence.py` before
+> touching the port. Finish with the ROM gate re-run, `captures/README.md` +
+> `DESIGN.md`, and a fresh handoff doc in the decomp `.hermes/plans/`.
